@@ -160,3 +160,27 @@ def build_housing_changes() -> None:
     write_housing_change_csv(changes, output_path)
 
     print(f"Wrote {len(changes)} temporally normalized rows to {output_path}")
+
+
+def fetch_rnal_lisboa() -> None:
+    """Fetch privacy-minimised RNAL records for the municipality of Lisboa."""
+    parser = ArgumentParser(description="Fetch Turismo de Portugal RNAL records for Lisboa.")
+    parser.add_argument(
+        "--config",
+        type=Path,
+        default=Path("configs/rnal_lisboa.toml"),
+    )
+    parser.add_argument("--root", type=Path, default=Path("."))
+    parser.add_argument("--timeout", type=float, default=60.0)
+    args = parser.parse_args()
+
+    config = RNALConfig.from_toml(cast(Path, args.config))
+    snapshot = fetch_rnal_snapshot(
+        config,
+        root=cast(Path, args.root),
+        timeout=cast(float, args.timeout),
+    )
+
+    print(f"RNAL Lisboa snapshot captured with {snapshot.record_count} records:")
+    print(f"  records:  {snapshot.records_path}")
+    print(f"  manifest: {snapshot.manifest_path}")

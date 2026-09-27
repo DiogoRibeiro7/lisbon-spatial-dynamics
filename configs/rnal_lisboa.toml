@@ -1,0 +1,14 @@
+# Turismo de Portugal RNAL SOAP service scoped to Lisboa.
+#
+# The service exposes registration and cessation dates together with DTMNFR.
+# Proprietor/contact data returned by the SOAP response are intentionally
+# discarded in memory and are never written to project snapshots.
+
+[source]
+source_id = "turismo_portugal_rnal_lisboa"
+endpoint_url = "https://webservices.turismodeportugal.pt/RNT_External/WS_RNT.asmx"
+soap_action = "http://RNT_External/WS_RNT/list_RNAL"
+municipality = "Lisboa"
+
+[output]
+directory = "data/raw/turismo_portugal/rnal/lisboa"

@@ -60,3 +60,32 @@ The catalogue also tracks INE census/geography data, Lisboa Aberta, and Strava M
 ## Raw data policy
 
 Raw source files are not committed to Git. Acquisition scripts and manifests provide reproducibility without treating third-party source files as repository assets.
+
+
+## Local accommodation: RNAL
+
+Turismo de Portugal exposes the Registo Nacional de Alojamento Local through a municipality-filtered SOAP operation. The response includes the fields needed for longitudinal neighbourhood analysis, notably registration date, cessation date, modality, capacity, freguesia, concelho and `DTMNFR`.
+
+Acquire Lisboa records with:
+
+```bash
+poetry run fetch-rnal-lisboa
+```
+
+The resulting snapshot is intentionally **privacy-minimised**. The upstream service also returns proprietor/contact information under `TitulardaExploracao`, including names, tax identifiers, phone numbers and email addresses. Those fields are not required for this project and are discarded in memory before any file is written.
+
+Stored records contain establishment-level analytical fields only:
+
+- RNAL registration identifier;
+- registration date;
+- cessation date;
+- establishment name;
+- modality;
+- beds and users/capacity fields;
+- establishment address/postcode/locality;
+- freguesia, concelho and district;
+- `DTMNFR`.
+
+The raw SOAP response itself is never written to disk. The manifest stores only its SHA-256 digest and records the privacy filtering applied.
+
+Because both `DataRegisto` and `CessadoEm` are available, a later transformation can reconstruct registrations, cessations and active local-accommodation stock by freguesia and period rather than treating a present-day map as historical evidence.
