@@ -1,0 +1,68 @@
+.md-grid {
+  max-width: 76rem;
+}
+
+.md-typeset .lisbon-hero {
+  margin: 0 0 2rem;
+  padding: clamp(1.5rem, 4vw, 3rem);
+  border: 1px solid var(--md-default-fg-color--lightest);
+  border-radius: 0.85rem;
+  background:
+    linear-gradient(
+      125deg,
+      rgba(82, 109, 255, 0.18),
+      rgba(31, 178, 181, 0.08) 70%
+    ),
+    var(--md-code-bg-color);
+}
+
+.md-typeset .lisbon-hero h1 {
+  max-width: 18ch;
+  margin: 0 0 0.5em;
+  font-size: clamp(2rem, 5vw, 3.4rem);
+  font-weight: 750;
+  line-height: 1.12;
+  letter-spacing: -0.035em;
+  color: var(--md-default-fg-color);
+}
+
+.md-typeset .lisbon-hero p {
+  max-width: 62ch;
+  font-size: 1.05rem;
+}
+
+.md-typeset .lisbon-hero .md-button {
+  margin: 0.35rem 0.45rem 0 0;
+}
+
+.md-typeset .lisbon-cards {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.85rem;
+  margin: 1.6rem 0 2.2rem;
+}
+
+.md-typeset .lisbon-cards > div {
+  padding: 0.2rem 1rem;
+  border: 1px solid var(--md-default-fg-color--lightest);
+  border-radius: 0.55rem;
+  background: color-mix(
+    in srgb,
+    var(--md-default-bg-color) 94%,
+    var(--md-accent-fg-color) 6%
+  );
+}
+
+.md-typeset .lisbon-cards h3 {
+  margin: 0.8rem 0 0.4rem;
+}
+
+.md-typeset table:not([class]) {
+  font-size: 0.76rem;
+}
+
+@media screen and (max-width: 44rem) {
+  .md-typeset .lisbon-cards {
+    grid-template-columns: 1fr;
+  }
+}

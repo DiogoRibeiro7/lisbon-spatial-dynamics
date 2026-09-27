@@ -1,0 +1,78 @@
+site_name: Lisbon Spatial Dynamics
+site_description: Reproducible spatial analysis of long-term urban change in Lisbon.
+site_url: https://diogoribeiro7.github.io/lisbon-spatial-dynamics/
+repo_url: https://github.com/DiogoRibeiro7/lisbon-spatial-dynamics
+repo_name: DiogoRibeiro7/lisbon-spatial-dynamics
+edit_uri: edit/main/docs/
+strict: true
+
+theme:
+  name: material
+
+  icon:
+    repo: fontawesome/brands/github
+
+  palette:
+    - scheme: slate
+      primary: indigo
+      accent: cyan
+      toggle:
+        icon: material/brightness-7
+        name: Switch to light mode
+
+    - scheme: default
+      primary: indigo
+      accent: blue
+      toggle:
+        icon: material/brightness-4
+        name: Switch to dark mode
+
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.top
+    - navigation.footer
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+    - content.tabs.link
+    - toc.follow
+
+nav:
+  - Home: index.md
+  - Getting started: getting-started.md
+  - Data sources: data-sources.md
+  - Methodology: methodology.md
+  - Spatial analysis: spatial-analysis.md
+  - Reproducibility: reproducibility.md
+  - Development: development.md
+  - Releases: releases.md
+
+plugins:
+  - search
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - md_in_html
+  - tables
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.details
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - toc:
+      permalink: true
+
+extra_css:
+  - stylesheets/extra.css
+
+extra_javascript:
+  - javascripts/mathjax.js
+  - https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js
