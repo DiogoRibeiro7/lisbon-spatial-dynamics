@@ -1,0 +1,14 @@
+# Current INE local housing-price series using NUTS 2024 geography.
+#
+# Indicator 0012234: median dwelling sale value per m² in the previous
+# 12 months (2022 methodology), by NUTS 2024 geography and dwelling category.
+
+[indicator]
+source_id = "ine_local_housing_prices_nuts2024"
+code = "0012234"
+language = "PT"
+data_url = "https://www.ine.pt/ine/json_indicador/pindica.jsp?op=2&varcd=0012234&lang=PT"
+metadata_url = "https://www.ine.pt/ine/json_indicador/pindicaMeta.jsp?varcd=0012234&lang=PT"
+
+[output]
+directory = "data/raw/ine/housing/0012234"

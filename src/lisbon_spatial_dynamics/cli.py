@@ -10,18 +10,23 @@ from lisbon_spatial_dynamics.sources.ine import (
     INEIndicatorConfig,
     fetch_ine_snapshot,
 )
+from lisbon_spatial_dynamics.transformations.housing import (
+    parse_ine_housing_payload,
+    select_housing_observations,
+    write_housing_csv,
+)
 
 
 def fetch_ine_housing() -> None:
-    """Fetch the configured INE housing indicator as a raw snapshot."""
+    """Fetch a configured INE housing indicator as a raw snapshot."""
     parser = ArgumentParser(
-        description="Fetch the configured INE housing indicator and metadata."
+        description="Fetch a configured INE housing indicator and metadata."
     )
     parser.add_argument(
         "--config",
         type=Path,
-        default=Path("configs/ine_housing.toml"),
-        help="Path to the INE housing TOML configuration.",
+        default=Path("configs/ine_housing_current.toml"),
+        help="Path to an INE housing TOML configuration.",
     )
     parser.add_argument(
         "--root",
@@ -29,26 +34,42 @@ def fetch_ine_housing() -> None:
         default=Path("."),
         help="Repository or working root for relative output paths.",
     )
-    parser.add_argument(
-        "--timeout",
-        type=float,
-        default=30.0,
-        help="Per-request timeout in seconds.",
-    )
+    parser.add_argument("--timeout", type=float, default=30.0)
     args = parser.parse_args()
 
-    config_path = cast(Path, args.config)
-    root = cast(Path, args.root)
-    timeout = cast(float, args.timeout)
-
-    config = INEIndicatorConfig.from_toml(config_path)
+    config = INEIndicatorConfig.from_toml(cast(Path, args.config))
     snapshot = fetch_ine_snapshot(
         config,
-        root=root,
-        timeout=timeout,
+        root=cast(Path, args.root),
+        timeout=cast(float, args.timeout),
     )
 
     print(f"INE indicator {config.indicator_code} snapshot captured:")
     print(f"  data:     {snapshot.data.relative_path}")
     print(f"  metadata: {snapshot.metadata.relative_path}")
     print(f"  manifest: {snapshot.manifest.relative_path}")
+
+
+def transform_ine_housing() -> None:
+    """Transform one raw INE housing payload into a stable Lisbon CSV."""
+    parser = ArgumentParser(
+        description="Transform raw INE housing JSON to the project CSV contract."
+    )
+    parser.add_argument("input", type=Path)
+    parser.add_argument("output", type=Path)
+    parser.add_argument("--geography", default="Lisboa")
+    parser.add_argument("--category", default="Total")
+    args = parser.parse_args()
+
+    input_path = cast(Path, args.input)
+    output_path = cast(Path, args.output)
+
+    observations = parse_ine_housing_payload(input_path.read_bytes())
+    selected = select_housing_observations(
+        observations,
+        geography_name=cast(str, args.geography),
+        category_name=cast(str, args.category),
+    )
+    write_housing_csv(selected, output_path)
+
+    print(f"Wrote {len(selected)} observations to {output_path}")

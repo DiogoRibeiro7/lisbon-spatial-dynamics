@@ -1,143 +1,62 @@
 # Data sources
 
-The project uses a source-first data catalogue. A dataset is not accepted merely because it is available; it must also support the spatial and temporal comparisons required by the research design.
+The project uses a source-first catalogue and keeps raw acquisition separate from transformation.
 
-The machine-readable registry lives in `configs/data_sources.toml`. It is parsed and validated by `lisbon_spatial_dynamics.catalog`, which keeps source metadata under version control before ingestion code is introduced.
+## Housing series
 
-## Catalogue lifecycle
+INE changed the geographic standard used by the local housing-price series:
 
-Each entry has one of three states:
-
-- **candidate** — potentially useful, but not yet sufficiently documented;
-- **catalogued** — official metadata and provenance have been identified;
-- **access_required** — scientifically relevant, but dependent on external access or approval.
-
-A catalogue entry does **not** mean the dataset has already been downloaded or accepted into the final panel.
-
-## Current source families
-
-| Source | Domain | Current role |
+| Indicator | Geography | Role |
 | --- | --- | --- |
-| INE local housing-price statistics | Housing | Preferred transaction-oriented housing anchor |
-| INE census geographic/alphanumeric downloads | Population and demographics | Reference geography and long-run demographic structure |
-| Lisboa Aberta | Municipal open data | Discovery portal for dataset-specific Lisbon infrastructure, mobility, tourism and planning sources |
-| Strava Metro | Active mobility | Conditional mobility layer requiring suitable access and historical coverage |
+| `0011364` | NUTS 2013 | Historical quarterly 2022-methodology series |
+| `0012234` | NUTS 2024 | Current quarterly 2022-methodology series |
 
-Individual datasets discovered through a portal such as Lisboa Aberta should receive their own catalogue entry before they are used.
+The two indicators are not merged by guessing geographic-code prefixes. Geographic harmonisation belongs to a later crosswalk step.
 
-## Source priorities
+### Raw acquisition
 
-Sources are evaluated in this order:
-
-1. official statistical and administrative data;
-2. municipal open data;
-3. documented research or mobility datasets;
-4. commercial or platform-derived data when methodology and usage conditions are sufficiently clear.
-
-## Housing
-
-The preferred housing layer is based on transaction-oriented official statistics where possible. Useful variables include:
-
-- median transaction price per square metre;
-- number of transactions;
-- dwelling characteristics when consistently available;
-- quarterly or annual reference period.
-
-Asking-price datasets may be retained as a separate market-expectations layer, but they should not be silently combined with transaction prices.
-
-### First ingestion: INE indicator 0011364
-
-The first implemented acquisition is INE indicator `0011364`: the quarterly median value of dwelling sales per square metre over the previous 12 months, by geographical location and dwelling category.
-
-The acquisition configuration is versioned in `configs/ine_housing.toml`. Run:
+The default command now uses the current NUTS 2024 series:
 
 ```bash
 poetry run fetch-ine-housing
 ```
 
-The command downloads both the indicator payload and its INE metadata. It stores a timestamped raw snapshot under:
+Acquire the historical NUTS 2013 series explicitly with:
 
-```text
-data/raw/ine/housing/0011364/
-├── YYYYMMDDTHHMMSSZ.data.json
-├── YYYYMMDDTHHMMSSZ.metadata.json
-└── YYYYMMDDTHHMMSSZ.manifest.json
+```bash
+poetry run fetch-ine-housing --config configs/ine_housing.toml
 ```
 
-The manifest records the acquisition time, source URLs, byte counts, and SHA-256 checksums. Existing timestamped snapshots are never overwritten.
+Each run stores immutable timestamped data, metadata, and a provenance manifest under `data/raw/ine/housing/<indicator>/`.
 
-Raw acquisition deliberately does not reshape, filter, or interpret the INE payload. Lisbon-specific extraction and conversion to a stable tabular contract belong to the transformation layer so the original response remains auditable.
+### Stable housing contract
 
-## Population and demographics
+Raw INE records are flattened to:
 
-Candidate variables include:
-
-- resident population;
-- age structure;
-- household composition;
-- employment and socioeconomic indicators;
-- population density.
-
-Census variables can provide richer detail but require care when comparing periods with different reference years or boundary definitions.
-
-## Mobility
-
-Mobility is intentionally source-agnostic. Candidate layers may include:
-
-- public transport accessibility;
-- cycling and pedestrian infrastructure;
-- counts or aggregated movement data;
-- Strava Metro, if access and historical coverage are suitable.
-
-Platform-derived activity should be interpreted as activity among platform users, not as a direct estimate of the full population.
-
-## Tourism and local accommodation
-
-Potential variables include:
-
-- registered local accommodation;
-- accommodation density;
-- tourism intensity;
-- changes in tourism-oriented land use.
-
-## Urban infrastructure
-
-Potential layers include:
-
-- transport stops and stations;
-- cycling infrastructure;
-- pedestrian network characteristics;
-- accessibility measures;
-- public-space interventions.
-
-## Acceptance criteria
-
-Every dataset-specific source record must document:
-
-| Field | Requirement |
+| Column | Meaning |
 | --- | --- |
-| Provider | Named source organisation |
-| Dataset | Stable dataset name or identifier |
-| Domain | Research dimension served by the source |
-| Spatial unit | Geometry or administrative/statistical level |
-| Temporal coverage | First and last usable period, or an explicit statement that this must still be established |
-| Frequency | Annual, quarterly, monthly, event-based, or dataset-specific |
-| Access | Public download, API, partnership, request, or other acquisition mechanism |
-| Licence | Reuse conditions or an explicit requirement to verify them |
-| Provenance | Stable official landing page or acquisition procedure |
-| Notes | Important limitations, role, or interpretation constraints |
+| `indicator_code` | INE diffusion indicator |
+| `period_code` | Original INE period key, preserved verbatim |
+| `geography_code` | Original INE geographic code |
+| `geography_name` | Original INE geographic label |
+| `category_code` | Original dwelling-category code |
+| `category_name` | Original dwelling-category label |
+| `value_eur_m2` | Published median €/m², nullable |
+
+Transform a current snapshot for Lisboa / Total with:
+
+```bash
+poetry run transform-ine-housing \
+  data/raw/ine/housing/0012234/<timestamp>.data.json \
+  data/processed/housing/lisbon.csv
+```
+
+Missing values remain missing. No imputation occurs during ingestion or transformation.
+
+## Other source families
+
+The catalogue also tracks INE census/geography data, Lisboa Aberta, and Strava Metro. Every integrated source must document provider, spatial unit, temporal coverage, access conditions, licence, provenance, and interpretation limits.
 
 ## Raw data policy
 
-Raw source files are not committed to Git. Acquisition scripts and metadata should make the source reproducible without pretending that third-party data can be redistributed when its licence does not allow that.
-
-## Adding a source
-
-Add a new `[[sources]]` table to `configs/data_sources.toml`, then run:
-
-```bash
-poetry run pytest tests/test_catalog.py
-poetry run mypy src tests
-```
-
-The catalogue loader rejects malformed entries, duplicate identifiers, invalid lifecycle states, and non-HTTP(S) provenance URLs.
+Raw source files are not committed to Git. Acquisition scripts and manifests provide reproducibility without treating third-party source files as repository assets.
