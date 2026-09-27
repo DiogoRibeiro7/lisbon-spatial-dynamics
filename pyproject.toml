@@ -1,0 +1,36 @@
+[tool.poetry]
+name = "lisbon-spatial-dynamics"
+version = "0.1.0"
+description = "Longitudinal spatial analysis of urban change in Lisbon."
+authors = ["Diogo Ribeiro"]
+readme = "README.md"
+packages = [{ include = "lisbon_spatial_dynamics", from = "src" }]
+
+[tool.poetry.dependencies]
+python = "^3.12"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.0"
+ruff = "^0.13"
+mypy = "^1.18"
+pre-commit = "^4.0"
+
+[build-system]
+requires = ["poetry-core>=1.9.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.ruff]
+target-version = "py312"
+line-length = 100
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM"]
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+warn_unused_configs = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
