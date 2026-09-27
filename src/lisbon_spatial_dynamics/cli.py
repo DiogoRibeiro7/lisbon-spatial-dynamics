@@ -265,3 +265,35 @@ def build_annual_urban_panel_cli() -> None:
         f"Wrote {len(annual)} annual rows across "
         f"{len(years)} years and {len(freguesias)} freguesias to {output}"
     )
+
+
+def build_annual_map_layers_cli() -> None:
+    """Build one map-ready annual GeoJSON layer per available year."""
+    parser = ArgumentParser(
+        description="Build annual Lisbon urban-change GeoJSON layers."
+    )
+    parser.add_argument("annual", type=Path, help="Annual urban-change CSV.")
+    parser.add_argument(
+        "reference",
+        type=Path,
+        help="Canonical lisbon_freguesias.geojson reference.",
+    )
+    parser.add_argument(
+        "output_directory",
+        type=Path,
+        help="Directory for annual map-ready GeoJSON layers.",
+    )
+    args = parser.parse_args()
+
+    annual = load_annual_urban_csv(cast(Path, args.annual))
+    reference = load_reference_geojson(cast(Path, args.reference))
+    layers = build_annual_geojson_layers(annual, reference)
+    paths = write_annual_geojson_layers(
+        layers,
+        cast(Path, args.output_directory),
+    )
+
+    print(
+        f"Wrote {len(paths)} annual GeoJSON layers "
+        f"for {len(reference)} freguesias."
+    )
