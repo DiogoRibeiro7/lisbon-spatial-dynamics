@@ -242,3 +242,26 @@ def build_urban_change_panel_cli() -> None:
         f"Wrote {len(rows)} urban-change rows across "
         f"{len(quarters)} quarters and {len(freguesias)} freguesias to {output}"
     )
+
+
+def build_annual_urban_panel_cli() -> None:
+    """Build the Q4-anchored annual Lisbon urban-change panel."""
+    parser = ArgumentParser(
+        description="Build year-end urban-change comparisons by freguesia."
+    )
+    parser.add_argument("input", type=Path, help="Combined quarterly urban panel CSV.")
+    parser.add_argument("output", type=Path, help="New annual urban panel CSV.")
+    args = parser.parse_args()
+
+    quarterly = load_urban_change_csv(cast(Path, args.input))
+    annual = build_annual_urban_panel(quarterly)
+
+    output = cast(Path, args.output)
+    write_annual_urban_csv(annual, output)
+
+    years = {row.year for row in annual}
+    freguesias = {row.freguesia_id for row in annual}
+    print(
+        f"Wrote {len(annual)} annual rows across "
+        f"{len(years)} years and {len(freguesias)} freguesias to {output}"
+    )

@@ -175,3 +175,33 @@ Local accommodation:
 - counts of active records with missing capacity.
 
 The project does not construct a composite urban-change or gentrification score at this stage. Relationships between the variables belong to the analysis layer, not the data contract.
+
+
+## Across-years comparison panel
+
+The annual comparison layer is anchored on **Q4** rather than averaging the four quarterly housing values. This matches the research question—how freguesias change across years—while avoiding four overlapping rolling-12-month housing windows per year.
+
+Build it with:
+
+```bash
+poetry run build-annual-urban-panel \
+  data/processed/urban/lisbon_urban_change_panel.csv \
+  data/processed/urban/lisbon_annual_urban_change.csv
+```
+
+A year is included only when Q4 exists for the freguesia. The Q4 row supplies:
+
+- year-end housing level and YoY change;
+- year-end active RNAL stock and capacity;
+- the year-end comparison to the freguesia's earliest available Q4 baseline.
+
+RNAL registrations, cessations and net registrations are **annual flows**, so they are summed only when all four quarters of that year are present. The field `flow_quarters_observed` makes coverage explicit. If fewer than four quarters are available, the annual flow fields remain null rather than presenting a partial-year total as a full-year statistic.
+
+For the first year of the current housing series, Q4 can therefore serve as the year-end baseline even when the project does not observe the preceding quarters. Later years with complete quarter coverage provide full annual RNAL flows.
+
+The annual panel keeps two distinct housing changes:
+
+- `housing_yoy_*` — change relative to the same quarter one year earlier;
+- `housing_change_from_baseline_*` — cumulative change relative to the earliest available Q4 for that freguesia.
+
+Likewise, active RNAL stock includes an absolute and percentage change from the same baseline. Percentage change is left null when the baseline stock is zero.
