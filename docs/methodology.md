@@ -131,3 +131,47 @@ RNAL `DTMNFR` values must exist directly in the canonical CAOP reference, and th
 ### Capacity missingness
 
 Missing capacity is not converted to zero. The panel reports the sum of known capacity together with the number of active establishments whose capacity field is missing. This keeps incomplete administrative records distinguishable from true zero capacity.
+
+
+## Combined urban-change panel
+
+Housing and RNAL are joined only after each source has been independently normalised to the canonical `freguesia_id × quarter` key.
+
+Build the combined dataset with:
+
+```bash
+poetry run build-urban-change-panel \
+  data/processed/housing/lisbon_freguesia_changes.csv \
+  data/processed/rnal/lisbon_rnal_quarter_panel.csv \
+  data/processed/urban/lisbon_urban_change_panel.csv
+```
+
+The join is intentionally strict:
+
+- the housing and RNAL key sets must be identical;
+- each source must have at most one row per freguesia-quarter;
+- period labels and quarter-end dates must agree;
+- canonical freguesia names must agree.
+
+No left or right join is used. A missing component row is treated as an upstream data-quality problem rather than silently converted into missing covariates.
+
+### Variables retained
+
+The combined panel keeps the source-domain measures separate.
+
+Housing:
+
+- median sale value per m²;
+- quarter-on-quarter absolute and percentage movement;
+- year-on-year absolute and percentage movement.
+
+Local accommodation:
+
+- registrations;
+- cessations;
+- net registrations;
+- active registrations at quarter-end;
+- known bed/user capacity;
+- counts of active records with missing capacity.
+
+The project does not construct a composite urban-change or gentrification score at this stage. Relationships between the variables belong to the analysis layer, not the data contract.
