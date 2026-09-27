@@ -89,3 +89,45 @@ This is a modelling framework, not a causal claim. Identification assumptions mu
 ## Spatial dependence
 
 Neighbouring areas are not statistically independent by default. Spatial autocorrelation should be diagnosed explicitly and, where necessary, incorporated into inference or modelling rather than ignored.
+
+
+## Local-accommodation pressure panel
+
+The RNAL panel is reconstructed on exactly the same quarter grid as the housing-change panel. This avoids an independent temporal resampling step.
+
+For each freguesia and quarter the panel records:
+
+- registrations during the quarter;
+- cessations during the quarter;
+- net registrations;
+- registrations active at quarter-end;
+- known active bed capacity;
+- count of active registrations with missing bed capacity;
+- known active user capacity;
+- count of active registrations with missing user capacity.
+
+A registration is active at quarter-end when:
+
+```text
+DataRegisto <= period_end
+and
+CessadoEm is empty or CessadoEm > period_end
+```
+
+Therefore a registration with `CessadoEm == period_end` is counted as a cessation in that quarter and is not active at quarter close.
+
+Build the panel with:
+
+```bash
+poetry run build-rnal-quarter-panel \
+  data/raw/turismo_portugal/rnal/lisboa/<timestamp>.records.json \
+  data/processed/reference/lisbon_freguesias.csv \
+  data/processed/housing/lisbon_freguesia_changes.csv \
+  data/processed/rnal/lisbon_rnal_quarter_panel.csv
+```
+
+RNAL `DTMNFR` values must exist directly in the canonical CAOP reference, and the RNAL freguesia label must agree with the CAOP label. Unknown geographic identifiers fail the build rather than being silently dropped.
+
+### Capacity missingness
+
+Missing capacity is not converted to zero. The panel reports the sum of known capacity together with the number of active establishments whose capacity field is missing. This keeps incomplete administrative records distinguishable from true zero capacity.

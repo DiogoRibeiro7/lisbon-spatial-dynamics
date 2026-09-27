@@ -88,4 +88,4 @@ Stored records contain establishment-level analytical fields only:
 
 The raw SOAP response itself is never written to disk. The manifest stores only its SHA-256 digest and records the privacy filtering applied.
 
-Because both `DataRegisto` and `CessadoEm` are available, a later transformation can reconstruct registrations, cessations and active local-accommodation stock by freguesia and period rather than treating a present-day map as historical evidence.
+Because both `DataRegisto` and `CessadoEm` are available, the project reconstructs registrations, cessations and active local-accommodation stock by freguesia on the same quarterly grid as the housing panel. Turismo de Portugal documents these date fields as strings, so the transformation accepts only explicit supported date forms and rejects unknown representations.
