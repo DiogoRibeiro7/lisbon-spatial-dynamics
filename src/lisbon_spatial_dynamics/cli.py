@@ -184,3 +184,36 @@ def fetch_rnal_lisboa() -> None:
     print(f"RNAL Lisboa snapshot captured with {snapshot.record_count} records:")
     print(f"  records:  {snapshot.records_path}")
     print(f"  manifest: {snapshot.manifest_path}")
+
+
+def build_rnal_quarter_panel_cli() -> None:
+    """Build quarterly RNAL flows and active stock aligned to housing periods."""
+    parser = ArgumentParser(
+        description="Build the Lisboa RNAL quarter panel on the housing time grid."
+    )
+    parser.add_argument("input", type=Path, help="Privacy-minimised RNAL records JSON.")
+    parser.add_argument(
+        "reference",
+        type=Path,
+        help="Canonical lisbon_freguesias.csv reference.",
+    )
+    parser.add_argument(
+        "housing_changes",
+        type=Path,
+        help="Housing changes CSV defining the analysis quarter grid.",
+    )
+    parser.add_argument("output", type=Path, help="New RNAL quarter panel CSV.")
+    args = parser.parse_args()
+
+    records = load_rnal_snapshot(cast(Path, args.input))
+    reference = load_freguesia_index(cast(Path, args.reference))
+    periods = load_analysis_quarters(cast(Path, args.housing_changes))
+    rows = build_rnal_quarter_panel(records, reference, periods)
+
+    output = cast(Path, args.output)
+    write_rnal_quarter_csv(rows, output)
+
+    print(
+        f"Wrote {len(rows)} RNAL freguesia-quarter rows across "
+        f"{len(periods)} periods to {output}"
+    )
