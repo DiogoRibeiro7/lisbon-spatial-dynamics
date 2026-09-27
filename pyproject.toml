@@ -11,6 +11,7 @@ python = "^3.12"
 
 [tool.poetry.scripts]
 fetch-ine-housing = "lisbon_spatial_dynamics.cli:fetch_ine_housing"
+transform-ine-housing = "lisbon_spatial_dynamics.cli:transform_ine_housing"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.0"
