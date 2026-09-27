@@ -6,6 +6,7 @@ from argparse import ArgumentParser
 from pathlib import Path
 from typing import cast
 
+from lisbon_spatial_dynamics.sources.caop import CAOPConfig, fetch_caop_snapshot
 from lisbon_spatial_dynamics.sources.ine import (
     INEIndicatorConfig,
     fetch_ine_snapshot,
@@ -26,14 +27,8 @@ def fetch_ine_housing() -> None:
         "--config",
         type=Path,
         default=Path("configs/ine_housing_current.toml"),
-        help="Path to an INE housing TOML configuration.",
     )
-    parser.add_argument(
-        "--root",
-        type=Path,
-        default=Path("."),
-        help="Repository or working root for relative output paths.",
-    )
+    parser.add_argument("--root", type=Path, default=Path("."))
     parser.add_argument("--timeout", type=float, default=30.0)
     args = parser.parse_args()
 
@@ -71,5 +66,31 @@ def transform_ine_housing() -> None:
         category_name=cast(str, args.category),
     )
     write_housing_csv(selected, output_path)
-
     print(f"Wrote {len(selected)} observations to {output_path}")
+
+
+def fetch_caop_lisbon() -> None:
+    """Fetch the canonical CAOP2025 Lisbon freguesia boundaries."""
+    parser = ArgumentParser(
+        description="Fetch and validate official CAOP2025 Lisbon freguesias."
+    )
+    parser.add_argument(
+        "--config",
+        type=Path,
+        default=Path("configs/caop_lisbon.toml"),
+    )
+    parser.add_argument("--root", type=Path, default=Path("."))
+    parser.add_argument("--timeout", type=float, default=30.0)
+    args = parser.parse_args()
+
+    config = CAOPConfig.from_toml(cast(Path, args.config))
+    snapshot = fetch_caop_snapshot(
+        config,
+        root=cast(Path, args.root),
+        timeout=cast(float, args.timeout),
+    )
+
+    print("CAOP2025 Lisbon reference geography captured:")
+    print(f"  geojson:  {snapshot.geojson_path}")
+    print(f"  metadata: {snapshot.metadata_path}")
+    print(f"  manifest: {snapshot.manifest_path}")

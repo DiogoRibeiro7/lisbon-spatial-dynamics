@@ -4,12 +4,37 @@ Spatial analysis is a core part of the project rather than a visualisation step 
 
 ## Reference geography
 
-Every spatial dataset should be normalised to a documented coordinate reference system and linked to a stable geographic identifier.
+The canonical project geography is the **24-freguesia map of the municipality of Lisboa**, acquired from DGT's official CAOP2025 parish layer.
 
-The project should retain both:
+CAOP exposes the INE-assigned `DTMNFR` unique freguesia identifier together with the parish name, municipality, NUTS fields and official geometry. The project requests the Lisbon subset directly from DGT as GeoJSON in EPSG:4326.
 
-- the original source geography;
-- the analysis geography used after harmonisation.
+Acquire an immutable raw snapshot with:
+
+```bash
+poetry run fetch-caop-lisbon
+```
+
+The acquisition validates that:
+
+- exactly 24 features are returned;
+- every feature belongs to the municipality `Lisboa`;
+- every `DTMNFR` value is unique;
+- configured CAOP fields still exist in the upstream layer;
+- each feature has polygon or multipolygon geometry;
+- the upstream layer still advertises GeoJSON query support.
+
+The snapshot stores the raw GeoJSON, ArcGIS layer metadata, and a provenance manifest with source URLs and checksums.
+
+## Harmonisation rule
+
+Every spatial dataset must retain both:
+
+- its original source geography and identifier;
+- the canonical project geography used after harmonisation.
+
+Source records must never be joined by a guessed prefix or by parish name alone when an authoritative identifier or spatial crosswalk is available.
+
+For the planned study period beginning after Lisbon's 2012 administrative reorganisation, the 24-freguesia system provides the reference framework. Any dataset with a different historical geography requires an explicit crosswalk before entering the longitudinal panel.
 
 ## Core outputs
 
