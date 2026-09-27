@@ -1,6 +1,21 @@
 # Canonical registry of candidate and approved project data sources.
 
 [[sources]]
+source_id = "dgt_caop2025_lisbon_freguesias"
+name = "CAOP2025 — Lisbon freguesia boundaries"
+provider = "Direção-Geral do Território (DGT)"
+domain = "reference_geography"
+kind = "dataset"
+status = "catalogued"
+spatial_unit = "freguesia"
+frequency = "administrative release"
+temporal_coverage = "CAOP2025 reference release"
+access = "public DGT ArcGIS FeatureServer and bulk-download services"
+licence = "Creative Commons Attribution 4.0 (CC BY 4.0)"
+landing_page = "https://www.dgterritorio.gov.pt/atividades/cartografia/cartografia-tematica/caop"
+notes = "Canonical project reference geography. DTMNFR is the unique parish identifier; Lisbon is validated as 24 freguesias."
+
+[[sources]]
 source_id = "ine_local_housing_prices"
 name = "INE local housing prices — NUTS 2013 series (0011364)"
 provider = "Instituto Nacional de Estatística (INE)"

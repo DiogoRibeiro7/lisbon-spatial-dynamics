@@ -1,0 +1,29 @@
+# Canonical Lisbon reference geography from DGT CAOP2025.
+#
+# The DGT layer exposes the official freguesia boundaries and the DTMNFR
+# identifier. The query is restricted to the municipality of Lisboa and
+# requested as GeoJSON in EPSG:4326.
+
+[source]
+source_id = "dgt_caop2025_lisbon_freguesias"
+layer_url = "https://infogeo.dgterritorio.gov.pt/arcgis/rest/services/Hosted/FreguesiaCAOP2025/FeatureServer/7"
+municipality = "Lisboa"
+municipality_field = "municipio"
+id_field = "dtmnfr"
+name_field = "freguesia"
+expected_feature_count = 24
+out_fields = [
+  "dtmnfr",
+  "freguesia",
+  "municipio",
+  "distrito_ilha",
+  "nuts3_cod",
+  "nuts3",
+  "nuts2",
+  "nuts1",
+  "area_ha",
+  "designacao_simplificada",
+]
+
+[output]
+directory = "data/raw/dgt/caop2025/lisbon_freguesias"
