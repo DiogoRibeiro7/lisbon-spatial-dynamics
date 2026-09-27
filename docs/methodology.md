@@ -1,6 +1,6 @@
 # Methodology
 
-The methodological objective is to build a consistent longitudinal spatial panel before estimating relationships between urban variables.
+The project builds a longitudinal spatial panel before estimating relationships between urban variables.
 
 ## Unit of analysis
 
@@ -10,35 +10,52 @@ The target representation is:
 (i,t)
 \]
 
-where `i` identifies one canonical Lisbon freguesia and `t` identifies a source period.
+where `i` is one canonical Lisbon freguesia and `t` is one INE reference quarter.
 
 The canonical spatial key is `freguesia_id`, defined by CAOP's `DTMNFR` identifier.
 
 ## Housing-to-freguesia join
 
-The current INE housing series (`0012234`) embeds the freguesia identifier inside the INE geography code. The project does **not** hard-code a NUTS prefix. Instead, a housing observation is admitted to the freguesia panel only when:
+Current INE housing observations are admitted to the canonical panel only when the source geography code maps uniquely to a known `freguesia_id` and the source label agrees with the CAOP freguesia name.
 
-1. its INE geography code ends with exactly one known canonical `freguesia_id`;
-2. its INE geography label agrees with the canonical CAOP freguesia name after conservative Unicode/case normalisation;
-3. the record belongs to the requested dwelling category;
-4. every canonical freguesia is represented in the source period.
+A published null price remains missing data. A freguesia that disappears entirely from a source period fails the coverage check.
 
-A published null value is retained as missing data. A completely absent freguesia record fails the period-level coverage check.
+## Temporal normalization
 
-Build the current freguesia housing panel with:
+INE quarter labels are parsed strictly from the source form, for example:
 
-```bash
-poetry run build-housing-freguesia-panel \
-  data/raw/ine/housing/0012234/<timestamp>.data.json \
-  data/processed/reference/lisbon_freguesias.csv \
-  data/processed/housing/lisbon_freguesia_panel.csv
+```text
+1.º Trimestre de 2026
 ```
 
-The output retains both canonical identifiers and original INE geography codes so the join remains auditable.
+The normalized panel adds:
 
-## Temporal consistency
+- `year`;
+- `quarter`;
+- `period_end`;
+- quarter-on-quarter absolute and percentage change;
+- year-on-year absolute and percentage change.
 
-The housing panel preserves INE period labels verbatim at this stage. Calendar parsing and ordering are separate transformations and should be tested against the source convention rather than inferred ad hoc.
+Build these metrics with:
+
+```bash
+poetry run build-housing-changes \
+  data/processed/housing/lisbon_freguesia_panel.csv \
+  data/processed/housing/lisbon_freguesia_changes.csv
+```
+
+The original `period_code` is retained in every row.
+
+### Interpretation of change
+
+The INE housing indicator is the median sale value per square metre over the **previous 12 months**, reported quarterly. Consequently, adjacent quarterly observations have heavily overlapping windows.
+
+For that reason:
+
+- **year-on-year change** is the primary longitudinal comparison;
+- **quarter-on-quarter change** is retained as a descriptive short-horizon movement in the rolling statistic, not as a price change for a non-overlapping quarter.
+
+No change metric is calculated when either the current or comparison value is missing.
 
 ## Descriptive analysis first
 
