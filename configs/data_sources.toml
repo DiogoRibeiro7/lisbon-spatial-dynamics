@@ -1,0 +1,64 @@
+# Canonical registry of candidate and approved project data sources.
+#
+# "catalogued" means the source and its official metadata have been identified.
+# It does not imply that the source has already been acquired or integrated.
+
+[[sources]]
+source_id = "ine_local_housing_prices"
+name = "Estatísticas de preços da habitação ao nível local"
+provider = "Instituto Nacional de Estatística (INE)"
+domain = "housing"
+kind = "dataset"
+status = "catalogued"
+spatial_unit = "Local administrative/statistical units, including freguesia; finer city geographies subject to publication thresholds"
+frequency = "quarterly"
+temporal_coverage = "rolling 12-month indicators by reference quarter; exact project extraction window to be fixed during ingestion"
+access = "public official statistics"
+licence = "INE reuse and attribution conditions; verify against the downloaded dataset metadata"
+landing_page = "https://smi.ine.pt/Indicador/Detalhes_TabIndicador/18376?clear=True"
+notes = "Preferred housing anchor because it is based on official local housing-price statistics rather than advertised asking prices."
+
+[[sources]]
+source_id = "ine_census_geography"
+name = "Censos geographic and alphanumeric downloads"
+provider = "Instituto Nacional de Estatística (INE)"
+domain = "population_demographics"
+kind = "dataset"
+status = "catalogued"
+spatial_unit = "subsection, section, 1 km grid, place and freguesia-linked outputs depending census year"
+frequency = "decennial"
+temporal_coverage = "1991, 2001, 2011 and 2021 census releases"
+access = "public download"
+licence = "INE reuse and attribution conditions; verify against each downloaded release"
+landing_page = "https://mapas.ine.pt/download/index2021.phtml"
+notes = "Useful for population, buildings, dwellings and household structure, and for constructing stable reference geographies."
+
+[[sources]]
+source_id = "lisboa_aberta"
+name = "Lisboa Aberta"
+provider = "Câmara Municipal de Lisboa"
+domain = "municipal_open_data"
+kind = "portal"
+status = "catalogued"
+spatial_unit = "dataset-specific"
+frequency = "dataset-specific"
+temporal_coverage = "dataset-specific"
+access = "public open-data portal"
+licence = "CC0 1.0 or CC BY 4.0 depending on the dataset metadata"
+landing_page = "https://lisboaaberta.cm-lisboa.pt/index.php/pt/"
+notes = "Municipal source family for mobility, tourism, planning, infrastructure, population and other city-level datasets. Individual datasets must be catalogued separately before ingestion."
+
+[[sources]]
+source_id = "strava_metro"
+name = "Strava Metro"
+provider = "Strava"
+domain = "active_mobility"
+kind = "platform"
+status = "access_required"
+spatial_unit = "transport-network road segments and aggregated movement products"
+frequency = "hourly, daily, monthly and yearly aggregations are available in Metro products"
+temporal_coverage = "depends on granted access and export; must be confirmed before inclusion in the research panel"
+access = "Metro partnership or academic research access"
+licence = "subject to Strava Metro access and data-use terms"
+landing_page = "https://metro.strava.com/"
+notes = "Aggregated and de-identified active-transport activity. Treat as a platform-user sample and validate representativeness against independent mobility evidence where possible."
