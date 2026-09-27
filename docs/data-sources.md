@@ -45,6 +45,29 @@ The preferred housing layer is based on transaction-oriented official statistics
 
 Asking-price datasets may be retained as a separate market-expectations layer, but they should not be silently combined with transaction prices.
 
+### First ingestion: INE indicator 0011364
+
+The first implemented acquisition is INE indicator `0011364`: the quarterly median value of dwelling sales per square metre over the previous 12 months, by geographical location and dwelling category.
+
+The acquisition configuration is versioned in `configs/ine_housing.toml`. Run:
+
+```bash
+poetry run fetch-ine-housing
+```
+
+The command downloads both the indicator payload and its INE metadata. It stores a timestamped raw snapshot under:
+
+```text
+data/raw/ine/housing/0011364/
+├── YYYYMMDDTHHMMSSZ.data.json
+├── YYYYMMDDTHHMMSSZ.metadata.json
+└── YYYYMMDDTHHMMSSZ.manifest.json
+```
+
+The manifest records the acquisition time, source URLs, byte counts, and SHA-256 checksums. Existing timestamped snapshots are never overwritten.
+
+Raw acquisition deliberately does not reshape, filter, or interpret the INE payload. Lisbon-specific extraction and conversion to a stable tabular contract belong to the transformation layer so the original response remains auditable.
+
 ## Population and demographics
 
 Candidate variables include:

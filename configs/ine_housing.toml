@@ -1,0 +1,18 @@
+# INE local housing-price raw acquisition.
+#
+# Indicator 0011364:
+# Median value of sales per m² of family dwellings in the previous 12 months,
+# by geographical location (NUTS 2013) and dwelling category; quarterly.
+#
+# The JSON endpoints are the public INE dissemination API resources exposed
+# for this indicator.
+
+[indicator]
+source_id = "ine_local_housing_prices"
+code = "0011364"
+language = "PT"
+data_url = "https://www.ine.pt/ine/json_indicador/pindica.jsp?op=2&varcd=0011364&lang=PT"
+metadata_url = "https://www.ine.pt/ine/json_indicador/pindicaMeta.jsp?varcd=0011364&lang=PT"
+
+[output]
+directory = "data/raw/ine/housing/0011364"
