@@ -14,16 +14,40 @@ Acquire an immutable raw snapshot with:
 poetry run fetch-caop-lisbon
 ```
 
-The acquisition validates that:
+Then build the stable project reference artifacts:
 
-- exactly 24 features are returned;
-- every feature belongs to the municipality `Lisboa`;
-- every `DTMNFR` value is unique;
-- configured CAOP fields still exist in the upstream layer;
-- each feature has polygon or multipolygon geometry;
-- the upstream layer still advertises GeoJSON query support.
+```bash
+poetry run build-reference-geography \
+  data/raw/dgt/caop2025/lisbon_freguesias/<timestamp>.geojson \
+  data/processed/reference
+```
 
-The snapshot stores the raw GeoJSON, ArcGIS layer metadata, and a provenance manifest with source URLs and checksums.
+This produces:
+
+```text
+data/processed/reference/
+├── lisbon_freguesias.csv
+└── lisbon_freguesias.geojson
+```
+
+The CSV is the canonical identifier table. The GeoJSON contains the same 24 records and geometry, with project-owned property names. Both are sorted by `freguesia_id`, which is the CAOP `DTMNFR` identifier.
+
+### Canonical reference fields
+
+| Field | Meaning |
+| --- | --- |
+| `freguesia_id` | Official CAOP/INE `DTMNFR` identifier |
+| `name` | Official freguesia designation |
+| `simplified_name` | Simplified CAOP designation when available |
+| `municipality` | Municipality, required to be Lisboa |
+| `district` | District/island designation |
+| `nuts3_code` | CAOP NUTS 3 code |
+| `nuts3_name` | CAOP NUTS 3 designation |
+| `nuts2_name` | CAOP NUTS 2 designation |
+| `nuts1_name` | CAOP NUTS 1 designation |
+| `area_ha` | Official CAOP area in hectares |
+
+The raw acquisition validates that exactly 24 Lisbon features are returned and that upstream identifiers, geometry, and configured fields remain valid. The transformation repeats the core integrity checks before creating the canonical artifacts.
 
 ## Harmonisation rule
 
@@ -50,17 +74,17 @@ The initial spatial analysis should support:
 
 Absolute and relative change answer different questions. Both may be useful:
 
-[
-Delta x_{i,t} = x_{i,t} - x_{i,t-k}
-]
+\[
+\Delta x_{i,t} = x_{i,t} - x_{i,t-k}
+\]
 
 and
 
-[
+\[
 r_{i,t} =
-rac{x_{i,t} - x_{i,t-k}}
+\frac{x_{i,t} - x_{i,t-k}}
 {x_{i,t-k}}.
-]
+\]
 
 For highly skewed positive variables, log differences may provide a more interpretable proportional-change measure.
 

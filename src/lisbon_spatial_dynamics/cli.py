@@ -11,6 +11,10 @@ from lisbon_spatial_dynamics.sources.ine import (
     INEIndicatorConfig,
     fetch_ine_snapshot,
 )
+from lisbon_spatial_dynamics.transformations.geography import (
+    parse_caop_reference,
+    write_reference_geography,
+)
 from lisbon_spatial_dynamics.transformations.housing import (
     parse_ine_housing_payload,
     select_housing_observations,
@@ -94,3 +98,34 @@ def fetch_caop_lisbon() -> None:
     print(f"  geojson:  {snapshot.geojson_path}")
     print(f"  metadata: {snapshot.metadata_path}")
     print(f"  manifest: {snapshot.manifest_path}")
+
+
+def build_reference_geography() -> None:
+    """Build canonical freguesia CSV and GeoJSON from a raw CAOP snapshot."""
+    parser = ArgumentParser(
+        description="Build the canonical Lisbon freguesia reference artifacts."
+    )
+    parser.add_argument("input", type=Path, help="Raw CAOP GeoJSON snapshot.")
+    parser.add_argument(
+        "output_directory",
+        type=Path,
+        help="Directory for canonical reference artifacts.",
+    )
+    args = parser.parse_args()
+
+    input_path = cast(Path, args.input)
+    output_directory = cast(Path, args.output_directory)
+
+    references = parse_caop_reference(input_path.read_bytes())
+    csv_path = output_directory / "lisbon_freguesias.csv"
+    geojson_path = output_directory / "lisbon_freguesias.geojson"
+
+    write_reference_geography(
+        references,
+        csv_path=csv_path,
+        geojson_path=geojson_path,
+    )
+
+    print(f"Wrote {len(references)} canonical freguesias:")
+    print(f"  table:    {csv_path}")
+    print(f"  geometry: {geojson_path}")
