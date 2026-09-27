@@ -217,3 +217,28 @@ def build_rnal_quarter_panel_cli() -> None:
         f"Wrote {len(rows)} RNAL freguesia-quarter rows across "
         f"{len(periods)} periods to {output}"
     )
+
+
+def build_urban_change_panel_cli() -> None:
+    """Join housing and RNAL panels on the exact freguesia-quarter key set."""
+    parser = ArgumentParser(
+        description="Build the combined Lisbon urban-change panel."
+    )
+    parser.add_argument("housing", type=Path, help="Housing change CSV.")
+    parser.add_argument("rnal", type=Path, help="RNAL quarter panel CSV.")
+    parser.add_argument("output", type=Path, help="New combined urban panel CSV.")
+    args = parser.parse_args()
+
+    housing = load_housing_change_csv(cast(Path, args.housing))
+    rnal = load_rnal_quarter_csv(cast(Path, args.rnal))
+    rows = build_urban_change_panel(housing, rnal)
+
+    output = cast(Path, args.output)
+    write_urban_change_csv(rows, output)
+
+    quarters = {(row.year, row.quarter) for row in rows}
+    freguesias = {row.freguesia_id for row in rows}
+    print(
+        f"Wrote {len(rows)} urban-change rows across "
+        f"{len(quarters)} quarters and {len(freguesias)} freguesias to {output}"
+    )
