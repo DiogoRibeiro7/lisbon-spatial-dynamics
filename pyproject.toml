@@ -15,6 +15,7 @@ transform-ine-housing = "lisbon_spatial_dynamics.cli:transform_ine_housing"
 fetch-caop-lisbon = "lisbon_spatial_dynamics.cli:fetch_caop_lisbon"
 build-reference-geography = "lisbon_spatial_dynamics.cli:build_reference_geography"
 build-housing-freguesia-panel = "lisbon_spatial_dynamics.cli:build_housing_freguesia_panel"
+build-housing-changes = "lisbon_spatial_dynamics.cli:build_housing_changes"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.0"

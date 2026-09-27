@@ -11,11 +11,13 @@ from lisbon_spatial_dynamics.panels.housing import (
     load_freguesia_index,
     write_housing_panel_csv,
 )
-from lisbon_spatial_dynamics.sources.caop import CAOPConfig, fetch_caop_snapshot
-from lisbon_spatial_dynamics.sources.ine import (
-    INEIndicatorConfig,
-    fetch_ine_snapshot,
+from lisbon_spatial_dynamics.panels.temporal import (
+    build_housing_change_panel,
+    load_housing_panel_csv,
+    write_housing_change_csv,
 )
+from lisbon_spatial_dynamics.sources.caop import CAOPConfig, fetch_caop_snapshot
+from lisbon_spatial_dynamics.sources.ine import INEIndicatorConfig, fetch_ine_snapshot
 from lisbon_spatial_dynamics.transformations.geography import (
     parse_caop_reference,
     write_reference_geography,
@@ -29,13 +31,9 @@ from lisbon_spatial_dynamics.transformations.housing import (
 
 def fetch_ine_housing() -> None:
     """Fetch a configured INE housing indicator as a raw snapshot."""
-    parser = ArgumentParser(
-        description="Fetch a configured INE housing indicator and metadata."
-    )
+    parser = ArgumentParser(description="Fetch INE housing data and metadata.")
     parser.add_argument(
-        "--config",
-        type=Path,
-        default=Path("configs/ine_housing_current.toml"),
+        "--config", type=Path, default=Path("configs/ine_housing_current.toml")
     )
     parser.add_argument("--root", type=Path, default=Path("."))
     parser.add_argument("--timeout", type=float, default=30.0)
@@ -56,9 +54,7 @@ def fetch_ine_housing() -> None:
 
 def transform_ine_housing() -> None:
     """Transform one raw INE housing payload into a stable geography CSV."""
-    parser = ArgumentParser(
-        description="Transform raw INE housing JSON to the project CSV contract."
-    )
+    parser = ArgumentParser(description="Transform raw INE housing JSON.")
     parser.add_argument("input", type=Path)
     parser.add_argument("output", type=Path)
     parser.add_argument("--geography", default="Lisboa")
@@ -80,14 +76,8 @@ def transform_ine_housing() -> None:
 
 def fetch_caop_lisbon() -> None:
     """Fetch the canonical CAOP2025 Lisbon freguesia boundaries."""
-    parser = ArgumentParser(
-        description="Fetch and validate official CAOP2025 Lisbon freguesias."
-    )
-    parser.add_argument(
-        "--config",
-        type=Path,
-        default=Path("configs/caop_lisbon.toml"),
-    )
+    parser = ArgumentParser(description="Fetch official CAOP2025 Lisbon freguesias.")
+    parser.add_argument("--config", type=Path, default=Path("configs/caop_lisbon.toml"))
     parser.add_argument("--root", type=Path, default=Path("."))
     parser.add_argument("--timeout", type=float, default=30.0)
     args = parser.parse_args()
@@ -107,24 +97,17 @@ def fetch_caop_lisbon() -> None:
 
 def build_reference_geography() -> None:
     """Build canonical freguesia CSV and GeoJSON from a raw CAOP snapshot."""
-    parser = ArgumentParser(
-        description="Build the canonical Lisbon freguesia reference artifacts."
-    )
-    parser.add_argument("input", type=Path, help="Raw CAOP GeoJSON snapshot.")
-    parser.add_argument(
-        "output_directory",
-        type=Path,
-        help="Directory for canonical reference artifacts.",
-    )
+    parser = ArgumentParser(description="Build canonical Lisbon freguesia artifacts.")
+    parser.add_argument("input", type=Path)
+    parser.add_argument("output_directory", type=Path)
     args = parser.parse_args()
 
     input_path = cast(Path, args.input)
     output_directory = cast(Path, args.output_directory)
-
     references = parse_caop_reference(input_path.read_bytes())
+
     csv_path = output_directory / "lisbon_freguesias.csv"
     geojson_path = output_directory / "lisbon_freguesias.geojson"
-
     write_reference_geography(
         references,
         csv_path=csv_path,
@@ -137,17 +120,11 @@ def build_reference_geography() -> None:
 
 
 def build_housing_freguesia_panel() -> None:
-    """Join current INE housing data to the canonical 24-freguesia reference."""
-    parser = ArgumentParser(
-        description="Build the current INE housing panel for Lisbon freguesias."
-    )
-    parser.add_argument("input", type=Path, help="Raw INE housing .data.json snapshot.")
-    parser.add_argument(
-        "reference",
-        type=Path,
-        help="Canonical lisbon_freguesias.csv reference.",
-    )
-    parser.add_argument("output", type=Path, help="New housing panel CSV path.")
+    """Join current INE housing data to the canonical freguesia reference."""
+    parser = ArgumentParser(description="Build the Lisbon freguesia housing panel.")
+    parser.add_argument("input", type=Path)
+    parser.add_argument("reference", type=Path)
+    parser.add_argument("output", type=Path)
     parser.add_argument("--category", default="Total")
     args = parser.parse_args()
 
@@ -166,3 +143,20 @@ def build_housing_freguesia_panel() -> None:
         f"Wrote {len(rows)} rows across {period_count} periods "
         f"and {len(reference)} freguesias to {output}"
     )
+
+
+def build_housing_changes() -> None:
+    """Normalize periods and compute quarter-on-quarter and year-on-year changes."""
+    parser = ArgumentParser(description="Build housing temporal change metrics.")
+    parser.add_argument("input", type=Path, help="Canonical housing freguesia panel CSV.")
+    parser.add_argument("output", type=Path, help="New housing change CSV path.")
+    args = parser.parse_args()
+
+    input_path = cast(Path, args.input)
+    output_path = cast(Path, args.output)
+
+    panel = load_housing_panel_csv(input_path)
+    changes = build_housing_change_panel(panel)
+    write_housing_change_csv(changes, output_path)
+
+    print(f"Wrote {len(changes)} temporally normalized rows to {output_path}")
