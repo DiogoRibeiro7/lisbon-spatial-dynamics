@@ -6,6 +6,11 @@ from argparse import ArgumentParser
 from pathlib import Path
 from typing import cast
 
+from lisbon_spatial_dynamics.panels.housing import (
+    build_current_housing_freguesia_panel,
+    load_freguesia_index,
+    write_housing_panel_csv,
+)
 from lisbon_spatial_dynamics.sources.caop import CAOPConfig, fetch_caop_snapshot
 from lisbon_spatial_dynamics.sources.ine import (
     INEIndicatorConfig,
@@ -50,7 +55,7 @@ def fetch_ine_housing() -> None:
 
 
 def transform_ine_housing() -> None:
-    """Transform one raw INE housing payload into a stable Lisbon CSV."""
+    """Transform one raw INE housing payload into a stable geography CSV."""
     parser = ArgumentParser(
         description="Transform raw INE housing JSON to the project CSV contract."
     )
@@ -129,3 +134,35 @@ def build_reference_geography() -> None:
     print(f"Wrote {len(references)} canonical freguesias:")
     print(f"  table:    {csv_path}")
     print(f"  geometry: {geojson_path}")
+
+
+def build_housing_freguesia_panel() -> None:
+    """Join current INE housing data to the canonical 24-freguesia reference."""
+    parser = ArgumentParser(
+        description="Build the current INE housing panel for Lisbon freguesias."
+    )
+    parser.add_argument("input", type=Path, help="Raw INE housing .data.json snapshot.")
+    parser.add_argument(
+        "reference",
+        type=Path,
+        help="Canonical lisbon_freguesias.csv reference.",
+    )
+    parser.add_argument("output", type=Path, help="New housing panel CSV path.")
+    parser.add_argument("--category", default="Total")
+    args = parser.parse_args()
+
+    observations = parse_ine_housing_payload(cast(Path, args.input).read_bytes())
+    reference = load_freguesia_index(cast(Path, args.reference))
+    rows = build_current_housing_freguesia_panel(
+        observations,
+        reference,
+        category_name=cast(str, args.category),
+    )
+    output = cast(Path, args.output)
+    write_housing_panel_csv(rows, output)
+
+    period_count = len({row.period_code for row in rows})
+    print(
+        f"Wrote {len(rows)} rows across {period_count} periods "
+        f"and {len(reference)} freguesias to {output}"
+    )

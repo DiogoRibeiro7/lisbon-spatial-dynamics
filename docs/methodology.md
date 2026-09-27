@@ -6,47 +6,39 @@ The methodological objective is to build a consistent longitudinal spatial panel
 
 The target representation is:
 
-[
-(i, t)
-]
+\[
+(i,t)
+\]
 
-where (i) identifies a stable Lisbon spatial unit and (t) identifies a comparable time period.
+where `i` identifies one canonical Lisbon freguesia and `t` identifies a source period.
 
-A candidate panel may contain variables such as:
+The canonical spatial key is `freguesia_id`, defined by CAOP's `DTMNFR` identifier.
 
-[
-left(
-P_{i,t},
-M_{i,t},
-D_{i,t},
-T_{i,t},
-I_{i,t}
-ight),
-]
+## Housing-to-freguesia join
 
-where:
+The current INE housing series (`0012234`) embeds the freguesia identifier inside the INE geography code. The project does **not** hard-code a NUTS prefix. Instead, a housing observation is admitted to the freguesia panel only when:
 
-- (P) represents housing-market measures;
-- (M) represents mobility measures;
-- (D) represents demographic measures;
-- (T) represents tourism-related measures;
-- (I) represents infrastructure or accessibility measures.
+1. its INE geography code ends with exactly one known canonical `freguesia_id`;
+2. its INE geography label agrees with the canonical CAOP freguesia name after conservative Unicode/case normalisation;
+3. the record belongs to the requested dwelling category;
+4. every canonical freguesia is represented in the source period.
 
-## Spatial consistency
+A published null value is retained as missing data. A completely absent freguesia record fails the period-level coverage check.
 
-Administrative boundaries can change over time. Boundary consistency must therefore be established before comparing neighbourhood trajectories.
+Build the current freguesia housing panel with:
 
-The preferred strategy is to use one stable reference geography and transform historical observations onto that geography only when the mapping is defensible.
+```bash
+poetry run build-housing-freguesia-panel \
+  data/raw/ine/housing/0012234/<timestamp>.data.json \
+  data/processed/reference/lisbon_freguesias.csv \
+  data/processed/housing/lisbon_freguesia_panel.csv
+```
+
+The output retains both canonical identifiers and original INE geography codes so the join remains auditable.
 
 ## Temporal consistency
 
-Series should be compared at a common frequency where possible. Higher-frequency data should not automatically be preferred if it creates large gaps across other variables.
-
-Potential analysis frequencies include:
-
-- annual panels for broad structural change;
-- quarterly panels when housing and mobility coverage support them;
-- event windows for specific infrastructure interventions.
+The housing panel preserves INE period labels verbatim at this stage. Calendar parsing and ordering are separate transformations and should be tested against the source convention rather than inferred ad hoc.
 
 ## Descriptive analysis first
 
@@ -66,14 +58,14 @@ Only after these checks should multivariable models be introduced.
 
 A possible later-stage specification is:
 
-[
-log(P_{i,t}) =
-alpha_i + gamma_t +
-eta^	op X_{i,t} +
-arepsilon_{i,t},
-]
+\[
+\log(P_{i,t}) =
+\alpha_i + \gamma_t +
+\beta^\top X_{i,t} +
+\varepsilon_{i,t},
+\]
 
-where (alpha_i) captures time-invariant spatial effects, (gamma_t) captures common period effects, and (X_{i,t}) contains observed time-varying neighbourhood characteristics.
+where `\alpha_i` captures time-invariant spatial effects, `\gamma_t` captures common period effects, and `X_{i,t}` contains observed time-varying neighbourhood characteristics.
 
 This is a modelling framework, not a causal claim. Identification assumptions must be stated separately for any causal interpretation.
 
