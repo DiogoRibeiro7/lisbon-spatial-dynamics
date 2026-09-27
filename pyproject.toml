@@ -9,6 +9,9 @@ packages = [{ include = "lisbon_spatial_dynamics", from = "src" }]
 [tool.poetry.dependencies]
 python = "^3.12"
 
+[tool.poetry.scripts]
+fetch-ine-housing = "lisbon_spatial_dynamics.cli:fetch_ine_housing"
+
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.0"
 ruff = "^0.13"
