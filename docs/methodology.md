@@ -205,3 +205,29 @@ The annual panel keeps two distinct housing changes:
 - `housing_change_from_baseline_*` — cumulative change relative to the earliest available Q4 for that freguesia.
 
 Likewise, active RNAL stock includes an absolute and percentage change from the same baseline. Percentage change is left null when the baseline stock is zero.
+
+
+## Freguesia trajectories
+
+The annual panel can be reduced to one baseline-to-latest descriptive row per freguesia:
+
+```bash
+poetry run build-freguesia-trajectories \
+  data/processed/urban/lisbon_annual_urban_change.csv \
+  data/processed/urban/lisbon_freguesia_trajectories.csv
+```
+
+By default all freguesias must share the same baseline year and latest year. This prevents cross-freguesia comparisons from silently mixing different observation windows.
+
+The trajectory table keeps housing and local-accommodation change as separate dimensions. It reports:
+
+- baseline and latest housing €/m²;
+- absolute and percentage housing change over the full window;
+- latest housing YoY change;
+- baseline and latest active RNAL registrations;
+- absolute and percentage active-stock change;
+- baseline/latest known bed and user capacity;
+- latest missing-capacity counts;
+- latest annual registration, cessation and net flows when available.
+
+No composite score or ordering is generated. The table is intended as a compact descriptive input for maps, plots, and later statistical analysis.

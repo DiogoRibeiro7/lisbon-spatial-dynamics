@@ -16,6 +16,12 @@ fetch-caop-lisbon = "lisbon_spatial_dynamics.cli:fetch_caop_lisbon"
 build-reference-geography = "lisbon_spatial_dynamics.cli:build_reference_geography"
 build-housing-freguesia-panel = "lisbon_spatial_dynamics.cli:build_housing_freguesia_panel"
 build-housing-changes = "lisbon_spatial_dynamics.cli:build_housing_changes"
+fetch-rnal-lisboa = "lisbon_spatial_dynamics.cli:fetch_rnal_lisboa"
+build-rnal-quarter-panel = "lisbon_spatial_dynamics.cli:build_rnal_quarter_panel_cli"
+build-urban-change-panel = "lisbon_spatial_dynamics.cli:build_urban_change_panel_cli"
+build-annual-urban-panel = "lisbon_spatial_dynamics.cli:build_annual_urban_panel_cli"
+build-annual-map-layers = "lisbon_spatial_dynamics.cli:build_annual_map_layers_cli"
+build-freguesia-trajectories = "lisbon_spatial_dynamics.cli:build_freguesia_trajectories_cli"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.0"

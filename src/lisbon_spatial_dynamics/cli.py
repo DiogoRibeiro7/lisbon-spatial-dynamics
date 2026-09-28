@@ -6,18 +6,46 @@ from argparse import ArgumentParser
 from pathlib import Path
 from typing import cast
 
+from lisbon_spatial_dynamics.analysis.trajectories import (
+    build_freguesia_trajectories,
+    write_freguesia_trajectory_csv,
+)
+from lisbon_spatial_dynamics.panels.annual import (
+    build_annual_urban_panel,
+    load_urban_change_csv,
+    write_annual_urban_csv,
+)
 from lisbon_spatial_dynamics.panels.housing import (
     build_current_housing_freguesia_panel,
     load_freguesia_index,
     write_housing_panel_csv,
+)
+from lisbon_spatial_dynamics.panels.rnal import (
+    build_rnal_quarter_panel,
+    load_analysis_quarters,
+    load_rnal_snapshot,
+    write_rnal_quarter_csv,
 )
 from lisbon_spatial_dynamics.panels.temporal import (
     build_housing_change_panel,
     load_housing_panel_csv,
     write_housing_change_csv,
 )
+from lisbon_spatial_dynamics.panels.urban import (
+    build_urban_change_panel,
+    load_housing_change_csv,
+    load_rnal_quarter_csv,
+    write_urban_change_csv,
+)
 from lisbon_spatial_dynamics.sources.caop import CAOPConfig, fetch_caop_snapshot
 from lisbon_spatial_dynamics.sources.ine import INEIndicatorConfig, fetch_ine_snapshot
+from lisbon_spatial_dynamics.sources.rnal import RNALConfig, fetch_rnal_snapshot
+from lisbon_spatial_dynamics.spatial.annual_maps import (
+    build_annual_geojson_layers,
+    load_annual_urban_csv,
+    load_reference_geojson,
+    write_annual_geojson_layers,
+)
 from lisbon_spatial_dynamics.transformations.geography import (
     parse_caop_reference,
     write_reference_geography,
@@ -33,7 +61,9 @@ def fetch_ine_housing() -> None:
     """Fetch a configured INE housing indicator as a raw snapshot."""
     parser = ArgumentParser(description="Fetch INE housing data and metadata.")
     parser.add_argument(
-        "--config", type=Path, default=Path("configs/ine_housing_current.toml")
+        "--config",
+        type=Path,
+        default=Path("configs/ine_housing_current.toml"),
     )
     parser.add_argument("--root", type=Path, default=Path("."))
     parser.add_argument("--timeout", type=float, default=30.0)
@@ -77,7 +107,11 @@ def transform_ine_housing() -> None:
 def fetch_caop_lisbon() -> None:
     """Fetch the canonical CAOP2025 Lisbon freguesia boundaries."""
     parser = ArgumentParser(description="Fetch official CAOP2025 Lisbon freguesias.")
-    parser.add_argument("--config", type=Path, default=Path("configs/caop_lisbon.toml"))
+    parser.add_argument(
+        "--config",
+        type=Path,
+        default=Path("configs/caop_lisbon.toml"),
+    )
     parser.add_argument("--root", type=Path, default=Path("."))
     parser.add_argument("--timeout", type=float, default=30.0)
     args = parser.parse_args()
@@ -148,23 +182,23 @@ def build_housing_freguesia_panel() -> None:
 def build_housing_changes() -> None:
     """Normalize periods and compute quarter-on-quarter and year-on-year changes."""
     parser = ArgumentParser(description="Build housing temporal change metrics.")
-    parser.add_argument("input", type=Path, help="Canonical housing freguesia panel CSV.")
-    parser.add_argument("output", type=Path, help="New housing change CSV path.")
+    parser.add_argument("input", type=Path)
+    parser.add_argument("output", type=Path)
     args = parser.parse_args()
 
-    input_path = cast(Path, args.input)
-    output_path = cast(Path, args.output)
-
-    panel = load_housing_panel_csv(input_path)
+    panel = load_housing_panel_csv(cast(Path, args.input))
     changes = build_housing_change_panel(panel)
-    write_housing_change_csv(changes, output_path)
+    output = cast(Path, args.output)
+    write_housing_change_csv(changes, output)
 
-    print(f"Wrote {len(changes)} temporally normalized rows to {output_path}")
+    print(f"Wrote {len(changes)} temporally normalized rows to {output}")
 
 
 def fetch_rnal_lisboa() -> None:
-    """Fetch privacy-minimised RNAL records for the municipality of Lisboa."""
-    parser = ArgumentParser(description="Fetch Turismo de Portugal RNAL records for Lisboa.")
+    """Fetch privacy-minimised RNAL records for Lisboa."""
+    parser = ArgumentParser(
+        description="Fetch Turismo de Portugal RNAL records for Lisboa."
+    )
     parser.add_argument(
         "--config",
         type=Path,
@@ -191,18 +225,10 @@ def build_rnal_quarter_panel_cli() -> None:
     parser = ArgumentParser(
         description="Build the Lisboa RNAL quarter panel on the housing time grid."
     )
-    parser.add_argument("input", type=Path, help="Privacy-minimised RNAL records JSON.")
-    parser.add_argument(
-        "reference",
-        type=Path,
-        help="Canonical lisbon_freguesias.csv reference.",
-    )
-    parser.add_argument(
-        "housing_changes",
-        type=Path,
-        help="Housing changes CSV defining the analysis quarter grid.",
-    )
-    parser.add_argument("output", type=Path, help="New RNAL quarter panel CSV.")
+    parser.add_argument("input", type=Path)
+    parser.add_argument("reference", type=Path)
+    parser.add_argument("housing_changes", type=Path)
+    parser.add_argument("output", type=Path)
     args = parser.parse_args()
 
     records = load_rnal_snapshot(cast(Path, args.input))
@@ -221,12 +247,10 @@ def build_rnal_quarter_panel_cli() -> None:
 
 def build_urban_change_panel_cli() -> None:
     """Join housing and RNAL panels on the exact freguesia-quarter key set."""
-    parser = ArgumentParser(
-        description="Build the combined Lisbon urban-change panel."
-    )
-    parser.add_argument("housing", type=Path, help="Housing change CSV.")
-    parser.add_argument("rnal", type=Path, help="RNAL quarter panel CSV.")
-    parser.add_argument("output", type=Path, help="New combined urban panel CSV.")
+    parser = ArgumentParser(description="Build the combined Lisbon urban-change panel.")
+    parser.add_argument("housing", type=Path)
+    parser.add_argument("rnal", type=Path)
+    parser.add_argument("output", type=Path)
     args = parser.parse_args()
 
     housing = load_housing_change_csv(cast(Path, args.housing))
@@ -249,8 +273,8 @@ def build_annual_urban_panel_cli() -> None:
     parser = ArgumentParser(
         description="Build year-end urban-change comparisons by freguesia."
     )
-    parser.add_argument("input", type=Path, help="Combined quarterly urban panel CSV.")
-    parser.add_argument("output", type=Path, help="New annual urban panel CSV.")
+    parser.add_argument("input", type=Path)
+    parser.add_argument("output", type=Path)
     args = parser.parse_args()
 
     quarterly = load_urban_change_csv(cast(Path, args.input))
@@ -272,17 +296,9 @@ def build_annual_map_layers_cli() -> None:
     parser = ArgumentParser(
         description="Build annual Lisbon urban-change GeoJSON layers."
     )
-    parser.add_argument("annual", type=Path, help="Annual urban-change CSV.")
-    parser.add_argument(
-        "reference",
-        type=Path,
-        help="Canonical lisbon_freguesias.geojson reference.",
-    )
-    parser.add_argument(
-        "output_directory",
-        type=Path,
-        help="Directory for annual map-ready GeoJSON layers.",
-    )
+    parser.add_argument("annual", type=Path)
+    parser.add_argument("reference", type=Path)
+    parser.add_argument("output_directory", type=Path)
     args = parser.parse_args()
 
     annual = load_annual_urban_csv(cast(Path, args.annual))
@@ -296,4 +312,27 @@ def build_annual_map_layers_cli() -> None:
     print(
         f"Wrote {len(paths)} annual GeoJSON layers "
         f"for {len(reference)} freguesias."
+    )
+
+
+def build_freguesia_trajectories_cli() -> None:
+    """Build common-window baseline-to-latest trajectories by freguesia."""
+    parser = ArgumentParser(
+        description="Build baseline-to-latest Lisbon freguesia trajectories."
+    )
+    parser.add_argument("annual", type=Path)
+    parser.add_argument("output", type=Path)
+    args = parser.parse_args()
+
+    annual = load_annual_urban_csv(cast(Path, args.annual))
+    trajectories = build_freguesia_trajectories(annual)
+
+    output = cast(Path, args.output)
+    write_freguesia_trajectory_csv(trajectories, output)
+
+    baseline_years = {row.baseline_year for row in trajectories}
+    latest_years = {row.latest_year for row in trajectories}
+    print(
+        f"Wrote {len(trajectories)} freguesia trajectories "
+        f"for window {min(baseline_years)}-{max(latest_years)} to {output}"
     )
