@@ -104,3 +104,40 @@ A successful join is not sufficient evidence that the resulting measure is meani
 ## Maps as analysis
 
 Maps should expose uncertainty, missing coverage, and boundary changes where relevant. Missing observations must not be rendered in a way that makes them look like zero values.
+
+
+## Annual map-ready layers
+
+The annual comparison panel can be joined back to the canonical CAOP geometry without a spatial overlay because both datasets already use the same `freguesia_id`.
+
+Build one GeoJSON layer per year with:
+
+```bash
+poetry run build-annual-map-layers \
+  data/processed/urban/lisbon_annual_urban_change.csv \
+  data/processed/reference/lisbon_freguesias.geojson \
+  data/processed/maps/annual
+```
+
+The output directory contains files such as:
+
+```text
+lisbon_urban_change_2019.geojson
+lisbon_urban_change_2020.geojson
+...
+```
+
+Every year must contain exactly the same canonical freguesia identifiers as the reference geometry. Missing or extra freguesias fail the export.
+
+The geometry is unchanged from the canonical CAOP layer. Annual analytical properties are attached to each feature, including:
+
+- housing level;
+- housing YoY change;
+- housing cumulative change from baseline;
+- annual RNAL registration/cessation flows when complete;
+- RNAL active stock and cumulative stock change;
+- known/missing capacity fields.
+
+Exact decimal values remain authoritative in the CSV panel. GeoJSON exports convert decimal analytical properties to JSON numbers for mapping interoperability.
+
+This makes year-to-year choropleths directly comparable because the geometry and property contract are stable across all exported years.
