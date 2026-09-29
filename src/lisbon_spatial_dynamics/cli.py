@@ -67,6 +67,10 @@ from lisbon_spatial_dynamics.spatial.trajectory_choropleths import (
     load_trajectory_map,
     write_trajectory_choropleths,
 )
+from lisbon_spatial_dynamics.spatial.lisa_cluster_maps import (
+    load_local_morans_json,
+    write_lisa_cluster_maps,
+)
 from lisbon_spatial_dynamics.spatial.trajectory_map import (
     build_trajectory_geojson,
     load_trajectory_csv,
@@ -554,3 +558,31 @@ def build_local_morans_i_cli() -> None:
             f"{result.metric}: {significant} FDR-significant local associations "
             f"from {result.complete_cases} complete freguesias"
         )
+
+
+def build_lisa_cluster_maps_cli() -> None:
+    """Build FDR-controlled Local Moran cluster maps."""
+    parser = ArgumentParser(
+        description="Build Local Moran (LISA) cluster maps for Lisbon freguesias."
+    )
+    parser.add_argument("trajectory_geojson", type=Path)
+    parser.add_argument("local_morans_json", type=Path)
+    parser.add_argument("output_directory", type=Path)
+    parser.add_argument(
+        "--labels",
+        action="store_true",
+        help="Annotate freguesia names on the cluster maps.",
+    )
+    args = parser.parse_args()
+
+    trajectory = load_trajectory_map(cast(Path, args.trajectory_geojson))
+    bundle = load_local_morans_json(cast(Path, args.local_morans_json))
+    housing, rnal = write_lisa_cluster_maps(
+        trajectory,
+        bundle,
+        cast(Path, args.output_directory),
+        label_freguesias=cast(bool, args.labels),
+    )
+
+    print(f"Wrote housing LISA map: {housing}")
+    print(f"Wrote RNAL LISA map: {rnal}")
