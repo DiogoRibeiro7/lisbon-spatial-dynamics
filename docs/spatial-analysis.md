@@ -183,3 +183,37 @@ Missing analytical values use a neutral fill rather than being shown as zero. Wh
 Freguesia labels are off by default to avoid clutter and can be enabled with `--labels`.
 
 These choropleths are descriptive spatial views. They identify where measured changes are larger or smaller, but they do not by themselves establish spatial clusters, hotspots, or causal relationships.
+
+
+## Global spatial autocorrelation
+
+The trajectory choropleths can be followed by a formal Global Moran's (I) calculation:
+
+```bash
+poetry run build-global-morans-i \
+  data/processed/maps/lisbon_freguesia_trajectories.geojson \
+  data/processed/analysis/global_morans_i.json
+```
+
+The analysis is run separately for:
+
+- full-window housing-price percentage change;
+- full-window active RNAL percentage change.
+
+Spatial weights use **queen contiguity** derived from the canonical freguesia polygons: two freguesias are neighbours when their boundaries touch at any point. The weights are row-standardized before Moran's (I) is calculated.
+
+The output records:
+
+- observed Global Moran's (I);
+- the randomization expectation (E[I] = -1/(n-1));
+- complete-case count;
+- excluded missing observations;
+- islands produced after metric-specific missing-value filtering;
+- the number of induced neighbour edges;
+- a deterministic two-sided permutation p-value.
+
+The default test uses 999 permutations and seed 42. Both can be changed with `--permutations` and `--seed`.
+
+The permutation test compares the absolute distance of the observed statistic from the randomization expectation with the corresponding distances under random permutation.
+
+Global Moran's (I) answers whether the metric shows overall spatial autocorrelation under the selected weight matrix. It does **not** identify which freguesias form local clusters or hotspots, and it does not establish causality.
