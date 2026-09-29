@@ -257,3 +257,40 @@ Defaults are:
 - FDR threshold 0.05.
 
 Local Moran's (I) identifies local spatial association under the selected weight matrix. HH/LL patterns are local clusters and HL/LH patterns are spatial outliers in the Moran-scatterplot sense; these are descriptive spatial statistics, not causal findings.
+
+
+## LISA cluster maps
+
+The FDR-controlled Local Moran output can be mapped directly onto the common-window trajectory geometry:
+
+```bash
+poetry run build-lisa-cluster-maps \
+  data/processed/maps/lisbon_freguesia_trajectories.geojson \
+  data/processed/analysis/local_morans_i.json \
+  data/processed/plots/lisa
+```
+
+This writes:
+
+```text
+housing_lisa_clusters.png
+rnal_lisa_clusters.png
+```
+
+The plotting layer does not recompute local significance. It consumes the final `cluster_class` already produced by the Local Moran analysis.
+
+The categorical legend distinguishes:
+
+- HH — significant high value surrounded by high values;
+- LL — significant low value surrounded by low values;
+- HL — significant high-value spatial outlier among lower neighbours;
+- LH — significant low-value spatial outlier among higher neighbours;
+- not significant;
+- not evaluated;
+- missing;
+- island;
+- constant metric.
+
+Only FDR-significant Local Moran results receive HH, LL, HL or LH in the final map. Freguesia labels are optional with `--labels`.
+
+These maps visualize local spatial association under queen contiguity. They should not be read as causal maps of housing pressure or tourism effects.
