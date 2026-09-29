@@ -336,3 +336,46 @@ def build_freguesia_trajectories_cli() -> None:
         f"Wrote {len(trajectories)} freguesia trajectories "
         f"for window {min(baseline_years)}-{max(latest_years)} to {output}"
     )
+
+
+def build_trajectory_map_cli() -> None:
+    """Build the baseline-to-latest trajectory GeoJSON."""
+    parser = ArgumentParser(
+        description="Build map-ready Lisbon freguesia trajectory GeoJSON."
+    )
+    parser.add_argument("trajectories", type=Path)
+    parser.add_argument("reference", type=Path)
+    parser.add_argument("output", type=Path)
+    args = parser.parse_args()
+
+    trajectories = load_trajectory_csv(cast(Path, args.trajectories))
+    reference = load_reference_geojson(cast(Path, args.reference))
+    document = build_trajectory_geojson(trajectories, reference)
+
+    output = cast(Path, args.output)
+    write_trajectory_geojson(document, output)
+
+    print(
+        f"Wrote trajectory GeoJSON for {len(trajectories)} freguesias to {output}"
+    )
+
+
+def build_trajectory_summary_cli() -> None:
+    """Build the aggregate common-window trajectory summary JSON."""
+    parser = ArgumentParser(
+        description="Build aggregate descriptive Lisbon trajectory summary."
+    )
+    parser.add_argument("trajectories", type=Path)
+    parser.add_argument("output", type=Path)
+    args = parser.parse_args()
+
+    trajectories = load_trajectory_csv(cast(Path, args.trajectories))
+    summary = build_trajectory_summary(trajectories)
+
+    output = cast(Path, args.output)
+    write_trajectory_summary_json(summary, output)
+
+    print(
+        f"Wrote {summary.baseline_year}-{summary.latest_year} trajectory summary "
+        f"for {summary.freguesia_count} freguesias to {output}"
+    )
