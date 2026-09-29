@@ -29,6 +29,7 @@ build-trajectory-summary = "lisbon_spatial_dynamics.cli:build_trajectory_summary
 build-descriptive-association = "lisbon_spatial_dynamics.cli:build_descriptive_association_cli"
 build-trajectory-choropleths = "lisbon_spatial_dynamics.cli:build_trajectory_choropleths_cli"
 build-global-morans-i = "lisbon_spatial_dynamics.cli:build_global_morans_i_cli"
+build-local-morans-i = "lisbon_spatial_dynamics.cli:build_local_morans_i_cli"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.0"

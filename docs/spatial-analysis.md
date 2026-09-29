@@ -217,3 +217,43 @@ The default test uses 999 permutations and seed 42. Both can be changed with `--
 The permutation test compares the absolute distance of the observed statistic from the randomization expectation with the corresponding distances under random permutation.
 
 Global Moran's (I) answers whether the metric shows overall spatial autocorrelation under the selected weight matrix. It does **not** identify which freguesias form local clusters or hotspots, and it does not establish causality.
+
+
+## Local spatial association: LISA
+
+Global Moran's (I) answers whether a metric is spatially autocorrelated overall. Local Moran's (I) provides the next level of detail by evaluating each freguesia relative to its queen-contiguous neighbours.
+
+Run:
+
+```bash
+poetry run build-local-morans-i \
+  data/processed/maps/lisbon_freguesia_trajectories.geojson \
+  data/processed/analysis/local_morans_i.json
+```
+
+The analysis is run separately for housing-price percentage change and active RNAL percentage change.
+
+For each complete, non-island freguesia the output records:
+
+- standardized local value;
+- row-standardized spatial lag;
+- Local Moran's (I_i);
+- neighbour count;
+- Moran-scatterplot quadrant: HH, LL, HL or LH;
+- two-sided conditional permutation pseudo-(p);
+- Benjamini–Hochberg FDR-adjusted (q);
+- final local cluster class.
+
+The conditional permutation test holds the focal freguesia's standardized value fixed and repeatedly samples an equal-sized neighbour set from all other complete-case standardized values.
+
+Because 24 local tests are potentially evaluated for each metric, raw local pseudo-(p) values are corrected using the Benjamini–Hochberg false-discovery-rate procedure. A freguesia is labelled HH, LL, HL or LH in the final `cluster_class` only when its FDR-adjusted result is significant at the selected `--alpha` level. Otherwise it is recorded as `not_significant`.
+
+Missing observations, metric-specific spatial islands and constant-value cases are represented explicitly and are never assigned a cluster class.
+
+Defaults are:
+
+- 999 conditional permutations per freguesia;
+- seed 42;
+- FDR threshold 0.05.
+
+Local Moran's (I) identifies local spatial association under the selected weight matrix. HH/LL patterns are local clusters and HL/LH patterns are spatial outliers in the Moran-scatterplot sense; these are descriptive spatial statistics, not causal findings.

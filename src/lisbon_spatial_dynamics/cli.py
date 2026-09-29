@@ -11,6 +11,14 @@ from lisbon_spatial_dynamics.analysis.associations import (
     write_association_json,
     write_association_scatter,
 )
+from lisbon_spatial_dynamics.analysis.local_spatial_autocorrelation import (
+    analyse_local_morans_i,
+    write_local_morans_i_json,
+)
+from lisbon_spatial_dynamics.analysis.spatial_autocorrelation import (
+    analyse_global_morans_i,
+    write_morans_i_json,
+)
 from lisbon_spatial_dynamics.analysis.trajectory_summary import (
     build_trajectory_summary,
     write_trajectory_summary_json,
@@ -54,6 +62,10 @@ from lisbon_spatial_dynamics.spatial.annual_maps import (
     load_annual_urban_csv,
     load_reference_geojson,
     write_annual_geojson_layers,
+)
+from lisbon_spatial_dynamics.spatial.trajectory_choropleths import (
+    load_trajectory_map,
+    write_trajectory_choropleths,
 )
 from lisbon_spatial_dynamics.spatial.trajectory_map import (
     build_trajectory_geojson,
@@ -492,4 +504,53 @@ def build_global_morans_i_cli() -> None:
             f"expected={result.expected_i}, "
             f"p={result.permutation_p_two_sided}, "
             f"n={result.complete_cases}"
+        )
+
+
+def build_local_morans_i_cli() -> None:
+    """Calculate Local Moran's I for housing and RNAL trajectory changes."""
+    parser = ArgumentParser(
+        description="Build Local Moran's I (LISA) spatial association outputs."
+    )
+    parser.add_argument("trajectory_geojson", type=Path)
+    parser.add_argument("output", type=Path)
+    parser.add_argument(
+        "--permutations",
+        type=int,
+        default=999,
+        help="Conditional permutations per freguesia.",
+    )
+    parser.add_argument(
+        "--seed",
+        type=int,
+        default=42,
+        help="Random seed for deterministic local permutation tests.",
+    )
+    parser.add_argument(
+        "--alpha",
+        type=float,
+        default=0.05,
+        help="FDR-adjusted significance threshold.",
+    )
+    args = parser.parse_args()
+
+    data = load_trajectory_map(cast(Path, args.trajectory_geojson))
+    results = analyse_local_morans_i(
+        data,
+        permutations=cast(int, args.permutations),
+        seed=cast(int, args.seed),
+        alpha=cast(float, args.alpha),
+    )
+
+    output = cast(Path, args.output)
+    write_local_morans_i_json(results, output)
+
+    for result in results:
+        significant = sum(
+            observation.significant_fdr is True
+            for observation in result.observations
+        )
+        print(
+            f"{result.metric}: {significant} FDR-significant local associations "
+            f"from {result.complete_cases} complete freguesias"
         )
