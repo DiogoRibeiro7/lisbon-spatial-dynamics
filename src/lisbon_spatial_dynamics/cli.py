@@ -379,3 +379,38 @@ def build_trajectory_summary_cli() -> None:
         f"Wrote {summary.baseline_year}-{summary.latest_year} trajectory summary "
         f"for {summary.freguesia_count} freguesias to {output}"
     )
+
+
+def build_descriptive_association_cli() -> None:
+    """Build descriptive housing/RNAL correlations and a scatter plot."""
+    parser = ArgumentParser(
+        description="Build descriptive housing-versus-RNAL association outputs."
+    )
+    parser.add_argument("trajectories", type=Path)
+    parser.add_argument("output_json", type=Path)
+    parser.add_argument("output_plot", type=Path)
+    parser.add_argument(
+        "--no-labels",
+        action="store_true",
+        help="Do not annotate freguesia names on the scatter plot.",
+    )
+    args = parser.parse_args()
+
+    trajectories = load_trajectory_csv(cast(Path, args.trajectories))
+    result = build_descriptive_association(trajectories)
+
+    output_json = cast(Path, args.output_json)
+    output_plot = cast(Path, args.output_plot)
+
+    write_association_json(result, output_json)
+    write_association_scatter(
+        result,
+        output_plot,
+        label_points=not cast(bool, args.no_labels),
+    )
+
+    print(
+        f"Wrote descriptive association for {result.complete_cases}/"
+        f"{result.total_freguesias} complete freguesias: "
+        f"Pearson={result.pearson_r}, Spearman={result.spearman_rho}"
+    )
