@@ -246,3 +246,30 @@ poetry run build-trajectory-summary \
 The summary records the common comparison window, data-completeness counts, median housing percentage change among complete observations, city-wide RNAL active-stock totals, known capacity totals, and whether the latest RNAL annual flows have complete four-quarter coverage.
 
 It contains no freguesia ranking or composite score.
+
+
+## Descriptive housing–local-accommodation association
+
+The first relationship analysis uses the common-window freguesia trajectory table, so every observation represents one freguesia over the same baseline-to-latest interval.
+
+Run:
+
+```bash
+poetry run build-descriptive-association \
+  data/processed/urban/lisbon_freguesia_trajectories.csv \
+  data/processed/analysis/housing_rnal_association.json \
+  data/processed/analysis/housing_rnal_scatter.png
+```
+
+The comparison uses:
+
+- housing percentage change in median transaction value per m² over the full trajectory window;
+- percentage change in active RNAL registrations over the same window.
+
+The JSON report contains Pearson correlation, Spearman rank correlation, complete-case counts, explicit exclusion counts, and the exact freguesia points used in the calculation.
+
+Spearman ranks use average ranks for ties. If either variable is constant over the complete cases, the relevant correlation is recorded as null rather than forcing a numerical value.
+
+The scatter plot places RNAL active-stock percentage change on the horizontal axis and housing-price percentage change on the vertical axis. Freguesia labels can be disabled with `--no-labels`.
+
+These are descriptive cross-sectional associations only. They do not estimate a causal effect of local accommodation on housing prices and do not control for demographic, spatial, tourism, infrastructure, or other confounding factors.
