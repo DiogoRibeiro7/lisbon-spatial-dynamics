@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+from dataclasses import replace
 from decimal import Decimal
 from pathlib import Path
 
@@ -86,12 +87,7 @@ def test_summary_reports_coverage_and_aggregate_totals() -> None:
 def test_summary_rejects_mixed_windows() -> None:
     first = _row("110654", Decimal("50"))
     second = _row("110656", Decimal("25"))
-    second = FreguesiaTrajectory(
-        **{
-            **second.__dict__,
-            "baseline_year": 2020,
-        }
-    )
+    second = replace(second, baseline_year=2020)
 
     with pytest.raises(TrajectorySummaryError, match="one comparison window"):
         build_trajectory_summary((first, second))
