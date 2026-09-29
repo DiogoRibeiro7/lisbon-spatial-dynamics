@@ -428,3 +428,28 @@ def build_descriptive_association_cli() -> None:
         f"{result.total_freguesias} complete freguesias: "
         f"Pearson={result.pearson_r}, Spearman={result.spearman_rho}"
     )
+
+
+def build_trajectory_choropleths_cli() -> None:
+    """Build static housing and RNAL trajectory choropleths."""
+    parser = ArgumentParser(
+        description="Build static trajectory choropleths for Lisbon freguesias."
+    )
+    parser.add_argument("trajectory_geojson", type=Path)
+    parser.add_argument("output_directory", type=Path)
+    parser.add_argument(
+        "--labels",
+        action="store_true",
+        help="Annotate freguesia names on the choropleths.",
+    )
+    args = parser.parse_args()
+
+    data = load_trajectory_map(cast(Path, args.trajectory_geojson))
+    housing, rnal = write_trajectory_choropleths(
+        data,
+        cast(Path, args.output_directory),
+        label_freguesias=cast(bool, args.labels),
+    )
+
+    print(f"Wrote housing choropleth: {housing}")
+    print(f"Wrote RNAL choropleth: {rnal}")

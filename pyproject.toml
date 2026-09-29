@@ -26,6 +26,7 @@ build-freguesia-trajectories = "lisbon_spatial_dynamics.cli:build_freguesia_traj
 build-trajectory-map = "lisbon_spatial_dynamics.cli:build_trajectory_map_cli"
 build-trajectory-summary = "lisbon_spatial_dynamics.cli:build_trajectory_summary_cli"
 build-descriptive-association = "lisbon_spatial_dynamics.cli:build_descriptive_association_cli"
+build-trajectory-choropleths = "lisbon_spatial_dynamics.cli:build_trajectory_choropleths_cli"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.0"

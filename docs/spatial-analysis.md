@@ -157,3 +157,29 @@ poetry run build-trajectory-map \
 The export requires the trajectory and reference key sets to match exactly and requires all trajectory rows to share the same baseline/latest comparison window.
 
 The properties preserve housing and RNAL change as separate dimensions. No composite classification or ranking is attached to the geometry.
+
+
+## Static trajectory choropleths
+
+The baseline-to-latest trajectory GeoJSON can be rendered into two static choropleths:
+
+```bash
+poetry run build-trajectory-choropleths \
+  data/processed/maps/lisbon_freguesia_trajectories.geojson \
+  data/processed/plots/trajectory
+```
+
+This writes:
+
+```text
+housing_change_pct.png
+rnal_active_change_pct.png
+```
+
+The first map shows full-window percentage change in median housing value per m². The second shows full-window percentage change in active RNAL registrations.
+
+Missing analytical values use a neutral fill rather than being shown as zero. When a metric contains both positive and negative changes, the colour scale is centred on zero; otherwise it spans the observed range directly.
+
+Freguesia labels are off by default to avoid clutter and can be enabled with `--labels`.
+
+These choropleths are descriptive spatial views. They identify where measured changes are larger or smaller, but they do not by themselves establish spatial clusters, hotspots, or causal relationships.
