@@ -9,6 +9,7 @@ packages = [{ include = "lisbon_spatial_dynamics", from = "src" }]
 [tool.poetry.dependencies]
 python = "^3.12"
 matplotlib = ">=3.10,<4.0"
+shapely = ">=2.1,<3.0"
 
 [tool.poetry.scripts]
 fetch-ine-housing = "lisbon_spatial_dynamics.cli:fetch_ine_housing"
@@ -27,6 +28,7 @@ build-trajectory-map = "lisbon_spatial_dynamics.cli:build_trajectory_map_cli"
 build-trajectory-summary = "lisbon_spatial_dynamics.cli:build_trajectory_summary_cli"
 build-descriptive-association = "lisbon_spatial_dynamics.cli:build_descriptive_association_cli"
 build-trajectory-choropleths = "lisbon_spatial_dynamics.cli:build_trajectory_choropleths_cli"
+build-global-morans-i = "lisbon_spatial_dynamics.cli:build_global_morans_i_cli"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.0"
