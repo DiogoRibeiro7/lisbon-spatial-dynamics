@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import json
-from collections.abc import Mapping, Sequence
+from collections.abc import Sequence
 from dataclasses import dataclass
 from decimal import Decimal
 from pathlib import Path
