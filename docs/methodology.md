@@ -231,3 +231,18 @@ The trajectory table keeps housing and local-accommodation change as separate di
 - latest annual registration, cessation and net flows when available.
 
 No composite score or ordering is generated. The table is intended as a compact descriptive input for maps, plots, and later statistical analysis.
+
+
+### Trajectory summary metadata
+
+A compact machine-readable summary can be generated alongside the trajectory table:
+
+```bash
+poetry run build-trajectory-summary \
+  data/processed/urban/lisbon_freguesia_trajectories.csv \
+  data/processed/urban/lisbon_freguesia_trajectory_summary.json
+```
+
+The summary records the common comparison window, data-completeness counts, median housing percentage change among complete observations, city-wide RNAL active-stock totals, known capacity totals, and whether the latest RNAL annual flows have complete four-quarter coverage.
+
+It contains no freguesia ranking or composite score.

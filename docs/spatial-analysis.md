@@ -141,3 +141,19 @@ The geometry is unchanged from the canonical CAOP layer. Annual analytical prope
 Exact decimal values remain authoritative in the CSV panel. GeoJSON exports convert decimal analytical properties to JSON numbers for mapping interoperability.
 
 This makes year-to-year choropleths directly comparable because the geometry and property contract are stable across all exported years.
+
+
+## Baseline-to-latest trajectory map
+
+The common-window freguesia trajectory table can be joined to the canonical geometry as one map-ready GeoJSON:
+
+```bash
+poetry run build-trajectory-map \
+  data/processed/urban/lisbon_freguesia_trajectories.csv \
+  data/processed/reference/lisbon_freguesias.geojson \
+  data/processed/maps/lisbon_freguesia_trajectories.geojson
+```
+
+The export requires the trajectory and reference key sets to match exactly and requires all trajectory rows to share the same baseline/latest comparison window.
+
+The properties preserve housing and RNAL change as separate dimensions. No composite classification or ranking is attached to the geometry.
