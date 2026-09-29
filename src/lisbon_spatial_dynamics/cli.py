@@ -11,6 +11,14 @@ from lisbon_spatial_dynamics.analysis.associations import (
     write_association_json,
     write_association_scatter,
 )
+from lisbon_spatial_dynamics.analysis.local_spatial_autocorrelation import (
+    analyse_local_morans_i,
+    write_local_morans_i_json,
+)
+from lisbon_spatial_dynamics.analysis.spatial_autocorrelation import (
+    analyse_global_morans_i,
+    write_morans_i_json,
+)
 from lisbon_spatial_dynamics.analysis.trajectory_summary import (
     build_trajectory_summary,
     write_trajectory_summary_json,
@@ -54,6 +62,10 @@ from lisbon_spatial_dynamics.spatial.annual_maps import (
     load_annual_urban_csv,
     load_reference_geojson,
     write_annual_geojson_layers,
+)
+from lisbon_spatial_dynamics.spatial.trajectory_choropleths import (
+    load_trajectory_map,
+    write_trajectory_choropleths,
 )
 from lisbon_spatial_dynamics.spatial.trajectory_map import (
     build_trajectory_geojson,
