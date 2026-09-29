@@ -453,3 +453,43 @@ def build_trajectory_choropleths_cli() -> None:
 
     print(f"Wrote housing choropleth: {housing}")
     print(f"Wrote RNAL choropleth: {rnal}")
+
+
+def build_global_morans_i_cli() -> None:
+    """Calculate Global Moran's I for housing and RNAL trajectory changes."""
+    parser = ArgumentParser(
+        description="Build Global Moran's I spatial autocorrelation outputs."
+    )
+    parser.add_argument("trajectory_geojson", type=Path)
+    parser.add_argument("output", type=Path)
+    parser.add_argument(
+        "--permutations",
+        type=int,
+        default=999,
+        help="Number of random permutations for the two-sided test.",
+    )
+    parser.add_argument(
+        "--seed",
+        type=int,
+        default=42,
+        help="Random seed for deterministic permutation results.",
+    )
+    args = parser.parse_args()
+
+    data = load_trajectory_map(cast(Path, args.trajectory_geojson))
+    results = analyse_global_morans_i(
+        data,
+        permutations=cast(int, args.permutations),
+        seed=cast(int, args.seed),
+    )
+
+    output = cast(Path, args.output)
+    write_morans_i_json(results, output)
+
+    for result in results:
+        print(
+            f"{result.metric}: I={result.morans_i}, "
+            f"expected={result.expected_i}, "
+            f"p={result.permutation_p_two_sided}, "
+            f"n={result.complete_cases}"
+        )
