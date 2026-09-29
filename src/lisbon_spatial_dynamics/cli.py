@@ -6,6 +6,15 @@ from argparse import ArgumentParser
 from pathlib import Path
 from typing import cast
 
+from lisbon_spatial_dynamics.analysis.associations import (
+    build_descriptive_association,
+    write_association_json,
+    write_association_scatter,
+)
+from lisbon_spatial_dynamics.analysis.trajectory_summary import (
+    build_trajectory_summary,
+    write_trajectory_summary_json,
+)
 from lisbon_spatial_dynamics.analysis.trajectories import (
     build_freguesia_trajectories,
     write_freguesia_trajectory_csv,
@@ -45,6 +54,11 @@ from lisbon_spatial_dynamics.spatial.annual_maps import (
     load_annual_urban_csv,
     load_reference_geojson,
     write_annual_geojson_layers,
+)
+from lisbon_spatial_dynamics.spatial.trajectory_map import (
+    build_trajectory_geojson,
+    load_trajectory_csv,
+    write_trajectory_geojson,
 )
 from lisbon_spatial_dynamics.transformations.geography import (
     parse_caop_reference,
