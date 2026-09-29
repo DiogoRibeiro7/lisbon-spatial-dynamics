@@ -9,7 +9,7 @@ from collections.abc import Mapping, Sequence
 from dataclasses import dataclass
 from pathlib import Path
 from statistics import fmean
-from typing import Literal, cast
+from typing import Literal
 
 from shapely.geometry import shape
 from shapely.geometry.base import BaseGeometry
@@ -225,10 +225,6 @@ def _analyse_metric(
     seed: int,
 ) -> MoranResult:
     """Calculate one metric-specific Moran statistic and permutation p-value."""
-    feature_by_id = {
-        feature.freguesia_id: feature for feature in data.features
-    }
-
     values_by_id: dict[str, float] = {}
     for feature in data.features:
         value = _metric_value(feature, metric)
@@ -365,4 +361,4 @@ def _metric_value(
     if metric == "rnal_active_change_pct":
         return feature.rnal_active_change_pct
 
-    raise AssertionError(f"unsupported metric: {cast(str, metric)}")
+    raise AssertionError(f"unsupported metric: {metric}")
