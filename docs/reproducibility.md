@@ -1,50 +1,70 @@
 # Reproducibility
 
-Reproducibility applies to data acquisition, transformation, analysis, and documentation.
+Reproducibility is part of the v1 release contract.
 
-## Data layers
+## Immutable release inputs
 
-The repository separates data into three stages:
+A v1 build starts from archived local snapshots:
 
-- `data/raw/` — original source material;
-- `data/interim/` — cleaned or harmonised intermediate data;
-- `data/processed/` — analysis-ready derived datasets.
+1. INE housing JSON;
+2. RNAL privacy-minimized records JSON;
+3. official Censos 2021 synthesis ZIP;
+4. canonical CAOP freguesia CSV;
+5. canonical CAOP freguesia GeoJSON;
+6. versioned multivariable-model configuration.
 
-These directories are intentionally excluded from version control except for their placeholders.
+This isolates a stable research release from later upstream API changes.
 
-## Provenance
-
-Every generated dataset should be reproducible from:
-
-1. a documented source;
-2. a versioned acquisition or import step;
-3. explicit transformations;
-4. validation checks;
-5. a deterministic output contract where the upstream data permit it.
-
-## Configuration
-
-Values that define an analysis run should live in configuration rather than being scattered through notebooks or source files. Examples include:
-
-- study period;
-- spatial reference;
-- geographic level;
-- source paths;
-- output locations;
-- variable selections.
-
-## Notebooks
-
-Notebooks may be used for exploratory analysis and communication, but reusable logic belongs in `src/lisbon_spatial_dynamics/`.
-
-A notebook should be able to start from documented processed inputs rather than depending on hidden state from another notebook.
-
-## Documentation validation
-
-Documentation is part of the build. CI runs:
+## One-command build
 
 ```bash
+poetry run build-study-v1 \
+  <housing-snapshot.json> \
+  <rnal-snapshot.records.json> \
+  <census-snapshot.zip> \
+  <lisbon_freguesias.csv> \
+  <lisbon_freguesias.geojson> \
+  <output-root>
+```
+
+The output root must be new. If any stage fails, the partial release directory is removed.
+
+## Provenance manifest
+
+Each successful build writes `study_manifest.json` with:
+
+- study release version;
+- expected freguesia count;
+- permutation count;
+- random seed;
+- Local Moran FDR alpha;
+- input path, byte size, and SHA-256;
+- output path, byte size, and SHA-256;
+- interpretation contract.
+
+## Default analysis settings
+
+```text
+canonical freguesias: 24
+spatial permutations: 999
+random seed: 42
+Local Moran FDR alpha: 0.05
+```
+
+Model specifications live in `configs/multivariable_models.toml`.
+
+## Traceability
+
+The final-results layer synthesizes existing machine-readable outputs. It does not silently refit models or recompute spatial statistics.
+
+## Repository checks
+
+```bash
+poetry run ruff check .
+poetry run ruff format --check .
+poetry run mypy src tests
+poetry run pytest
 poetry run mkdocs build --strict
 ```
 
-Warnings that break the documentation build should be treated as repository defects rather than ignored.
+Notebooks may support exploration or communication, but v1 release results must be reproducible without hidden notebook state.
