@@ -19,6 +19,12 @@ from lisbon_spatial_dynamics.analysis.spatial_autocorrelation import (
     analyse_global_morans_i,
     write_morans_i_json,
 )
+from lisbon_spatial_dynamics.analysis.pressure_associations import (
+    build_pressure_association,
+    load_annual_housing_pressure_csv,
+    write_pressure_association_json,
+    write_pressure_association_scatter,
+)
 from lisbon_spatial_dynamics.analysis.trajectory_summary import (
     build_trajectory_summary,
     write_trajectory_summary_json,
@@ -731,4 +737,40 @@ def build_annual_housing_pressure_panel_cli() -> None:
     print(
         f"Wrote {len(rows)} annual housing-pressure rows across "
         f"{len(years)} years and {len(freguesias)} freguesias to {output}"
+    )
+
+
+def build_pressure_association_cli() -> None:
+    """Build housing-change versus normalized RNAL-pressure association outputs."""
+    parser = ArgumentParser(
+        description="Build housing versus population-normalized RNAL pressure analysis."
+    )
+    parser.add_argument("annual_panel", type=Path)
+    parser.add_argument("output_json", type=Path)
+    parser.add_argument("output_plot", type=Path)
+    parser.add_argument(
+        "--no-labels",
+        action="store_true",
+        help="Do not annotate freguesia names on the scatter plot.",
+    )
+    args = parser.parse_args()
+
+    rows = load_annual_housing_pressure_csv(cast(Path, args.annual_panel))
+    result = build_pressure_association(rows)
+
+    output_json = cast(Path, args.output_json)
+    output_plot = cast(Path, args.output_plot)
+
+    write_pressure_association_json(result, output_json)
+    write_pressure_association_scatter(
+        result,
+        output_plot,
+        label_points=not cast(bool, args.no_labels),
+    )
+
+    print(
+        f"Wrote normalized pressure association for "
+        f"{result.complete_cases}/{result.total_freguesias} complete freguesias "
+        f"over {result.baseline_year}-{result.latest_year}: "
+        f"Pearson={result.pearson_r}, Spearman={result.spearman_rho}"
     )

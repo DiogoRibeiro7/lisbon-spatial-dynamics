@@ -386,3 +386,41 @@ The resulting research table combines:
 - RNAL pressure-point change from baseline.
 
 This table is the preferred annual input for descriptive association work involving local-accommodation **pressure** rather than raw local-accommodation counts. The population denominator remains the static 2021 census reference.
+
+
+## Housing change versus normalized RNAL pressure
+
+The preferred cross-freguesia association analysis uses the annual housing-pressure research panel rather than raw RNAL growth.
+
+Run:
+
+```bash
+poetry run build-pressure-association \
+  data/processed/urban/lisbon_annual_housing_pressure.csv \
+  data/processed/analysis/housing_rnal_pressure_association.json \
+  data/processed/analysis/housing_rnal_pressure_scatter.png
+```
+
+For every freguesia, the analysis selects the **latest year common to all freguesias**. This prevents the comparison window from silently varying when one freguesia has fewer annual observations.
+
+The comparison is:
+
+- **housing** — cumulative percentage change in median housing value per m² from the common baseline;
+- **local-accommodation pressure** — absolute change in active RNAL registrations per 1,000 Censos-2021 residents from the same baseline.
+
+The RNAL exposure is therefore a **pressure-point change**, not a percentage growth rate. This matters because a fixed denominator leaves within-freguesia percentage growth mathematically unchanged from the raw-count percentage growth; the per-1,000 pressure scale instead improves the substantive comparison of absolute neighbourhood exposure.
+
+The JSON report records:
+
+- baseline year;
+- latest common year;
+- complete-case count;
+- excluded housing-missing count;
+- Pearson correlation;
+- Spearman rank correlation;
+- every freguesia point used in the calculation;
+- resident population and population-reference year.
+
+The scatter plot places RNAL pressure-point change per 1,000 residents on the horizontal axis and cumulative housing-price percentage change on the vertical axis.
+
+This remains descriptive cross-sectional analysis. The static 2021 denominator improves comparability across freguesias, but the association does not establish a causal effect of local accommodation on housing prices.
