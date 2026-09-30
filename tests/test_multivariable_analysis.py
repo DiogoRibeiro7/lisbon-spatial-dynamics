@@ -219,11 +219,11 @@ def test_model_observations_use_latest_common_year(tmp_path: Path) -> None:
                 2021,
                 10000,
                 3500,
-                25,
-                12,
-                8,
-                10,
-                4,
+                24,
+                11,
+                7,
+                9,
+                3,
             )
         )
 
