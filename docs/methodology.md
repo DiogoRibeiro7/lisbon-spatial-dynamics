@@ -347,3 +347,42 @@ R_{i,T} - R_{i,0},
 where each (R) is measured as active RNAL registrations per 1,000 Census-2021 residents.
 
 Because the denominator is fixed within each freguesia, this pressure-point change is useful for comparing how strongly RNAL stock expanded relative to neighbourhood size. It should still not be interpreted as a contemporaneous annual per-capita measure.
+
+
+## Annual housing + RNAL pressure research panel
+
+The annual housing panel and the annual population-normalized RNAL pressure panel are joined only after both have been built independently:
+
+```bash
+poetry run build-annual-housing-pressure-panel \
+  data/processed/urban/lisbon_annual_urban_change.csv \
+  data/processed/rnal/lisbon_annual_rnal_pressure.csv \
+  data/processed/urban/lisbon_annual_housing_pressure.csv
+```
+
+The join is exact on `freguesia_id × year`. Both key sets must be identical.
+
+The build also cross-checks all RNAL raw values duplicated across the two annual inputs:
+
+- annual registrations;
+- annual cessations;
+- annual net registrations;
+- year-end active registrations;
+- year-end known/missing beds;
+- year-end known/missing users;
+- flow-quarter coverage.
+
+A disagreement fails the build rather than reconciling one source into the other.
+
+The resulting research table combines:
+
+- annual/Q4 housing level;
+- housing YoY change;
+- cumulative housing change from baseline;
+- Censos-2021 resident population and density;
+- raw annual/year-end RNAL counts;
+- RNAL annual flow rates per 1,000 residents;
+- year-end RNAL stock/capacity per 1,000 residents;
+- RNAL pressure-point change from baseline.
+
+This table is the preferred annual input for descriptive association work involving local-accommodation **pressure** rather than raw local-accommodation counts. The population denominator remains the static 2021 census reference.
