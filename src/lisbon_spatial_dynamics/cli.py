@@ -32,6 +32,11 @@ from lisbon_spatial_dynamics.panels.annual import (
     load_urban_change_csv,
     write_annual_urban_csv,
 )
+from lisbon_spatial_dynamics.panels.annual_housing_pressure import (
+    build_annual_housing_pressure_panel,
+    load_annual_rnal_pressure_csv,
+    write_annual_housing_pressure_csv,
+)
 from lisbon_spatial_dynamics.panels.housing import (
     build_current_housing_freguesia_panel,
     load_freguesia_index,
@@ -700,5 +705,30 @@ def build_annual_rnal_pressure_cli() -> None:
     freguesias = {row.freguesia_id for row in annual}
     print(
         f"Wrote {len(annual)} annual RNAL pressure rows across "
+        f"{len(years)} years and {len(freguesias)} freguesias to {output}"
+    )
+
+
+def build_annual_housing_pressure_panel_cli() -> None:
+    """Join annual housing dynamics to population-normalized RNAL pressure."""
+    parser = ArgumentParser(
+        description="Build the annual housing + RNAL pressure research panel."
+    )
+    parser.add_argument("housing", type=Path)
+    parser.add_argument("pressure", type=Path)
+    parser.add_argument("output", type=Path)
+    args = parser.parse_args()
+
+    housing = load_annual_urban_csv(cast(Path, args.housing))
+    pressure = load_annual_rnal_pressure_csv(cast(Path, args.pressure))
+    rows = build_annual_housing_pressure_panel(housing, pressure)
+
+    output = cast(Path, args.output)
+    write_annual_housing_pressure_csv(rows, output)
+
+    years = {row.year for row in rows}
+    freguesias = {row.freguesia_id for row in rows}
+    print(
+        f"Wrote {len(rows)} annual housing-pressure rows across "
         f"{len(years)} years and {len(freguesias)} freguesias to {output}"
     )
