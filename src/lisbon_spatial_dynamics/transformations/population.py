@@ -6,7 +6,6 @@ import csv
 import io
 import math
 import zipfile
-from collections.abc import Mapping
 from dataclasses import dataclass
 from pathlib import Path
 
