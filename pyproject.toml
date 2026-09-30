@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "lisbon-spatial-dynamics"
-version = "0.1.0"
+version = "1.0.0"
 description = "Longitudinal spatial analysis of urban change in Lisbon."
 authors = ["Diogo Ribeiro"]
 readme = "README.md"
@@ -39,6 +39,7 @@ build-normalized-analysis-bundle = "lisbon_spatial_dynamics.cli:build_normalized
 build-census2021-context-bundle = "lisbon_spatial_dynamics.cli:build_census2021_context_bundle_cli"
 build-multivariable-analysis = "lisbon_spatial_dynamics.cli:build_multivariable_analysis_cli"
 build-final-results = "lisbon_spatial_dynamics.cli:build_final_results_cli"
+build-study-v1 = "lisbon_spatial_dynamics.cli:build_study_v1_cli"
 build-trajectory-choropleths = "lisbon_spatial_dynamics.cli:build_trajectory_choropleths_cli"
 build-global-morans-i = "lisbon_spatial_dynamics.cli:build_global_morans_i_cli"
 build-local-morans-i = "lisbon_spatial_dynamics.cli:build_local_morans_i_cli"
