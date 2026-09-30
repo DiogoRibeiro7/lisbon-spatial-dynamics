@@ -19,6 +19,9 @@ from lisbon_spatial_dynamics.analysis.spatial_autocorrelation import (
     analyse_global_morans_i,
     write_morans_i_json,
 )
+from lisbon_spatial_dynamics.analysis.normalized_bundle import (
+    load_and_build_normalized_analysis_bundle,
+)
 from lisbon_spatial_dynamics.analysis.pressure_associations import (
     build_pressure_association,
     load_annual_housing_pressure_csv,
@@ -774,3 +777,57 @@ def build_pressure_association_cli() -> None:
         f"over {result.baseline_year}-{result.latest_year}: "
         f"Pearson={result.pearson_r}, Spearman={result.spearman_rho}"
     )
+
+
+def build_normalized_analysis_bundle_cli() -> None:
+    """Build the complete normalized descriptive/spatial analysis milestone."""
+    parser = ArgumentParser(
+        description="Build the normalized Lisbon analysis bundle in one command."
+    )
+    parser.add_argument("annual_panel", type=Path)
+    parser.add_argument("reference_geojson", type=Path)
+    parser.add_argument("output_directory", type=Path)
+    parser.add_argument(
+        "--permutations",
+        type=int,
+        default=999,
+        help="Permutation count for Global and Local Moran diagnostics.",
+    )
+    parser.add_argument(
+        "--seed",
+        type=int,
+        default=42,
+        help="Random seed for deterministic spatial permutation tests.",
+    )
+    parser.add_argument(
+        "--alpha",
+        type=float,
+        default=0.05,
+        help="FDR threshold for Local Moran diagnostics.",
+    )
+    parser.add_argument(
+        "--map-labels",
+        action="store_true",
+        help="Annotate freguesia names on choropleths.",
+    )
+    parser.add_argument(
+        "--no-scatter-labels",
+        action="store_true",
+        help="Do not annotate freguesia names on the association scatter plot.",
+    )
+    args = parser.parse_args()
+
+    outputs = load_and_build_normalized_analysis_bundle(
+        cast(Path, args.annual_panel),
+        cast(Path, args.reference_geojson),
+        cast(Path, args.output_directory),
+        permutations=cast(int, args.permutations),
+        seed=cast(int, args.seed),
+        alpha=cast(float, args.alpha),
+        label_maps=cast(bool, args.map_labels),
+        label_scatter=not cast(bool, args.no_scatter_labels),
+    )
+
+    print("Normalized analysis bundle written:")
+    for path in outputs.paths():
+        print(f"  {path}")

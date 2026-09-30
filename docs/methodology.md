@@ -424,3 +424,62 @@ The JSON report records:
 The scatter plot places RNAL pressure-point change per 1,000 residents on the horizontal axis and cumulative housing-price percentage change on the vertical axis.
 
 This remains descriptive cross-sectional analysis. The static 2021 denominator improves comparability across freguesias, but the association does not establish a causal effect of local accommodation on housing prices.
+
+
+## Normalized analysis milestone bundle
+
+The population-normalized analysis layer can now be built in one step instead of running a sequence of small commands:
+
+```bash
+poetry run build-normalized-analysis-bundle \
+  data/processed/urban/lisbon_annual_housing_pressure.csv \
+  data/processed/reference/lisbon_freguesias.geojson \
+  data/processed/analysis/normalized
+```
+
+The command selects the common baseline and latest year shared by every freguesia and writes:
+
+```text
+normalized_trajectories.csv
+normalized_trajectories.geojson
+normalized_summary.json
+normalized_association.json
+normalized_association.png
+housing_change_pct.png
+rnal_pressure_change_per_1000.png
+global_morans_i.json
+local_morans_i.json
+```
+
+This milestone therefore combines, in one reproducible run:
+
+- one common-window normalized trajectory per freguesia;
+- map-ready normalized trajectory GeoJSON;
+- compact coverage and descriptive summary;
+- housing-change versus RNAL-pressure association analysis;
+- Pearson and Spearman correlations;
+- association scatter plot;
+- housing-change choropleth;
+- RNAL pressure-point-change choropleth;
+- Global Moran's (I) for both variables;
+- Local Moran's (I) with the existing conditional-permutation and FDR procedure.
+
+The normalized RNAL spatial metric is:
+
+```text
+rnal_pressure_change_per_1000
+```
+
+which is the baseline-to-latest change in active RNAL registrations per 1,000 Censos-2021 residents.
+
+The spatial-statistics engine reuses the already tested queen-contiguity and permutation implementation. Bundle outputs relabel the second metric explicitly as RNAL pressure change rather than raw RNAL percentage growth.
+
+Default spatial settings remain:
+
+- 999 permutations;
+- seed 42;
+- Local Moran FDR threshold 0.05.
+
+They can be changed with `--permutations`, `--seed`, and `--alpha`.
+
+This bundle is intended to close the normalized descriptive-analysis milestone. It still does not make causal claims or construct a composite neighbourhood-change score.
