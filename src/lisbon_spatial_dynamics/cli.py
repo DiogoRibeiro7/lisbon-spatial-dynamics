@@ -43,6 +43,11 @@ from lisbon_spatial_dynamics.panels.rnal import (
     load_rnal_snapshot,
     write_rnal_quarter_csv,
 )
+from lisbon_spatial_dynamics.panels.rnal_pressure import (
+    build_rnal_population_pressure,
+    load_population_reference,
+    write_rnal_population_pressure_csv,
+)
 from lisbon_spatial_dynamics.panels.temporal import (
     build_housing_change_panel,
     load_housing_panel_csv,
@@ -645,4 +650,27 @@ def build_census2021_population_reference_cli() -> None:
     print(
         f"Wrote {len(rows)} freguesia population rows "
         f"for {total_population} Census 2021 residents to {output}"
+    )
+
+
+def build_rnal_population_pressure_cli() -> None:
+    """Normalize the RNAL quarter panel using the static 2021 census population."""
+    parser = ArgumentParser(
+        description="Build population-normalized RNAL pressure metrics."
+    )
+    parser.add_argument("rnal", type=Path)
+    parser.add_argument("population", type=Path)
+    parser.add_argument("output", type=Path)
+    args = parser.parse_args()
+
+    rnal = load_rnal_quarter_csv(cast(Path, args.rnal))
+    population = load_population_reference(cast(Path, args.population))
+    rows = build_rnal_population_pressure(rnal, population)
+
+    output = cast(Path, args.output)
+    write_rnal_population_pressure_csv(rows, output)
+
+    print(
+        f"Wrote {len(rows)} population-normalized RNAL rows "
+        f"using Census {population[0].census_year} denominators to {output}"
     )
