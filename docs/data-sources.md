@@ -89,3 +89,34 @@ Stored records contain establishment-level analytical fields only:
 The raw SOAP response itself is never written to disk. The manifest stores only its SHA-256 digest and records the privacy filtering applied.
 
 Because both `DataRegisto` and `CessadoEm` are available, the project reconstructs registrations, cessations and active local-accommodation stock by freguesia on the same quarterly grid as the housing panel. Turismo de Portugal documents these date fields as strings, so the transformation accepts only explicit supported date forms and rejects unknown representations.
+
+
+## Population reference: Censos 2021
+
+The project uses the official INE Censos 2021 **subsection synthesis file** as the population reference. The source contains `DTMNFR21`, which links each subsection to its freguesia, and `N_INDIVIDUOS`, the total resident-individual count used for aggregation.
+
+Acquire the official ZIP with:
+
+```bash
+poetry run fetch-census2021-population
+```
+
+Then aggregate it to the canonical 24 Lisboa freguesias:
+
+```bash
+poetry run build-census2021-population-reference \
+  data/raw/ine/census2021/subsections/<timestamp>.zip \
+  data/processed/reference/lisbon_freguesias.csv \
+  data/processed/reference/lisbon_population_2021.csv
+```
+
+The output contains:
+
+- `freguesia_id`;
+- canonical freguesia name;
+- `census_year = 2021`;
+- resident population;
+- official CAOP area in hectares;
+- resident-population density per km².
+
+This is a **static 2021 census reference**. It is suitable for cross-sectional normalization, such as active RNAL registrations per 1,000 residents, but it must not be interpreted as annual population exposure for every year in the housing/RNAL panel.
