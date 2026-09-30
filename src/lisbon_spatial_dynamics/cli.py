@@ -11,6 +11,9 @@ from lisbon_spatial_dynamics.analysis.associations import (
     write_association_json,
     write_association_scatter,
 )
+from lisbon_spatial_dynamics.analysis.final_results import (
+    build_final_results_package,
+)
 from lisbon_spatial_dynamics.analysis.local_spatial_autocorrelation import (
     analyse_local_morans_i,
     write_local_morans_i_json,
@@ -901,5 +904,26 @@ def build_multivariable_analysis_cli() -> None:
     )
 
     print("Multivariable analysis written:")
+    for path in outputs.paths():
+        print(f"  {path}")
+
+
+def build_final_results_cli() -> None:
+    """Build publication-style final research outputs from completed analyses."""
+    parser = ArgumentParser(
+        description="Build final Lisbon research tables, figures, and findings."
+    )
+    parser.add_argument("normalized_directory", type=Path)
+    parser.add_argument("multivariable_directory", type=Path)
+    parser.add_argument("output_directory", type=Path)
+    args = parser.parse_args()
+
+    outputs = build_final_results_package(
+        cast(Path, args.normalized_directory),
+        cast(Path, args.multivariable_directory),
+        cast(Path, args.output_directory),
+    )
+
+    print("Final research-results package written:")
     for path in outputs.paths():
         print(f"  {path}")
