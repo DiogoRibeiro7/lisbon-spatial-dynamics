@@ -48,6 +48,11 @@ from lisbon_spatial_dynamics.panels.rnal_pressure import (
     load_population_reference,
     write_rnal_population_pressure_csv,
 )
+from lisbon_spatial_dynamics.panels.rnal_pressure_annual import (
+    build_annual_rnal_pressure,
+    load_rnal_population_pressure_csv,
+    write_annual_rnal_pressure_csv,
+)
 from lisbon_spatial_dynamics.panels.temporal import (
     build_housing_change_panel,
     load_housing_panel_csv,
@@ -673,4 +678,27 @@ def build_rnal_population_pressure_cli() -> None:
     print(
         f"Wrote {len(rows)} population-normalized RNAL rows "
         f"using Census {population[0].census_year} denominators to {output}"
+    )
+
+
+def build_annual_rnal_pressure_cli() -> None:
+    """Build Q4-anchored annual RNAL pressure metrics."""
+    parser = ArgumentParser(
+        description="Build annual population-normalized RNAL pressure metrics."
+    )
+    parser.add_argument("input", type=Path)
+    parser.add_argument("output", type=Path)
+    args = parser.parse_args()
+
+    quarterly = load_rnal_population_pressure_csv(cast(Path, args.input))
+    annual = build_annual_rnal_pressure(quarterly)
+
+    output = cast(Path, args.output)
+    write_annual_rnal_pressure_csv(annual, output)
+
+    years = {row.year for row in annual}
+    freguesias = {row.freguesia_id for row in annual}
+    print(
+        f"Wrote {len(annual)} annual RNAL pressure rows across "
+        f"{len(years)} years and {len(freguesias)} freguesias to {output}"
     )
