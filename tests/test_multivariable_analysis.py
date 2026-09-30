@@ -44,12 +44,12 @@ def _write_context_csv(path: Path, *, n_freguesias: int = 12) -> None:
             freguesia_id = f"{index:06d}"
             name = f"F{index}"
             baseline_housing = 2500.0 + index * 120.0
-            density = 3500.0 + index * 300.0
-            rented = 25.0 + index * 1.1
-            age_65 = 12.0 + index * 0.8
-            vacant = 8.0 + index * 0.7
-            pre1945 = 10.0 + index * 1.2
-            repair = 4.0 + index * 0.45
+            density = 3500.0 + index * 260.0 + (index % 3) * 410.0
+            rented = 24.0 + index * 0.7 + (index % 4) * 2.3
+            age_65 = 11.0 + index * 0.45 + ((index * 2) % 5) * 1.1
+            vacant = 7.0 + (index % 5) * 1.4 + index * 0.25
+            pre1945 = 9.0 + ((index * 3) % 7) * 1.7 + index * 0.3
+            repair = 3.0 + ((index * 5) % 6) * 0.8 + index * 0.12
 
             writer.writerow(
                 {
@@ -71,7 +71,7 @@ def _write_context_csv(path: Path, *, n_freguesias: int = 12) -> None:
                 }
             )
 
-            pressure_change = -1.5 + index * 0.65
+            pressure_change = -1.5 + index * 0.55 + (index % 2) * 0.35
             outcome = (
                 18.0
                 + 3.2 * pressure_change
