@@ -120,3 +120,32 @@ The output contains:
 - resident-population density per km².
 
 This is a **static 2021 census reference**. It is suitable for cross-sectional normalization, such as active RNAL registrations per 1,000 residents, but it must not be interpreted as annual population exposure for every year in the housing/RNAL panel.
+
+
+## Censos 2021 neighbourhood structure
+
+The same official INE subsection synthesis archive used for the resident-population reference also contains demographic and housing-structure variables that can be aggregated to the canonical 24 Lisboa freguesias.
+
+The neighbourhood-context transform uses the official subsection fields for:
+
+- resident population;
+- classic buildings;
+- buildings constructed before 1945;
+- buildings needing repair;
+- total/family/usual-residence dwellings;
+- vacant or secondary-residence family dwellings;
+- owner-occupied and rented usual-residence dwellings;
+- private households;
+- resident age bands 0–14, 15–24, 25–64 and 65+.
+
+The raw counts remain in the context table. Derived variables include:
+
+- age-band shares;
+- owner-occupied share;
+- rented share;
+- vacant-or-secondary family-dwelling share;
+- pre-1945 building share;
+- repair-needs building share;
+- dwellings per classic building.
+
+No synthetic deprivation, gentrification, or neighbourhood-quality score is created.
