@@ -574,3 +574,28 @@ The primary model additionally receives a leave-one-freguesia-out sensitivity an
 ### Interpretation
 
 These regressions are **descriptive adjusted associations**, not causal estimates. Static Censos-2021 context can account for some cross-freguesia structural differences, but it does not identify a causal effect of local accommodation on housing prices. With only 24 freguesias, model size is intentionally constrained and diagnostics/sensitivity are treated as first-class outputs.
+
+
+## Final research-results synthesis
+
+The final-results stage is a **synthesis layer**, not a new analytical model.
+
+It consumes:
+
+- the normalized descriptive/spatial analysis directory;
+- the multivariable-analysis directory.
+
+It then validates that both analysis families use the same baseline/latest comparison window before assembling publication-style tables, selected figures, and a concise generated findings report.
+
+Run:
+
+```bash
+poetry run build-final-results \
+  data/processed/analysis/normalized \
+  data/processed/analysis/multivariable \
+  data/processed/results/final
+```
+
+The synthesis preserves the machine-readable values from the upstream analysis outputs. It does not silently recalculate coefficients, correlations, Moran statistics, or p-values.
+
+This separation is deliberate: modelling and statistical diagnostics remain auditable in their original outputs, while the final-results package provides a stable reporting surface for documentation, manuscript preparation, and release artifacts.
