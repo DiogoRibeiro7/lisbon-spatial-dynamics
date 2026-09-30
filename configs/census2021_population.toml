@@ -1,0 +1,11 @@
+# Official INE Censos 2021 subsection synthesis archive.
+#
+# The national synthesis file contains DTMNFR21 (freguesia identifier) and
+# N_INDIVIDUOS (total resident individuals) at subsection level.
+
+[source]
+source_id = "ine_census2021_subsection_population"
+archive_url = "https://mapas.ine.pt/download/2021FicheiroSintese/FS2021SubSeccaoTot.zip"
+
+[output]
+directory = "data/raw/ine/census2021/subsections"
