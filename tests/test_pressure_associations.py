@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+from dataclasses import replace
 from datetime import date
 from decimal import Decimal
 from pathlib import Path
@@ -111,13 +112,7 @@ def test_missing_housing_is_complete_case_filtered() -> None:
 def test_mixed_baseline_years_are_rejected() -> None:
     first = _row("a", 2019, "0", "0")
     second = _row("b", 2019, "0", "0")
-    second = AnnualHousingPressureRow(
-        **{
-            field: getattr(second, field)
-            for field in second.__dataclass_fields__
-        }
-    )
-    object.__setattr__(second, "baseline_year", 2020)
+    second = replace(second, baseline_year=2020)
 
     with pytest.raises(PressureAssociationError, match="baseline year"):
         build_pressure_association((first, second))
