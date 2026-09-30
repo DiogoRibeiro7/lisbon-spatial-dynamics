@@ -10,7 +10,6 @@ from dataclasses import dataclass
 from decimal import Decimal
 from pathlib import Path
 from statistics import median
-from typing import cast
 
 from lisbon_spatial_dynamics.analysis.local_spatial_autocorrelation import (
     LocalMoranResult,
@@ -92,6 +91,20 @@ class NormalizedBundleOutputs:
     pressure_choropleth: Path
     global_morans_json: Path
     local_morans_json: Path
+
+    def paths(self) -> tuple[Path, ...]:
+        """Return every output path in deterministic order."""
+        return (
+            self.trajectory_csv,
+            self.trajectory_geojson,
+            self.summary_json,
+            self.association_json,
+            self.association_plot,
+            self.housing_choropleth,
+            self.pressure_choropleth,
+            self.global_morans_json,
+            self.local_morans_json,
+        )
 
 
 def build_normalized_trajectory(
@@ -191,8 +204,8 @@ def build_normalized_analysis_bundle(
         local_morans_json=output_directory / "local_morans_i.json",
     )
 
-    for path in outputs.__dict__.values():
-        if cast(Path, path).exists():
+    for path in outputs.paths():
+        if path.exists():
             raise FileExistsError(path)
 
     association = build_pressure_association(annual_rows)
@@ -514,22 +527,27 @@ def _write_normalized_choropleths(
     label_freguesias: bool,
 ) -> None:
     """Write housing-change and normalized RNAL-pressure choropleths."""
-    _write_metric_choropleth(
-        data,
-        value_name="housing_change_pct",
-        title="Housing value change",
-        legend_label="Housing change (%)",
-        output_path=housing_path,
-        label_freguesias=label_freguesias,
-    )
-    _write_metric_choropleth(
-        data,
-        value_name="rnal_active_change_pct",
-        title="RNAL pressure change",
-        legend_label="Change in active RNAL per 1,000 residents",
-        output_path=pressure_path,
-        label_freguesias=label_freguesias,
-    )
+    try:
+        _write_metric_choropleth(
+            data,
+            value_name="housing_change_pct",
+            title="Housing value change",
+            legend_label="Housing change (%)",
+            output_path=housing_path,
+            label_freguesias=label_freguesias,
+        )
+        _write_metric_choropleth(
+            data,
+            value_name="rnal_active_change_pct",
+            title="RNAL pressure change",
+            legend_label="Change in active RNAL per 1,000 residents",
+            output_path=pressure_path,
+            label_freguesias=label_freguesias,
+        )
+    except Exception:
+        housing_path.unlink(missing_ok=True)
+        pressure_path.unlink(missing_ok=True)
+        raise
 
 
 def _write_metric_choropleth(
