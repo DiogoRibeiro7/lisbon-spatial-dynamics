@@ -7,6 +7,7 @@ import json
 import math
 from collections.abc import Sequence
 from dataclasses import dataclass
+from datetime import date
 from decimal import Decimal, InvalidOperation
 from pathlib import Path
 from statistics import fmean
@@ -97,8 +98,6 @@ def load_annual_housing_pressure_csv(
                 + ", ".join(sorted(missing))
             )
 
-        from datetime import date
-
         for row_index, raw in enumerate(reader, start=2):
             rows.append(
                 AnnualHousingPressureRow(
@@ -110,7 +109,7 @@ def load_annual_housing_pressure_csv(
                         raw.get("period_code"), row_index, "period_code"
                     ),
                     period_end=_required_date(
-                        raw.get("period_end"), row_index, "period_end", date
+                        raw.get("period_end"), row_index, "period_end"
                     ),
                     freguesia_id=_required(
                         raw.get("freguesia_id"), row_index, "freguesia_id"
@@ -585,12 +584,11 @@ def _required_date(
     value: str | None,
     row: int,
     field: str,
-    date_type: type,
-):
+) -> date:
     """Parse a required ISO date."""
     raw = _required(value, row, field)
     try:
-        return date_type.fromisoformat(raw)
+        return date.fromisoformat(raw)
     except ValueError as exc:
         raise PressureAssociationError(
             f"row {row}.{field} must be an ISO date"
