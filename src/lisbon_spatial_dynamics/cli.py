@@ -18,6 +18,10 @@ from lisbon_spatial_dynamics.analysis.local_spatial_autocorrelation import (
     analyse_local_morans_i,
     write_local_morans_i_json,
 )
+from lisbon_spatial_dynamics.analysis.study_v1 import (
+    StudyV1Inputs,
+    build_study_v1,
+)
 from lisbon_spatial_dynamics.analysis.spatial_autocorrelation import (
     analyse_global_morans_i,
     write_morans_i_json,
@@ -925,5 +929,49 @@ def build_final_results_cli() -> None:
     )
 
     print("Final research-results package written:")
+    for path in outputs.paths():
+        print(f"  {path}")
+
+
+def build_study_v1_cli() -> None:
+    """Build the complete reproducible v1 study from immutable source snapshots."""
+    parser = ArgumentParser(
+        description="Build the complete Lisbon Spatial Dynamics v1 study."
+    )
+    parser.add_argument("housing_snapshot", type=Path)
+    parser.add_argument("rnal_snapshot", type=Path)
+    parser.add_argument("census_archive", type=Path)
+    parser.add_argument("reference_csv", type=Path)
+    parser.add_argument("reference_geojson", type=Path)
+    parser.add_argument("output_root", type=Path)
+    parser.add_argument(
+        "--model-config",
+        type=Path,
+        default=Path("configs/multivariable_models.toml"),
+    )
+    parser.add_argument("--expected-freguesias", type=int, default=24)
+    parser.add_argument("--permutations", type=int, default=999)
+    parser.add_argument("--seed", type=int, default=42)
+    parser.add_argument("--local-alpha", type=float, default=0.05)
+    args = parser.parse_args()
+
+    inputs = StudyV1Inputs(
+        housing_snapshot=cast(Path, args.housing_snapshot),
+        rnal_snapshot=cast(Path, args.rnal_snapshot),
+        census_archive=cast(Path, args.census_archive),
+        reference_csv=cast(Path, args.reference_csv),
+        reference_geojson=cast(Path, args.reference_geojson),
+        model_config=cast(Path, args.model_config),
+    )
+    outputs = build_study_v1(
+        inputs,
+        cast(Path, args.output_root),
+        expected_freguesias=cast(int, args.expected_freguesias),
+        permutations=cast(int, args.permutations),
+        seed=cast(int, args.seed),
+        local_alpha=cast(float, args.local_alpha),
+    )
+
+    print("Lisbon Spatial Dynamics v1 study built:")
     for path in outputs.paths():
         print(f"  {path}")
