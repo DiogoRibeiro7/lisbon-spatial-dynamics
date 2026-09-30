@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import csv
+from dataclasses import replace
 from datetime import date
 from decimal import Decimal
 from pathlib import Path
@@ -117,13 +118,7 @@ def test_enrichment_repeats_static_context_across_annual_rows() -> None:
 
 def test_population_mismatch_is_rejected() -> None:
     census = _context("110654", "Alvalade")
-    bad = CensusContextRow(
-        **{
-            field: getattr(census, field)
-            for field in census.__dataclass_fields__
-        }
-    )
-    object.__setattr__(bad, "population_resident", 101)
+    bad = replace(census, population_resident=101)
 
     with pytest.raises(AnnualContextError, match="population mismatch"):
         build_annual_context_panel(
