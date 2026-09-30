@@ -483,3 +483,45 @@ Default spatial settings remain:
 They can be changed with `--permutations`, `--seed`, and `--alpha`.
 
 This bundle is intended to close the normalized descriptive-analysis milestone. It still does not make causal claims or construct a composite neighbourhood-change score.
+
+
+## Censos 2021 neighbourhood context milestone
+
+The next substantive urban dimension is static demographic and built-environment context from the official Censos 2021 subsection synthesis file.
+
+Build the complete context milestone with:
+
+```bash
+poetry run build-census2021-context-bundle \
+  data/raw/ine/census2021/subsections/<timestamp>.zip \
+  data/processed/reference/lisbon_freguesias.csv \
+  data/processed/reference/lisbon_freguesias.geojson \
+  data/processed/urban/lisbon_annual_housing_pressure.csv \
+  data/processed/context/census2021
+```
+
+This writes:
+
+```text
+lisbon_census2021_context.csv
+lisbon_census2021_context.geojson
+lisbon_annual_housing_pressure_context.csv
+```
+
+### Static context variables
+
+The context table preserves official 2021 counts and adds transparent derived measures:
+
+- resident age shares: 0–14, 15–24, 25–64, 65+;
+- owner-occupied usual-residence share;
+- rented usual-residence share;
+- vacant-or-secondary family-dwelling share;
+- pre-1945 classic-building share;
+- repair-needs classic-building share;
+- dwellings per classic building.
+
+The annual research panel is enriched by repeating these **static 2021** variables across every year for the same freguesia. The build verifies that the census population exactly matches the population denominator already carried by the annual housing-pressure panel.
+
+These variables are neighbourhood context, not annual trajectories. They can be used later for stratification, descriptive comparison, or multivariable adjustment, but must not be interpreted as changing annually.
+
+No composite neighbourhood score is produced.

@@ -19,6 +19,9 @@ from lisbon_spatial_dynamics.analysis.spatial_autocorrelation import (
     analyse_global_morans_i,
     write_morans_i_json,
 )
+from lisbon_spatial_dynamics.analysis.census_context_bundle import (
+    build_census2021_context_bundle,
+)
 from lisbon_spatial_dynamics.analysis.normalized_bundle import (
     load_and_build_normalized_analysis_bundle,
 )
@@ -829,5 +832,30 @@ def build_normalized_analysis_bundle_cli() -> None:
     )
 
     print("Normalized analysis bundle written:")
+    for path in outputs.paths():
+        print(f"  {path}")
+
+
+def build_census2021_context_bundle_cli() -> None:
+    """Build static census context and enrich the annual research panel."""
+    parser = ArgumentParser(
+        description="Build the Censos 2021 neighbourhood-context milestone bundle."
+    )
+    parser.add_argument("archive", type=Path)
+    parser.add_argument("reference_csv", type=Path)
+    parser.add_argument("reference_geojson", type=Path)
+    parser.add_argument("annual_panel", type=Path)
+    parser.add_argument("output_directory", type=Path)
+    args = parser.parse_args()
+
+    outputs = build_census2021_context_bundle(
+        cast(Path, args.archive),
+        cast(Path, args.reference_csv),
+        cast(Path, args.reference_geojson),
+        cast(Path, args.annual_panel),
+        cast(Path, args.output_directory),
+    )
+
+    print("Censos 2021 context bundle written:")
     for path in outputs.paths():
         print(f"  {path}")
