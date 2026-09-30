@@ -55,6 +55,10 @@ from lisbon_spatial_dynamics.panels.urban import (
     write_urban_change_csv,
 )
 from lisbon_spatial_dynamics.sources.caop import CAOPConfig, fetch_caop_snapshot
+from lisbon_spatial_dynamics.sources.census2021 import (
+    Census2021Config,
+    fetch_census2021_snapshot,
+)
 from lisbon_spatial_dynamics.sources.ine import INEIndicatorConfig, fetch_ine_snapshot
 from lisbon_spatial_dynamics.sources.rnal import RNALConfig, fetch_rnal_snapshot
 from lisbon_spatial_dynamics.spatial.annual_maps import (
@@ -79,6 +83,10 @@ from lisbon_spatial_dynamics.spatial.trajectory_map import (
 from lisbon_spatial_dynamics.transformations.geography import (
     parse_caop_reference,
     write_reference_geography,
+)
+from lisbon_spatial_dynamics.transformations.population import (
+    build_census_population_reference,
+    write_census_population_csv,
 )
 from lisbon_spatial_dynamics.transformations.housing import (
     parse_ine_housing_payload,
@@ -586,3 +594,55 @@ def build_lisa_cluster_maps_cli() -> None:
 
     print(f"Wrote housing LISA map: {housing}")
     print(f"Wrote RNAL LISA map: {rnal}")
+
+
+def fetch_census2021_population() -> None:
+    """Fetch the official INE Censos 2021 subsection synthesis archive."""
+    parser = ArgumentParser(
+        description="Fetch the official Censos 2021 subsection synthesis ZIP."
+    )
+    parser.add_argument(
+        "--config",
+        type=Path,
+        default=Path("configs/census2021_population.toml"),
+    )
+    parser.add_argument("--root", type=Path, default=Path("."))
+    parser.add_argument("--timeout", type=float, default=120.0)
+    args = parser.parse_args()
+
+    config = Census2021Config.from_toml(cast(Path, args.config))
+    snapshot = fetch_census2021_snapshot(
+        config,
+        root=cast(Path, args.root),
+        timeout=cast(float, args.timeout),
+    )
+
+    print(
+        f"Censos 2021 snapshot captured with {snapshot.member_count} files:"
+    )
+    print(f"  archive:  {snapshot.archive_path}")
+    print(f"  manifest: {snapshot.manifest_path}")
+
+
+def build_census2021_population_reference_cli() -> None:
+    """Aggregate Censos 2021 subsection population to Lisboa freguesias."""
+    parser = ArgumentParser(
+        description="Build the static 2021 population reference by freguesia."
+    )
+    parser.add_argument("archive", type=Path)
+    parser.add_argument("reference", type=Path)
+    parser.add_argument("output", type=Path)
+    args = parser.parse_args()
+
+    rows = build_census_population_reference(
+        cast(Path, args.archive),
+        cast(Path, args.reference),
+    )
+    output = cast(Path, args.output)
+    write_census_population_csv(rows, output)
+
+    total_population = sum(row.population_resident for row in rows)
+    print(
+        f"Wrote {len(rows)} freguesia population rows "
+        f"for {total_population} Census 2021 residents to {output}"
+    )
