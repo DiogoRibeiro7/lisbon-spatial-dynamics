@@ -15,6 +15,14 @@ A v1 build starts from archived local snapshots:
 
 This isolates a stable research release from later upstream API changes.
 
+The v1.0.0 GitHub release does not attach these inputs or a results bundle. Preserve them separately for every empirical run. Hashes identify files but do not make missing inputs recoverable.
+
+## Software environment
+
+Use the same software tag or commit and its committed `poetry.lock`, then run `poetry sync --with docs`. Record the Python version and operating system alongside the study manifest. The manifest records data hashes and analysis parameters; it does not currently capture the Git revision or full installed environment.
+
+The offline test suite validates software contracts using fixtures. A successful test run does not substitute for validating coverage, data quality, and findings from official snapshots.
+
 ## One-command build
 
 ```bash

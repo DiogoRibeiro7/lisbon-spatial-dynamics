@@ -90,9 +90,7 @@ def test_different_comparison_windows_are_rejected_by_default() -> None:
 
 def test_single_year_freguesia_is_rejected() -> None:
     with pytest.raises(TrajectoryError, match="at least two"):
-        build_freguesia_trajectories(
-            (_row("110654", "Alvalade", 2019, "4000", 100),)
-        )
+        build_freguesia_trajectories((_row("110654", "Alvalade", 2019, "4000", 100),))
 
 
 def test_zero_rnal_baseline_preserves_absolute_but_not_pct_change() -> None:
@@ -122,7 +120,7 @@ def test_writer_uses_stable_contract_and_is_immutable(tmp_path: Path) -> None:
         table = list(csv.DictReader(stream))
 
     assert tuple(table[0]) == TRAJECTORY_COLUMNS
-    assert table[0]["housing_change_pct"] == "50"
+    assert Decimal(table[0]["housing_change_pct"]) == Decimal("50")
     assert table[0]["rnal_active_change_abs"] == "30"
 
     with pytest.raises(FileExistsError):

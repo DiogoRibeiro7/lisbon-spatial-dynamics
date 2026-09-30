@@ -4,7 +4,6 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
-from typing import cast
 
 import pytest
 
@@ -12,8 +11,8 @@ from lisbon_spatial_dynamics.analysis.local_spatial_autocorrelation import (
     ClusterClass,
     LocalMoranObservation,
     LocalMoranResult,
-    MetricName,
 )
+from lisbon_spatial_dynamics.analysis.spatial_autocorrelation import MetricName
 from lisbon_spatial_dynamics.spatial.lisa_cluster_maps import (
     LISAClusterMapError,
     LISAMapBundle,
@@ -194,5 +193,5 @@ def test_loader_requires_both_metrics(tmp_path: Path) -> None:
 
 
 def test_metric_type_helper_is_literal_safe() -> None:
-    metric = cast(MetricName, "housing_change_pct")
+    metric: MetricName = "housing_change_pct"
     assert _result(metric).metric == "housing_change_pct"

@@ -39,12 +39,8 @@ def _row(
         housing_value_eur_m2=Decimal(housing),
         housing_qoq_abs_eur_m2=None,
         housing_qoq_pct=None,
-        housing_yoy_abs_eur_m2=(
-            Decimal("500") if year > 2019 and quarter == 4 else None
-        ),
-        housing_yoy_pct=(
-            Decimal("10") if year > 2019 and quarter == 4 else None
-        ),
+        housing_yoy_abs_eur_m2=(Decimal("500") if year > 2019 and quarter == 4 else None),
+        housing_yoy_pct=(Decimal("10") if year > 2019 and quarter == 4 else None),
         rnal_registrations=registrations,
         rnal_cessations=cessations,
         rnal_net_registrations=registrations - cessations,
@@ -151,7 +147,7 @@ def test_writer_uses_stable_contract(tmp_path: Path) -> None:
 
     assert tuple(table[0]) == ANNUAL_PANEL_COLUMNS
     assert table[0]["year"] == "2019"
-    assert table[1]["housing_change_from_baseline_pct"] == "12.5"
+    assert Decimal(table[1]["housing_change_from_baseline_pct"]) == Decimal("12.5")
 
     with pytest.raises(FileExistsError):
         write_annual_urban_csv(rows, path)

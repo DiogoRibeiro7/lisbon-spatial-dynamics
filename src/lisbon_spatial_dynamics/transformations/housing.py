@@ -68,14 +68,10 @@ def parse_ine_housing_payload(payload: bytes) -> tuple[HousingObservation, ...]:
 
     for indicator_index, indicator_raw in enumerate(parsed):
         indicator = _require_mapping(indicator_raw, f"indicator[{indicator_index}]")
-        indicator_code = _require_string(
-            indicator, "IndicadorCod", f"indicator[{indicator_index}]"
-        )
+        indicator_code = _require_string(indicator, "IndicadorCod", f"indicator[{indicator_index}]")
         data_raw = indicator.get("Dados")
         if not isinstance(data_raw, Mapping):
-            raise HousingTransformError(
-                f"indicator[{indicator_index}].Dados must be a JSON object"
-            )
+            raise HousingTransformError(f"indicator[{indicator_index}].Dados must be a JSON object")
 
         for period_raw, records_raw in data_raw.items():
             if not isinstance(period_raw, str) or not period_raw.strip():
@@ -83,9 +79,7 @@ def parse_ine_housing_payload(payload: bytes) -> tuple[HousingObservation, ...]:
             period_code = period_raw.strip()
 
             if not isinstance(records_raw, list):
-                raise HousingTransformError(
-                    f"Dados[{period_code!r}] must be a JSON list"
-                )
+                raise HousingTransformError(f"Dados[{period_code!r}] must be a JSON list")
 
             for record_index, record_raw in enumerate(records_raw):
                 context = f"Dados[{period_code!r}][{record_index}]"
@@ -200,6 +194,4 @@ def _parse_value(value: object, context: str) -> Decimal | None:
     try:
         return Decimal(raw.replace(",", "."))
     except InvalidOperation as exc:
-        raise HousingTransformError(
-            f"{context}.valor is not numeric: {raw!r}"
-        ) from exc
+        raise HousingTransformError(f"{context}.valor is not numeric: {raw!r}") from exc

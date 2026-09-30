@@ -21,6 +21,10 @@ dist/
 .coverage
 coverage.xml
 htmlcov/
+junit.xml
+
+# Generated documentation
+site/
 
 # Type checking and linting
 .mypy_cache/

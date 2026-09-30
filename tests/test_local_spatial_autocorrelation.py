@@ -65,10 +65,7 @@ def test_local_moran_values_for_linear_example() -> None:
         "HH",
         "HH",
     ]
-    assert all(
-        observation.cluster_class == "not_evaluated"
-        for observation in housing.observations
-    )
+    assert all(observation.cluster_class == "not_evaluated" for observation in housing.observations)
 
 
 def test_conditional_permutations_are_deterministic() -> None:
@@ -93,10 +90,7 @@ def test_missing_values_can_create_islands() -> None:
     )
 
     housing, _ = analyse_local_morans_i(data, permutations=0)
-    by_id = {
-        observation.freguesia_id: observation
-        for observation in housing.observations
-    }
+    by_id = {observation.freguesia_id: observation for observation in housing.observations}
 
     assert by_id["1"].status == "missing"
     assert by_id["0"].status == "island"
@@ -121,9 +115,7 @@ def test_json_output_contains_cluster_metadata(tmp_path: Path) -> None:
 
     document = json.loads(path.read_text(encoding="utf-8"))
     assert document["weights"]["contiguity"] == "queen"
-    assert document["permutation_test"]["multiple_testing"] == (
-        "Benjamini-Hochberg FDR"
-    )
+    assert document["permutation_test"]["multiple_testing"] == ("Benjamini-Hochberg FDR")
     assert document["results"][0]["alpha"] == 0.10
     assert len(document["results"][0]["observations"]) == 4
 

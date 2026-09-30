@@ -6,6 +6,7 @@ import json
 from datetime import date
 from decimal import Decimal
 from pathlib import Path
+from typing import cast
 
 import pytest
 
@@ -136,7 +137,8 @@ def test_reference_loader_validates_feature_ids(tmp_path: Path) -> None:
 
     assert features[0].freguesia_id == "110654"
 
-    document["features"][0]["id"] = "wrong"
+    feature = cast(list[dict[str, object]], document["features"])[0]
+    feature["id"] = "wrong"
     path.write_text(json.dumps(document), encoding="utf-8")
 
     with pytest.raises(AnnualMapError, match="must equal"):

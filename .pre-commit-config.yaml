@@ -1,11 +1,20 @@
+# Run the same locked tools as CI, including the project's runtime dependencies.
 repos:
-  - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.13.2
+  - repo: local
     hooks:
       - id: ruff-check
-        args: [--fix]
+        name: Ruff lint
+        entry: poetry run ruff check --fix
+        language: system
+        types: [python]
       - id: ruff-format
-  - repo: https://github.com/pre-commit/mirrors-mypy
-    rev: v1.18.2
-    hooks:
+        name: Ruff format
+        entry: poetry run ruff format
+        language: system
+        types: [python]
       - id: mypy
+        name: Strict type checking
+        entry: poetry run mypy src tests
+        language: system
+        types: [python]
+        pass_filenames: false

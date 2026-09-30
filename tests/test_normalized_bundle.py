@@ -48,9 +48,7 @@ def _row(
         rnal_net_registrations_year_per_1000=Decimal("0.7") if year > 2019 else None,
         rnal_active_registrations_year_end=100,
         rnal_active_registrations_per_1000_year_end=Decimal("10"),
-        rnal_active_registrations_per_1000_change_from_baseline=Decimal(
-            pressure_change
-        ),
+        rnal_active_registrations_per_1000_change_from_baseline=Decimal(pressure_change),
         rnal_active_beds_known_year_end=200,
         rnal_active_beds_missing_year_end=0,
         rnal_active_beds_known_per_1000_year_end=Decimal("20"),
@@ -111,9 +109,7 @@ def _annual_rows() -> tuple[AnnualHousingPressureRow, ...]:
 
 
 def test_normalized_trajectory_uses_latest_common_year() -> None:
-    rows = _annual_rows() + (
-        _row("0", "F0", 2026, "60", "6"),
-    )
+    rows = _annual_rows() + (_row("0", "F0", 2026, "60", "6"),)
 
     trajectory = build_normalized_trajectory(rows)
 
@@ -144,16 +140,12 @@ def test_bundle_writes_complete_analysis_milestone(tmp_path: Path) -> None:
     assert summary["comparison_window"]["latest_common_year"] == 2025
     assert summary["coverage"]["freguesia_count"] == 4
 
-    global_moran = json.loads(
-        result.global_morans_json.read_text(encoding="utf-8")
-    )
+    global_moran = json.loads(result.global_morans_json.read_text(encoding="utf-8"))
     metrics = {item["metric"] for item in global_moran["results"]}
     assert metrics == {
         "housing_change_pct",
         "rnal_pressure_change_per_1000",
     }
 
-    local_moran = json.loads(
-        result.local_morans_json.read_text(encoding="utf-8")
-    )
+    local_moran = json.loads(result.local_morans_json.read_text(encoding="utf-8"))
     assert len(local_moran["results"]) == 2

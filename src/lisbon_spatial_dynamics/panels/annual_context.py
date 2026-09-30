@@ -77,9 +77,7 @@ def build_annual_context_panel(
     context_by_id: dict[str, CensusContextRow] = {}
     for row in context_rows:
         if row.freguesia_id in context_by_id:
-            raise AnnualContextError(
-                f"duplicate census context freguesia_id: {row.freguesia_id}"
-            )
+            raise AnnualContextError(f"duplicate census context freguesia_id: {row.freguesia_id}")
         context_by_id[row.freguesia_id] = row
 
     annual_ids = {row.freguesia_id for row in annual_rows}
@@ -89,8 +87,7 @@ def build_annual_context_panel(
         missing = sorted(annual_ids - context_ids)
         extra = sorted(context_ids - annual_ids)
         raise AnnualContextError(
-            f"annual/context key mismatch; missing_context={missing}, "
-            f"context_only={extra}"
+            f"annual/context key mismatch; missing_context={missing}, context_only={extra}"
         )
 
     output: list[AnnualContextRow] = []
@@ -165,9 +162,7 @@ def write_annual_context_csv(
                     _serialize(row.census.age_65_plus_pct),
                     _serialize(row.census.owner_occupied_share_pct),
                     _serialize(row.census.rented_share_pct),
-                    _serialize(
-                        row.census.vacant_or_secondary_family_share_pct
-                    ),
+                    _serialize(row.census.vacant_or_secondary_family_share_pct),
                     _serialize(row.census.pre1945_building_share_pct),
                     _serialize(row.census.repair_needed_building_share_pct),
                     _serialize(row.census.dwellings_per_classic_building),

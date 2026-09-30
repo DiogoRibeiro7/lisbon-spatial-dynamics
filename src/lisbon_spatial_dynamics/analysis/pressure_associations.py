@@ -94,8 +94,7 @@ def load_annual_housing_pressure_csv(
         missing = required - set(reader.fieldnames or ())
         if missing:
             raise PressureAssociationError(
-                "annual housing-pressure CSV is missing columns: "
-                + ", ".join(sorted(missing))
+                "annual housing-pressure CSV is missing columns: " + ", ".join(sorted(missing))
             )
 
         for row_index, raw in enumerate(reader, start=2):
@@ -105,15 +104,9 @@ def load_annual_housing_pressure_csv(
                     baseline_year=_required_int(
                         raw.get("baseline_year"), row_index, "baseline_year"
                     ),
-                    period_code=_required(
-                        raw.get("period_code"), row_index, "period_code"
-                    ),
-                    period_end=_required_date(
-                        raw.get("period_end"), row_index, "period_end"
-                    ),
-                    freguesia_id=_required(
-                        raw.get("freguesia_id"), row_index, "freguesia_id"
-                    ),
+                    period_code=_required(raw.get("period_code"), row_index, "period_code"),
+                    period_end=_required_date(raw.get("period_end"), row_index, "period_end"),
+                    freguesia_id=_required(raw.get("freguesia_id"), row_index, "freguesia_id"),
                     freguesia_name=_required(
                         raw.get("freguesia_name"), row_index, "freguesia_name"
                     ),
@@ -203,9 +196,7 @@ def load_annual_housing_pressure_csv(
                         "rnal_active_registrations_per_1000_year_end",
                     ),
                     rnal_active_registrations_per_1000_change_from_baseline=_required_decimal(
-                        raw.get(
-                            "rnal_active_registrations_per_1000_change_from_baseline"
-                        ),
+                        raw.get("rnal_active_registrations_per_1000_change_from_baseline"),
                         row_index,
                         "rnal_active_registrations_per_1000_change_from_baseline",
                     ),
@@ -225,9 +216,7 @@ def load_annual_housing_pressure_csv(
                         "rnal_active_beds_known_per_1000_year_end",
                     ),
                     rnal_active_beds_known_per_1000_change_from_baseline=_required_decimal(
-                        raw.get(
-                            "rnal_active_beds_known_per_1000_change_from_baseline"
-                        ),
+                        raw.get("rnal_active_beds_known_per_1000_change_from_baseline"),
                         row_index,
                         "rnal_active_beds_known_per_1000_change_from_baseline",
                     ),
@@ -247,9 +236,7 @@ def load_annual_housing_pressure_csv(
                         "rnal_active_users_known_per_1000_year_end",
                     ),
                     rnal_active_users_known_per_1000_change_from_baseline=_required_decimal(
-                        raw.get(
-                            "rnal_active_users_known_per_1000_change_from_baseline"
-                        ),
+                        raw.get("rnal_active_users_known_per_1000_change_from_baseline"),
                         row_index,
                         "rnal_active_users_known_per_1000_change_from_baseline",
                     ),
@@ -257,9 +244,7 @@ def load_annual_housing_pressure_csv(
             )
 
     if not rows:
-        raise PressureAssociationError(
-            "annual housing-pressure CSV cannot be empty"
-        )
+        raise PressureAssociationError("annual housing-pressure CSV cannot be empty")
 
     return tuple(rows)
 
@@ -284,23 +269,14 @@ def build_pressure_association(
             )
         years[row.year] = row
 
-    baseline_years = {
-        row.baseline_year
-        for row in rows
-    }
+    baseline_years = {row.baseline_year for row in rows}
     if len(baseline_years) != 1:
-        raise PressureAssociationError(
-            "freguesias do not share one baseline year"
-        )
+        raise PressureAssociationError("freguesias do not share one baseline year")
     baseline_year = next(iter(baseline_years))
 
-    common_years = set.intersection(
-        *(set(years) for years in by_id.values())
-    )
+    common_years = set.intersection(*(set(years) for years in by_id.values()))
     if not common_years:
-        raise PressureAssociationError(
-            "freguesias do not share any common annual observation year"
-        )
+        raise PressureAssociationError("freguesias do not share any common annual observation year")
 
     latest_year = max(common_years)
     points: list[PressureAssociationPoint] = []
@@ -310,9 +286,7 @@ def build_pressure_association(
         row = by_id[freguesia_id][latest_year]
 
         if row.baseline_year != baseline_year:
-            raise PressureAssociationError(
-                f"{freguesia_id} baseline year changed unexpectedly"
-            )
+            raise PressureAssociationError(f"{freguesia_id} baseline year changed unexpectedly")
 
         if row.housing_change_from_baseline_pct is None:
             missing_housing += 1
@@ -326,9 +300,7 @@ def build_pressure_association(
                 latest_year=latest_year,
                 population_reference_year=row.population_reference_year,
                 population_resident=row.population_resident,
-                housing_change_pct=float(
-                    row.housing_change_from_baseline_pct
-                ),
+                housing_change_pct=float(row.housing_change_from_baseline_pct),
                 rnal_pressure_change_per_1000=float(
                     row.rnal_active_registrations_per_1000_change_from_baseline
                 ),
@@ -336,15 +308,10 @@ def build_pressure_association(
         )
 
     if len(points) < 2:
-        raise PressureAssociationError(
-            "at least two complete freguesia observations are required"
-        )
+        raise PressureAssociationError("at least two complete freguesia observations are required")
 
     housing = [point.housing_change_pct for point in points]
-    pressure = [
-        point.rnal_pressure_change_per_1000
-        for point in points
-    ]
+    pressure = [point.rnal_pressure_change_per_1000 for point in points]
 
     return PressureAssociationResult(
         baseline_year=baseline_year,
@@ -402,9 +369,7 @@ def write_pressure_association_json(
                 "population_reference_year": point.population_reference_year,
                 "population_resident": point.population_resident,
                 "housing_change_pct": point.housing_change_pct,
-                "rnal_pressure_change_per_1000": (
-                    point.rnal_pressure_change_per_1000
-                ),
+                "rnal_pressure_change_per_1000": (point.rnal_pressure_change_per_1000),
             }
             for point in result.points
         ],
@@ -460,13 +425,10 @@ def write_pressure_association_scatter(
                 fontsize=7,
             )
 
-    axis.set_xlabel(
-        "Change in active RNAL registrations per 1,000 residents"
-    )
+    axis.set_xlabel("Change in active RNAL registrations per 1,000 residents")
     axis.set_ylabel("Housing value change from baseline (%)")
     axis.set_title(
-        f"Lisbon freguesia pressure trajectories: "
-        f"{result.baseline_year}–{result.latest_year}"
+        f"Lisbon freguesia pressure trajectories: {result.baseline_year}–{result.latest_year}"
     )
     axis.grid(True, alpha=0.25)
     figure.tight_layout()
@@ -496,8 +458,7 @@ def _pearson(x: Sequence[float], y: Sequence[float]) -> float | None:
         return None
 
     covariance_sum = sum(
-        value_x * value_y
-        for value_x, value_y in zip(centered_x, centered_y, strict=True)
+        value_x * value_y for value_x, value_y in zip(centered_x, centered_y, strict=True)
     )
     return covariance_sum / math.sqrt(sum_sq_x * sum_sq_y)
 
@@ -524,9 +485,7 @@ def _average_ranks(values: Sequence[float]) -> list[float]:
 def _required(value: str | None, row: int, field: str) -> str:
     """Return a required CSV string."""
     if value is None or not value.strip():
-        raise PressureAssociationError(
-            f"row {row}.{field} must be non-empty"
-        )
+        raise PressureAssociationError(f"row {row}.{field} must be non-empty")
     return value.strip()
 
 
@@ -536,9 +495,7 @@ def _required_int(value: str | None, row: int, field: str) -> int:
     try:
         return int(raw)
     except ValueError as exc:
-        raise PressureAssociationError(
-            f"row {row}.{field} must be an integer"
-        ) from exc
+        raise PressureAssociationError(f"row {row}.{field} must be an integer") from exc
 
 
 def _required_non_negative_int(
@@ -549,9 +506,7 @@ def _required_non_negative_int(
     """Parse a required non-negative integer."""
     number = _required_int(value, row, field)
     if number < 0:
-        raise PressureAssociationError(
-            f"row {row}.{field} must be non-negative"
-        )
+        raise PressureAssociationError(f"row {row}.{field} must be non-negative")
     return number
 
 
@@ -563,9 +518,7 @@ def _required_positive_int(
     """Parse a required positive integer."""
     number = _required_int(value, row, field)
     if number <= 0:
-        raise PressureAssociationError(
-            f"row {row}.{field} must be positive"
-        )
+        raise PressureAssociationError(f"row {row}.{field} must be positive")
     return number
 
 
@@ -590,9 +543,7 @@ def _required_date(
     try:
         return date.fromisoformat(raw)
     except ValueError as exc:
-        raise PressureAssociationError(
-            f"row {row}.{field} must be an ISO date"
-        ) from exc
+        raise PressureAssociationError(f"row {row}.{field} must be an ISO date") from exc
 
 
 def _required_decimal(
@@ -605,9 +556,7 @@ def _required_decimal(
     try:
         return Decimal(raw)
     except InvalidOperation as exc:
-        raise PressureAssociationError(
-            f"row {row}.{field} must be numeric"
-        ) from exc
+        raise PressureAssociationError(f"row {row}.{field} must be numeric") from exc
 
 
 def _required_positive_decimal(
@@ -618,9 +567,7 @@ def _required_positive_decimal(
     """Parse a required positive Decimal."""
     number = _required_decimal(value, row, field)
     if number <= 0:
-        raise PressureAssociationError(
-            f"row {row}.{field} must be positive"
-        )
+        raise PressureAssociationError(f"row {row}.{field} must be positive")
     return number
 
 

@@ -2,6 +2,29 @@
 
 All notable repository-level changes are documented here.
 
+## [Unreleased]
+
+### Added
+
+- Code-quality CI, offline tests on Linux and Windows, and an installed-wheel smoke check.
+- A committed Poetry lockfile, standard package metadata, and dependency stubs for strict typing.
+- A complete installation and data-acquisition walkthrough, contribution guide, and issue/PR templates.
+- Full-study integration and failure-cleanup tests using synthetic source snapshots.
+
+### Fixed
+
+- Census context module initialization that prevented CLI imports and test collection.
+- Missing validation arguments in CAOP configuration loading.
+- Census GeoJSON metrics serialized as strings, and numeric context rejected when only CSV formatting differed.
+- Study parish-count overrides not reaching the multivariable stage.
+- Existing lint, formatting, and strict typing failures.
+- Documentation that implied a published empirical results bundle was available with the software release.
+
+### Changed
+
+- Documentation builds use locked dependencies and grant deployment permissions only to the deployment job.
+- Pre-commit hooks use the project's locked linting and typing tools.
+
 ## [1.0.0] - 2026-09-30
 
 First stable research release.

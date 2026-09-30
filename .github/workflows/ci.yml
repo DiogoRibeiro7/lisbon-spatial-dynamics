@@ -1,0 +1,77 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  POETRY_VERSION: "2.2.1"
+  POETRY_NO_INTERACTION: "1"
+  MPLBACKEND: Agg
+  PYTHONUTF8: "1"
+
+jobs:
+  quality:
+    name: Lint, types, and package
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+      - name: Install Poetry
+        run: python -m pip install "poetry==$POETRY_VERSION"
+      - name: Install locked dependencies
+        run: poetry sync --only main,dev
+      - name: Validate package metadata and lockfile
+        run: poetry check --lock --strict
+      - name: Lint
+        run: poetry run ruff check .
+      - name: Check formatting
+        run: poetry run ruff format --check .
+      - name: Check types
+        run: poetry run mypy src tests
+      - name: Build distributions
+        run: poetry build
+      - name: Check wheel installation outside the checkout
+        run: |
+          python -m venv /tmp/lisbon-wheel-check
+          /tmp/lisbon-wheel-check/bin/python -m pip install dist/*.whl
+          cd /tmp
+          /tmp/lisbon-wheel-check/bin/build-study-v1 --help
+
+  tests:
+    name: Tests (${{ matrix.os }}, Python ${{ matrix.python }})
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            python: "3.12"
+          - os: ubuntu-latest
+            python: "3.13"
+          - os: windows-latest
+            python: "3.13"
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Install Poetry
+        run: python -m pip install poetry==2.2.1
+      - name: Install locked dependencies
+        run: poetry sync --only main,dev
+      - name: Run offline tests
+        run: poetry run pytest -q

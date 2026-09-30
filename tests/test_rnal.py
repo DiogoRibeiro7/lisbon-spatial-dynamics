@@ -3,9 +3,9 @@
 from __future__ import annotations
 
 import json
+from collections.abc import Mapping
 from datetime import UTC, datetime
 from pathlib import Path
-from typing import Mapping
 
 import pytest
 
@@ -102,9 +102,7 @@ def test_snapshot_discards_proprietor_personal_data(tmp_path: Path) -> None:
         poster=poster,
     )
 
-    document = json.loads(
-        (tmp_path / snapshot.records_path).read_text(encoding="utf-8")
-    )
+    document = json.loads((tmp_path / snapshot.records_path).read_text(encoding="utf-8"))
     record = document["records"][0]
 
     assert snapshot.record_count == 1
@@ -115,9 +113,7 @@ def test_snapshot_discards_proprietor_personal_data(tmp_path: Path) -> None:
     assert "Contribuinte" not in record
     assert "Email" not in record
 
-    manifest = json.loads(
-        (tmp_path / snapshot.manifest_path).read_text(encoding="utf-8")
-    )
+    manifest = json.loads((tmp_path / snapshot.manifest_path).read_text(encoding="utf-8"))
     assert manifest["privacy"]["raw_response_written"] is False
     assert manifest["privacy"]["discarded_subtree"] == "TitulardaExploracao"
 
@@ -142,7 +138,5 @@ def test_wrong_municipality_is_rejected(tmp_path: Path) -> None:
             config,
             root=tmp_path,
             fetched_at=datetime(2026, 9, 27, 21, 0, tzinfo=UTC),
-            poster=lambda _url, _payload, _headers, _timeout: _soap_response(
-                municipality="Oeiras"
-            ),
+            poster=lambda _url, _payload, _headers, _timeout: _soap_response(municipality="Oeiras"),
         )

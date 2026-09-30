@@ -105,8 +105,7 @@ def load_annual_rnal_pressure_csv(
         missing = required - set(reader.fieldnames or ())
         if missing:
             raise AnnualHousingPressureError(
-                "annual RNAL pressure CSV is missing columns: "
-                + ", ".join(sorted(missing))
+                "annual RNAL pressure CSV is missing columns: " + ", ".join(sorted(missing))
             )
 
         for row_index, raw in enumerate(reader, start=2):
@@ -116,15 +115,9 @@ def load_annual_rnal_pressure_csv(
                     baseline_year=_required_int(
                         raw.get("baseline_year"), row_index, "baseline_year"
                     ),
-                    period_code=_required(
-                        raw.get("period_code"), row_index, "period_code"
-                    ),
-                    period_end=_required_date(
-                        raw.get("period_end"), row_index, "period_end"
-                    ),
-                    freguesia_id=_required(
-                        raw.get("freguesia_id"), row_index, "freguesia_id"
-                    ),
+                    period_code=_required(raw.get("period_code"), row_index, "period_code"),
+                    period_end=_required_date(raw.get("period_end"), row_index, "period_end"),
+                    freguesia_id=_required(raw.get("freguesia_id"), row_index, "freguesia_id"),
                     freguesia_name=_required(
                         raw.get("freguesia_name"), row_index, "freguesia_name"
                     ),
@@ -189,9 +182,7 @@ def load_annual_rnal_pressure_csv(
                         "active_registrations_per_1000_year_end",
                     ),
                     active_registrations_per_1000_change_from_baseline=_required_decimal(
-                        raw.get(
-                            "active_registrations_per_1000_change_from_baseline"
-                        ),
+                        raw.get("active_registrations_per_1000_change_from_baseline"),
                         row_index,
                         "active_registrations_per_1000_change_from_baseline",
                     ),
@@ -211,9 +202,7 @@ def load_annual_rnal_pressure_csv(
                         "active_beds_known_per_1000_year_end",
                     ),
                     active_beds_known_per_1000_change_from_baseline=_required_decimal(
-                        raw.get(
-                            "active_beds_known_per_1000_change_from_baseline"
-                        ),
+                        raw.get("active_beds_known_per_1000_change_from_baseline"),
                         row_index,
                         "active_beds_known_per_1000_change_from_baseline",
                     ),
@@ -233,9 +222,7 @@ def load_annual_rnal_pressure_csv(
                         "active_users_known_per_1000_year_end",
                     ),
                     active_users_known_per_1000_change_from_baseline=_required_decimal(
-                        raw.get(
-                            "active_users_known_per_1000_change_from_baseline"
-                        ),
+                        raw.get("active_users_known_per_1000_change_from_baseline"),
                         row_index,
                         "active_users_known_per_1000_change_from_baseline",
                     ),
@@ -243,9 +230,7 @@ def load_annual_rnal_pressure_csv(
             )
 
     if not rows:
-        raise AnnualHousingPressureError(
-            "annual RNAL pressure CSV cannot be empty"
-        )
+        raise AnnualHousingPressureError("annual RNAL pressure CSV cannot be empty")
 
     return tuple(rows)
 
@@ -333,48 +318,30 @@ def build_annual_housing_pressure_panel(
                 housing_change_from_baseline_abs_eur_m2=(
                     housing.housing_change_from_baseline_abs_eur_m2
                 ),
-                housing_change_from_baseline_pct=(
-                    housing.housing_change_from_baseline_pct
-                ),
+                housing_change_from_baseline_pct=(housing.housing_change_from_baseline_pct),
                 rnal_registrations_year=housing.rnal_registrations_year,
                 rnal_cessations_year=housing.rnal_cessations_year,
                 rnal_net_registrations_year=housing.rnal_net_registrations_year,
-                rnal_registrations_year_per_1000=(
-                    pressure.registrations_year_per_1000
-                ),
-                rnal_cessations_year_per_1000=(
-                    pressure.cessations_year_per_1000
-                ),
-                rnal_net_registrations_year_per_1000=(
-                    pressure.net_registrations_year_per_1000
-                ),
-                rnal_active_registrations_year_end=(
-                    housing.rnal_active_registrations_year_end
-                ),
+                rnal_registrations_year_per_1000=(pressure.registrations_year_per_1000),
+                rnal_cessations_year_per_1000=(pressure.cessations_year_per_1000),
+                rnal_net_registrations_year_per_1000=(pressure.net_registrations_year_per_1000),
+                rnal_active_registrations_year_end=(housing.rnal_active_registrations_year_end),
                 rnal_active_registrations_per_1000_year_end=(
                     pressure.active_registrations_per_1000_year_end
                 ),
                 rnal_active_registrations_per_1000_change_from_baseline=(
                     pressure.active_registrations_per_1000_change_from_baseline
                 ),
-                rnal_active_beds_known_year_end=(
-                    housing.rnal_active_beds_known_year_end
-                ),
-                rnal_active_beds_missing_year_end=(
-                    housing.rnal_active_beds_missing_year_end
-                ),
+                rnal_active_beds_known_year_end=(housing.rnal_active_beds_known_year_end),
+                rnal_active_beds_missing_year_end=(housing.rnal_active_beds_missing_year_end),
                 rnal_active_beds_known_per_1000_year_end=(
                     pressure.active_beds_known_per_1000_year_end
                 ),
                 rnal_active_beds_known_per_1000_change_from_baseline=(
                     pressure.active_beds_known_per_1000_change_from_baseline
                 ),
-                rnal_active_users_known_year_end=(
-                    housing.rnal_active_users_known_year_end
-                ),
-                rnal_active_users_missing_year_end=(
-                    housing.rnal_active_users_missing_year_end
-                ),
+                rnal_active_users_known_year_end=(housing.rnal_active_users_known_year_end),
+                rnal_active_users_missing_year_end=(housing.rnal_active_users_missing_year_end),
                 rnal_active_users_known_per_1000_year_end=(
                     pressure.active_users_known_per_1000_year_end
                 ),
@@ -393,9 +360,7 @@ def write_annual_housing_pressure_csv(
 ) -> None:
     """Write the joined annual research panel without overwriting."""
     if not rows:
-        raise AnnualHousingPressureError(
-            "annual housing-pressure panel cannot be empty"
-        )
+        raise AnnualHousingPressureError("annual housing-pressure panel cannot be empty")
 
     path.parent.mkdir(parents=True, exist_ok=True)
 
@@ -419,47 +384,25 @@ def write_annual_housing_pressure_csv(
                     _optional_decimal_text(row.housing_value_eur_m2),
                     _optional_decimal_text(row.housing_yoy_abs_eur_m2),
                     _optional_decimal_text(row.housing_yoy_pct),
-                    _optional_decimal_text(
-                        row.housing_change_from_baseline_abs_eur_m2
-                    ),
-                    _optional_decimal_text(
-                        row.housing_change_from_baseline_pct
-                    ),
+                    _optional_decimal_text(row.housing_change_from_baseline_abs_eur_m2),
+                    _optional_decimal_text(row.housing_change_from_baseline_pct),
                     _optional_int_text(row.rnal_registrations_year),
                     _optional_int_text(row.rnal_cessations_year),
                     _optional_int_text(row.rnal_net_registrations_year),
-                    _optional_decimal_text(
-                        row.rnal_registrations_year_per_1000
-                    ),
-                    _optional_decimal_text(
-                        row.rnal_cessations_year_per_1000
-                    ),
-                    _optional_decimal_text(
-                        row.rnal_net_registrations_year_per_1000
-                    ),
+                    _optional_decimal_text(row.rnal_registrations_year_per_1000),
+                    _optional_decimal_text(row.rnal_cessations_year_per_1000),
+                    _optional_decimal_text(row.rnal_net_registrations_year_per_1000),
                     row.rnal_active_registrations_year_end,
-                    _decimal_text(
-                        row.rnal_active_registrations_per_1000_year_end
-                    ),
-                    _decimal_text(
-                        row.rnal_active_registrations_per_1000_change_from_baseline
-                    ),
+                    _decimal_text(row.rnal_active_registrations_per_1000_year_end),
+                    _decimal_text(row.rnal_active_registrations_per_1000_change_from_baseline),
                     row.rnal_active_beds_known_year_end,
                     row.rnal_active_beds_missing_year_end,
-                    _decimal_text(
-                        row.rnal_active_beds_known_per_1000_year_end
-                    ),
-                    _decimal_text(
-                        row.rnal_active_beds_known_per_1000_change_from_baseline
-                    ),
+                    _decimal_text(row.rnal_active_beds_known_per_1000_year_end),
+                    _decimal_text(row.rnal_active_beds_known_per_1000_change_from_baseline),
                     row.rnal_active_users_known_year_end,
                     row.rnal_active_users_missing_year_end,
-                    _decimal_text(
-                        row.rnal_active_users_known_per_1000_year_end
-                    ),
-                    _decimal_text(
-                        row.rnal_active_users_known_per_1000_change_from_baseline
-                    ),
+                    _decimal_text(row.rnal_active_users_known_per_1000_year_end),
+                    _decimal_text(row.rnal_active_users_known_per_1000_change_from_baseline),
                 )
             )
 
@@ -473,9 +416,7 @@ def _unique_housing_mapping(
     for row in rows:
         key = (row.year, row.freguesia_id)
         if key in mapping:
-            raise AnnualHousingPressureError(
-                f"duplicate annual housing key: {key}"
-            )
+            raise AnnualHousingPressureError(f"duplicate annual housing key: {key}")
         mapping[key] = row
 
     return mapping
@@ -490,9 +431,7 @@ def _unique_pressure_mapping(
     for row in rows:
         key = (row.year, row.freguesia_id)
         if key in mapping:
-            raise AnnualHousingPressureError(
-                f"duplicate annual pressure key: {key}"
-            )
+            raise AnnualHousingPressureError(f"duplicate annual pressure key: {key}")
         mapping[key] = row
 
     return mapping
@@ -518,8 +457,7 @@ def _validate_shared_dimensions(
     for field, left, right in checks:
         if left != right:
             raise AnnualHousingPressureError(
-                f"{housing.year}/{housing.freguesia_id} {field} mismatch: "
-                f"{left!r} != {right!r}"
+                f"{housing.year}/{housing.freguesia_id} {field} mismatch: {left!r} != {right!r}"
             )
 
 
@@ -592,9 +530,7 @@ def _preview_keys(keys: Sequence[tuple[int, str]]) -> str:
 def _required(value: str | None, row: int, field: str) -> str:
     """Return a required CSV string."""
     if value is None or not value.strip():
-        raise AnnualHousingPressureError(
-            f"row {row}.{field} must be non-empty"
-        )
+        raise AnnualHousingPressureError(f"row {row}.{field} must be non-empty")
     return value.strip()
 
 
@@ -604,9 +540,7 @@ def _required_int(value: str | None, row: int, field: str) -> int:
     try:
         return int(raw)
     except ValueError as exc:
-        raise AnnualHousingPressureError(
-            f"row {row}.{field} must be an integer"
-        ) from exc
+        raise AnnualHousingPressureError(f"row {row}.{field} must be an integer") from exc
 
 
 def _required_non_negative_int(
@@ -617,9 +551,7 @@ def _required_non_negative_int(
     """Parse a required non-negative integer."""
     number = _required_int(value, row, field)
     if number < 0:
-        raise AnnualHousingPressureError(
-            f"row {row}.{field} must be non-negative"
-        )
+        raise AnnualHousingPressureError(f"row {row}.{field} must be non-negative")
     return number
 
 
@@ -631,9 +563,7 @@ def _required_positive_int(
     """Parse a required positive integer."""
     number = _required_int(value, row, field)
     if number <= 0:
-        raise AnnualHousingPressureError(
-            f"row {row}.{field} must be positive"
-        )
+        raise AnnualHousingPressureError(f"row {row}.{field} must be positive")
     return number
 
 
@@ -654,9 +584,7 @@ def _required_date(value: str | None, row: int, field: str) -> date:
     try:
         return date.fromisoformat(raw)
     except ValueError as exc:
-        raise AnnualHousingPressureError(
-            f"row {row}.{field} must be an ISO date"
-        ) from exc
+        raise AnnualHousingPressureError(f"row {row}.{field} must be an ISO date") from exc
 
 
 def _required_decimal(
@@ -669,9 +597,7 @@ def _required_decimal(
     try:
         return Decimal(raw)
     except InvalidOperation as exc:
-        raise AnnualHousingPressureError(
-            f"row {row}.{field} must be numeric"
-        ) from exc
+        raise AnnualHousingPressureError(f"row {row}.{field} must be numeric") from exc
 
 
 def _required_positive_decimal(
@@ -682,9 +608,7 @@ def _required_positive_decimal(
     """Parse a required positive Decimal."""
     number = _required_decimal(value, row, field)
     if number <= 0:
-        raise AnnualHousingPressureError(
-            f"row {row}.{field} must be positive"
-        )
+        raise AnnualHousingPressureError(f"row {row}.{field} must be positive")
     return number
 
 

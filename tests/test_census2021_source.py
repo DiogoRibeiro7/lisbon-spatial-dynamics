@@ -50,9 +50,7 @@ def test_snapshot_writes_archive_and_manifest(tmp_path: Path) -> None:
     )
 
     assert (tmp_path / snapshot.archive_path).exists()
-    manifest = json.loads(
-        (tmp_path / snapshot.manifest_path).read_text(encoding="utf-8")
-    )
+    manifest = json.loads((tmp_path / snapshot.manifest_path).read_text(encoding="utf-8"))
     assert snapshot.member_count == 1
     assert manifest["resource"]["member_count"] == 1
 

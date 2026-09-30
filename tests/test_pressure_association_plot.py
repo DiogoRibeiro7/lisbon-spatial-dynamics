@@ -23,12 +23,8 @@ def test_pressure_scatter_is_written_and_immutable(tmp_path: Path) -> None:
         pearson_r=1.0,
         spearman_rho=1.0,
         points=(
-            PressureAssociationPoint(
-                "a", "A", 2019, 2025, 2021, 10_000, 30.0, 3.0
-            ),
-            PressureAssociationPoint(
-                "b", "B", 2019, 2025, 2021, 20_000, 50.0, 5.0
-            ),
+            PressureAssociationPoint("a", "A", 2019, 2025, 2021, 10_000, 30.0, 3.0),
+            PressureAssociationPoint("b", "B", 2019, 2025, 2021, 20_000, 50.0, 5.0),
         ),
     )
     path = tmp_path / "pressure_scatter.png"

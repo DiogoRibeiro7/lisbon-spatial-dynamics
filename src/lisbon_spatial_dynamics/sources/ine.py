@@ -15,14 +15,14 @@ from dataclasses import dataclass
 from datetime import UTC, datetime
 from hashlib import sha256
 from pathlib import Path
+from typing import cast
 from urllib.parse import urlparse
 from urllib.request import Request, urlopen
 
 FetchBytes = Callable[[str, float], bytes]
 
 _USER_AGENT = (
-    "lisbon-spatial-dynamics/0.1 "
-    "(+https://github.com/DiogoRibeiro7/lisbon-spatial-dynamics)"
+    "lisbon-spatial-dynamics/0.1 (+https://github.com/DiogoRibeiro7/lisbon-spatial-dynamics)"
 )
 
 
@@ -149,7 +149,6 @@ def fetch_ine_snapshot(
 
     timestamp_utc = timestamp.astimezone(UTC)
     stamp = timestamp_utc.strftime("%Y%m%dT%H%M%SZ")
-    output_directory = root / config.output_directory
 
     data_relative = config.output_directory / f"{stamp}.data.json"
     metadata_relative = config.output_directory / f"{stamp}.metadata.json"
@@ -238,7 +237,7 @@ def _fetch_url(url: str, timeout: float) -> bytes:
         },
     )
     with urlopen(request, timeout=timeout) as response:
-        return response.read()
+        return cast(bytes, response.read())
 
 
 def _validate_json_payload(payload: bytes, label: str) -> None:

@@ -64,9 +64,7 @@ def _metadata() -> bytes:
             "designacao_simplificada",
         )
     ]
-    return json.dumps(
-        {"fields": fields, "supportedQueryFormats": "JSON, geoJSON, PBF"}
-    ).encode()
+    return json.dumps({"fields": fields, "supportedQueryFormats": "JSON, geoJSON, PBF"}).encode()
 
 
 def test_repository_config_targets_official_layer() -> None:

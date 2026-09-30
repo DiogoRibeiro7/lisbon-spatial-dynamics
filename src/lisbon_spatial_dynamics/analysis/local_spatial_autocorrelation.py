@@ -161,8 +161,7 @@ def write_local_morans_i_json(
                     "total_freguesias": result.total_freguesias,
                     "complete_cases": result.complete_cases,
                     "missing": sum(
-                        observation.status == "missing"
-                        for observation in result.observations
+                        observation.status == "missing" for observation in result.observations
                     ),
                     "islands": [
                         observation.freguesia_id
@@ -177,14 +176,10 @@ def write_local_morans_i_json(
                         "freguesia_name": observation.freguesia_name,
                         "value": observation.value,
                         "standardized_value": observation.standardized_value,
-                        "spatial_lag_standardized": (
-                            observation.spatial_lag_standardized
-                        ),
+                        "spatial_lag_standardized": (observation.spatial_lag_standardized),
                         "local_i": observation.local_i,
                         "neighbor_count": observation.neighbor_count,
-                        "permutation_p_two_sided": (
-                            observation.permutation_p_two_sided
-                        ),
+                        "permutation_p_two_sided": (observation.permutation_p_two_sided),
                         "fdr_q": observation.fdr_q,
                         "significant_fdr": observation.significant_fdr,
                         "quadrant": observation.quadrant,
@@ -236,9 +231,7 @@ def _analyse_metric(
     }
 
     if len(values_by_id) < 3:
-        raise SpatialAutocorrelationError(
-            f"{metric} needs at least three complete observations"
-        )
+        raise SpatialAutocorrelationError(f"{metric} needs at least three complete observations")
 
     ordered_ids = sorted(values_by_id)
     values = [values_by_id[freguesia_id] for freguesia_id in ordered_ids]
@@ -274,9 +267,7 @@ def _analyse_metric(
     }
     induced_neighbors = {
         freguesia_id: tuple(
-            neighbor
-            for neighbor in weights.neighbors[freguesia_id]
-            if neighbor in values_by_id
+            neighbor for neighbor in weights.neighbors[freguesia_id] if neighbor in values_by_id
         )
         for freguesia_id in ordered_ids
     }
@@ -416,9 +407,7 @@ def _conditional_permutation_p(
 ) -> float:
     """Return a conditional two-sided pseudo-p value for one focal unit."""
     candidates = [
-        value
-        for freguesia_id, value in sorted(z_by_id.items())
-        if freguesia_id != focal_id
+        value for freguesia_id, value in sorted(z_by_id.items()) if freguesia_id != focal_id
     ]
 
     if neighbor_count > len(candidates):
@@ -501,9 +490,7 @@ def _constant_or_missing_observation(
         )
 
     neighbors = tuple(
-        neighbor
-        for neighbor in weights.neighbors[feature.freguesia_id]
-        if neighbor in values_by_id
+        neighbor for neighbor in weights.neighbors[feature.freguesia_id] if neighbor in values_by_id
     )
 
     return LocalMoranObservation(

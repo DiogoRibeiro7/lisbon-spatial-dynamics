@@ -97,10 +97,7 @@ def test_join_preserves_housing_and_normalized_pressure() -> None:
     assert row.housing_value_eur_m2 == Decimal("6000")
     assert row.housing_change_from_baseline_pct == Decimal("50")
     assert row.rnal_active_registrations_per_1000_year_end == Decimal("13")
-    assert (
-        row.rnal_active_registrations_per_1000_change_from_baseline
-        == Decimal("3")
-    )
+    assert row.rnal_active_registrations_per_1000_change_from_baseline == Decimal("3")
     assert row.population_reference_year == 2021
 
 
@@ -175,10 +172,7 @@ def test_writer_uses_stable_contract_and_is_immutable(tmp_path: Path) -> None:
 
     assert tuple(table[0]) == ANNUAL_HOUSING_PRESSURE_COLUMNS
     assert table[0]["housing_change_from_baseline_pct"] == "50"
-    assert (
-        table[0]["rnal_active_registrations_per_1000_year_end"]
-        == "13"
-    )
+    assert table[0]["rnal_active_registrations_per_1000_year_end"] == "13"
 
     with pytest.raises(FileExistsError):
         write_annual_housing_pressure_csv(rows, path)

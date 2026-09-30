@@ -11,7 +11,6 @@ from collections.abc import Mapping, Sequence
 from dataclasses import dataclass
 from pathlib import Path
 from statistics import median
-from typing import TypeAlias
 
 import numpy as np
 from numpy.typing import NDArray
@@ -27,7 +26,7 @@ from lisbon_spatial_dynamics.spatial.trajectory_choropleths import (
     TrajectoryMapFeature,
 )
 
-FloatArray: TypeAlias = NDArray[np.float64]
+type FloatArray = NDArray[np.float64]
 
 _OUTCOME = "housing_change_from_baseline_pct"
 _PRIMARY_EXPOSURE = "rnal_pressure_change_per_1000"
@@ -242,9 +241,7 @@ def load_model_config(path: Path) -> ModelConfig:
 
     outcome = _require_string(analysis, "outcome", "analysis")
     if outcome != _OUTCOME:
-        raise MultivariableAnalysisError(
-            f"unsupported outcome: {outcome!r}; expected {_OUTCOME!r}"
-        )
+        raise MultivariableAnalysisError(f"unsupported outcome: {outcome!r}; expected {_OUTCOME!r}")
 
     primary_model = _require_string(
         analysis,
@@ -253,9 +250,7 @@ def load_model_config(path: Path) -> ModelConfig:
     )
     standardize = analysis.get("standardize_predictors")
     if not isinstance(standardize, bool):
-        raise MultivariableAnalysisError(
-            "analysis.standardize_predictors must be boolean"
-        )
+        raise MultivariableAnalysisError("analysis.standardize_predictors must be boolean")
     if not standardize:
         raise MultivariableAnalysisError(
             "predictor standardization must remain enabled for this analysis"
@@ -269,36 +264,23 @@ def load_model_config(path: Path) -> ModelConfig:
         label = _require_string(table, "label", f"models.{name}")
         predictors_raw = table.get("predictors")
         if not isinstance(predictors_raw, list) or not predictors_raw:
-            raise MultivariableAnalysisError(
-                f"models.{name}.predictors must be a non-empty list"
-            )
+            raise MultivariableAnalysisError(f"models.{name}.predictors must be a non-empty list")
         if not all(isinstance(item, str) for item in predictors_raw):
-            raise MultivariableAnalysisError(
-                f"models.{name}.predictors must contain only strings"
-            )
+            raise MultivariableAnalysisError(f"models.{name}.predictors must contain only strings")
         predictors = tuple(predictors_raw)
         if len(set(predictors)) != len(predictors):
-            raise MultivariableAnalysisError(
-                f"models.{name} contains duplicate predictors"
-            )
+            raise MultivariableAnalysisError(f"models.{name} contains duplicate predictors")
         unsupported = set(predictors) - _SUPPORTED_PREDICTORS
         if unsupported:
             raise MultivariableAnalysisError(
-                f"models.{name} contains unsupported predictors: "
-                + ", ".join(sorted(unsupported))
+                f"models.{name} contains unsupported predictors: " + ", ".join(sorted(unsupported))
             )
         if _PRIMARY_EXPOSURE not in predictors:
-            raise MultivariableAnalysisError(
-                f"models.{name} must include {_PRIMARY_EXPOSURE}"
-            )
-        specs.append(
-            ModelSpec(name=name, label=label, predictors=predictors)
-        )
+            raise MultivariableAnalysisError(f"models.{name} must include {_PRIMARY_EXPOSURE}")
+        specs.append(ModelSpec(name=name, label=label, predictors=predictors))
 
     if primary_model not in {spec.name for spec in specs}:
-        raise MultivariableAnalysisError(
-            f"primary model {primary_model!r} is not defined"
-        )
+        raise MultivariableAnalysisError(f"primary model {primary_model!r} is not defined")
 
     return ModelConfig(
         outcome=outcome,
@@ -335,8 +317,7 @@ def load_model_observations(path: Path) -> tuple[ModelObservation, ...]:
         missing = required - set(reader.fieldnames or ())
         if missing:
             raise MultivariableAnalysisError(
-                "annual context CSV is missing columns: "
-                + ", ".join(sorted(missing))
+                "annual context CSV is missing columns: " + ", ".join(sorted(missing))
             )
 
         for row_index, raw in enumerate(reader, start=2):
@@ -350,9 +331,7 @@ def load_model_observations(path: Path) -> tuple[ModelObservation, ...]:
             )
             years = grouped.setdefault(freguesia_id, {})
             if year in years:
-                raise MultivariableAnalysisError(
-                    f"duplicate annual key: ({year}, {freguesia_id})"
-                )
+                raise MultivariableAnalysisError(f"duplicate annual key: ({year}, {freguesia_id})")
             years[year] = dict(raw)
 
     if not grouped:
@@ -364,14 +343,10 @@ def load_model_observations(path: Path) -> tuple[ModelObservation, ...]:
         for row in years.values()
     }
     if len(baseline_years) != 1:
-        raise MultivariableAnalysisError(
-            "freguesias do not share one baseline year"
-        )
+        raise MultivariableAnalysisError("freguesias do not share one baseline year")
     baseline_year = next(iter(baseline_years))
 
-    common_years = set.intersection(
-        *(set(years) for years in grouped.values())
-    )
+    common_years = set.intersection(*(set(years) for years in grouped.values()))
     if baseline_year not in common_years:
         raise MultivariableAnalysisError(
             "common annual coverage does not include the baseline year"
@@ -402,9 +377,7 @@ def load_model_observations(path: Path) -> tuple[ModelObservation, ...]:
 
         values: dict[str, float | None] = {
             _PRIMARY_EXPOSURE: _required_float_csv(
-                latest.get(
-                    "rnal_active_registrations_per_1000_change_from_baseline"
-                ),
+                latest.get("rnal_active_registrations_per_1000_change_from_baseline"),
                 f"{freguesia_id}.rnal_pressure_change",
             ),
             "log_baseline_housing_eur_m2": (
@@ -422,9 +395,7 @@ def load_model_observations(path: Path) -> tuple[ModelObservation, ...]:
                 f"{freguesia_id}.census_age_65_plus_pct",
             ),
             "census_vacant_or_secondary_family_share_pct": _required_float_csv(
-                latest.get(
-                    "census_vacant_or_secondary_family_share_pct"
-                ),
+                latest.get("census_vacant_or_secondary_family_share_pct"),
                 f"{freguesia_id}.census_vacant_or_secondary_family_share_pct",
             ),
             "census_pre1945_building_share_pct": _required_float_csv(
@@ -471,9 +442,7 @@ def fit_multivariable_models(
     baseline_years = {row.baseline_year for row in observations}
     latest_years = {row.latest_year for row in observations}
     if len(baseline_years) != 1 or len(latest_years) != 1:
-        raise MultivariableAnalysisError(
-            "model observations must share one comparison window"
-        )
+        raise MultivariableAnalysisError("model observations must share one comparison window")
 
     weights = _build_reference_weights(observations, reference)
     fits: list[ModelFit] = []
@@ -489,12 +458,8 @@ def fit_multivariable_models(
             )
         )
 
-    primary_fit = next(
-        fit for fit in fits if fit.spec.name == config.primary_model
-    )
-    primary_spec = next(
-        spec for spec in config.models if spec.name == config.primary_model
-    )
+    primary_fit = next(fit for fit in fits if fit.spec.name == config.primary_model)
+    primary_spec = next(spec for spec in config.models if spec.name == config.primary_model)
     leave_one_out = _leave_one_out(
         observations,
         primary_spec,
@@ -520,13 +485,14 @@ def build_multivariable_analysis(
     *,
     permutations: int = 999,
     seed: int = 42,
+    expected_freguesias: int = 24,
 ) -> MultivariableOutputs:
     """Load inputs, fit models, and write the complete modelling milestone."""
     from lisbon_spatial_dynamics.spatial.annual_maps import load_reference_geojson
 
     observations = load_model_observations(annual_context_csv)
     config = load_model_config(config_path)
-    reference = load_reference_geojson(reference_geojson)
+    reference = load_reference_geojson(reference_geojson, expected_count=expected_freguesias)
     result = fit_multivariable_models(
         observations,
         config,
@@ -598,9 +564,7 @@ def _fit_spec(
     ]
     complete_ids = {row.freguesia_id for row in complete}
     excluded = tuple(
-        row.freguesia_id
-        for row in observations
-        if row.freguesia_id not in complete_ids
+        row.freguesia_id for row in observations if row.freguesia_id not in complete_ids
     )
 
     n = len(complete)
@@ -611,10 +575,7 @@ def _fit_spec(
         )
 
     raw_predictors = np.asarray(
-        [
-            [cast_value(row.values[predictor]) for predictor in spec.predictors]
-            for row in complete
-        ],
+        [[cast_value(row.values[predictor]) for predictor in spec.predictors] for row in complete],
         dtype=np.float64,
     )
     outcome = np.asarray(
@@ -635,9 +596,7 @@ def _fit_spec(
     design = np.column_stack((np.ones(n, dtype=np.float64), standardized))
 
     if np.linalg.matrix_rank(design) != design.shape[1]:
-        raise MultivariableAnalysisError(
-            f"model {spec.name} design matrix is rank deficient"
-        )
+        raise MultivariableAnalysisError(f"model {spec.name} design matrix is rank deficient")
 
     beta, _, _, _ = np.linalg.lstsq(design, outcome, rcond=None)
     fitted = design @ beta
@@ -684,12 +643,8 @@ def _fit_spec(
                 t_statistic=t_stat,
                 p_value=p_value,
                 vif=None if term == "intercept" else vifs[term],
-                standardization_mean=(
-                    None if scaling is None else scaling.mean
-                ),
-                standardization_sd=(
-                    None if scaling is None else scaling.standard_deviation
-                ),
+                standardization_mean=(None if scaling is None else scaling.mean),
+                standardization_sd=(None if scaling is None else scaling.standard_deviation),
             )
         )
 
@@ -701,9 +656,7 @@ def _fit_spec(
     rmse = math.sqrt(rss / n)
     condition_number = float(np.linalg.cond(design))
     if not math.isfinite(condition_number):
-        raise MultivariableAnalysisError(
-            f"model {spec.name} has a non-finite condition number"
-        )
+        raise MultivariableAnalysisError(f"model {spec.name} has a non-finite condition number")
     finite_vifs = [value for value in vifs.values() if value is not None]
     max_vif = None if len(finite_vifs) != len(vifs) else max(finite_vifs)
 
@@ -720,11 +673,7 @@ def _fit_spec(
     cooks = (
         np.zeros_like(residual)
         if math.isclose(mse_classic, 0.0)
-        else (
-            (residual**2 / (k * mse_classic))
-            * leverage
-            / ((1.0 - leverage) ** 2)
-        )
+        else ((residual**2 / (k * mse_classic)) * leverage / ((1.0 - leverage) ** 2))
     )
     residual_rows = tuple(
         ResidualObservation(
@@ -792,9 +741,7 @@ def _apply_standardization(
     result = np.empty_like(raw, dtype=np.float64)
     for index, predictor in enumerate(predictors):
         scaling = standardization[predictor]
-        result[:, index] = (
-            raw[:, index] - scaling.mean
-        ) / scaling.standard_deviation
+        result[:, index] = (raw[:, index] - scaling.mean) / scaling.standard_deviation
     return result
 
 
@@ -811,9 +758,7 @@ def _vif_map(
     for target_index, predictor in enumerate(predictors):
         target = standardized[:, target_index]
         others = np.delete(standardized, target_index, axis=1)
-        design = np.column_stack(
-            (np.ones(others.shape[0], dtype=np.float64), others)
-        )
+        design = np.column_stack((np.ones(others.shape[0], dtype=np.float64), others))
         beta, _, _, _ = np.linalg.lstsq(design, target, rcond=None)
         residual = target - design @ beta
         rss = float(residual @ residual)
@@ -821,9 +766,7 @@ def _vif_map(
         tss = float(centered @ centered)
         r_squared = 1.0 if math.isclose(tss, 0.0) else 1.0 - rss / tss
         denominator = 1.0 - r_squared
-        output[predictor] = (
-            None if denominator <= 1e-12 else 1.0 / denominator
-        )
+        output[predictor] = None if denominator <= 1e-12 else 1.0 / denominator
     return output
 
 
@@ -861,8 +804,7 @@ def _build_reference_weights(
         missing = sorted(set(observation_by_id) - set(reference_by_id))
         extra = sorted(set(reference_by_id) - set(observation_by_id))
         raise MultivariableAnalysisError(
-            f"model/reference key mismatch; missing_geometry={missing}, "
-            f"geometry_only={extra}"
+            f"model/reference key mismatch; missing_geometry={missing}, geometry_only={extra}"
         )
 
     features: list[TrajectoryMapFeature] = []
@@ -871,8 +813,7 @@ def _build_reference_weights(
         feature = reference_by_id[freguesia_id]
         if observation.freguesia_name != feature.name:
             raise MultivariableAnalysisError(
-                f"{freguesia_id} name mismatch: "
-                f"{observation.freguesia_name!r} != {feature.name!r}"
+                f"{freguesia_id} name mismatch: {observation.freguesia_name!r} != {feature.name!r}"
             )
         features.append(
             TrajectoryMapFeature(
@@ -904,23 +845,16 @@ def _residual_moran(
     """Calculate Global Moran's I for model residuals."""
     ids = [row.freguesia_id for row in complete]
     residual_by_id = {
-        freguesia_id: float(value)
-        for freguesia_id, value in zip(ids, residual, strict=True)
+        freguesia_id: float(value) for freguesia_id, value in zip(ids, residual, strict=True)
     }
     induced = {
         freguesia_id: tuple(
-            neighbor
-            for neighbor in weights.neighbors[freguesia_id]
-            if neighbor in residual_by_id
+            neighbor for neighbor in weights.neighbors[freguesia_id] if neighbor in residual_by_id
         )
         for freguesia_id in ids
     }
     islands = tuple(
-        sorted(
-            freguesia_id
-            for freguesia_id, neighbors in induced.items()
-            if not neighbors
-        )
+        sorted(freguesia_id for freguesia_id, neighbors in induced.items() if not neighbors)
     )
     values = [residual_by_id[freguesia_id] for freguesia_id in ids]
     observed = _morans_i(values, ids, induced)
@@ -937,9 +871,7 @@ def _residual_moran(
         for _ in range(permutations):
             rng.shuffle(permuted)
             simulated = _morans_i(permuted, ids, induced)
-            if simulated is not None and (
-                abs(simulated - expected) >= observed_distance - 1e-15
-            ):
+            if simulated is not None and (abs(simulated - expected) >= observed_distance - 1e-15):
                 extreme += 1
         p_value = (extreme + 1) / (permutations + 1)
 
@@ -963,8 +895,7 @@ def _morans_i(
     """Return row-standardized Moran's I for arbitrary numeric values."""
     mean_value = float(np.mean(np.asarray(values, dtype=np.float64)))
     centered = {
-        freguesia_id: value - mean_value
-        for freguesia_id, value in zip(ids, values, strict=True)
+        freguesia_id: value - mean_value for freguesia_id, value in zip(ids, values, strict=True)
     }
     denominator = sum(value * value for value in centered.values())
     if math.isclose(denominator, 0.0):
@@ -994,22 +925,16 @@ def _leave_one_out(
     """Refit the primary model after omitting each complete-case freguesia."""
     full_pressure = _coefficient(full_fit, _PRIMARY_EXPOSURE).estimate
     full_complete_ids = {row.freguesia_id for row in full_fit.residuals}
-    complete = [
-        row for row in observations if row.freguesia_id in full_complete_ids
-    ]
+    complete = [row for row in observations if row.freguesia_id in full_complete_ids]
 
     rows: list[LeaveOneOutRow] = []
     estimates: list[float] = []
     same_sign = 0
 
-    dummy_weights = SpatialWeights(
-        neighbors={row.freguesia_id: tuple() for row in complete}
-    )
+    dummy_weights = SpatialWeights(neighbors={row.freguesia_id: tuple() for row in complete})
 
     for omitted in complete:
-        reduced = [
-            row for row in complete if row.freguesia_id != omitted.freguesia_id
-        ]
+        reduced = [row for row in complete if row.freguesia_id != omitted.freguesia_id]
         try:
             fit = _fit_spec(
                 reduced,
@@ -1045,9 +970,7 @@ def _leave_one_out(
         full_sample_pressure_coefficient=full_pressure,
         successful_refits=len(estimates),
         failed_refits=len(rows) - len(estimates),
-        same_sign_fraction=(
-            None if not estimates else same_sign / len(estimates)
-        ),
+        same_sign_fraction=(None if not estimates else same_sign / len(estimates)),
         coefficient_min=None if not estimates else min(estimates),
         coefficient_median=None if not estimates else median(estimates),
         coefficient_max=None if not estimates else max(estimates),
@@ -1067,9 +990,7 @@ def _coefficient(fit: ModelFit, term: str) -> CoefficientResult:
     for coefficient in fit.coefficients:
         if coefficient.term == term:
             return coefficient
-    raise MultivariableAnalysisError(
-        f"model {fit.spec.name} is missing coefficient {term}"
-    )
+    raise MultivariableAnalysisError(f"model {fit.spec.name} is missing coefficient {term}")
 
 
 def _write_model_input(
@@ -1098,10 +1019,7 @@ def _write_model_input(
                     row.baseline_year,
                     row.latest_year,
                     _optional_number(row.outcome),
-                    *(
-                        _optional_number(row.values[predictor])
-                        for predictor in predictors
-                    ),
+                    *(_optional_number(row.values[predictor]) for predictor in predictors),
                 )
             )
 
@@ -1249,9 +1167,7 @@ def _write_report(
                         "t_statistic": coefficient.t_statistic,
                         "p_value": coefficient.p_value,
                         "vif": coefficient.vif,
-                        "standardization_mean": (
-                            coefficient.standardization_mean
-                        ),
+                        "standardization_mean": (coefficient.standardization_mean),
                         "standardization_sd": coefficient.standardization_sd,
                     }
                     for coefficient in fit.coefficients
@@ -1348,9 +1264,7 @@ def _write_pressure_coefficients_plot(
     )
     axis.axvline(0, linewidth=0.8)
     axis.set_yticks(positions, labels=labels)
-    axis.set_xlabel(
-        "Housing-change percentage points per 1 SD RNAL-pressure increase"
-    )
+    axis.set_xlabel("Housing-change percentage points per 1 SD RNAL-pressure increase")
     axis.set_title("RNAL pressure coefficient across pre-specified models")
     axis.grid(True, axis="x", alpha=0.25)
     figure.tight_layout()
@@ -1367,9 +1281,7 @@ def _write_primary_residuals_plot(
     """Write fitted-versus-residual diagnostic plot for the primary model."""
     import matplotlib.pyplot as plt
 
-    fit = next(
-        item for item in result.fits if item.spec.name == result.primary_model
-    )
+    fit = next(item for item in result.fits if item.spec.name == result.primary_model)
 
     figure, axis = plt.subplots(figsize=(7, 5))
     axis.scatter(
@@ -1400,12 +1312,12 @@ def _validate_static_context(
     freguesia_id: str,
     years: Mapping[int, Mapping[str, str]],
 ) -> None:
-    """Require static census context to remain identical across annual rows."""
-    values: set[tuple[str, ...]] = set()
+    """Compare finite numeric context values independently of CSV formatting."""
+    values: set[tuple[float, ...]] = set()
     for row in years.values():
         values.add(
             tuple(
-                _required_csv(
+                _required_float_csv(
                     row.get(field),
                     f"{freguesia_id}.{field}",
                 )
@@ -1433,9 +1345,7 @@ def _require_string(
     """Return a required non-empty TOML string."""
     value = raw.get(key)
     if not isinstance(value, str) or not value.strip():
-        raise MultivariableAnalysisError(
-            f"{context}.{key} must be a non-empty string"
-        )
+        raise MultivariableAnalysisError(f"{context}.{key} must be a non-empty string")
     return value.strip()
 
 

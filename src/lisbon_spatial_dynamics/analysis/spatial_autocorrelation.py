@@ -70,18 +70,12 @@ def build_queen_weights(data: TrajectoryMapData) -> SpatialWeights:
     for feature in data.features:
         geometry = shape(dict(feature.geometry))
         if geometry.is_empty:
-            raise SpatialAutocorrelationError(
-                f"{feature.freguesia_id} has empty geometry"
-            )
+            raise SpatialAutocorrelationError(f"{feature.freguesia_id} has empty geometry")
         if not geometry.is_valid:
-            raise SpatialAutocorrelationError(
-                f"{feature.freguesia_id} has invalid geometry"
-            )
+            raise SpatialAutocorrelationError(f"{feature.freguesia_id} has invalid geometry")
         geometries[feature.freguesia_id] = geometry
 
-    neighbors: dict[str, set[str]] = {
-        feature.freguesia_id: set() for feature in data.features
-    }
+    neighbors: dict[str, set[str]] = {feature.freguesia_id: set() for feature in data.features}
     ids = sorted(geometries)
 
     for index, left_id in enumerate(ids):
@@ -232,23 +226,17 @@ def _analyse_metric(
             values_by_id[feature.freguesia_id] = value
 
     if len(values_by_id) < 3:
-        raise SpatialAutocorrelationError(
-            f"{metric} needs at least three complete observations"
-        )
+        raise SpatialAutocorrelationError(f"{metric} needs at least three complete observations")
 
     ordered_ids = sorted(values_by_id)
     induced_neighbors = {
         freguesia_id: tuple(
-            neighbor
-            for neighbor in weights.neighbors[freguesia_id]
-            if neighbor in values_by_id
+            neighbor for neighbor in weights.neighbors[freguesia_id] if neighbor in values_by_id
         )
         for freguesia_id in ordered_ids
     }
     islands = tuple(
-        freguesia_id
-        for freguesia_id in ordered_ids
-        if not induced_neighbors[freguesia_id]
+        freguesia_id for freguesia_id in ordered_ids if not induced_neighbors[freguesia_id]
     )
 
     values = [values_by_id[freguesia_id] for freguesia_id in ordered_ids]
@@ -324,24 +312,13 @@ def _morans_i(
 
         weight = 1.0 / len(row_neighbors)
         for neighbor in row_neighbors:
-            weighted_cross_product += (
-                weight
-                * centered[freguesia_id]
-                * centered[neighbor]
-            )
+            weighted_cross_product += weight * centered[freguesia_id] * centered[neighbor]
             weight_sum += weight
 
     if math.isclose(weight_sum, 0.0):
-        raise SpatialAutocorrelationError(
-            "spatial weights contain no usable neighbour links"
-        )
+        raise SpatialAutocorrelationError("spatial weights contain no usable neighbour links")
 
-    return (
-        len(values)
-        / weight_sum
-        * weighted_cross_product
-        / denominator
-    )
+    return len(values) / weight_sum * weighted_cross_product / denominator
 
 
 def _induced_edge_count(

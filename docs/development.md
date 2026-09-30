@@ -1,6 +1,10 @@
 # Development
 
-The repository targets Python 3.12 and uses Poetry.
+The repository requires Python 3.12 or newer and uses Poetry 2.2.1 with a committed lockfile. CI covers Python 3.12/3.13 on Linux and Python 3.13 on Windows.
+
+Install with `poetry sync --with docs`, then enable hooks with `poetry run pre-commit install`. The hooks run the same locked Ruff and mypy installations as CI.
+
+The full [contribution guide](https://github.com/DiogoRibeiro7/lisbon-spatial-dynamics/blob/main/CONTRIBUTING.md) covers issue reports, data handling, methodological changes, and releases.
 
 ## Tooling
 
@@ -15,11 +19,13 @@ The repository targets Python 3.12 and uses Poetry.
 ## Before a pull request
 
 ```bash
+poetry check --lock --strict
 poetry run ruff check .
 poetry run ruff format --check .
 poetry run mypy src tests
 poetry run pytest
 poetry run mkdocs build --strict
+poetry build
 ```
 
 ## Code organisation

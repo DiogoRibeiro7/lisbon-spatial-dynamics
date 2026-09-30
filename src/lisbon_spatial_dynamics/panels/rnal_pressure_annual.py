@@ -116,8 +116,7 @@ def load_rnal_population_pressure_csv(
         missing = required - set(reader.fieldnames or ())
         if missing:
             raise AnnualRNALPressureError(
-                "RNAL pressure CSV is missing columns: "
-                + ", ".join(sorted(missing))
+                "RNAL pressure CSV is missing columns: " + ", ".join(sorted(missing))
             )
 
         for row_index, raw in enumerate(reader, start=2):
@@ -256,9 +255,7 @@ def build_annual_rnal_pressure(
         )
         previous_reference = reference_by_id.get(row.freguesia_id)
         if previous_reference is not None and previous_reference != reference:
-            raise AnnualRNALPressureError(
-                f"population reference changes within {row.freguesia_id}"
-            )
+            raise AnnualRNALPressureError(f"population reference changes within {row.freguesia_id}")
         reference_by_id[row.freguesia_id] = reference
 
         key = (row.freguesia_id, row.year)
@@ -291,19 +288,13 @@ def build_annual_rnal_pressure(
             denominator = Decimal(q4.population_resident)
 
             registrations_year = (
-                sum(row.registrations for row in quarters.values())
-                if full_year
-                else None
+                sum(row.registrations for row in quarters.values()) if full_year else None
             )
             cessations_year = (
-                sum(row.cessations for row in quarters.values())
-                if full_year
-                else None
+                sum(row.cessations for row in quarters.values()) if full_year else None
             )
             net_year = (
-                sum(row.net_registrations for row in quarters.values())
-                if full_year
-                else None
+                sum(row.net_registrations for row in quarters.values()) if full_year else None
             )
 
             output.append(
@@ -337,30 +328,21 @@ def build_annual_rnal_pressure(
                         denominator,
                     ),
                     active_registrations_year_end=q4.active_registrations,
-                    active_registrations_per_1000_year_end=(
-                        q4.active_registrations_per_1000
-                    ),
+                    active_registrations_per_1000_year_end=(q4.active_registrations_per_1000),
                     active_registrations_per_1000_change_from_baseline=(
-                        q4.active_registrations_per_1000
-                        - baseline_q4.active_registrations_per_1000
+                        q4.active_registrations_per_1000 - baseline_q4.active_registrations_per_1000
                     ),
                     active_beds_known_year_end=q4.active_beds_known,
                     active_beds_missing_year_end=q4.active_beds_missing,
-                    active_beds_known_per_1000_year_end=(
-                        q4.active_beds_known_per_1000
-                    ),
+                    active_beds_known_per_1000_year_end=(q4.active_beds_known_per_1000),
                     active_beds_known_per_1000_change_from_baseline=(
-                        q4.active_beds_known_per_1000
-                        - baseline_q4.active_beds_known_per_1000
+                        q4.active_beds_known_per_1000 - baseline_q4.active_beds_known_per_1000
                     ),
                     active_users_known_year_end=q4.active_users_known,
                     active_users_missing_year_end=q4.active_users_missing,
-                    active_users_known_per_1000_year_end=(
-                        q4.active_users_known_per_1000
-                    ),
+                    active_users_known_per_1000_year_end=(q4.active_users_known_per_1000),
                     active_users_known_per_1000_change_from_baseline=(
-                        q4.active_users_known_per_1000
-                        - baseline_q4.active_users_known_per_1000
+                        q4.active_users_known_per_1000 - baseline_q4.active_users_known_per_1000
                     ),
                 )
             )
@@ -403,21 +385,15 @@ def write_annual_rnal_pressure_csv(
                     _optional_decimal_text(row.net_registrations_year_per_1000),
                     row.active_registrations_year_end,
                     _decimal_text(row.active_registrations_per_1000_year_end),
-                    _decimal_text(
-                        row.active_registrations_per_1000_change_from_baseline
-                    ),
+                    _decimal_text(row.active_registrations_per_1000_change_from_baseline),
                     row.active_beds_known_year_end,
                     row.active_beds_missing_year_end,
                     _decimal_text(row.active_beds_known_per_1000_year_end),
-                    _decimal_text(
-                        row.active_beds_known_per_1000_change_from_baseline
-                    ),
+                    _decimal_text(row.active_beds_known_per_1000_change_from_baseline),
                     row.active_users_known_year_end,
                     row.active_users_missing_year_end,
                     _decimal_text(row.active_users_known_per_1000_year_end),
-                    _decimal_text(
-                        row.active_users_known_per_1000_change_from_baseline
-                    ),
+                    _decimal_text(row.active_users_known_per_1000_change_from_baseline),
                 )
             )
 

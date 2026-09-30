@@ -54,9 +54,7 @@ def _row(
         active_users_missing=2,
         registrations_per_1000=Decimal(registrations) / Decimal("10"),
         cessations_per_1000=Decimal(cessations) / Decimal("10"),
-        net_registrations_per_1000=(
-            Decimal(registrations - cessations) / Decimal("10")
-        ),
+        net_registrations_per_1000=(Decimal(registrations - cessations) / Decimal("10")),
         active_registrations_per_1000=Decimal(active) / Decimal("10"),
         active_beds_known_per_1000=Decimal(active * 2) / Decimal("10"),
         active_users_known_per_1000=Decimal(active * 3) / Decimal("10"),
@@ -80,10 +78,7 @@ def test_annual_pressure_uses_q4_and_complete_year_flows() -> None:
     assert baseline.flow_quarters_observed == 1
     assert baseline.registrations_year is None
     assert baseline.active_registrations_per_1000_year_end == Decimal("10")
-    assert (
-        baseline.active_registrations_per_1000_change_from_baseline
-        == Decimal("0")
-    )
+    assert baseline.active_registrations_per_1000_change_from_baseline == Decimal("0")
 
     assert year_2020.flow_quarters_observed == 4
     assert year_2020.registrations_year == 18
@@ -91,14 +86,8 @@ def test_annual_pressure_uses_q4_and_complete_year_flows() -> None:
     assert year_2020.net_registrations_year == 17
     assert year_2020.registrations_year_per_1000 == Decimal("1.8")
     assert year_2020.active_registrations_per_1000_year_end == Decimal("10.8")
-    assert (
-        year_2020.active_registrations_per_1000_change_from_baseline
-        == Decimal("0.8")
-    )
-    assert (
-        year_2020.active_beds_known_per_1000_change_from_baseline
-        == Decimal("1.6")
-    )
+    assert year_2020.active_registrations_per_1000_change_from_baseline == Decimal("0.8")
+    assert year_2020.active_beds_known_per_1000_change_from_baseline == Decimal("1.6")
 
 
 def test_partial_year_with_q4_keeps_level_but_nulls_flows() -> None:
@@ -180,10 +169,7 @@ def test_writer_uses_stable_contract_and_is_immutable(tmp_path: Path) -> None:
 
     assert tuple(table[0]) == ANNUAL_RNAL_PRESSURE_COLUMNS
     assert table[1]["active_registrations_per_1000_year_end"] == "10.8"
-    assert (
-        table[1]["active_registrations_per_1000_change_from_baseline"]
-        == "0.8"
-    )
+    assert table[1]["active_registrations_per_1000_change_from_baseline"] == "0.8"
 
     with pytest.raises(FileExistsError):
         write_annual_rnal_pressure_csv(rows, path)

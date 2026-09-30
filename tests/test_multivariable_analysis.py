@@ -9,6 +9,7 @@ from pathlib import Path
 import pytest
 
 from lisbon_spatial_dynamics.analysis.multivariable import (
+    MultivariableAnalysisError,
     build_multivariable_analysis,
     fit_multivariable_models,
     load_model_config,
@@ -256,9 +257,7 @@ def test_fit_models_produces_robust_diagnostics_and_sensitivity(
     )
 
     assert len(result.fits) == 4
-    primary = next(
-        fit for fit in result.fits if fit.spec.name == result.primary_model
-    )
+    primary = next(fit for fit in result.fits if fit.spec.name == result.primary_model)
     pressure = next(
         coefficient
         for coefficient in primary.coefficients
@@ -291,6 +290,7 @@ def test_build_multivariable_analysis_writes_complete_milestone(
         tmp_path / "output",
         permutations=9,
         seed=3,
+        expected_freguesias=12,
     )
 
     for path in outputs.paths():
@@ -308,11 +308,25 @@ def test_build_multivariable_analysis_writes_complete_milestone(
     ) as stream:
         rows = list(csv.DictReader(stream))
 
-    assert {
-        row["model"] for row in rows
-    } == {
+    assert {row["model"] for row in rows} == {
         "unadjusted",
         "baseline_adjusted",
         "context_adjusted",
         "built_environment_sensitivity",
     }
+
+
+@pytest.mark.parametrize("value", ["25", "nan", "inf"])
+def test_model_rejects_changed_or_nonfinite_census_context(tmp_path: Path, value: str) -> None:
+    context_path = tmp_path / "context.csv"
+    _write_context_csv(context_path)
+    with context_path.open(encoding="utf-8", newline="") as stream:
+        rows = list(csv.DictReader(stream))
+    rows[1]["census_rented_share_pct"] = value
+    with context_path.open("w", encoding="utf-8", newline="") as stream:
+        writer = csv.DictWriter(stream, fieldnames=list(rows[0]))
+        writer.writeheader()
+        writer.writerows(rows)
+
+    with pytest.raises(MultivariableAnalysisError, match="static census context|finite"):
+        load_model_observations(context_path)

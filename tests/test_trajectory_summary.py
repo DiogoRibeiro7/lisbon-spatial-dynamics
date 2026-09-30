@@ -9,12 +9,12 @@ from pathlib import Path
 
 import pytest
 
+from lisbon_spatial_dynamics.analysis.trajectories import FreguesiaTrajectory
 from lisbon_spatial_dynamics.analysis.trajectory_summary import (
     TrajectorySummaryError,
     build_trajectory_summary,
     write_trajectory_summary_json,
 )
-from lisbon_spatial_dynamics.analysis.trajectories import FreguesiaTrajectory
 
 
 def _row(
@@ -43,9 +43,7 @@ def _row(
         rnal_active_change_pct=(
             None
             if rnal_baseline == 0
-            else Decimal(rnal_latest - rnal_baseline)
-            / Decimal(rnal_baseline)
-            * Decimal("100")
+            else Decimal(rnal_latest - rnal_baseline) / Decimal(rnal_baseline) * Decimal("100")
         ),
         rnal_beds_known_baseline=200,
         rnal_beds_known_latest=260,

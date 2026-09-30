@@ -1,0 +1,22 @@
+name: Feature or research proposal
+description: Propose a capability, source, or methodological improvement.
+body:
+  - type: textarea
+    id: need
+    attributes:
+      label: Problem or research question
+      description: Who needs this change, and what would it make possible?
+    validations:
+      required: true
+  - type: textarea
+    id: approach
+    attributes:
+      label: Proposed approach
+      description: Describe the behaviour, data sources, assumptions, and alternatives.
+    validations:
+      required: true
+  - type: textarea
+    id: validation
+    attributes:
+      label: Validation and reproducibility
+      description: How can the change be checked? Identify effects on data contracts, comparison windows, or interpretation.

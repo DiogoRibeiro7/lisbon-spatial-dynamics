@@ -115,14 +115,12 @@ def test_quarter_panel_reconstructs_flows_and_stock() -> None:
     q4_alvalade = next(
         row
         for row in rows
-        if row.period_code == "4.º Trimestre de 2019"
-        and row.freguesia_id == "110654"
+        if row.period_code == "4.º Trimestre de 2019" and row.freguesia_id == "110654"
     )
     q1_alvalade = next(
         row
         for row in rows
-        if row.period_code == "1.º Trimestre de 2020"
-        and row.freguesia_id == "110654"
+        if row.period_code == "1.º Trimestre de 2020" and row.freguesia_id == "110654"
     )
 
     assert q4_alvalade.registrations == 1

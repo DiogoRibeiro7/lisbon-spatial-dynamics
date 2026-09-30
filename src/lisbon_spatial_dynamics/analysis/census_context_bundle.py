@@ -53,9 +53,7 @@ def build_census2021_context_bundle(
     outputs = CensusContextBundleOutputs(
         context_csv=output_directory / "lisbon_census2021_context.csv",
         context_geojson=output_directory / "lisbon_census2021_context.geojson",
-        annual_context_csv=(
-            output_directory / "lisbon_annual_housing_pressure_context.csv"
-        ),
+        annual_context_csv=(output_directory / "lisbon_annual_housing_pressure_context.csv"),
     )
 
     for path in outputs.paths():

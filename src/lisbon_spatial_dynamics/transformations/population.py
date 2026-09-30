@@ -46,10 +46,7 @@ def build_census_population_reference(
 ) -> tuple[CensusPopulationRow, ...]:
     """Aggregate national Censos 2021 subsection counts to Lisbon freguesias."""
     reference = _load_reference(reference_csv, expected_count=expected_count)
-    population_by_id = {
-        freguesia_id: 0
-        for freguesia_id in reference
-    }
+    population_by_id = {freguesia_id: 0 for freguesia_id in reference}
     matched_subsections = 0
 
     with zipfile.ZipFile(archive_path) as archive:
@@ -83,9 +80,7 @@ def build_census_population_reference(
         population = population_by_id[freguesia_id]
 
         if population <= 0:
-            raise CensusPopulationError(
-                f"{freguesia_id} has non-positive aggregated population"
-            )
+            raise CensusPopulationError(f"{freguesia_id} has non-positive aggregated population")
 
         rows.append(
             CensusPopulationRow(
@@ -135,8 +130,7 @@ def _find_synthesis_table(
     candidates = [
         member
         for member in archive.infolist()
-        if not member.is_dir()
-        and Path(member.filename).suffix.casefold() in {".csv", ".txt"}
+        if not member.is_dir() and Path(member.filename).suffix.casefold() in {".csv", ".txt"}
     ]
 
     for member in candidates:
@@ -153,18 +147,13 @@ def _find_synthesis_table(
 
         stream = io.StringIO(text)
         reader = csv.DictReader(stream, dialect=dialect)
-        fieldnames = {
-            field.strip()
-            for field in (reader.fieldnames or ())
-            if field is not None
-        }
+        fieldnames = {field.strip() for field in (reader.fieldnames or ()) if field is not None}
 
         if _REQUIRED_SOURCE_COLUMNS.issubset(fieldnames):
             return member.filename, reader
 
     raise CensusPopulationError(
-        "could not find a census synthesis table containing "
-        "DTMNFR21 and N_INDIVIDUOS"
+        "could not find a census synthesis table containing DTMNFR21 and N_INDIVIDUOS"
     )
 
 
@@ -186,8 +175,7 @@ def _load_reference(
 
         if missing:
             raise CensusPopulationError(
-                "reference CSV is missing columns: "
-                + ", ".join(sorted(missing))
+                "reference CSV is missing columns: " + ", ".join(sorted(missing))
             )
 
         for row_index, row in enumerate(reader, start=2):
@@ -205,16 +193,13 @@ def _load_reference(
             )
 
             if freguesia_id in reference:
-                raise CensusPopulationError(
-                    f"duplicate reference freguesia_id: {freguesia_id}"
-                )
+                raise CensusPopulationError(f"duplicate reference freguesia_id: {freguesia_id}")
 
             reference[freguesia_id] = (name, area_ha)
 
     if len(reference) != expected_count:
         raise CensusPopulationError(
-            f"unexpected reference freguesia count: "
-            f"{len(reference)} != {expected_count}"
+            f"unexpected reference freguesia count: {len(reference)} != {expected_count}"
         )
 
     return reference
@@ -228,9 +213,7 @@ def _decode_text(payload: bytes) -> str:
         except UnicodeDecodeError:
             continue
 
-    raise CensusPopulationError(
-        "census synthesis table has an unsupported text encoding"
-    )
+    raise CensusPopulationError("census synthesis table has an unsupported text encoding")
 
 
 def _required_text(value: str | None, context: str) -> str:
@@ -250,14 +233,10 @@ def _parse_non_negative_int(
     try:
         number = float(raw)
     except ValueError as exc:
-        raise CensusPopulationError(
-            f"{context} must be numeric"
-        ) from exc
+        raise CensusPopulationError(f"{context} must be numeric") from exc
 
     if not math.isfinite(number) or number < 0 or not number.is_integer():
-        raise CensusPopulationError(
-            f"{context} must be a non-negative integer"
-        )
+        raise CensusPopulationError(f"{context} must be a non-negative integer")
 
     return int(number)
 
@@ -272,13 +251,9 @@ def _parse_positive_float(
     try:
         number = float(raw)
     except ValueError as exc:
-        raise CensusPopulationError(
-            f"{context} must be numeric"
-        ) from exc
+        raise CensusPopulationError(f"{context} must be numeric") from exc
 
     if not math.isfinite(number) or number <= 0:
-        raise CensusPopulationError(
-            f"{context} must be positive and finite"
-        )
+        raise CensusPopulationError(f"{context} must be positive and finite")
 
     return number
