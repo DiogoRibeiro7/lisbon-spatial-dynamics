@@ -1,22 +1,18 @@
 # Development
 
-The repository follows a small-PR workflow and keeps reusable logic inside the Python package.
+The repository targets Python 3.12 and uses Poetry.
 
-## Environment
-
-The project targets Python 3.12 and uses Poetry for dependency management.
-
-Development tooling includes:
+## Tooling
 
 - Ruff for linting and formatting;
 - mypy in strict mode;
-- pytest for tests;
-- pre-commit for local checks;
-- MkDocs Material for documentation.
+- pytest;
+- pre-commit;
+- MkDocs Material;
+- NumPy/SciPy;
+- Shapely.
 
-## Before opening a pull request
-
-Run:
+## Before a pull request
 
 ```bash
 poetry run ruff check .
@@ -28,22 +24,14 @@ poetry run mkdocs build --strict
 
 ## Code organisation
 
-Prefer focused modules with explicit interfaces over large notebooks or scripts.
+Reusable logic belongs in `src/lisbon_spatial_dynamics/`.
 
-New data-source integrations should separate:
+Research outputs should come from package commands rather than hidden notebook state.
 
-1. acquisition;
-2. parsing;
-3. validation;
-4. harmonisation;
-5. persistence.
+## Pull-request scope
 
-This makes source-specific assumptions visible and testable.
+Prefer coherent reviewable milestones. A larger PR is appropriate when one research milestone genuinely spans data contracts, analysis, tests, and documentation; avoid splitting one logical result into many trivial PRs.
 
-## Type discipline
+## Release discipline
 
-Public functions should use precise type annotations. Avoid weakening type checking merely to silence errors; isolate unavoidable third-party typing gaps instead.
-
-## Pull requests
-
-Keep pull requests small enough that data assumptions, methodological changes, and code changes can be reviewed independently whenever possible.
+Stable releases must preserve immutable source snapshots, build into a fresh output root, write a provenance manifest, keep model specifications versioned, pass repository checks, and update release/citation metadata when needed.
