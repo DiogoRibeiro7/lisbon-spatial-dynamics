@@ -273,3 +273,42 @@ Spearman ranks use average ranks for ties. If either variable is constant over t
 The scatter plot places RNAL active-stock percentage change on the horizontal axis and housing-price percentage change on the vertical axis. Freguesia labels can be disabled with `--no-labels`.
 
 These are descriptive cross-sectional associations only. They do not estimate a causal effect of local accommodation on housing prices and do not control for demographic, spatial, tourism, infrastructure, or other confounding factors.
+
+
+## Population-normalized RNAL pressure
+
+Raw RNAL counts are useful for longitudinal stock accounting but are not directly comparable across freguesias of very different population size. The project therefore derives a second RNAL panel using the static 2021 Census resident population as the denominator.
+
+Build it with:
+
+```bash
+poetry run build-rnal-population-pressure \
+  data/processed/rnal/lisbon_rnal_quarter_panel.csv \
+  data/processed/reference/lisbon_population_2021.csv \
+  data/processed/rnal/lisbon_rnal_population_pressure.csv
+```
+
+The output preserves every raw RNAL count and adds:
+
+- registrations per 1,000 residents;
+- cessations per 1,000 residents;
+- net registrations per 1,000 residents;
+- active registrations per 1,000 residents;
+- known active beds per 1,000 residents;
+- known active users per 1,000 residents;
+- the 2021 resident-population denominator;
+- 2021 population density;
+- the explicit population reference year.
+
+For count (C_{i,t}) in freguesia (i) and quarter (t),
+
+\[
+R_{i,t}
+=
+1000
+\frac{C_{i,t}}{N_{i,2021}},
+\]
+
+where (N_{i,2021}) is the Censos 2021 resident population.
+
+This normalization is intended for **cross-freguesia comparability**. Because the denominator is fixed at the 2021 Census population, a change in the normalized RNAL rate over time still reflects changes in RNAL counts relative to a static population reference. It must not be interpreted as an annual per-capita rate using contemporaneous population.
