@@ -1,22 +1,18 @@
 # Getting started
 
-Lisbon Spatial Dynamics uses Python 3.12 and Poetry.
+Lisbon Spatial Dynamics v1 uses Python 3.12 and Poetry.
 
-## Clone the repository
+## Install
 
 ```bash
 git clone https://github.com/DiogoRibeiro7/lisbon-spatial-dynamics.git
 cd lisbon-spatial-dynamics
-```
 
-## Install the development environment
-
-```bash
 poetry install --with docs
 poetry run pre-commit install
 ```
 
-## Run the checks
+## Run checks
 
 ```bash
 poetry run ruff check .
@@ -26,29 +22,51 @@ poetry run pytest
 poetry run mkdocs build --strict
 ```
 
-## Preview the documentation
+## Build the complete v1 study
+
+The stable release starts from archived source snapshots rather than live network calls:
+
+```bash
+poetry run build-study-v1 \
+  <housing-snapshot.json> \
+  <rnal-snapshot.records.json> \
+  <census-snapshot.zip> \
+  <lisbon_freguesias.csv> \
+  <lisbon_freguesias.geojson> \
+  <output-root>
+```
+
+Optional release parameters:
+
+```text
+--model-config configs/multivariable_models.toml
+--expected-freguesias 24
+--permutations 999
+--seed 42
+--local-alpha 0.05
+```
+
+The output root must not already exist.
+
+## Output structure
+
+```text
+<output-root>/
+├── reference/
+├── panels/
+├── context/
+├── analysis/
+│   ├── normalized/
+│   └── multivariable/
+├── results/
+│   └── final/
+└── study_manifest.json
+```
+
+The manifest records SHA-256 digests for every input snapshot and generated file.
+
+## Preview documentation
 
 ```bash
 poetry run mkdocs serve
 ```
-
-MkDocs will print the local preview address in the terminal.
-
-## Repository layout
-
-```text
-.
-├── configs/                  # Reproducible configuration
-├── data/
-│   ├── raw/                  # Source data, not committed
-│   ├── interim/              # Intermediate transformations
-│   └── processed/            # Analysis-ready derived data
-├── docs/                     # Project documentation
-├── notebooks/                # Exploratory and research notebooks
-├── scripts/                  # Reproducible command-line workflows
-├── src/
-│   └── lisbon_spatial_dynamics/
-└── tests/
-```
-
-The package code should contain reusable data and analysis logic. Notebooks are for exploration, diagnostics, and communication rather than hidden production pipelines.
