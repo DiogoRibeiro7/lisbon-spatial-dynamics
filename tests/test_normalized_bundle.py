@@ -5,6 +5,7 @@ from __future__ import annotations
 import json
 from datetime import date
 from decimal import Decimal
+from pathlib import Path
 
 from lisbon_spatial_dynamics.analysis.normalized_bundle import (
     build_normalized_analysis_bundle,
