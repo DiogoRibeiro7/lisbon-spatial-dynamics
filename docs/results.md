@@ -52,3 +52,45 @@ The primary residual plot supports visual checking of fitted-versus-residual str
 Lisbon has only 24 canonical freguesias in this study. The model set is intentionally compact, and inference should be read together with coefficient stability, confidence intervals, influence diagnostics and residual spatial autocorrelation.
 
 The multivariable stage should be presented as adjusted descriptive evidence rather than definitive causal identification.
+
+
+## Final results package
+
+Once the normalized descriptive/spatial bundle and the multivariable milestone have been generated, the project can assemble a compact publication-style results package:
+
+```bash
+poetry run build-final-results \
+  data/processed/analysis/normalized \
+  data/processed/analysis/multivariable \
+  data/processed/results/final
+```
+
+The command does not refit models or recompute spatial statistics. It reads the already generated machine-readable outputs and synthesizes them into:
+
+```text
+table_1_descriptive.csv
+table_2_spatial.csv
+table_3_models.csv
+table_4_diagnostics.csv
+findings.json
+findings.md
+figure_1_pressure_association.png
+figure_2_pressure_coefficients.png
+figure_3_primary_residuals.png
+```
+
+The synthesis validates that the descriptive, spatial, and multivariable artifacts all refer to the same baseline/latest comparison window before producing any final table or narrative.
+
+The generated `findings.md` is intentionally concise. It reports:
+
+- study window;
+- median housing change;
+- median RNAL pressure-point change;
+- Pearson and Spearman associations;
+- Global Moran diagnostics;
+- count of FDR-significant local associations;
+- the primary adjusted RNAL-pressure coefficient and HC3 robust confidence interval;
+- primary-model diagnostics;
+- leave-one-freguesia-out coefficient stability.
+
+The narrative is generated directly from the analysis artifacts and preserves the interpretation contract: adjusted associations are descriptive and not causal.
