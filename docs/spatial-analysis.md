@@ -294,3 +294,20 @@ The categorical legend distinguishes:
 Only FDR-significant Local Moran results receive HH, LL, HL or LH in the final map. Freguesia labels are optional with `--labels`.
 
 These maps visualize local spatial association under queen contiguity. They should not be read as causal maps of housing pressure or tourism effects.
+
+
+## Static population reference
+
+The canonical reference geography can be enriched with the 2021 Census resident population. Population is aggregated from INE census subsections using `DTMNFR21`, then joined to the canonical CAOP freguesia table by the same administrative identifier.
+
+The derived density is:
+
+\[
+D_i =
+\frac{N_i}
+{A_i / 100},
+\]
+
+where (N_i) is the 2021 resident population and (A_i) is official CAOP area in hectares.
+
+The resulting denominator is intentionally static. It can normalize neighbourhood-level counts for cross-freguesia comparability, but it does not represent population change through the study window.
