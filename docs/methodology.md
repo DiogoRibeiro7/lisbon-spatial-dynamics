@@ -312,3 +312,38 @@ R_{i,t}
 where (N_{i,2021}) is the Censos 2021 resident population.
 
 This normalization is intended for **cross-freguesia comparability**. Because the denominator is fixed at the 2021 Census population, a change in the normalized RNAL rate over time still reflects changes in RNAL counts relative to a static population reference. It must not be interpreted as an annual per-capita rate using contemporaneous population.
+
+
+## Annual population-normalized RNAL pressure
+
+For across-years comparison, the quarterly pressure panel is reduced to a Q4-anchored annual panel:
+
+```bash
+poetry run build-annual-rnal-pressure \
+  data/processed/rnal/lisbon_rnal_population_pressure.csv \
+  data/processed/rnal/lisbon_annual_rnal_pressure.csv
+```
+
+A year is included only when Q4 exists.
+
+The Q4 row supplies year-end:
+
+- active registrations per 1,000 Census-2021 residents;
+- known active beds per 1,000 residents;
+- known active users per 1,000 residents;
+- the corresponding raw counts;
+- the static population denominator and population density.
+
+Annual registration, cessation, and net-flow rates are reported only when all four quarters are observed. Partial years keep the Q4 pressure level but leave annual flow fields null.
+
+The panel also includes pressure-point change from each freguesia's earliest available Q4 baseline. For active registrations:
+
+\[
+\Delta R_i
+=
+R_{i,T} - R_{i,0},
+\]
+
+where each (R) is measured as active RNAL registrations per 1,000 Census-2021 residents.
+
+Because the denominator is fixed within each freguesia, this pressure-point change is useful for comparing how strongly RNAL stock expanded relative to neighbourhood size. It should still not be interpreted as a contemporaneous annual per-capita measure.
