@@ -68,7 +68,7 @@ build-local-morans-i = "lisbon_spatial_dynamics.cli:build_local_morans_i_cli"
 build-lisa-cluster-maps = "lisbon_spatial_dynamics.cli:build_lisa_cluster_maps_cli"
 
 [tool.poetry.group.dev.dependencies]
-pytest = "^8.0"
+pytest = ">=9.0.3,<10"
 ruff = "^0.13"
 mypy = "^1.18"
 pre-commit = "^4.0"

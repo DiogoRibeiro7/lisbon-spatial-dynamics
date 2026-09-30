@@ -18,6 +18,7 @@ All notable repository-level changes are documented here.
 - Census GeoJSON metrics serialized as strings, and numeric context rejected when only CSV formatting differed.
 - Study parish-count overrides not reaching the multivariable stage.
 - Existing lint, formatting, and strict typing failures.
+- Raise the pytest minimum to 9.0.3 to exclude versions affected by the reported temporary-directory vulnerability.
 - Documentation that implied a published empirical results bundle was available with the software release.
 
 ### Changed
