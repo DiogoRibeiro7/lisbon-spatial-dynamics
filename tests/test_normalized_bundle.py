@@ -5,7 +5,6 @@ from __future__ import annotations
 import json
 from datetime import date
 from decimal import Decimal
-from pathlib import Path
 
 from lisbon_spatial_dynamics.analysis.normalized_bundle import (
     build_normalized_analysis_bundle,
@@ -135,9 +134,9 @@ def test_bundle_writes_complete_analysis_milestone(tmp_path: Path) -> None:
         label_scatter=False,
     )
 
-    for path in result.__dict__.values():
-        assert Path(path).exists()
-        assert Path(path).stat().st_size > 0
+    for path in result.paths():
+        assert path.exists()
+        assert path.stat().st_size > 0
 
     summary = json.loads(result.summary_json.read_text(encoding="utf-8"))
     assert summary["comparison_window"]["baseline_year"] == 2019
