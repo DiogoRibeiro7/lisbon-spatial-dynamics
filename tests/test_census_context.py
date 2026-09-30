@@ -100,7 +100,7 @@ def test_context_aggregates_counts_and_derives_shares(tmp_path: Path) -> None:
     assert alvalade.classic_buildings == 15
     assert alvalade.age_65_plus == 30
     assert alvalade.age_65_plus_pct == Decimal("20")
-    assert alvalade.rented_share_pct == Decimal("20")
+    assert alvalade.rented_share_pct == Decimal("10") / Decimal("28") * Decimal("100")
     assert alvalade.pre1945_building_share_pct == Decimal("20")
     assert alvalade.dwellings_per_classic_building == Decimal("40") / Decimal("15")
 
