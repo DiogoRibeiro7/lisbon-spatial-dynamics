@@ -1,0 +1,22 @@
+cff-version: 1.2.0
+message: "If you use this software or its research outputs, please cite it using this metadata."
+title: "Lisbon Spatial Dynamics"
+type: software
+authors:
+  - family-names: "Ribeiro"
+    given-names: "Diogo"
+version: "1.0.0"
+date-released: "2026-09-30"
+repository-code: "https://github.com/DiogoRibeiro7/lisbon-spatial-dynamics"
+license: "MIT"
+abstract: >-
+  Reproducible spatial analysis of neighbourhood-level urban change in Lisbon,
+  combining housing values, local-accommodation pressure, Censos 2021 context,
+  spatial autocorrelation diagnostics, and pre-specified multivariable models.
+keywords:
+  - Lisbon
+  - spatial analysis
+  - housing
+  - local accommodation
+  - urban change
+  - reproducible research
