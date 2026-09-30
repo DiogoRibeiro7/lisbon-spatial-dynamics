@@ -1,0 +1,37 @@
+[analysis]
+outcome = "housing_change_from_baseline_pct"
+primary_model = "context_adjusted"
+standardize_predictors = true
+
+[models.unadjusted]
+label = "RNAL pressure only"
+predictors = [
+  "rnal_pressure_change_per_1000",
+]
+
+[models.baseline_adjusted]
+label = "RNAL pressure + baseline housing"
+predictors = [
+  "rnal_pressure_change_per_1000",
+  "log_baseline_housing_eur_m2",
+]
+
+[models.context_adjusted]
+label = "RNAL pressure + baseline + demographic context"
+predictors = [
+  "rnal_pressure_change_per_1000",
+  "log_baseline_housing_eur_m2",
+  "log_population_density_per_km2",
+  "census_rented_share_pct",
+  "census_age_65_plus_pct",
+]
+
+[models.built_environment_sensitivity]
+label = "RNAL pressure + baseline + built environment"
+predictors = [
+  "rnal_pressure_change_per_1000",
+  "log_baseline_housing_eur_m2",
+  "census_vacant_or_secondary_family_share_pct",
+  "census_pre1945_building_share_pct",
+  "census_repair_needed_building_share_pct",
+]

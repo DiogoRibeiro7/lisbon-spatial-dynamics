@@ -525,3 +525,52 @@ The annual research panel is enriched by repeating these **static 2021** variabl
 These variables are neighbourhood context, not annual trajectories. They can be used later for stratification, descriptive comparison, or multivariable adjustment, but must not be interpreted as changing annually.
 
 No composite neighbourhood score is produced.
+
+
+## Pre-specified multivariable analysis milestone
+
+The multivariable stage uses the Census-enriched annual research panel and one common baseline-to-latest window across all freguesias.
+
+Run:
+
+```bash
+poetry run build-multivariable-analysis \
+  data/processed/context/census2021/lisbon_annual_housing_pressure_context.csv \
+  data/processed/reference/lisbon_freguesias.geojson \
+  data/processed/analysis/multivariable
+```
+
+The model specifications are versioned in `configs/multivariable_models.toml`. They are deliberately **pre-specified** rather than selected by automated stepwise procedures.
+
+The outcome is cumulative housing-value percentage change from the common baseline. The primary exposure is the baseline-to-latest change in active RNAL registrations per 1,000 Censos-2021 residents.
+
+Four specifications are fitted:
+
+1. RNAL pressure only;
+2. RNAL pressure plus log baseline housing value;
+3. the primary demographic/tenure adjustment model;
+4. a built-environment sensitivity specification.
+
+Predictors are standardized using the model sample population standard deviation. The housing-change outcome remains in percentage points, so a non-intercept coefficient represents the expected housing-change percentage-point difference associated with a one-standard-deviation increase in that predictor, conditional on the other included variables.
+
+### Uncertainty and diagnostics
+
+Each specification reports:
+
+- ordinary least-squares point estimates;
+- HC3 heteroskedasticity-robust standard errors;
+- 95% t-based robust confidence intervals;
+- robust coefficient p-values;
+- (R^2) and adjusted (R^2);
+- RMSE;
+- VIFs;
+- design-matrix condition number;
+- Breusch–Pagan diagnostic;
+- leverage and Cook's distance by freguesia;
+- Global Moran's (I) permutation diagnostic for model residuals.
+
+The primary model additionally receives a leave-one-freguesia-out sensitivity analysis. The full-sample standardization is retained during these refits so coefficient movements reflect case deletion rather than a changing measurement scale.
+
+### Interpretation
+
+These regressions are **descriptive adjusted associations**, not causal estimates. Static Censos-2021 context can account for some cross-freguesia structural differences, but it does not identify a causal effect of local accommodation on housing prices. With only 24 freguesias, model size is intentionally constrained and diagnostics/sensitivity are treated as first-class outputs.

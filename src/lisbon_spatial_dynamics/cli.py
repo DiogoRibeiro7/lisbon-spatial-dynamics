@@ -22,6 +22,9 @@ from lisbon_spatial_dynamics.analysis.spatial_autocorrelation import (
 from lisbon_spatial_dynamics.analysis.census_context_bundle import (
     build_census2021_context_bundle,
 )
+from lisbon_spatial_dynamics.analysis.multivariable import (
+    build_multivariable_analysis,
+)
 from lisbon_spatial_dynamics.analysis.normalized_bundle import (
     load_and_build_normalized_analysis_bundle,
 )
@@ -857,5 +860,46 @@ def build_census2021_context_bundle_cli() -> None:
     )
 
     print("Censos 2021 context bundle written:")
+    for path in outputs.paths():
+        print(f"  {path}")
+
+
+def build_multivariable_analysis_cli() -> None:
+    """Build the pre-specified multivariable-analysis milestone."""
+    parser = ArgumentParser(
+        description="Fit pre-specified multivariable models for Lisbon housing change."
+    )
+    parser.add_argument("annual_context", type=Path)
+    parser.add_argument("reference_geojson", type=Path)
+    parser.add_argument(
+        "--config",
+        type=Path,
+        default=Path("configs/multivariable_models.toml"),
+    )
+    parser.add_argument("output_directory", type=Path)
+    parser.add_argument(
+        "--permutations",
+        type=int,
+        default=999,
+        help="Permutation count for residual Moran diagnostics.",
+    )
+    parser.add_argument(
+        "--seed",
+        type=int,
+        default=42,
+        help="Random seed for deterministic residual-spatial diagnostics.",
+    )
+    args = parser.parse_args()
+
+    outputs = build_multivariable_analysis(
+        cast(Path, args.annual_context),
+        cast(Path, args.reference_geojson),
+        cast(Path, args.config),
+        cast(Path, args.output_directory),
+        permutations=cast(int, args.permutations),
+        seed=cast(int, args.seed),
+    )
+
+    print("Multivariable analysis written:")
     for path in outputs.paths():
         print(f"  {path}")
