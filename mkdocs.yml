@@ -44,6 +44,7 @@ nav:
   - Data sources: data-sources.md
   - Methodology: methodology.md
   - Spatial analysis: spatial-analysis.md
+  - Results: results.md
   - Reproducibility: reproducibility.md
   - Development: development.md
   - Releases: releases.md
