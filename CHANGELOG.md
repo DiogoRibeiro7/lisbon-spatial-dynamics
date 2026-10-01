@@ -26,6 +26,28 @@ All notable repository-level changes are documented here.
 - Documentation builds use locked dependencies and grant deployment permissions only to the deployment job.
 - Pre-commit hooks use the project's locked linting and typing tools.
 
+## [1.0.1] - 2026-10-01
+
+Post-release empirical data/results correction.
+
+### Added
+
+- Committed 24-freguesia housing sale-value table for Q1 2019 and Q1 2026.
+- Committed published RNAL weighted-establishment counts for November 2019 and November 2022.
+- Committed published RNAL capacity by freguesia for November 2019 and November 2022.
+- Committed 2011→2021 population change and 2021 AL/AFC pressure ratio.
+- Committed published June-2018 housing/local-accommodation cross-section.
+- Source/provenance notes for every committed release table.
+- Empirical summary metrics, association results, and machine/human-readable findings.
+
+### Corrected
+
+Version 1.0.0 contained the research pipeline and release machinery but no committed empirical datasets or generated study results. Version 1.0.1 corrects that release gap while keeping large raw snapshots outside Git.
+
+### Interpretation
+
+The committed results are descriptive evidence and do not identify causal effects.
+
 ## [1.0.0] - 2026-09-30
 
 First stable research release.
