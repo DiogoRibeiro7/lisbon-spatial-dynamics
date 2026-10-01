@@ -107,6 +107,8 @@ The [RNAL coverage investigation](rnal-coverage.md) adds the official GIS feed a
 
 The investigation recovers an archived official municipal report with an end-November 2022 unweighted stock benchmark and documentation of a monthly historical data exchange. The current SOAP snapshot does not reproduce that benchmark. Both sources, their coverage limits and reuse conditions are recorded in `configs/data_sources.toml`.
 
+The [coordinate follow-up](rnal-geography.md) requests coordinates and provider reliability labels only for the pinned conflict cohort. All 172 points match their GIS-labelled CAOP2025 parish; boundary-distance sensitivity is reported separately. Coordinates remain in the ignored local workspace, and no registry assignments are automatically changed.
+
 ## Population reference: Censos 2021
 
 The project uses the official INE Censos 2021 **subsection synthesis file** as the population reference. The ZIP retrieved on 2026-10-01 contains an XLSX workbook with `FREGUESIA`, `SUBSECCAO`, and `N_INDIVIDUOS`. The reader maps `FREGUESIA` to the existing `DTMNFR21` contract and explicitly maps the workbook's demographic/building labels. Legacy CSV/TXT archives remain supported.

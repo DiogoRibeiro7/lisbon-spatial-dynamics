@@ -122,6 +122,21 @@ landing_page = "https://dadosabertos.turismodeportugal.pt/datasets/4e62eb1977564
 notes = "Cross-feed diagnostic from the same provider, not independent ground truth or a historical replacement. Acquisition requests eight analytical fields and no geometry, names of establishments, addresses or contacts."
 
 [[sources]]
+source_id = "turismo_portugal_rnal_conflict_locations"
+name = "RNAL GIS coordinates — pinned parish-conflict cohort"
+provider = "Turismo de Portugal"
+domain = "tourism_local_accommodation"
+kind = "dataset"
+status = "catalogued"
+spatial_unit = "establishment point for shared SOAP/GIS registrations with conflicting parish IDs"
+frequency = "one coordinate observation of a pinned cohort"
+temporal_coverage = "2026-10-01 capture; no historical location series"
+access = "public RNAL ArcGIS layer queried by registry number with outSR=4326"
+licence = "same provider terms as RNAL GIS; redistribution conditions remain unverified"
+landing_page = "https://geo.turismodeportugal.pt/server/rest/services/TDP/OpenData_AL/MapServer/6"
+notes = "Retains NrRNAL, DTMNFR, Concelho, FiabilidadeGeo and point coordinates only. Labels and coordinates share a provider and do not independently establish true addresses. See docs/rnal-geography.md for CAOP2025 comparisons and boundary sensitivity."
+
+[[sources]]
 source_id = "cml_al_monitoring_2022"
 name = "Relatório de Caracterização e Monitorização do Alojamento Local (December 2022)"
 provider = "Câmara Municipal de Lisboa"

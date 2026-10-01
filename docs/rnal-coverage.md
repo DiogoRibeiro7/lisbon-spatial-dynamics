@@ -22,6 +22,8 @@ The five GIS-only records have registration years 2014, 2015, 2016, 2017 and 201
 
 Both feeds cover all 24 canonical parishes. The 172 conflicting assignments affect about 1.45% of shared registrations. `parish_comparison.csv` separates missing registry numbers from shared records assigned to different parishes; disagreements are attributed to the SOAP parish. `audit.json` also contains counts for each conflicting parish pair. Neither name consistency nor feed agreement elsewhere establishes which assignment is correct. No geographic reassignment has been made.
 
+The [geographic follow-up](rnal-geography.md) checks all 172 disputed coordinates against CAOP2025. Every point falls in its GIS-labelled parish, but 67 are within 25 metres of a boundary. This supports geographic consistency of the GIS assignments; it does not independently verify establishment addresses.
+
 ## Early dates are present upstream
 
 Both interfaces give the same registration date for all seven records before 2000: two in 1930, one in 1947, two in 1965, one in 1985 and one in 1992. The year-2000 threshold is a screening rule, not an assertion about the legal inception of RNAL. Four of these seven records also have public-opening dates before 2000. The separate opening field therefore provides no general correction rule. Original dates remain unchanged.
@@ -69,6 +71,8 @@ The request selects only `OBJECTID`, `NrRNAL`, `DataRegisto`, `DataAberturaPubli
 ### Public historical source search
 
 An additional [GIS item published by Lisboaenova](https://www.arcgis.com/sharing/rest/content/items/4216d9ecb47b4cfe9c91e648e725e6e9?f=json) attributes its data to DMU/Divisão de Monitorização and describes establishments at 3 September 2018. The inspected [layer](https://services-eu1.arcgis.com/Jy1PfwTjLp1CBgCI/arcgis/rest/services/Alojamento_Local/FeatureServer/0) contains 2,551 records, while its registration-date maximum is 20 May 2020 and its last data edit is in October 2020. It has no time-series configuration. The date discrepancy and unverified geographic completeness prevent using it as a historical municipal panel.
+
+The minimum registration value is epoch zero, corresponding to 1970-01-01 UTC. The reported field count includes zero and measures non-null values, not verified valid dates. Zero might be a placeholder, but that interpretation is unconfirmed. The discovery assessment records this limitation without altering the observed value or treating zero as null.
 
 The [discovery record](https://github.com/DiogoRibeiro7/lisbon-spatial-dynamics/blob/main/results/rnal-coverage/2026-10-01/historical-source-discovery.json) preserves exact query URLs, response hashes, metadata and aggregate observations. Responses are retained in the ignored local workspace; no establishment rows were acquired. This search has not identified a public replacement for the historical monitoring extract. It does not establish that no such extract is published elsewhere.
 

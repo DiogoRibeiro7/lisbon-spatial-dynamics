@@ -44,6 +44,7 @@ nav:
   - Data sources: data-sources.md
   - Primary-source audit: source-audit.md
   - RNAL coverage investigation: rnal-coverage.md
+  - RNAL geographic reconciliation: rnal-geography.md
   - Methodology: methodology.md
   - Spatial analysis: spatial-analysis.md
   - Results: results.md
