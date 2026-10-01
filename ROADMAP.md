@@ -33,6 +33,8 @@ New research capabilities belong in later minor or major releases.
 
 ## v1.1.0 — definitive primary-source empirical run
 
+**Progress, 2026-10-01:** the [primary-source audit](docs/source-audit.md) captured all four source families, fixed the longitudinal housing request, and added support for the official Census XLSX archive. RNAL historical completeness and early registration dates remain unresolved. The snapshots are retained locally with hashes; no public source archive or definitive study run has been designated.
+
 ### Goal
 
 Produce one canonical Lisbon study run generated end-to-end from a fixed set of archived primary-source snapshots.

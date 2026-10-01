@@ -29,6 +29,8 @@ Lisbon Spatial Dynamics is a Python research pipeline for examining how changes 
 
 The test suite exercises local fixtures without downloading the research datasets. Live source availability and a study run using official data require separate verification. Mobility, accessibility, infrastructure, and additional longitudinal demographic sources are outside the v1 scope.
 
+The [2026-10-01 primary-source audit](docs/source-audit.md) verifies housing coverage for all 24 parishes over 2019 Q4–2026 Q1 and reads the official Census workbook. The RNAL snapshot has no populated cessation dates and includes unusually early registration dates. Historical RNAL completeness remains unresolved; this input set is not yet designated the definitive v1.1 study.
+
 ### Committed empirical evidence
 
 The repository includes a small inspectable release layer:
@@ -90,7 +92,7 @@ First acquire the four source families:
 
 ```bash
 poetry run fetch-caop-lisbon
-poetry run fetch-ine-housing
+poetry run fetch-ine-housing --config configs/ine_housing_study.toml
 poetry run fetch-rnal-lisboa
 poetry run fetch-census2021-population
 ```
@@ -99,7 +101,7 @@ Each command prints its saved paths. Follow the [complete walkthrough](docs/gett
 
 ```bash
 poetry run build-study-v1 \
-  data/raw/ine/housing/0012234/<timestamp>.data.json \
+  data/raw/ine/housing/0012234/study_2019q4_2026q1/<timestamp>.data.json \
   data/raw/turismo_portugal/rnal/lisboa/<timestamp>.records.json \
   data/raw/ine/census2021/subsections/<timestamp>.zip \
   data/processed/reference/lisbon_freguesias.csv \
@@ -108,6 +110,8 @@ poetry run build-study-v1 \
 ```
 
 Replace each `<timestamp>` with the actual filename printed by its fetch command. The multiline example uses Bash syntax; in PowerShell, put the command on one line. The output directory must not already exist. Raw downloads and generated data are ignored by Git.
+
+The explicit housing configuration requests 26 quarters and the 24 Lisbon parishes. The unfiltered `fetch-ine-housing` default returns only the latest quarter and cannot supply a longitudinal study on its own. Review the [source audit](docs/source-audit.md) before interpreting reconstructed RNAL stocks as historical observations.
 
 Defaults are 999 spatial permutations, seed 42, Local Moran FDR alpha 0.05, and the model specifications in [`configs/multivariable_models.toml`](configs/multivariable_models.toml). Use `--help` for overrides.
 

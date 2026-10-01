@@ -6,8 +6,14 @@ import csv
 import io
 import math
 import zipfile
+from collections.abc import Iterable
 from dataclasses import dataclass
 from pathlib import Path
+
+from lisbon_spatial_dynamics.transformations.census_workbook import (
+    CensusWorkbookError,
+    find_workbook_table,
+)
 
 
 class CensusPopulationError(ValueError):
@@ -125,7 +131,7 @@ def write_census_population_csv(
 
 def _find_synthesis_table(
     archive: zipfile.ZipFile,
-) -> tuple[str, csv.DictReader[str]]:
+) -> tuple[str, Iterable[dict[str, str | None]]]:
     """Find the text table containing required Census synthesis columns."""
     candidates = [
         member
@@ -152,9 +158,10 @@ def _find_synthesis_table(
         if _REQUIRED_SOURCE_COLUMNS.issubset(fieldnames):
             return member.filename, reader
 
-    raise CensusPopulationError(
-        "could not find a census synthesis table containing DTMNFR21 and N_INDIVIDUOS"
-    )
+    try:
+        return find_workbook_table(archive, _REQUIRED_SOURCE_COLUMNS)
+    except CensusWorkbookError as exc:
+        raise CensusPopulationError(str(exc)) from exc
 
 
 def _load_reference(

@@ -29,6 +29,14 @@ poetry run fetch-ine-housing --config configs/ine_housing.toml
 
 Each run stores immutable timestamped data, metadata, and a provenance manifest under `data/raw/ine/housing/<indicator>/`.
 
+The unfiltered current API request returned **only 2026 Q1** on 2026-10-01. For a multi-period study, use:
+
+```bash
+poetry run fetch-ine-housing --config configs/ine_housing_study.toml
+```
+
+This versioned request fixes `Dim1` to 26 quarters (2019 Q4–2026 Q1), `Dim2` to the 24 official Lisbon parish codes, and `Dim3` to Total dwellings (`H1`). The codes were selected from captured INE metadata and checked against CAOP identifiers and names. It writes to `0012234/study_2019q4_2026q1/`. Fixed filters do not freeze revised values: retain the resulting snapshot and manifest.
+
 ### Stable housing contract
 
 Raw INE records are flattened to:
@@ -88,12 +96,16 @@ Stored records contain establishment-level analytical fields only:
 
 The raw SOAP response itself is never written to disk. The manifest stores only its SHA-256 digest and records the privacy filtering applied.
 
-Because both `DataRegisto` and `CessadoEm` are available, the project reconstructs registrations, cessations and active local-accommodation stock by freguesia on the same quarterly grid as the housing panel. Turismo de Portugal documents these date fields as strings, so the transformation accepts only explicit supported date forms and rejects unknown representations.
+The service schema includes `DataRegisto` and `CessadoEm`. The project uses their populated values to reconstruct registrations, cessations and active local-accommodation stock by freguesia on the housing quarter grid. Schema availability does not establish historical completeness: the 2026-10-01 response contained 11,865 records with **zero populated cessation dates**. Missing cessation dates cannot establish that no establishments closed. Stocks reconstructed from a current snapshot may omit establishments that disappeared before acquisition.
+
+The [official operation contract](https://webservices.turismodeportugal.pt/RNT_External/WS_RNT.asmx?op=list_RNAL) exposes a municipality filter, with no documented historical-date or cancelled-record selector. Date fields are strings; the transformation accepts explicit supported forms and rejects unknown representations. The audit found seven registration dates before 2000, including 1930, which require clarification. No dates were corrected or records silently removed. See the [source audit](source-audit.md) for the evidence and release implications.
 
 
 ## Population reference: Censos 2021
 
-The project uses the official INE Censos 2021 **subsection synthesis file** as the population reference. The source contains `DTMNFR21`, which links each subsection to its freguesia, and `N_INDIVIDUOS`, the total resident-individual count used for aggregation.
+The project uses the official INE Censos 2021 **subsection synthesis file** as the population reference. The ZIP retrieved on 2026-10-01 contains an XLSX workbook with `FREGUESIA`, `SUBSECCAO`, and `N_INDIVIDUOS`. The reader maps `FREGUESIA` to the existing `DTMNFR21` contract and explicitly maps the workbook's demographic/building labels. Legacy CSV/TXT archives remain supported.
+
+The workbook mixes national, regional, municipal, parish, section, and subsection rows. Only rows with a non-empty `SUBSECCAO` are aggregated, avoiding double-counting totals. Parish identifiers remain strings, including leading zeros and alphanumeric codes outside Lisbon. Inconsistent parish/subsection identifiers and duplicate subsections fail validation.
 
 Acquire the official ZIP with:
 

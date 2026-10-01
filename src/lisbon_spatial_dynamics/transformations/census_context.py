@@ -7,12 +7,16 @@ import io
 import math
 import unicodedata
 import zipfile
-from collections.abc import Mapping, Sequence
+from collections.abc import Iterable, Mapping, Sequence
 from dataclasses import dataclass
 from decimal import Decimal
 from pathlib import Path
 
 from lisbon_spatial_dynamics.spatial.annual_maps import ReferenceFeature
+from lisbon_spatial_dynamics.transformations.census_workbook import (
+    CensusWorkbookError,
+    find_workbook_table,
+)
 
 
 class CensusContextError(ValueError):
@@ -316,7 +320,7 @@ def write_census2021_context_geojson(
 
 def _find_synthesis_table(
     archive: zipfile.ZipFile,
-) -> tuple[str, csv.DictReader[str]]:
+) -> tuple[str, Iterable[dict[str, str | None]]]:
     """Find the text table containing all required context columns."""
     candidates = [
         member
@@ -345,10 +349,10 @@ def _find_synthesis_table(
         if _REQUIRED_HEADERS.issubset(normalized_fields):
             return member.filename, reader
 
-    raise CensusContextError(
-        "could not find a census synthesis table containing the required "
-        "2021 demographic and housing variables"
-    )
+    try:
+        return find_workbook_table(archive, _REQUIRED_HEADERS)
+    except CensusWorkbookError as exc:
+        raise CensusContextError(str(exc)) from exc
 
 
 def _load_reference(

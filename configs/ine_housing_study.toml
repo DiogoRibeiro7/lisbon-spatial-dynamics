@@ -1,0 +1,15 @@
+# Fixed primary-source request for the v1.1 source audit.
+# INE metadata retrieved 2026-10-01 lists 26 quarters, 2019 Q4 through 2026 Q1.
+# Select all 24 CAOP-validated Lisbon parishes and Total dwellings (H1).
+# Omitting Dim1 from this API returns only the latest quarter.
+# The explicit filters keep the response small and the requested window auditable.
+
+[indicator]
+source_id = "ine_local_housing_prices_nuts2024"
+code = "0012234"
+language = "PT"
+data_url = "https://www.ine.pt/ine/json_indicador/pindica.jsp?op=2&varcd=0012234&lang=PT&Dim1=S5A20194%2CS5A20201%2CS5A20202%2CS5A20203%2CS5A20204%2CS5A20211%2CS5A20212%2CS5A20213%2CS5A20214%2CS5A20221%2CS5A20222%2CS5A20223%2CS5A20224%2CS5A20231%2CS5A20232%2CS5A20233%2CS5A20234%2CS5A20241%2CS5A20242%2CS5A20243%2CS5A20244%2CS5A20251%2CS5A20252%2CS5A20253%2CS5A20254%2CS5A20261&Dim2=1A0110601%2C1A0110602%2C1A0110607%2C1A0110608%2C1A0110610%2C1A0110611%2C1A0110618%2C1A0110621%2C1A0110633%2C1A0110639%2C1A0110654%2C1A0110655%2C1A0110656%2C1A0110657%2C1A0110658%2C1A0110659%2C1A0110660%2C1A0110661%2C1A0110662%2C1A0110663%2C1A0110664%2C1A0110665%2C1A0110666%2C1A0110667&Dim3=H1"
+metadata_url = "https://www.ine.pt/ine/json_indicador/pindicaMeta.jsp?varcd=0012234&lang=PT"
+
+[output]
+directory = "data/raw/ine/housing/0012234/study_2019q4_2026q1"

@@ -1,0 +1,474 @@
+{
+  "acquisition": {
+    "census": {
+      "content": {
+        "fetched_at": "2026-10-01T10:36:03.515932+00:00",
+        "resource": {
+          "member_count": 1,
+          "members": [
+            "FS 2021 SubSecç╞o Tot.xlsx"
+          ],
+          "path": "data/raw/ine/census2021/subsections/20261001T103603Z.zip",
+          "sha256": "b3fe316622c3972bb1985b11cbb4235f070d3e4dd4bd19d4d11cf3177f634e8d",
+          "size_bytes": 44526142,
+          "url": "https://mapas.ine.pt/download/2021FicheiroSintese/FS2021SubSeccaoTot.zip"
+        },
+        "schema_version": 1,
+        "source_id": "ine_census2021_subsection_population"
+      },
+      "file": {
+        "path": "data/raw/ine/census2021/subsections/20261001T103603Z.manifest.json",
+        "sha256": "c9535e9223c2b3697f9e21dcfbb54c0a8f8fb39df83fc157af699566e2790eba",
+        "size_bytes": 507
+      }
+    },
+    "geography": {
+      "content": {
+        "expected_feature_count": 24,
+        "fetched_at": "2026-10-01T10:36:03.519280+00:00",
+        "municipality": "Lisboa",
+        "resources": {
+          "geojson": {
+            "path": "data/raw/dgt/caop2025/lisbon_freguesias/20261001T103603Z.geojson",
+            "sha256": "d2b1459176db712ed38d501f0ee5a3d98c31c167f2459d65d8388cb86f47a445",
+            "size_bytes": 305286,
+            "url": "https://infogeo.dgterritorio.gov.pt/arcgis/rest/services/Hosted/FreguesiaCAOP2025/FeatureServer/7/query?where=municipio%3D%27Lisboa%27&outFields=dtmnfr%2Cfreguesia%2Cmunicipio%2Cdistrito_ilha%2Cnuts3_cod%2Cnuts3%2Cnuts2%2Cnuts1%2Carea_ha%2Cdesignacao_simplificada&returnGeometry=true&outSR=4326&orderByFields=dtmnfr&f=geojson"
+          },
+          "layer_metadata": {
+            "path": "data/raw/dgt/caop2025/lisbon_freguesias/20261001T103603Z.layer.json",
+            "sha256": "a82bb2693a247fd070b148a8dbc3605c6fdf41d22c66e68e32f908ce584efc01",
+            "size_bytes": 9756,
+            "url": "https://infogeo.dgterritorio.gov.pt/arcgis/rest/services/Hosted/FreguesiaCAOP2025/FeatureServer/7?f=pjson"
+          }
+        },
+        "schema_version": 1,
+        "source_id": "dgt_caop2025_lisbon_freguesias"
+      },
+      "file": {
+        "path": "data/raw/dgt/caop2025/lisbon_freguesias/20261001T103603Z.manifest.json",
+        "sha256": "b781e38e8a8c184bdebb12ae225c1524f2e87ecef16711e3ffd570dd36f6a337",
+        "size_bytes": 1114
+      }
+    },
+    "housing": {
+      "content": {
+        "fetched_at": "2026-10-01T10:39:17.054628+00:00",
+        "indicator_code": "0012234",
+        "language": "PT",
+        "resources": {
+          "data": {
+            "path": "data/raw/ine/housing/0012234/study_2019q4_2026q1/20261001T103917Z.data.json",
+            "sha256": "89d6beae57e94401078e006534d7606ad90647fc5ceeb73ecf7ad54cc96a80f7",
+            "size_bytes": 109254,
+            "url": "https://www.ine.pt/ine/json_indicador/pindica.jsp?op=2&varcd=0012234&lang=PT&Dim1=S5A20194%2CS5A20201%2CS5A20202%2CS5A20203%2CS5A20204%2CS5A20211%2CS5A20212%2CS5A20213%2CS5A20214%2CS5A20221%2CS5A20222%2CS5A20223%2CS5A20224%2CS5A20231%2CS5A20232%2CS5A20233%2CS5A20234%2CS5A20241%2CS5A20242%2CS5A20243%2CS5A20244%2CS5A20251%2CS5A20252%2CS5A20253%2CS5A20254%2CS5A20261&Dim2=1A0110601%2C1A0110602%2C1A0110607%2C1A0110608%2C1A0110610%2C1A0110611%2C1A0110618%2C1A0110621%2C1A0110633%2C1A0110639%2C1A0110654%2C1A0110655%2C1A0110656%2C1A0110657%2C1A0110658%2C1A0110659%2C1A0110660%2C1A0110661%2C1A0110662%2C1A0110663%2C1A0110664%2C1A0110665%2C1A0110666%2C1A0110667&Dim3=H1"
+          },
+          "metadata": {
+            "path": "data/raw/ine/housing/0012234/study_2019q4_2026q1/20261001T103917Z.metadata.json",
+            "sha256": "863f447190c151c91986d33cbf4069d551b3f7cfce2daa0b0c3c5bfd9e614823",
+            "size_bytes": 228193,
+            "url": "https://www.ine.pt/ine/json_indicador/pindicaMeta.jsp?varcd=0012234&lang=PT"
+          }
+        },
+        "schema_version": 1,
+        "source_id": "ine_local_housing_prices_nuts2024"
+      },
+      "file": {
+        "path": "data/raw/ine/housing/0012234/study_2019q4_2026q1/20261001T103917Z.manifest.json",
+        "sha256": "f4f5c9ac873dec6c5718c2301e2283da0d6fcf95c712ebe1d5920acc08d958b1",
+        "size_bytes": 1433
+      }
+    },
+    "rnal": {
+      "content": {
+        "endpoint_url": "https://webservices.turismodeportugal.pt/RNT_External/WS_RNT.asmx",
+        "fetched_at": "2026-10-01T10:38:59.692647+00:00",
+        "municipality": "Lisboa",
+        "privacy": {
+          "discarded_subtree": "TitulardaExploracao",
+          "raw_response_written": false,
+          "stored_fields": [
+            "NrRegisto",
+            "DataRegisto",
+            "NomeAlojamento",
+            "Modalidade",
+            "NrCamas",
+            "NrUtentes",
+            "Endereco",
+            "CodPostal",
+            "Localidade",
+            "Freguesia",
+            "Concelho",
+            "Distrito",
+            "CessadoEm",
+            "DTMNFR"
+          ]
+        },
+        "reported_total": 11865,
+        "response_sha256": "661921cc53c006d8ef0eaf9e9b4ef504d3b32dbb2e976c308f2417b2ba6f8ca3",
+        "sanitised_snapshot": {
+          "path": "data/raw/turismo_portugal/rnal/lisboa/20261001T103859Z.records.json",
+          "sha256": "87bbc8adcdb93ae10ce83644df1155bd57df967c0a6f92e468f9cac292249d5e",
+          "size_bytes": 5476280
+        },
+        "schema_version": 1,
+        "soap_action": "http://RNT_External/WS_RNT/list_RNAL",
+        "source_id": "turismo_portugal_rnal_lisboa",
+        "written_record_count": 11865
+      },
+      "file": {
+        "path": "data/raw/turismo_portugal/rnal/lisboa/20261001T103859Z.manifest.json",
+        "sha256": "22cd22598c7fb29118de1958049e7ee5ec489339f4f217346e703ff15fb7aeee",
+        "size_bytes": 1066
+      }
+    }
+  },
+  "archive_status": "local_snapshots_retained; no_public_archive_deposited",
+  "audit_date": "2026-10-01",
+  "audit_software": [
+    {
+      "path": "scripts/audit_primary_sources.py",
+      "sha256": "51164254ae6ad1ec62b60e2743268af30b806dfa758bc442fb44d1feba93e9f6",
+      "size_bytes": 8249
+    },
+    {
+      "path": "configs/source_audit_2026-10-01.toml",
+      "sha256": "5182bf569d0356f8fe275079e105d9fa1d1a22755a050d1f5e76a7b38fbd543a",
+      "size_bytes": 880
+    },
+    {
+      "path": "poetry.lock",
+      "sha256": "3063434c193c44d6c1a899e2e86ca67e00bfb671fef2326218d6423f003c8fd9",
+      "size_bytes": 215792
+    },
+    {
+      "path": "pyproject.toml",
+      "sha256": "81a001e277f4c68d0cc36fbf235a2956344614db975b43663ac68f2d215cb0b2",
+      "size_bytes": 4563
+    },
+    {
+      "path": "src/lisbon_spatial_dynamics/__init__.py",
+      "sha256": "980ca3328800f4b02a26df03aae50c4d9a6aacd3d9709b7e9673d152a56cc91a",
+      "size_bytes": 67
+    },
+    {
+      "path": "src/lisbon_spatial_dynamics/analysis/__init__.py",
+      "sha256": "1cf7b71083435d698a3b2eac5b2d6f0484a9f23813622bba27ab451824a095a8",
+      "size_bytes": 67
+    },
+    {
+      "path": "src/lisbon_spatial_dynamics/analysis/associations.py",
+      "sha256": "ccc22a0844ff41ac964b821dc0e536fea257822a7b43342a8302d86ba471ea05",
+      "size_bytes": 7652
+    },
+    {
+      "path": "src/lisbon_spatial_dynamics/analysis/census_context_bundle.py",
+      "sha256": "bbf670ea8f18e26a7de03630217be2e48cba139f676c22a4a45e9f1aa938d00a",
+      "size_bytes": 2927
+    },
+    {
+      "path": "src/lisbon_spatial_dynamics/analysis/final_results.py",
+      "sha256": "479c9a512a7cd34aa60b5849c35eb49d93d7dd62482efef3d3f86e44412453a2",
+      "size_bytes": 24280
+    },
+    {
+      "path": "src/lisbon_spatial_dynamics/analysis/local_spatial_autocorrelation.py",
+      "sha256": "24fc93b1131a02eb2b6d085bc9b76c0d2243700379e4ccf6b126652e3dccef1a",
+      "size_bytes": 16854
+    },
+    {
+      "path": "src/lisbon_spatial_dynamics/analysis/multivariable.py",
+      "sha256": "4b2368f9fcb4a7b12f02009fa3803df24d889e96bf8a82854b07e99ac7a872c3",
+      "size_bytes": 48646
+    },
+    {
+      "path": "src/lisbon_spatial_dynamics/analysis/normalized_bundle.py",
+      "sha256": "2a2d928c11bb6a68c8aa25e081b8288f8e03fae31777612be042554cee1556a9",
+      "size_bytes": 24198
+    },
+    {
+      "path": "src/lisbon_spatial_dynamics/analysis/pressure_associations.py",
+      "sha256": "1564ebe9babba630d25d4895be8ed2b64db7d3f7f6b6e9b2d8abeaa7911df8a8",
+      "size_bytes": 21657
+    },
+    {
+      "path": "src/lisbon_spatial_dynamics/analysis/spatial_autocorrelation.py",
+      "sha256": "cac925610688dd36588bb08e8b6f64b01da622f96c2ac36f27a16ef0df1aea67",
+      "size_bytes": 10524
+    },
+    {
+      "path": "src/lisbon_spatial_dynamics/analysis/study_v1.py",
+      "sha256": "a87b470821358c08e7560064c1d6e9d57e98d9a2a13bc054674c6969b6092f3b",
+      "size_bytes": 12032
+    },
+    {
+      "path": "src/lisbon_spatial_dynamics/analysis/trajectories.py",
+      "sha256": "58f7501dfa3e880063ec58bfc95d0b7cf736d8d4e899d04467e3fbc9aae75f5c",
+      "size_bytes": 9411
+    },
+    {
+      "path": "src/lisbon_spatial_dynamics/analysis/trajectory_summary.py",
+      "sha256": "55f87eb40405553e81d4101c928bd949c97d37584bfabc10a6acb6f2ae44ad74",
+      "size_bytes": 5804
+    },
+    {
+      "path": "src/lisbon_spatial_dynamics/catalog.py",
+      "sha256": "c24f3636d0bfdae93e2db92cb636f8a47855ac697047cf210bf601ea99a8a4eb",
+      "size_bytes": 4870
+    },
+    {
+      "path": "src/lisbon_spatial_dynamics/cli.py",
+      "sha256": "6243196ff956adb1dc14e6f84f515f056fc44a6b67a6325caf9b462b6830a350",
+      "size_bytes": 33623
+    },
+    {
+      "path": "src/lisbon_spatial_dynamics/panels/__init__.py",
+      "sha256": "a60ff93542cbd45b4ce27fdfe0d03497cd89bfa716c7b818ae9c0da96244b605",
+      "size_bytes": 59
+    },
+    {
+      "path": "src/lisbon_spatial_dynamics/panels/annual.py",
+      "sha256": "36c00cff9a977ad45f39970b3138eeb9a9fb0c8571bb0a6de8c510b60916c38e",
+      "size_bytes": 15527
+    },
+    {
+      "path": "src/lisbon_spatial_dynamics/panels/annual_context.py",
+      "sha256": "1afdcc6979879bd801347723b701565016991b4a245cea2dd87af802433ce8e1",
+      "size_bytes": 6497
+    },
+    {
+      "path": "src/lisbon_spatial_dynamics/panels/annual_housing_pressure.py",
+      "sha256": "d17ec58e20fe63e42ad181684589cfec52e519889b62bdb8b54472cd7882aaa5",
+      "size_bytes": 25177
+    },
+    {
+      "path": "src/lisbon_spatial_dynamics/panels/housing.py",
+      "sha256": "625389684686b13f1b14137822276b4ccd4f2d35b85d0542aac85b5f30b49c4e",
+      "size_bytes": 8772
+    },
+    {
+      "path": "src/lisbon_spatial_dynamics/panels/rnal.py",
+      "sha256": "e4c6f5c04d90422df832eddd61e49a5aec7cbfc3d1f1b1260afbbca3cc126a6b",
+      "size_bytes": 14845
+    },
+    {
+      "path": "src/lisbon_spatial_dynamics/panels/rnal_pressure.py",
+      "sha256": "e61a79ae218b610183f49d7190caad5a693f296d0b3e58884f7ea1e29a3d5a41",
+      "size_bytes": 12039
+    },
+    {
+      "path": "src/lisbon_spatial_dynamics/panels/rnal_pressure_annual.py",
+      "sha256": "4e063b50fabfe03a8661a624b4809bbbc93649ad781b48bef1f8a1b4fb364dae",
+      "size_bytes": 19341
+    },
+    {
+      "path": "src/lisbon_spatial_dynamics/panels/temporal.py",
+      "sha256": "bb5bbbbd5c03b6c5318feaa51f482a7c431a3ac752b9629f1f84f6cb36011446",
+      "size_bytes": 8519
+    },
+    {
+      "path": "src/lisbon_spatial_dynamics/panels/urban.py",
+      "sha256": "421c4085ab9a04046b1c507be7bec6a7c4167db876e10602da7b2bf5cada80be",
+      "size_bytes": 14219
+    },
+    {
+      "path": "src/lisbon_spatial_dynamics/sources/__init__.py",
+      "sha256": "622dd7833cdc2736688b85881da07f79802bc173fa51918ef70574d1b37b9d70",
+      "size_bytes": 42
+    },
+    {
+      "path": "src/lisbon_spatial_dynamics/sources/caop.py",
+      "sha256": "1251717817010d2bb7f960fa4340325f5fe7426a1326ddcf3f47efc04b37dc5b",
+      "size_bytes": 11934
+    },
+    {
+      "path": "src/lisbon_spatial_dynamics/sources/census2021.py",
+      "sha256": "226cdada520cc93b3fe7cfb592d14822a84efda897b2e0fa03cd5934aaa82d43",
+      "size_bytes": 6364
+    },
+    {
+      "path": "src/lisbon_spatial_dynamics/sources/ine.py",
+      "sha256": "66a246005339f15ab3bc68282cd01ded89abc6a46583cd10cb47a9850c814404",
+      "size_bytes": 9579
+    },
+    {
+      "path": "src/lisbon_spatial_dynamics/sources/rnal.py",
+      "sha256": "fcd4bb2abed207f43b267840f8815c30cf53abd070861dab779d9724ffea542d",
+      "size_bytes": 11768
+    },
+    {
+      "path": "src/lisbon_spatial_dynamics/spatial/__init__.py",
+      "sha256": "d3dad56cec52ee9f62fc2f04a657ca3bae75b0e7d397f7cae6f0429065c21a0b",
+      "size_bytes": 67
+    },
+    {
+      "path": "src/lisbon_spatial_dynamics/spatial/annual_maps.py",
+      "sha256": "5c63bc042219f304ee95b4f9f9a52c7bc57c3c139db28a243e1e91d499ae8ff9",
+      "size_bytes": 17212
+    },
+    {
+      "path": "src/lisbon_spatial_dynamics/spatial/lisa_cluster_maps.py",
+      "sha256": "2d1fb1063bf7866535dc1e1bdf53652fbb6fd472a5a15bc69090ecb9b69286f0",
+      "size_bytes": 14931
+    },
+    {
+      "path": "src/lisbon_spatial_dynamics/spatial/trajectory_choropleths.py",
+      "sha256": "41a3904a59d5c7ab1135e8bac153b8eaa08c28a2ba18beed3af945966148531b",
+      "size_bytes": 12111
+    },
+    {
+      "path": "src/lisbon_spatial_dynamics/spatial/trajectory_map.py",
+      "sha256": "a47751e6c3569166d4f98a4eaa946e177388b9af16ef81d91357878031d3f907",
+      "size_bytes": 13514
+    },
+    {
+      "path": "src/lisbon_spatial_dynamics/transformations/__init__.py",
+      "sha256": "ad0c3468885ac28056cfce8605223830e5dabcca48caa8f0b2aab5e7b52d0985",
+      "size_bytes": 73
+    },
+    {
+      "path": "src/lisbon_spatial_dynamics/transformations/census_context.py",
+      "sha256": "407c8ed9f3cf3491676c81face3db664f3ac6e05d18bbb476ee6091723345541",
+      "size_bytes": 18788
+    },
+    {
+      "path": "src/lisbon_spatial_dynamics/transformations/census_workbook.py",
+      "sha256": "8baa8d06b4d0485a8c40264dcffb53a10cd1568cc0a9a131712b1eb7b2860757",
+      "size_bytes": 4816
+    },
+    {
+      "path": "src/lisbon_spatial_dynamics/transformations/geography.py",
+      "sha256": "5223377527ce72a5c2639a20b5618fe9afba00d878f49a2094320acd55fc2282",
+      "size_bytes": 9434
+    },
+    {
+      "path": "src/lisbon_spatial_dynamics/transformations/housing.py",
+      "sha256": "7ec1adda110b6490d83e48e90b95a5a44b35413266ba57fafb2eee5e38a9e61e",
+      "size_bytes": 6867
+    },
+    {
+      "path": "src/lisbon_spatial_dynamics/transformations/population.py",
+      "sha256": "70a5f07975be3ef233b71fa90be723a8bb8f6340d882a548dc6865bb477fc208",
+      "size_bytes": 8170
+    }
+  ],
+  "canonical_study_designated": false,
+  "census": {
+    "aggregate_consistency_checks_passed": true,
+    "aggregation": "SUBSECCAO rows only; higher geographic totals excluded",
+    "parishes": 24,
+    "population_resident": 545796,
+    "year": 2021
+  },
+  "geography": {
+    "identifiers_and_names_validated": true,
+    "parishes": 24
+  },
+  "housing": {
+    "annual_q4_years": [
+      2019,
+      2020,
+      2021,
+      2022,
+      2023,
+      2024,
+      2025
+    ],
+    "category": "Total",
+    "first_quarter": "2019Q4",
+    "indicator": "0012234",
+    "last_quarter": "2026Q1",
+    "missing_values": 0,
+    "quarters": 26,
+    "rows": 624
+  },
+  "inputs": {
+    "census": {
+      "path": "data/raw/ine/census2021/subsections/20261001T103603Z.zip",
+      "sha256": "b3fe316622c3972bb1985b11cbb4235f070d3e4dd4bd19d4d11cf3177f634e8d",
+      "size_bytes": 44526142
+    },
+    "housing": {
+      "path": "data/raw/ine/housing/0012234/study_2019q4_2026q1/20261001T103917Z.data.json",
+      "sha256": "89d6beae57e94401078e006534d7606ad90647fc5ceeb73ecf7ad54cc96a80f7",
+      "size_bytes": 109254
+    },
+    "model_config": {
+      "path": "configs/multivariable_models.toml",
+      "sha256": "ddf8108fb4081e3a05bb3a0df81ec2a50142fd0b0d7ac08319d8569a9feec1f6",
+      "size_bytes": 991
+    },
+    "reference_csv": {
+      "path": "data/processed/reference/lisbon_freguesias.csv",
+      "sha256": "6bdf8543905d97cb20ff289076288e1211d9edebf45b23e7acda72fa3f57d465",
+      "size_bytes": 2366
+    },
+    "reference_geojson": {
+      "path": "data/processed/reference/lisbon_freguesias.geojson",
+      "sha256": "ef186f413e10c264761ad4701d0c90aa636a77c88535554644f9d876cbecacf3",
+      "size_bytes": 769748
+    },
+    "rnal": {
+      "path": "data/raw/turismo_portugal/rnal/lisboa/20261001T103859Z.records.json",
+      "sha256": "87bbc8adcdb93ae10ce83644df1155bd57df967c0a6f92e468f9cac292249d5e",
+      "size_bytes": 5476280
+    }
+  },
+  "outputs": [
+    {
+      "path": "results/source-audit/2026-10-01/census_context.csv",
+      "sha256": "5ac702c77ac2a37817cdee1f9d853c488f9beb105174626ead5c8c8ee5c43a32",
+      "size_bytes": 10079
+    },
+    {
+      "path": "results/source-audit/2026-10-01/housing_quarter_panel.csv",
+      "sha256": "d69cb05743da7a3ae483a490b5ac73d8c670d095c3ede6186fa8d59be70a736a",
+      "size_bytes": 53284
+    },
+    {
+      "path": "results/source-audit/2026-10-01/rnal_snapshot_by_parish.csv",
+      "sha256": "6929c1fbb3e396a756f4b21e4cece15d2c1836a8ce2db9ec8ef5db7720797537",
+      "size_bytes": 729
+    }
+  ],
+  "rnal": {
+    "cessation_dates_present": 0,
+    "earliest_registration": "1930-06-02",
+    "interpretation": "Counts describe records returned in this snapshot. Missing cessation dates do not establish absence of historical closures. The year-2000 threshold is an explicit date-quality screen, not a legal inception date. No records were removed or dates corrected.",
+    "latest_registration": "2026-09-30",
+    "missing_beds": 0,
+    "missing_users": 0,
+    "parishes": 24,
+    "records": 11865,
+    "registration_year_counts": {
+      "1930": 2,
+      "1947": 1,
+      "1965": 2,
+      "1985": 1,
+      "1992": 1,
+      "2003": 2,
+      "2008": 2,
+      "2009": 7,
+      "2010": 34,
+      "2011": 35,
+      "2012": 60,
+      "2013": 113,
+      "2014": 405,
+      "2015": 1066,
+      "2016": 1616,
+      "2017": 2053,
+      "2018": 3712,
+      "2019": 1160,
+      "2020": 254,
+      "2021": 436,
+      "2022": 571,
+      "2023": 163,
+      "2024": 28,
+      "2025": 30,
+      "2026": 111
+    },
+    "registrations_after_audit_date": 0,
+    "registrations_before_2000": 7
+  },
+  "schema_version": 1,
+  "status": "historical_rnal_coverage_not_established"
+}
