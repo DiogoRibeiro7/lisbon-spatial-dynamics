@@ -9,9 +9,9 @@ A reproducible spatial study of how housing values and local-accommodation press
 
 </div>
 
-## Version 1.0.0
+## Version 1.0.1
 
-Version 1.0.0 provides the study software and acquisition commands. The GitHub release has no attached source snapshots or computed results; reproducing a particular empirical run requires its archived inputs and model configuration.
+Version 1.0.1 keeps the complete study software and acquisition commands and adds a small committed empirical evidence layer under `data/release/v1.0.1/` and `results/release/v1.0.1/`. Large raw source snapshots are still not committed, so reproducing a full pipeline run requires its archived inputs and model configuration.
 
 It combines official housing, RNAL, Census, and CAOP sources to build a common neighbourhood-level research panel, then applies descriptive, spatial, and pre-specified multivariable analyses.
 
