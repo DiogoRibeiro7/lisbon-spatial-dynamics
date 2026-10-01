@@ -147,13 +147,13 @@
     },
     {
       "path": "src/lisbon_spatial_dynamics/__init__.py",
-      "sha256": "980ca3328800f4b02a26df03aae50c4d9a6aacd3d9709b7e9673d152a56cc91a",
-      "size_bytes": 67
+      "sha256": "7203a6e53581ac116dd7710bc3c8c419e07039625a70acc2656fe4dbfac4d311",
+      "size_bytes": 64
     },
     {
       "path": "src/lisbon_spatial_dynamics/analysis/__init__.py",
-      "sha256": "1cf7b71083435d698a3b2eac5b2d6f0484a9f23813622bba27ab451824a095a8",
-      "size_bytes": 67
+      "sha256": "06ecc3e6a0f1c101274abb2e17d3f8b709d7697255f79b884868d1c9474be111",
+      "size_bytes": 66
     },
     {
       "path": "src/lisbon_spatial_dynamics/analysis/associations.py",
@@ -222,8 +222,8 @@
     },
     {
       "path": "src/lisbon_spatial_dynamics/panels/__init__.py",
-      "sha256": "a60ff93542cbd45b4ce27fdfe0d03497cd89bfa716c7b818ae9c0da96244b605",
-      "size_bytes": 59
+      "sha256": "acdcb0a1dd47765b8f54c4e5922ac1c4e43d1e68bf8c5427d57da7fdd09eee0d",
+      "size_bytes": 58
     },
     {
       "path": "src/lisbon_spatial_dynamics/panels/annual.py",
@@ -272,8 +272,8 @@
     },
     {
       "path": "src/lisbon_spatial_dynamics/sources/__init__.py",
-      "sha256": "622dd7833cdc2736688b85881da07f79802bc173fa51918ef70574d1b37b9d70",
-      "size_bytes": 42
+      "sha256": "bd5c23e85527db2a5a7ad427e5fcb2f436c0ba5c54ea8c70a134ea87d587ca01",
+      "size_bytes": 41
     },
     {
       "path": "src/lisbon_spatial_dynamics/sources/caop.py",
@@ -297,8 +297,8 @@
     },
     {
       "path": "src/lisbon_spatial_dynamics/spatial/__init__.py",
-      "sha256": "d3dad56cec52ee9f62fc2f04a657ca3bae75b0e7d397f7cae6f0429065c21a0b",
-      "size_bytes": 67
+      "sha256": "6c025ac9a0cc2b22fc5194ed5c43dd443214f086573db9c575bd33aaf52dba23",
+      "size_bytes": 66
     },
     {
       "path": "src/lisbon_spatial_dynamics/spatial/annual_maps.py",
@@ -322,8 +322,8 @@
     },
     {
       "path": "src/lisbon_spatial_dynamics/transformations/__init__.py",
-      "sha256": "ad0c3468885ac28056cfce8605223830e5dabcca48caa8f0b2aab5e7b52d0985",
-      "size_bytes": 73
+      "sha256": "31ab6e515a224e05923969054438c706256953bd59c233ebafe6eea3b0ba4395",
+      "size_bytes": 72
     },
     {
       "path": "src/lisbon_spatial_dynamics/transformations/census_context.py",
