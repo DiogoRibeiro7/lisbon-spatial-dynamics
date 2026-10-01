@@ -14,10 +14,10 @@ from pathlib import Path
 from typing import Literal, Self, cast
 from urllib.parse import urlparse
 
-type SourceKind = Literal["dataset", "portal", "platform"]
+type SourceKind = Literal["dataset", "portal", "platform", "report"]
 type SourceStatus = Literal["candidate", "catalogued", "access_required"]
 
-_ALLOWED_KINDS = frozenset({"dataset", "portal", "platform"})
+_ALLOWED_KINDS = frozenset({"dataset", "portal", "platform", "report"})
 _ALLOWED_STATUSES = frozenset({"candidate", "catalogued", "access_required"})
 
 
@@ -27,7 +27,7 @@ class CatalogError(ValueError):
 
 @dataclass(frozen=True, slots=True)
 class DataSource:
-    """Metadata for one dataset, portal, or external data platform."""
+    """Metadata for one dataset, portal, external data platform, or source report."""
 
     source_id: str
     name: str

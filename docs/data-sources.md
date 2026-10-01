@@ -101,6 +101,12 @@ The service schema includes `DataRegisto` and `CessadoEm`. The project uses thei
 The [official operation contract](https://webservices.turismodeportugal.pt/RNT_External/WS_RNT.asmx?op=list_RNAL) exposes a municipality filter, with no documented historical-date or cancelled-record selector. Date fields are strings; the transformation accepts explicit supported forms and rejects unknown representations. The audit found seven registration dates before 2000, including 1930, which require clarification. No dates were corrected or records silently removed. See the [source audit](source-audit.md) for the evidence and release implications.
 
 
+### GIS cross-check and historical municipal evidence
+
+The [RNAL coverage investigation](rnal-coverage.md) adds the official GIS feed as a diagnostic source. Its capture contains 11,870 records and agrees with SOAP on all shared registration dates and capacities, but assigns 172 shared records to different parishes. It contains no cessation/status field. The seven early dates also occur in GIS; no correction or reassignment is justified solely by switching feeds.
+
+The investigation recovers an archived official municipal report with an end-November 2022 unweighted stock benchmark and documentation of a monthly historical data exchange. The current SOAP snapshot does not reproduce that benchmark. Both sources, their coverage limits and reuse conditions are recorded in `configs/data_sources.toml`.
+
 ## Population reference: Censos 2021
 
 The project uses the official INE Censos 2021 **subsection synthesis file** as the population reference. The ZIP retrieved on 2026-10-01 contains an XLSX workbook with `FREGUESIA`, `SUBSECCAO`, and `N_INDIVIDUOS`. The reader maps `FREGUESIA` to the existing `DTMNFR21` contract and explicitly maps the workbook's demographic/building labels. Legacy CSV/TXT archives remain supported.

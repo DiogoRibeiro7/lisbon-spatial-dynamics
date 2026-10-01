@@ -35,6 +35,8 @@ New research capabilities belong in later minor or major releases.
 
 **Progress, 2026-10-01:** the [primary-source audit](docs/source-audit.md) captured all four source families, fixed the longitudinal housing request, and added support for the official Census XLSX archive. RNAL historical completeness and early registration dates remain unresolved. The snapshots are retained locally with hashes; no public source archive or definitive study run has been designated.
 
+The subsequent [RNAL coverage investigation](docs/rnal-coverage.md) confirms the seven early dates in both official interfaces, identifies 172 conflicting parish assignments, and finds that the retained SOAP cohort reconstructs 11,525 registrations at end-November 2022 versus the municipal report's 20,134. The report documents a monthly historical data exchange between Turismo de Portugal and CML. The next evidence requirement is that historical extract (or reconciled parish aggregates), plus documented parish/date semantics; the live GIS feed does not resolve the historical gap.
+
 ### Goal
 
 Produce one canonical Lisbon study run generated end-to-end from a fixed set of archived primary-source snapshots.

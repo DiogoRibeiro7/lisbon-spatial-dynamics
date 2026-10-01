@@ -28,6 +28,8 @@ def test_repository_catalog_loads() -> None:
         "ine_census_geography",
         "lisboa_aberta",
         "strava_metro",
+        "turismo_portugal_rnal_geodata_lisboa",
+        "cml_al_monitoring_2022",
     }
 
 

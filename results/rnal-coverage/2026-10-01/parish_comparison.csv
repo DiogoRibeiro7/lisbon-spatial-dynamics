@@ -1,0 +1,25 @@
+freguesia_id,freguesia_name,soap_records,gis_records,shared_same_parish,soap_only,gis_only,shared_parish_disagreements_by_soap_parish,registration_date_disagreements_by_soap_parish,capacity_disagreements_by_soap_parish
+110601,Ajuda,181,185,181,0,0,0,0,0
+110602,Alcântara,233,233,233,0,0,0,0,0
+110607,Beato,96,95,95,0,0,1,0,0
+110608,Benfica,55,50,50,0,0,5,0,0
+110610,Campolide,127,126,126,0,0,1,0,0
+110611,Carnide,33,34,33,0,0,0,0,0
+110618,Lumiar,89,86,86,0,0,3,0,0
+110621,Marvila,74,75,74,0,0,0,0,0
+110633,Olivais,115,111,111,0,0,4,0,0
+110639,São Domingos de Benfica,91,95,90,0,0,1,0,0
+110654,Alvalade,153,153,153,0,0,0,0,0
+110655,Areeiro,154,147,147,0,0,7,0,0
+110656,Arroios,1199,1194,1181,0,0,18,0,0
+110657,Avenidas Novas,343,344,342,0,0,1,0,0
+110658,Belém,203,199,199,0,0,4,0,0
+110659,Campo de Ourique,283,280,277,0,0,6,0,0
+110660,Estrela,744,716,709,0,2,35,0,0
+110661,Misericórdia,2174,2185,2146,0,1,28,0,0
+110662,Parque das Nações,196,199,195,0,1,1,0,0
+110663,Penha de França,319,323,316,0,0,3,0,0
+110664,Santa Clara,10,11,10,0,0,0,0,0
+110665,Santa Maria Maior,3142,3157,3111,0,0,31,0,0
+110666,Santo António,922,935,918,0,0,4,0,0
+110667,São Vicente,929,937,910,0,1,19,0,0
