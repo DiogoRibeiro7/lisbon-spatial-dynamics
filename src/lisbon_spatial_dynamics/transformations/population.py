@@ -55,24 +55,27 @@ def build_census_population_reference(
     population_by_id = {freguesia_id: 0 for freguesia_id in reference}
     matched_subsections = 0
 
-    with zipfile.ZipFile(archive_path) as archive:
-        member_name, reader = _find_synthesis_table(archive)
+    try:
+        with zipfile.ZipFile(archive_path) as archive:
+            member_name, reader = _find_synthesis_table(archive)
 
-        for row_index, row in enumerate(reader, start=2):
-            freguesia_id = _required_text(
-                row.get("DTMNFR21"),
-                f"{member_name}:row {row_index}.DTMNFR21",
-            )
+            for row_index, row in enumerate(reader, start=2):
+                freguesia_id = _required_text(
+                    row.get("DTMNFR21"),
+                    f"{member_name}:row {row_index}.DTMNFR21",
+                )
 
-            if freguesia_id not in population_by_id:
-                continue
+                if freguesia_id not in population_by_id:
+                    continue
 
-            population = _parse_non_negative_int(
-                row.get("N_INDIVIDUOS"),
-                f"{member_name}:row {row_index}.N_INDIVIDUOS",
-            )
-            population_by_id[freguesia_id] += population
-            matched_subsections += 1
+                population = _parse_non_negative_int(
+                    row.get("N_INDIVIDUOS"),
+                    f"{member_name}:row {row_index}.N_INDIVIDUOS",
+                )
+                population_by_id[freguesia_id] += population
+                matched_subsections += 1
+    except CensusWorkbookError as exc:
+        raise CensusPopulationError(str(exc)) from exc
 
     if matched_subsections == 0:
         raise CensusPopulationError(
@@ -132,7 +135,7 @@ def write_census_population_csv(
 def _find_synthesis_table(
     archive: zipfile.ZipFile,
 ) -> tuple[str, Iterable[dict[str, str | None]]]:
-    """Find the text table containing required Census synthesis columns."""
+    """Find the text or workbook table containing required Census synthesis columns."""
     candidates = [
         member
         for member in archive.infolist()

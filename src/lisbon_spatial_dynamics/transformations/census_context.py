@@ -133,28 +133,33 @@ def build_census2021_context(
     }
     matched_subsections = 0
 
-    with zipfile.ZipFile(archive_path) as archive:
-        member_name, reader = _find_synthesis_table(archive)
+    try:
+        with zipfile.ZipFile(archive_path) as archive:
+            member_name, reader = _find_synthesis_table(archive)
 
-        for row_index, raw_row in enumerate(reader, start=2):
-            row = {
-                _normalize_header(key): value for key, value in raw_row.items() if key is not None
-            }
-            freguesia_id = _required_text(
-                row.get(_normalize_header("DTMNFR21")),
-                f"{member_name}:row {row_index}.DTMNFR21",
-            )
-
-            if freguesia_id not in totals:
-                continue
-
-            for target_field, source_field in _SOURCE_COLUMNS.items():
-                totals[freguesia_id][target_field] += _parse_non_negative_int(
-                    row.get(_normalize_header(source_field)),
-                    f"{member_name}:row {row_index}.{source_field}",
+            for row_index, raw_row in enumerate(reader, start=2):
+                row = {
+                    _normalize_header(key): value
+                    for key, value in raw_row.items()
+                    if key is not None
+                }
+                freguesia_id = _required_text(
+                    row.get(_normalize_header("DTMNFR21")),
+                    f"{member_name}:row {row_index}.DTMNFR21",
                 )
 
-            matched_subsections += 1
+                if freguesia_id not in totals:
+                    continue
+
+                for target_field, source_field in _SOURCE_COLUMNS.items():
+                    totals[freguesia_id][target_field] += _parse_non_negative_int(
+                        row.get(_normalize_header(source_field)),
+                        f"{member_name}:row {row_index}.{source_field}",
+                    )
+
+                matched_subsections += 1
+    except CensusWorkbookError as exc:
+        raise CensusContextError(str(exc)) from exc
 
     if matched_subsections == 0:
         raise CensusContextError(
@@ -321,7 +326,7 @@ def write_census2021_context_geojson(
 def _find_synthesis_table(
     archive: zipfile.ZipFile,
 ) -> tuple[str, Iterable[dict[str, str | None]]]:
-    """Find the text table containing all required context columns."""
+    """Find the text or workbook table containing all required context columns."""
     candidates = [
         member
         for member in archive.infolist()

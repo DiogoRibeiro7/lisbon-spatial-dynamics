@@ -15,6 +15,9 @@ All notable repository-level changes are documented here.
 
 ### Fixed
 
+- Audit acceptance of truncated housing windows and missing automated comparison with the published Census municipality total.
+- Lazy Census workbook errors now use the public population/context exception types; numeric identifier cells fail explicitly without guessing leading zeros.
+- Audit line-ending attributes now apply only to CSV/JSON files, preserving binary handling for figures and archives.
 - Official Census XLSX ingestion, excluding mixed geographic totals and preserving alphanumeric parish identifiers; regression tests cover double-counting and identifier failures.
 - Study instructions that used a latest-quarter-only housing download for longitudinal analysis.
 - RNAL documentation that treated a schema field as evidence of complete cessation history.

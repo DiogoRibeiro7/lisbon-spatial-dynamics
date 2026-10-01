@@ -138,7 +138,11 @@ def fetch_census2021_snapshot(
 
 
 def _validate_archive(payload: bytes) -> tuple[str, ...]:
-    """Validate ZIP structure and return sorted member names."""
+    """Return sorted lookup names using zipfile's UTF-8/CP437 decoding contract.
+
+    Do not guess a different legacy encoding: provenance names must remain
+    usable with ZipFile.getinfo/read on the unchanged acquired archive.
+    """
     try:
         with zipfile.ZipFile(BytesIO(payload)) as archive:
             bad_member = archive.testzip()

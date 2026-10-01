@@ -65,3 +65,26 @@ def test_invalid_zip_is_rejected(tmp_path: Path) -> None:
             fetched_at=datetime(2026, 9, 29, 12, 0, tzinfo=UTC),
             fetcher=lambda _url, _timeout: b"not a zip",
         )
+
+
+def test_legacy_zip_member_names_round_trip_without_encoding_guesses(tmp_path: Path) -> None:
+    """An unflagged CP850 name must retain zipfile's lookup spelling in provenance."""
+    ascii_name = b"FS 2021 SubSeccao Tot.xlsx"
+    legacy_name = "FS 2021 SubSecção Tot.xlsx".encode("cp850")
+    buffer = io.BytesIO()
+    with zipfile.ZipFile(buffer, "w") as archive:
+        archive.writestr(ascii_name.decode("ascii"), b"fixture")
+    payload = buffer.getvalue()
+    assert len(ascii_name) == len(legacy_name) and payload.count(ascii_name) == 2
+    payload = payload.replace(ascii_name, legacy_name)
+    snapshot = fetch_census2021_snapshot(
+        _config(),
+        root=tmp_path,
+        fetcher=lambda _url, _timeout: payload,
+    )
+    manifest = json.loads((tmp_path / snapshot.manifest_path).read_text(encoding="utf-8"))
+    with zipfile.ZipFile(tmp_path / snapshot.archive_path) as archive:
+        name = manifest["resource"]["members"][0]
+        assert name == legacy_name.decode("cp437")
+        assert archive.getinfo(name).flag_bits & 0x800 == 0
+        assert archive.read(name) == b"fixture"

@@ -1,6 +1,12 @@
 # Exact locally retained snapshots; fresh acquisition is a different audit.
 audit_date = "2026-10-01"
 
+[expectations]
+housing_first_period = "4.º Trimestre de 2019"
+housing_last_period = "1.º Trimestre de 2026"
+housing_rows = 624
+census_municipality_id = "1106"
+
 [inputs]
 housing = "data/raw/ine/housing/0012234/study_2019q4_2026q1/20261001T103917Z.data.json"
 rnal = "data/raw/turismo_portugal/rnal/lisboa/20261001T103859Z.records.json"

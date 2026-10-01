@@ -15,7 +15,7 @@ The [committed audit bundle](https://github.com/DiogoRibeiro7/lisbon-spatial-dyn
 
 The housing annual Q4 window is **2019–2025**. The 2026 Q1 observation remains in the quarterly panel but is not a 2026 Q4 observation. This is a housing coverage window; RNAL's historical completeness has not been established for it.
 
-The Census population and context transformations agree for every parish. Their total also matches the municipality total in the acquired workbook. The context's age bands sum to population, and its dwelling/building count consistency checks pass. These figures describe this exact snapshot and should not be silently substituted for differently dated or revised published totals.
+The Census population and context transformations agree for every parish. The audit independently reads the workbook's municipality total and compares it with the sum of the parish populations: both are 545,796, with a difference of zero. Missing, duplicate, or mismatched municipality totals fail the audit. The context's age bands sum to population, and its dwelling/building count consistency checks pass. These figures describe this exact snapshot and should not be silently substituted for differently dated or revised published totals.
 
 ## Defects resolved by the live audit
 
@@ -29,7 +29,9 @@ The fixed query is repeatable, but the provider can revise its values. Reproduci
 
 The official [INE synthesis download](https://mapas.ine.pt/download/2021FicheiroSintese/FS2021SubSeccaoTot.zip) contained an XLSX file, which the earlier CSV/TXT reader could not open. The reader now locates the worksheet header after its title, maps explicit official column labels, and includes only non-empty `SUBSECCAO` rows. National, regional, municipal, parish, and section totals are excluded from aggregation.
 
-The national file contains both leading-zero and alphanumeric parish identifiers. These are preserved as strings. Duplicate subsection rows and inconsistent parish/subsection identifiers are rejected. Offline regression tests reproduce these cases without downloading the national workbook.
+The national file contains both leading-zero and alphanumeric parish identifiers. These are preserved as strings. Identifier cells must contain text; numeric cells are rejected explicitly rather than inferring leading zeros from their number format. Duplicate subsection rows and inconsistent parish/subsection identifiers are rejected through the context/population transformation's public error type. Offline regression tests reproduce these cases without downloading the national workbook.
+
+The archive's member name has no UTF-8 flag and contains legacy bytes `87 c6` for the accented letters. The acquisition manifest preserves Python `zipfile`'s CP437 lookup name (`FS 2021 SubSecç╞o Tot.xlsx`); this name resolves successfully with `ZipFile.getinfo` and `read`. CP850 gives the plausible display spelling `FS 2021 SubSecção Tot.xlsx`, but the acquisition does not guess an encoding or rewrite the original manifest. The original ZIP bytes and hash remain unchanged.
 
 ## RNAL interpretation remains unresolved
 
@@ -50,7 +52,7 @@ poetry sync --with docs
 poetry run python scripts/audit_primary_sources.py --output data/processed/source-audit-recheck
 ```
 
-The output directory must be new. The script verifies each acquisition resource against its recorded SHA-256 and size before transformation. It validates housing coverage, RNAL identifiers and names, and Census aggregates. Compare the regenerated CSV hashes with `audit.json`; JSON path fields differ when the output location differs. No live requests are made by the audit script.
+The output directory must be new. The script verifies each acquisition resource against its recorded SHA-256 and size before transformation. It requires the configured 2019 Q4–2026 Q1 period set and all 624 housing rows; a single latest quarter, truncated endpoints, interior gaps, and extra quarters fail validation. It also validates RNAL identifiers and names, internal Census aggregates, and the independently read municipality total. Compare the regenerated CSV hashes with `audit.json`; JSON path fields differ when the output location differs. No live requests are made by the audit script.
 
 Fresh acquisition is documented in [Getting started](getting-started.md). The RNAL request timed out at 60 seconds during this audit and succeeded with `--timeout 180`.
 

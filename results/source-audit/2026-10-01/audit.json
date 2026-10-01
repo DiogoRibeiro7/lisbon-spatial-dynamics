@@ -127,13 +127,13 @@
   "audit_software": [
     {
       "path": "scripts/audit_primary_sources.py",
-      "sha256": "51164254ae6ad1ec62b60e2743268af30b806dfa758bc442fb44d1feba93e9f6",
-      "size_bytes": 8249
+      "sha256": "305267f9761e228439c470e2da155113d56f0f99d8d215d4cbf0d2db4ad13d4a",
+      "size_bytes": 10313
     },
     {
       "path": "configs/source_audit_2026-10-01.toml",
-      "sha256": "5182bf569d0356f8fe275079e105d9fa1d1a22755a050d1f5e76a7b38fbd543a",
-      "size_bytes": 880
+      "sha256": "76b453064822d76ab33d4c20639c977127dd44accb1af444da81ae2e11e40626",
+      "size_bytes": 1042
     },
     {
       "path": "poetry.lock",
@@ -282,8 +282,8 @@
     },
     {
       "path": "src/lisbon_spatial_dynamics/sources/census2021.py",
-      "sha256": "226cdada520cc93b3fe7cfb592d14822a84efda897b2e0fa03cd5934aaa82d43",
-      "size_bytes": 6364
+      "sha256": "9218b033317475000d7af2935105efd6583639e98fb8599055fbc1b09ca60dd4",
+      "size_bytes": 6536
     },
     {
       "path": "src/lisbon_spatial_dynamics/sources/ine.py",
@@ -327,13 +327,13 @@
     },
     {
       "path": "src/lisbon_spatial_dynamics/transformations/census_context.py",
-      "sha256": "407c8ed9f3cf3491676c81face3db664f3ac6e05d18bbb476ee6091723345541",
-      "size_bytes": 18788
+      "sha256": "7baa974a7226853fce6f603e6fcb99e5f9963a68424b83ac64d4b0f58699a693",
+      "size_bytes": 19012
     },
     {
       "path": "src/lisbon_spatial_dynamics/transformations/census_workbook.py",
-      "sha256": "8baa8d06b4d0485a8c40264dcffb53a10cd1568cc0a9a131712b1eb7b2860757",
-      "size_bytes": 4816
+      "sha256": "9bec321ba70a17d9fd1b2de9ba8504b47a556cc14e6e05b87a9f6258cbf95130",
+      "size_bytes": 7304
     },
     {
       "path": "src/lisbon_spatial_dynamics/transformations/geography.py",
@@ -347,17 +347,30 @@
     },
     {
       "path": "src/lisbon_spatial_dynamics/transformations/population.py",
-      "sha256": "70a5f07975be3ef233b71fa90be723a8bb8f6340d882a548dc6865bb477fc208",
-      "size_bytes": 8170
+      "sha256": "d5b982949a8e54590b0729692c118496aa091529a0ae72bfbce35b811ed3a714",
+      "size_bytes": 8345
     }
   ],
   "canonical_study_designated": false,
   "census": {
-    "aggregate_consistency_checks_passed": true,
     "aggregation": "SUBSECCAO rows only; higher geographic totals excluded",
+    "municipality_population_check": {
+      "difference": 0,
+      "municipality_id": "1106",
+      "parish_population_sum": 545796,
+      "passed": true,
+      "reported_population": 545796
+    },
+    "parish_internal_consistency_checks_passed": true,
     "parishes": 24,
     "population_resident": 545796,
     "year": 2021
+  },
+  "expectations": {
+    "census_municipality_id": "1106",
+    "housing_first_period": "4.º Trimestre de 2019",
+    "housing_last_period": "1.º Trimestre de 2026",
+    "housing_rows": 624
   },
   "geography": {
     "identifiers_and_names_validated": true,

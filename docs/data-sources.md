@@ -55,7 +55,7 @@ Transform a current snapshot for Lisboa / Total with:
 
 ```bash
 poetry run transform-ine-housing \
-  data/raw/ine/housing/0012234/<timestamp>.data.json \
+  data/raw/ine/housing/0012234/study_2019q4_2026q1/<timestamp>.data.json \
   data/processed/housing/lisbon.csv
 ```
 

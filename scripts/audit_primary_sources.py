@@ -11,21 +11,24 @@ import csv
 import json
 import tomllib
 from collections import Counter
+from collections.abc import Sequence
 from datetime import date
 from hashlib import sha256
 from pathlib import Path
 
 from lisbon_spatial_dynamics.panels.housing import (
+    HousingPanelRow,
     build_current_housing_freguesia_panel,
     load_freguesia_index,
     write_housing_panel_csv,
 )
 from lisbon_spatial_dynamics.panels.rnal import build_rnal_quarter_panel, load_rnal_snapshot
-from lisbon_spatial_dynamics.panels.temporal import parse_ine_quarter
+from lisbon_spatial_dynamics.panels.temporal import QuarterPeriod, parse_ine_quarter
 from lisbon_spatial_dynamics.transformations.census_context import (
     build_census2021_context,
     write_census2021_context_csv,
 )
+from lisbon_spatial_dynamics.transformations.census_workbook import read_municipality_population
 from lisbon_spatial_dynamics.transformations.housing import parse_ine_housing_payload
 
 
@@ -39,11 +42,57 @@ def fingerprint(path: Path) -> dict[str, object]:
     }
 
 
+def validate_housing_window(
+    housing: Sequence[HousingPanelRow],
+    first: str,
+    last: str,
+    expected_rows: int,
+) -> list[QuarterPeriod]:
+    """Require the complete configured window, including its endpoints and row count."""
+    start, end = parse_ine_quarter(first), parse_ine_quarter(last)
+    if start.ordinal > end.ordinal or expected_rows <= 0:
+        raise ValueError("invalid expected housing window or row count")
+    periods = sorted(
+        {parse_ine_quarter(row.period_code) for row in housing},
+        key=lambda p: p.ordinal,
+    )
+    if {p.ordinal for p in periods} != set(range(start.ordinal, end.ordinal + 1)) or len(
+        housing
+    ) != expected_rows:
+        raise ValueError(
+            f"housing coverage does not match expected window {first} through {last} "
+            f"and {expected_rows} rows; got {len(periods)} quarters and {len(housing)} rows"
+        )
+    return periods
+
+
+def validate_census_total(
+    archive: Path,
+    municipality_id: str,
+    parish_population: int,
+) -> dict[str, object]:
+    """Compare subsection-derived parish totals with the workbook's municipality total."""
+    reported = read_municipality_population(archive, municipality_id)
+    difference = parish_population - reported
+    if difference:
+        raise ValueError(
+            f"Census municipality population mismatch: {parish_population} != {reported}"
+        )
+    return {
+        "municipality_id": municipality_id,
+        "reported_population": reported,
+        "parish_population_sum": parish_population,
+        "difference": difference,
+        "passed": difference == 0,
+    }
+
+
 def audit(config_path: Path, output: Path) -> None:
     """Validate source integrity, aggregate coverage, and retain compact evidence."""
     if output.exists():
         raise FileExistsError(f"audit output already exists: {output}")
     config = tomllib.loads(config_path.read_text(encoding="utf-8"))
+    expectations = config["expectations"]
     audit_date = date.fromisoformat(config["audit_date"])
     paths = {key: Path(value) for key, value in config["inputs"].items()}
     inputs = {key: fingerprint(path) for key, path in paths.items()}
@@ -73,12 +122,12 @@ def audit(config_path: Path, output: Path) -> None:
         parse_ine_housing_payload(paths["housing"].read_bytes()),
         reference,
     )
-    periods = sorted(
-        {parse_ine_quarter(row.period_code) for row in housing},
-        key=lambda p: p.ordinal,
+    periods = validate_housing_window(
+        housing,
+        expectations["housing_first_period"],
+        expectations["housing_last_period"],
+        expectations["housing_rows"],
     )
-    if any(b.ordinal != a.ordinal + 1 for a, b in zip(periods, periods[1:], strict=False)):
-        raise ValueError("housing quarter grid is not contiguous")
     records = load_rnal_snapshot(paths["rnal"])
     if not records:
         raise ValueError("RNAL snapshot has no records")
@@ -86,6 +135,11 @@ def audit(config_path: Path, output: Path) -> None:
     # These reconstructed stocks are intentionally not released as historical truth.
     build_rnal_quarter_panel(records, reference, periods)
     context = build_census2021_context(paths["census"], paths["reference_csv"])
+    municipality_check = validate_census_total(
+        paths["census"],
+        expectations["census_municipality_id"],
+        sum(row.population_resident for row in context),
+    )
 
     report = {
         "schema_version": 1,
@@ -94,11 +148,12 @@ def audit(config_path: Path, output: Path) -> None:
         "canonical_study_designated": False,
         "archive_status": "local_snapshots_retained; no_public_archive_deposited",
         "inputs": inputs,
+        "expectations": expectations,
         "acquisition": provenance,
         "audit_software": [
             fingerprint(path)
             for path in (
-                Path(__file__).relative_to(Path.cwd()),
+                Path(__file__).resolve().relative_to(Path.cwd().resolve()),
                 config_path,
                 Path("poetry.lock"),
                 Path("pyproject.toml"),
@@ -121,7 +176,8 @@ def audit(config_path: Path, output: Path) -> None:
             "parishes": len(context),
             "population_resident": sum(row.population_resident for row in context),
             "aggregation": "SUBSECCAO rows only; higher geographic totals excluded",
-            "aggregate_consistency_checks_passed": True,
+            "parish_internal_consistency_checks_passed": True,
+            "municipality_population_check": municipality_check,
         },
         "rnal": {
             "records": len(records),

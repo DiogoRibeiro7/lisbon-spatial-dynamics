@@ -3,18 +3,26 @@
 from __future__ import annotations
 
 import zipfile
+from collections.abc import Callable
 from io import BytesIO
 from pathlib import Path
 
 import pytest
 from openpyxl import Workbook
 
-from lisbon_spatial_dynamics.transformations.census_context import build_census2021_context
+from lisbon_spatial_dynamics.transformations.census_context import (
+    CensusContextError,
+    build_census2021_context,
+)
 from lisbon_spatial_dynamics.transformations.census_workbook import (
     CensusWorkbookError,
     find_workbook_table,
+    read_municipality_population,
 )
-from lisbon_spatial_dynamics.transformations.population import build_census_population_reference
+from lisbon_spatial_dynamics.transformations.population import (
+    CensusPopulationError,
+    build_census_population_reference,
+)
 
 # These are the actual XLSX labels, deliberately independent of the reader's aliases.
 HEADERS = [
@@ -39,7 +47,12 @@ HEADERS = [
 COUNTS = [100, 10, 2, 1, 30, 28, 20, 8, 10, 8, 40, 10, 10, 60, 20]
 
 
-def _archive(path: Path, headers: list[str], rows: list[list[object]]) -> None:
+def _archive(
+    path: Path,
+    headers: list[str],
+    rows: list[list[object]],
+    formats: dict[str, str] | None = None,
+) -> None:
     workbook = Workbook()
     sheet = workbook.active
     assert sheet is not None
@@ -48,6 +61,8 @@ def _archive(path: Path, headers: list[str], rows: list[list[object]]) -> None:
     sheet.append(headers)
     for row in rows:
         sheet.append(row)
+    for cell, number_format in (formats or {}).items():
+        sheet[cell].number_format = number_format
     payload = BytesIO()
     workbook.save(payload)
     workbook.close()
@@ -117,3 +132,76 @@ def test_workbook_without_subsection_column_fails(tmp_path: Path) -> None:
         pytest.raises(CensusWorkbookError, match="SUBSECCAO"),
     ):
         find_workbook_table(archive, {"N_INDIVIDUOS"})
+
+
+@pytest.mark.parametrize(
+    "transform,error",
+    [
+        (build_census2021_context, CensusContextError),
+        (build_census_population_reference, CensusPopulationError),
+    ],
+)
+@pytest.mark.parametrize("duplicate", [False, True])
+def test_lazy_workbook_errors_use_public_exception_types(
+    tmp_path: Path,
+    transform: Callable[..., object],
+    error: type[ValueError],
+    duplicate: bool,
+) -> None:
+    path = tmp_path / "bad.zip"
+    reference = tmp_path / "reference.csv"
+    reference.write_text("freguesia_id,name,area_ha\n110654,Alvalade,100\n", encoding="utf-8")
+    rows: list[list[object]] = [["110654", "11065400101", *COUNTS]]
+    rows.append(["110654", "11065400101" if duplicate else "11065600101", *COUNTS])
+    _archive(path, HEADERS, rows)
+    with pytest.raises(error) as caught:
+        transform(path, reference, expected_count=1)
+    assert isinstance(caught.value.__cause__, CensusWorkbookError)
+
+
+@pytest.mark.parametrize(
+    "parish,subsection",
+    [
+        (10101, "01010100101"),
+        (110654, "11065400101"),
+        ("010101", 1010100101),
+    ],
+)
+def test_numeric_identifiers_require_explicit_text_cells(
+    tmp_path: Path,
+    parish: str | int,
+    subsection: str | int,
+) -> None:
+    path = tmp_path / "formatted.zip"
+    _archive(
+        path,
+        HEADERS,
+        [[parish, subsection, *COUNTS]],
+        formats={"A3": "000000", "B3": "00000000000"},
+    )
+    with zipfile.ZipFile(path) as archive:
+        _, rows = find_workbook_table(archive, {"N_INDIVIDUOS"})
+        with pytest.raises(CensusWorkbookError, match="must be stored as text"):
+            tuple(rows)
+
+
+@pytest.mark.parametrize(
+    "municipality_rows,error",
+    [
+        (0, "missing municipality"),
+        (2, "duplicate municipality"),
+    ],
+)
+def test_municipality_total_must_be_present_and_unique(
+    tmp_path: Path,
+    municipality_rows: int,
+    error: str,
+) -> None:
+    path = tmp_path / "municipality.zip"
+    _archive(
+        path,
+        ["MUNICIPIO", "FREGUESIA", "SECCAO", "SUBSECCAO", "N_INDIVIDUOS"],
+        [["1106", None, None, None, 100]] * municipality_rows,
+    )
+    with pytest.raises(CensusWorkbookError, match=error):
+        read_municipality_population(path, "1106")
