@@ -8,3 +8,4 @@
 *.cff text eol=lf
 *.png binary
 *.zip binary
+results/source-audit/** text eol=lf
