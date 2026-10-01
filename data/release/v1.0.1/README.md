@@ -11,7 +11,7 @@ The original v1.0.0 release contained the reproducible pipeline but no committed
 Parish-level median dwelling sale values in EUR/m².
 
 - **2019 Q1:** values published in Antunes & Seixas (2022), Table 3, sourced there from INE local housing-price statistics.
-- **2026 Q1:** values displayed by Casanest from INE indicator 0012234.
+- **2026 Q1:** values displayed by Casanest from INE indicator 0012234; the indicator reports the median sale value for transactions in the preceding 12 months, with Q1 as the observation period.
 - `change_pct` is derived as `100 * (Q1_2026 / Q1_2019 - 1)`.
 
 Sources:
@@ -19,7 +19,7 @@ Sources:
 - https://doi.org/10.15847/cct.25960
 - https://casanest.eu/precos/lisboa/lisboa
 
-**Important:** this comparison is Q1 2019 → Q1 2026 and is a curated release evidence table. It is not identical to the package pipeline's Q4-2019 baseline contract.
+**Important:** Q1 labels the observation period; it does not mean the indicator contains only sales completed during that quarter. This comparison is Q1 2019 → Q1 2026 and is a curated release evidence table. It is not identical to the package pipeline's Q4-2019 baseline contract.
 
 ### `rnal_weighted_2019_2022.csv`
 
