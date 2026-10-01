@@ -26,7 +26,7 @@ To create a new study, acquire fresh snapshots as described below. The source se
 
 ```bash
 poetry run fetch-caop-lisbon
-poetry run fetch-ine-housing
+poetry run fetch-ine-housing --config configs/ine_housing_study.toml
 poetry run fetch-rnal-lisboa
 poetry run fetch-census2021-population
 ```
@@ -36,11 +36,15 @@ Each command prints the files it saved. Keep the exact paths; each fetch has its
 | Command | Input needed by later stages |
 | --- | --- |
 | `fetch-caop-lisbon` | `data/raw/dgt/caop2025/lisbon_freguesias/<timestamp>.geojson` |
-| `fetch-ine-housing` | `data/raw/ine/housing/0012234/<timestamp>.data.json` |
+| `fetch-ine-housing --config configs/ine_housing_study.toml` | `data/raw/ine/housing/0012234/study_2019q4_2026q1/<timestamp>.data.json` |
 | `fetch-rnal-lisboa` | `data/raw/turismo_portugal/rnal/lisboa/<timestamp>.records.json` |
 | `fetch-census2021-population` | `data/raw/ine/census2021/subsections/<timestamp>.zip` |
 
 The housing default is indicator `0012234` under NUTS 2024. The v1 parish panel expects this indicator. The historical `0011364` series has a separate acquisition configuration and is not a substitute for this input.
+
+The study configuration explicitly requests all 26 quarters from 2019 Q4 through 2026 Q1, the 24 Lisbon parishes, and Total dwellings. Without a period filter, the API returned only its latest quarter in the [2026-10-01 audit](source-audit.md). A fresh fetch can revise values even with these fixed filters.
+
+The same audit found no cessation dates in the RNAL response. Resolve historical coverage and registration-date anomalies before designating a definitive study. A successful software run alone cannot validate the registry's historical completeness.
 
 See [Data sources](data-sources.md) for source contracts and privacy handling. Downloaded files stay outside version control.
 
@@ -62,7 +66,7 @@ Replace the three snapshot placeholders with your selected files:
 
 ```bash
 poetry run build-study-v1 \
-  data/raw/ine/housing/0012234/<timestamp>.data.json \
+  data/raw/ine/housing/0012234/study_2019q4_2026q1/<timestamp>.data.json \
   data/raw/turismo_portugal/rnal/lisboa/<timestamp>.records.json \
   data/raw/ine/census2021/subsections/<timestamp>.zip \
   data/processed/reference/lisbon_freguesias.csv \

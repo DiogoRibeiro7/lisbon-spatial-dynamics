@@ -7,12 +7,16 @@ import io
 import math
 import unicodedata
 import zipfile
-from collections.abc import Mapping, Sequence
+from collections.abc import Iterable, Mapping, Sequence
 from dataclasses import dataclass
 from decimal import Decimal
 from pathlib import Path
 
 from lisbon_spatial_dynamics.spatial.annual_maps import ReferenceFeature
+from lisbon_spatial_dynamics.transformations.census_workbook import (
+    CensusWorkbookError,
+    find_workbook_table,
+)
 
 
 class CensusContextError(ValueError):
@@ -129,28 +133,33 @@ def build_census2021_context(
     }
     matched_subsections = 0
 
-    with zipfile.ZipFile(archive_path) as archive:
-        member_name, reader = _find_synthesis_table(archive)
+    try:
+        with zipfile.ZipFile(archive_path) as archive:
+            member_name, reader = _find_synthesis_table(archive)
 
-        for row_index, raw_row in enumerate(reader, start=2):
-            row = {
-                _normalize_header(key): value for key, value in raw_row.items() if key is not None
-            }
-            freguesia_id = _required_text(
-                row.get(_normalize_header("DTMNFR21")),
-                f"{member_name}:row {row_index}.DTMNFR21",
-            )
-
-            if freguesia_id not in totals:
-                continue
-
-            for target_field, source_field in _SOURCE_COLUMNS.items():
-                totals[freguesia_id][target_field] += _parse_non_negative_int(
-                    row.get(_normalize_header(source_field)),
-                    f"{member_name}:row {row_index}.{source_field}",
+            for row_index, raw_row in enumerate(reader, start=2):
+                row = {
+                    _normalize_header(key): value
+                    for key, value in raw_row.items()
+                    if key is not None
+                }
+                freguesia_id = _required_text(
+                    row.get(_normalize_header("DTMNFR21")),
+                    f"{member_name}:row {row_index}.DTMNFR21",
                 )
 
-            matched_subsections += 1
+                if freguesia_id not in totals:
+                    continue
+
+                for target_field, source_field in _SOURCE_COLUMNS.items():
+                    totals[freguesia_id][target_field] += _parse_non_negative_int(
+                        row.get(_normalize_header(source_field)),
+                        f"{member_name}:row {row_index}.{source_field}",
+                    )
+
+                matched_subsections += 1
+    except CensusWorkbookError as exc:
+        raise CensusContextError(str(exc)) from exc
 
     if matched_subsections == 0:
         raise CensusContextError(
@@ -316,8 +325,8 @@ def write_census2021_context_geojson(
 
 def _find_synthesis_table(
     archive: zipfile.ZipFile,
-) -> tuple[str, csv.DictReader[str]]:
-    """Find the text table containing all required context columns."""
+) -> tuple[str, Iterable[dict[str, str | None]]]:
+    """Find the text or workbook table containing all required context columns."""
     candidates = [
         member
         for member in archive.infolist()
@@ -345,10 +354,10 @@ def _find_synthesis_table(
         if _REQUIRED_HEADERS.issubset(normalized_fields):
             return member.filename, reader
 
-    raise CensusContextError(
-        "could not find a census synthesis table containing the required "
-        "2021 demographic and housing variables"
-    )
+    try:
+        return find_workbook_table(archive, _REQUIRED_HEADERS)
+    except CensusWorkbookError as exc:
+        raise CensusContextError(str(exc)) from exc
 
 
 def _load_reference(

@@ -6,6 +6,8 @@ All notable repository-level changes are documented here.
 
 ### Added
 
+- A primary-source coverage audit with retained acquisition provenance and compact housing, Census, and RNAL snapshot summaries for 2026-10-01.
+- An explicit 24-parish, 26-quarter INE housing request for the 2019 Q4–2026 Q1 study window.
 - Code-quality CI, offline tests on Linux and Windows, and an installed-wheel smoke check.
 - A committed Poetry lockfile, standard package metadata, and dependency stubs for strict typing.
 - A complete installation and data-acquisition walkthrough, contribution guide, and issue/PR templates.
@@ -13,6 +15,12 @@ All notable repository-level changes are documented here.
 
 ### Fixed
 
+- Audit acceptance of truncated housing windows and missing automated comparison with the published Census municipality total.
+- Lazy Census workbook errors now use the public population/context exception types; numeric identifier cells fail explicitly without guessing leading zeros.
+- Audit line-ending attributes now apply only to CSV/JSON files, preserving binary handling for figures and archives.
+- Official Census XLSX ingestion, excluding mixed geographic totals and preserving alphanumeric parish identifiers; regression tests cover double-counting and identifier failures.
+- Study instructions that used a latest-quarter-only housing download for longitudinal analysis.
+- RNAL documentation that treated a schema field as evidence of complete cessation history.
 - Census context module initialization that prevented CLI imports and test collection.
 - Missing validation arguments in CAOP configuration loading.
 - Census GeoJSON metrics serialized as strings, and numeric context rejected when only CSV formatting differed.

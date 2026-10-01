@@ -42,6 +42,7 @@ nav:
   - Home: index.md
   - Getting started: getting-started.md
   - Data sources: data-sources.md
+  - Primary-source audit: source-audit.md
   - Methodology: methodology.md
   - Spatial analysis: spatial-analysis.md
   - Results: results.md
