@@ -10,6 +10,7 @@ import tomllib
 from datetime import date
 from hashlib import sha256
 from pathlib import Path
+from tempfile import TemporaryDirectory
 from typing import Any
 
 from lisbon_spatial_dynamics.analysis.rnal_coverage import compare_snapshots
@@ -36,7 +37,7 @@ def verify(path: Path, expected: dict[str, Any]) -> dict[str, Any]:
 
 def audit(config_path: Path, output: Path) -> None:
     """Check exact acquisition bytes before comparing records; emit aggregates only."""
-    if output.exists():
+    if output.exists() or output.is_symlink():
         raise FileExistsError(f"audit output already exists: {output}")
     config = tomllib.loads(config_path.read_text(encoding="utf-8"))
     inputs = {name: verify(Path(value["path"]), value) for name, value in config["inputs"].items()}
@@ -112,32 +113,42 @@ def audit(config_path: Path, output: Path) -> None:
         "published_benchmark_provenance": benchmark,
         "archive_status": "exact raw inputs retained locally; not deposited in a public archive",
     }
-    output.mkdir(parents=True, exist_ok=False)
-    outputs = []
-    for name, rows, columns in (
-        ("parish_comparison.csv", parishes, list(parishes[0])),
-        (
-            "early_registration_years.csv",
-            early,
-            [
-                "registration_year",
-                "soap_records",
-                "gis_records",
-                "shared_with_same_registration_date",
-                "gis_opening_before_screen",
-                "gis_opening_missing",
-            ],
-        ),
-    ):
-        path = output / name
-        with path.open("x", encoding="utf-8", newline="") as stream:
-            writer = csv.DictWriter(stream, fieldnames=columns, lineterminator="\n")
-            writer.writeheader()
-            writer.writerows(rows)
-        outputs.append(fingerprint(path))
-    report["outputs"] = outputs
-    with (output / "audit.json").open("x", encoding="utf-8", newline="\n") as stream:
-        stream.write(json.dumps(report, ensure_ascii=False, indent=2, sort_keys=True) + "\n")
+    output.parent.mkdir(parents=True, exist_ok=True)
+    # A sibling staging directory keeps the final rename on the same filesystem.
+    # TemporaryDirectory removes only this run's unpublished files on failure.
+    with TemporaryDirectory(prefix=".rnal-audit-", dir=output.parent) as temporary:
+        staging = Path(temporary) / "bundle"
+        staging.mkdir()
+        outputs = []
+        for name, rows, columns in (
+            ("parish_comparison.csv", parishes, list(parishes[0])),
+            (
+                "early_registration_years.csv",
+                early,
+                [
+                    "registration_year",
+                    "soap_records",
+                    "gis_records",
+                    "shared_with_same_registration_date",
+                    "gis_opening_before_screen",
+                    "gis_opening_missing",
+                ],
+            ),
+        ):
+            path = staging / name
+            with path.open("x", encoding="utf-8", newline="") as stream:
+                writer = csv.DictWriter(stream, fieldnames=columns, lineterminator="\n")
+                writer.writeheader()
+                writer.writerows(rows)
+            artifact = fingerprint(path)
+            artifact["path"] = (output / name).as_posix()
+            outputs.append(artifact)
+        report["outputs"] = outputs
+        with (staging / "audit.json").open("x", encoding="utf-8", newline="\n") as stream:
+            stream.write(json.dumps(report, ensure_ascii=False, indent=2, sort_keys=True) + "\n")
+        if output.exists() or output.is_symlink():
+            raise FileExistsError(f"audit output already exists: {output}")
+        staging.rename(output)
     print(json.dumps(summary, indent=2))
 
 

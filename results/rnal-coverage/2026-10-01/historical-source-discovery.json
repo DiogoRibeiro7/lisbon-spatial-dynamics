@@ -1,0 +1,60 @@
+{
+  "archive_status": "Exact metadata and aggregate responses retained in ignored local workspace.",
+  "assessment": "Not accepted as a historical municipal panel: stated 2018 reference date differs from registration dates extending into 2020; only 2551 records and no time series configuration. Coverage and reference-date semantics are unverified.",
+  "candidate": {
+    "arcgis_item_id": "4216d9ecb47b4cfe9c91e648e725e6e9",
+    "attribution": "DMU/Divisão de Monitorização",
+    "count": 2551,
+    "editing_info": {
+      "dataLastEditDate": 1603385166132,
+      "lastEditDate": 1603385166132,
+      "schemaLastEditDate": 1603385166132
+    },
+    "extent": {
+      "spatialReference": {
+        "latestWkid": 27493,
+        "wkid": 27492
+      },
+      "xmax": -86284.58351325132,
+      "xmin": -87270.98739763582,
+      "ymax": -104611.1295853812,
+      "ymin": -106029.6186863523
+    },
+    "owner": "Lisboaenova",
+    "registration_date_bounds": {
+      "registered_count": 2551,
+      "registered_max": 1589932800000,
+      "registered_min": 0
+    },
+    "snippet": "Estabelecimentos de Alojamento Local na Cidade de Lisboa, 3/09/2018",
+    "time_info": null
+  },
+  "checked_at": "2026-10-01T16:56:04.157800+00:00",
+  "resources": [
+    {
+      "path": "data/raw/rnal_historical_discovery/20261001T165604Z/item.json",
+      "sha256": "571fc64c64fe8c69c1ede028c207b5d2b549d0be3a74dfe81d6e055c956f28c8",
+      "size_bytes": 1351,
+      "url": "https://www.arcgis.com/sharing/rest/content/items/4216d9ecb47b4cfe9c91e648e725e6e9?f=json"
+    },
+    {
+      "path": "data/raw/rnal_historical_discovery/20261001T165604Z/layer.json",
+      "sha256": "27fdce18cf4e59f60c56e51bebf38df229f96104f58189732a65745542484f9f",
+      "size_bytes": 11154,
+      "url": "https://services-eu1.arcgis.com/Jy1PfwTjLp1CBgCI/arcgis/rest/services/Alojamento_Local/FeatureServer/0?f=json"
+    },
+    {
+      "path": "data/raw/rnal_historical_discovery/20261001T165604Z/count.json",
+      "sha256": "7a2f42572507e9ff71336ff49e3e868e3d02817e1e13751bd34240b75372a520",
+      "size_bytes": 14,
+      "url": "https://services-eu1.arcgis.com/Jy1PfwTjLp1CBgCI/arcgis/rest/services/Alojamento_Local/FeatureServer/0/query?f=json&where=1%3D1&returnCountOnly=true"
+    },
+    {
+      "path": "data/raw/rnal_historical_discovery/20261001T165604Z/date_bounds.json",
+      "sha256": "c818e4100bbcaf2d8da92e67294f019ecf586439aaacb5d7139a4586fc5b5b79",
+      "size_bytes": 768,
+      "url": "https://services-eu1.arcgis.com/Jy1PfwTjLp1CBgCI/arcgis/rest/services/Alojamento_Local/FeatureServer/0/query?f=json&where=1%3D1&returnGeometry=false&outStatistics=%5B%7B%22statisticType%22%3A+%22min%22%2C+%22onStatisticField%22%3A+%22Data_regis%22%2C+%22outStatisticFieldName%22%3A+%22registered_min%22%7D%2C+%7B%22statisticType%22%3A+%22max%22%2C+%22onStatisticField%22%3A+%22Data_regis%22%2C+%22outStatisticFieldName%22%3A+%22registered_max%22%7D%2C+%7B%22statisticType%22%3A+%22count%22%2C+%22onStatisticField%22%3A+%22Data_regis%22%2C+%22outStatisticFieldName%22%3A+%22registered_count%22%7D%5D"
+    }
+  ],
+  "scope": "Metadata and aggregate queries only; no establishment records acquired"
+}

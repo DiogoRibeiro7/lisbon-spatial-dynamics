@@ -45,14 +45,14 @@ The PDF's SHA-256 is `1e446b0b71d55a3f0086b539278810f1875d5e4244174786295489b40f
 
 ## Reproduce or extend the investigation
 
-Restore the exact ignored input files named in `configs/rnal_coverage_2026-10-01.toml`, including the SOAP/GIS acquisition manifests, reference CSV and archived report. Use the revision containing this audit and its locked dependencies. From the repository root:
+Restore the exact ignored input files named in `configs/rnal_coverage_2026-10-01.toml`, including the SOAP/GIS acquisition manifests, reference CSV and archived report. The committed benchmark bundle was generated at [revision 9266cf5](https://github.com/DiogoRibeiro7/lisbon-spatial-dynamics/commit/9266cf5266e21757f68c4dfb6720928d4da931d0) and remains unchanged. Use that revision for its recorded code provenance, or replay with the current writer, which produces identical aggregates and CSV hashes. From the repository root:
 
 ```bash
 poetry sync --with docs
 poetry run python scripts/audit_rnal_coverage.py audit --output data/processed/rnal-coverage-recheck
 ```
 
-The output directory must be new. This command makes no network requests. It checks the pinned input hashes and sizes, then checks snapshot resources against their acquisition manifests before computing aggregates. The CSV hashes should reproduce; JSON paths vary with the chosen output directory, and the recorded Python version reflects the replay environment.
+The output directory must be new. This command makes no network requests. It checks the pinned input hashes and sizes, then checks snapshot resources against their acquisition manifests before computing aggregates. The current writer prepares files in a temporary sibling directory and publishes them together only after every write succeeds. A failed write removes its temporary files and leaves the requested output path available for retry. Existing outputs are preserved. The CSV hashes should reproduce; JSON paths, code fingerprints and Python version reflect the chosen output directory and replay environment.
 
 For a fresh GIS capture, choose a new directory under the ignored raw workspace:
 
@@ -65,6 +65,14 @@ The request selects only `OBJECTID`, `NrRNAL`, `DataRegisto`, `DataAberturaPubli
 **Archive status:** raw inputs remain in the ignored local workspace. Hashes do not make those files publicly available. GIS item licence information was empty and redistribution terms have not been verified; no raw-data release is implied by the software licence.
 
 ## Evidence needed for the definitive study
+
+### Public historical source search
+
+An additional [GIS item published by Lisboaenova](https://www.arcgis.com/sharing/rest/content/items/4216d9ecb47b4cfe9c91e648e725e6e9?f=json) attributes its data to DMU/Divisão de Monitorização and describes establishments at 3 September 2018. The inspected [layer](https://services-eu1.arcgis.com/Jy1PfwTjLp1CBgCI/arcgis/rest/services/Alojamento_Local/FeatureServer/0) contains 2,551 records, while its registration-date maximum is 20 May 2020 and its last data edit is in October 2020. It has no time-series configuration. The date discrepancy and unverified geographic completeness prevent using it as a historical municipal panel.
+
+The [discovery record](https://github.com/DiogoRibeiro7/lisbon-spatial-dynamics/blob/main/results/rnal-coverage/2026-10-01/historical-source-discovery.json) preserves exact query URLs, response hashes, metadata and aggregate observations. Responses are retained in the ignored local workspace; no establishment rows were acquired. This search has not identified a public replacement for the historical monitoring extract. It does not establish that no such extract is published elsewhere.
+
+### Required extract
 
 The next source to pursue is the historical municipal monitoring extract documented in the report. No request has been sent to the provider. A usable extract or equivalent published aggregates should include:
 

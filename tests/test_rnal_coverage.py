@@ -229,9 +229,8 @@ def test_date_and_capacity_disagreements_are_counted_separately() -> None:
     assert early[0]["gis_records"] == 0
 
 
-def test_offline_audit_replays_aggregates_and_rejects_tampered_resources(
-    tmp_path: Path, audit_module: ModuleType, monkeypatch: pytest.MonkeyPatch
-) -> None:
+@pytest.fixture
+def audit_config(tmp_path: Path, audit_module: ModuleType) -> Path:
     gis_manifest, _ = capture(tmp_path / "gis", responses())
     soap_path = tmp_path / "soap.json"
     soap_path.write_text(
@@ -286,6 +285,13 @@ def test_offline_audit_replays_aggregates_and_rejects_tampered_resources(
             f"{key} = {json.dumps(value)}" for key, value in audit_module.fingerprint(path).items()
         )
     config.write_text("\n".join(lines), encoding="utf-8")
+    return config
+
+
+def test_offline_audit_replays_aggregates_and_rejects_tampered_resources(
+    tmp_path: Path, audit_module: ModuleType, audit_config: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    config = audit_config
 
     def no_network(*args: object, **kwargs: object) -> None:
         pytest.fail("offline audit attempted network access")
@@ -306,8 +312,72 @@ def test_offline_audit_replays_aggregates_and_rejects_tampered_resources(
     audit_module.audit(config, second)
     for filename in ("parish_comparison.csv", "early_registration_years.csv"):
         assert (output / filename).read_bytes() == (second / filename).read_bytes()
-    (gis_manifest.parent / "records.json").write_bytes(b"{}")
+    (tmp_path / "gis" / "records.json").write_bytes(b"{}")
     failed_output = tmp_path / "failed"
     with pytest.raises(ValueError, match="integrity mismatch"):
         audit_module.audit(config, failed_output)
     assert not failed_output.exists()
+
+
+@pytest.mark.parametrize("failure_stage", ["csv", "json", "publish"])
+def test_failed_audit_writes_are_retryable_without_partial_output(
+    tmp_path: Path,
+    audit_module: ModuleType,
+    audit_config: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    failure_stage: str,
+) -> None:
+    output = tmp_path / "audit"
+    original_open = Path.open
+
+    def failing_open(path: Path, *args: Any, **kwargs: Any) -> Any:
+        if path.name == (
+            "early_registration_years.csv" if failure_stage == "csv" else "audit.json"
+        ):
+            # Leave an actual partial file in staging before simulating disk failure.
+            with original_open(path, "w", encoding="utf-8") as stream:
+                stream.write("partial")
+            raise OSError("simulated write failure")
+        return original_open(path, *args, **kwargs)
+
+    def failing_rename(path: Path, target: Path) -> None:
+        raise OSError("simulated publish failure")
+
+    with monkeypatch.context() as patch:
+        if failure_stage == "publish":
+            patch.setattr(Path, "rename", failing_rename)
+        else:
+            patch.setattr(Path, "open", failing_open)
+        with pytest.raises(OSError, match="simulated"):
+            audit_module.audit(audit_config, output)
+    assert not output.exists()
+    assert not list(tmp_path.glob(".rnal-audit-*"))
+    audit_module.audit(audit_config, output)
+    report = json.loads((output / "audit.json").read_bytes())
+    for artifact in report["outputs"]:
+        assert Path(artifact["path"]).parent == output
+        audit_module.verify(Path(artifact["path"]), artifact)
+    assert ".rnal-audit-" not in (output / "audit.json").read_text(encoding="utf-8")
+
+
+def test_audit_preserves_destination_created_while_writing(
+    tmp_path: Path,
+    audit_module: ModuleType,
+    audit_config: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    output = tmp_path / "audit"
+    original_fingerprint = audit_module.fingerprint
+
+    def create_destination(path: Path) -> dict[str, Any]:
+        result: dict[str, Any] = original_fingerprint(path)
+        if path.name == "early_registration_years.csv":
+            output.mkdir()
+            (output / "sentinel.txt").write_text("preserve me", encoding="utf-8")
+        return result
+
+    monkeypatch.setattr(audit_module, "fingerprint", create_destination)
+    with pytest.raises(FileExistsError):
+        audit_module.audit(audit_config, output)
+    assert (output / "sentinel.txt").read_text(encoding="utf-8") == "preserve me"
+    assert not list(tmp_path.glob(".rnal-audit-*"))
