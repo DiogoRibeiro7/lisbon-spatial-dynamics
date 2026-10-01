@@ -1,0 +1,3 @@
+analysis,x,y,n,pearson_r,pearson_p,spearman_rho,spearman_p,interpretation
+aligned_2018_cross_section,local_accommodation_count_2018_06_30,housing_eur_m2_2018_06,24,0.637846443,0.000798851550,0.795563364,0.000003369024,"Positive descriptive cross-sectional association; not causal."
+al_pressure_population_2021,al_afc_ratio_2021_pct,population_change_2011_2021_pct,24,-0.762499154,0.000014827036,-0.209895878,0.324915912954,"Pearson is strongly negative but Spearman is weak/non-significant, consistent with strong influence from extreme central-parish values; descriptive only."
