@@ -1,0 +1,432 @@
+{
+  "acquisition": {
+    "captures_simultaneous": false,
+    "date_conversion": "epoch milliseconds interpreted in UTC; no date corrections",
+    "gis_completed_at": "2026-10-01T13:48:01.906327+00:00",
+    "gis_date_fields_time_reference": null,
+    "gis_item_description": "A última atualização dos dados foi a 1/10/2026",
+    "gis_item_licence_info": "",
+    "gis_item_url": "https://www.arcgis.com/sharing/rest/content/items/4e62eb1977564991bd01e61d7aa8266f",
+    "gis_layer_url": "https://geo.turismodeportugal.pt/server/rest/services/TDP/OpenData_AL/MapServer/6",
+    "gis_membership_stable_during_capture": true,
+    "gis_schema_fields": [
+      {
+        "name": "OBJECTID",
+        "type": "esriFieldTypeOID"
+      },
+      {
+        "name": "NrRNAL",
+        "type": "esriFieldTypeInteger"
+      },
+      {
+        "name": "Denominacao",
+        "type": "esriFieldTypeString"
+      },
+      {
+        "name": "DataRegisto",
+        "type": "esriFieldTypeDate"
+      },
+      {
+        "name": "DataAberturaPublico",
+        "type": "esriFieldTypeDate"
+      },
+      {
+        "name": "Modalidade",
+        "type": "esriFieldTypeString"
+      },
+      {
+        "name": "NrUtentes",
+        "type": "esriFieldTypeInteger"
+      },
+      {
+        "name": "Endereco",
+        "type": "esriFieldTypeString"
+      },
+      {
+        "name": "CodigoPostal",
+        "type": "esriFieldTypeString"
+      },
+      {
+        "name": "LOCALIDADE",
+        "type": "esriFieldTypeString"
+      },
+      {
+        "name": "LatLong",
+        "type": "esriFieldTypeString"
+      },
+      {
+        "name": "FiabilidadeGeo",
+        "type": "esriFieldTypeString"
+      },
+      {
+        "name": "DTMNFR",
+        "type": "esriFieldTypeString"
+      },
+      {
+        "name": "Freguesia",
+        "type": "esriFieldTypeString"
+      },
+      {
+        "name": "Concelho",
+        "type": "esriFieldTypeString"
+      },
+      {
+        "name": "Distrito",
+        "type": "esriFieldTypeString"
+      },
+      {
+        "name": "NUTSIII",
+        "type": "esriFieldTypeString"
+      },
+      {
+        "name": "NUTSII",
+        "type": "esriFieldTypeString"
+      },
+      {
+        "name": "ERT",
+        "type": "esriFieldTypeString"
+      },
+      {
+        "name": "Shape",
+        "type": "esriFieldTypeGeometry"
+      },
+      {
+        "name": "SeloCleanSafe",
+        "type": "esriFieldTypeString"
+      }
+    ],
+    "gis_started_at": "2026-10-01T13:47:54.551627+00:00",
+    "gis_time_info": null,
+    "gis_transactional_snapshot": false,
+    "soap_captured_at": "2026-10-01T10:38:59.692647+00:00",
+    "soap_endpoint": "https://webservices.turismodeportugal.pt/RNT_External/WS_RNT.asmx"
+  },
+  "archive_status": "exact raw inputs retained locally; not deposited in a public archive",
+  "audit_date": "2026-10-01",
+  "code_and_configuration": [
+    {
+      "path": "scripts/audit_rnal_coverage.py",
+      "sha256": "d8223da73f021a0e1944c748f878a67a7dc8481d13d0a9a33753324608579307",
+      "size_bytes": 6991
+    },
+    {
+      "path": "src/lisbon_spatial_dynamics/analysis/rnal_coverage.py",
+      "sha256": "bd717260ef3ab4db39eda4868e3330b4dfca511699911fcb8cc3cf3a37e7f4a0",
+      "size_bytes": 7973
+    },
+    {
+      "path": "src/lisbon_spatial_dynamics/sources/rnal_geodata.py",
+      "sha256": "76f3d5276259bc94cd1d882486191425c409df5db253c509c0bd7d18cd480d8c",
+      "size_bytes": 8309
+    },
+    {
+      "path": "src/lisbon_spatial_dynamics/panels/rnal.py",
+      "sha256": "e4c6f5c04d90422df832eddd61e49a5aec7cbfc3d1f1b1260afbbca3cc126a6b",
+      "size_bytes": 14845
+    },
+    {
+      "path": "src/lisbon_spatial_dynamics/panels/housing.py",
+      "sha256": "625389684686b13f1b14137822276b4ccd4f2d35b85d0542aac85b5f30b49c4e",
+      "size_bytes": 8772
+    },
+    {
+      "path": "pyproject.toml",
+      "sha256": "81a001e277f4c68d0cc36fbf235a2956344614db975b43663ac68f2d215cb0b2",
+      "size_bytes": 4563
+    },
+    {
+      "path": "poetry.lock",
+      "sha256": "3063434c193c44d6c1a899e2e86ca67e00bfb671fef2326218d6423f003c8fd9",
+      "size_bytes": 215792
+    },
+    {
+      "path": "configs/rnal_coverage_2026-10-01.toml",
+      "sha256": "4a77447dd3d1d495cfae6c00dcbe8c189f369f9f844ece7f54912dcbda570a96",
+      "size_bytes": 1773
+    }
+  ],
+  "inputs": {
+    "cml_manifest": {
+      "path": "data/raw/cml/rnal_report_2022/20261001T134526Z/manifest.json",
+      "sha256": "5897c05709b7ac2a015a64b5cb380c274f81f3648cb5a55e0ca036192eb743e5",
+      "size_bytes": 546
+    },
+    "cml_report": {
+      "path": "data/raw/cml/rnal_report_2022/20261001T134526Z/report.pdf",
+      "sha256": "1e446b0b71d55a3f0086b539278810f1875d5e4244174786295489b40fea8195",
+      "size_bytes": 6538471
+    },
+    "gis_item.json": {
+      "path": "data/raw/turismo_portugal/rnal_geodata/lisboa/20261001T134754Z/item.json",
+      "sha256": "41aa107cf042c01a68b797936c9194b3c7a67e7edcaee4bd965ea61e5c80221e",
+      "size_bytes": 1973
+    },
+    "gis_layer.json": {
+      "path": "data/raw/turismo_portugal/rnal_geodata/lisboa/20261001T134754Z/layer.json",
+      "sha256": "4bbd541dbd12212a9cb10bc060b07266e1742c651ca4fde915409bfdfc958b08",
+      "size_bytes": 7911
+    },
+    "gis_manifest": {
+      "path": "data/raw/turismo_portugal/rnal_geodata/lisboa/20261001T134754Z/manifest.json",
+      "sha256": "1df263a8c12ba7d4616f795108c127ce0065a1f3c8619f2a5292116004f533ae",
+      "size_bytes": 106198
+    },
+    "gis_records.json": {
+      "path": "data/raw/turismo_portugal/rnal_geodata/lisboa/20261001T134754Z/records.json",
+      "sha256": "4abde6680ff6c6670e4461dec2477eb0f72e2b9cddb25afa38f94770251bfb30",
+      "size_bytes": 2989902
+    },
+    "reference": {
+      "path": "data/processed/reference/lisbon_freguesias.csv",
+      "sha256": "6bdf8543905d97cb20ff289076288e1211d9edebf45b23e7acda72fa3f57d465",
+      "size_bytes": 2366
+    },
+    "soap_manifest": {
+      "path": "data/raw/turismo_portugal/rnal/lisboa/20261001T103859Z.manifest.json",
+      "sha256": "22cd22598c7fb29118de1958049e7ee5ec489339f4f217346e703ff15fb7aeee",
+      "size_bytes": 1066
+    },
+    "soap_records": {
+      "path": "data/raw/turismo_portugal/rnal/lisboa/20261001T103859Z.records.json",
+      "sha256": "87bbc8adcdb93ae10ce83644df1155bd57df967c0a6f92e468f9cac292249d5e",
+      "size_bytes": 5476280
+    }
+  },
+  "outputs": [
+    {
+      "path": "results/rnal-coverage/2026-10-01/parish_comparison.csv",
+      "sha256": "9c2ee82f7090bda8bbda2a1ab18f4a9d55bb44ee647bdacb0cf093b5dc2f55ee",
+      "size_bytes": 1186
+    },
+    {
+      "path": "results/rnal-coverage/2026-10-01/early_registration_years.csv",
+      "sha256": "304cdbeb0d7f1ef24c37510515e4ae2ad76cdcd90ab2f97ed608f610db16435e",
+      "size_bytes": 199
+    }
+  ],
+  "published_benchmark_provenance": {
+    "archive_capture": "2026-02-16T18:58:51Z",
+    "archive_url": "https://arquivo.pt/noFrame/replay/20260216185851id_/https://www.lisboa.pt/fileadmin/portal/temas/economia/alojamento_local/RelatorioCaracterizacaoMonitorizacaoAlojamentoLocal.pdf",
+    "date": "2022-11-30",
+    "note": "Page 38 explicitly refers to end-November 2022; other tables use 1 November. Registration stock is not operating establishments.",
+    "original_url": "https://www.lisboa.pt/fileadmin/portal/temas/economia/alojamento_local/RelatorioCaracterizacaoMonitorizacaoAlojamentoLocal.pdf",
+    "pdf_page": 50,
+    "printed_page": 38,
+    "registrations": 20134,
+    "source": "CML, Relatorio de Caracterizacao e Monitorizacao do Alojamento Local, December 2022",
+    "unit": "unweighted RNAL registrations"
+  },
+  "python_version": "3.13.5",
+  "schema_version": 1,
+  "scope": "RNAL source coverage; no definitive historical study",
+  "summary": {
+    "benchmark": {
+      "date": "2022-11-30",
+      "interpretation": "coverage discrepancy, not a count of identified closures",
+      "published_registrations": 20134,
+      "snapshot_cohort_minus_published": -8609,
+      "snapshot_cohort_percent_of_published": 57.2415,
+      "soap_snapshot_cohort_at_date": 11525
+    },
+    "early_date_screen_before": "2000-01-01",
+    "gis_early_dates": 7,
+    "gis_only_ids": 5,
+    "gis_only_registration_years": {
+      "2014": 1,
+      "2015": 1,
+      "2016": 1,
+      "2017": 1,
+      "2018": 1
+    },
+    "gis_parish_name_disagreements": 0,
+    "gis_records": 11870,
+    "historical_completeness_established": false,
+    "membership_differences_are_closure_events": false,
+    "parish_assignment_disagreement_pairs": [
+      {
+        "gis_freguesia_id": "110667",
+        "records": 1,
+        "soap_freguesia_id": "110607"
+      },
+      {
+        "gis_freguesia_id": "110639",
+        "records": 5,
+        "soap_freguesia_id": "110608"
+      },
+      {
+        "gis_freguesia_id": "110659",
+        "records": 1,
+        "soap_freguesia_id": "110610"
+      },
+      {
+        "gis_freguesia_id": "110611",
+        "records": 1,
+        "soap_freguesia_id": "110618"
+      },
+      {
+        "gis_freguesia_id": "110656",
+        "records": 2,
+        "soap_freguesia_id": "110618"
+      },
+      {
+        "gis_freguesia_id": "110621",
+        "records": 1,
+        "soap_freguesia_id": "110633"
+      },
+      {
+        "gis_freguesia_id": "110662",
+        "records": 3,
+        "soap_freguesia_id": "110633"
+      },
+      {
+        "gis_freguesia_id": "110665",
+        "records": 1,
+        "soap_freguesia_id": "110639"
+      },
+      {
+        "gis_freguesia_id": "110656",
+        "records": 1,
+        "soap_freguesia_id": "110655"
+      },
+      {
+        "gis_freguesia_id": "110657",
+        "records": 2,
+        "soap_freguesia_id": "110655"
+      },
+      {
+        "gis_freguesia_id": "110663",
+        "records": 4,
+        "soap_freguesia_id": "110655"
+      },
+      {
+        "gis_freguesia_id": "110663",
+        "records": 3,
+        "soap_freguesia_id": "110656"
+      },
+      {
+        "gis_freguesia_id": "110665",
+        "records": 12,
+        "soap_freguesia_id": "110656"
+      },
+      {
+        "gis_freguesia_id": "110666",
+        "records": 1,
+        "soap_freguesia_id": "110656"
+      },
+      {
+        "gis_freguesia_id": "110667",
+        "records": 2,
+        "soap_freguesia_id": "110656"
+      },
+      {
+        "gis_freguesia_id": "110656",
+        "records": 1,
+        "soap_freguesia_id": "110657"
+      },
+      {
+        "gis_freguesia_id": "110601",
+        "records": 4,
+        "soap_freguesia_id": "110658"
+      },
+      {
+        "gis_freguesia_id": "110656",
+        "records": 1,
+        "soap_freguesia_id": "110659"
+      },
+      {
+        "gis_freguesia_id": "110660",
+        "records": 5,
+        "soap_freguesia_id": "110659"
+      },
+      {
+        "gis_freguesia_id": "110659",
+        "records": 2,
+        "soap_freguesia_id": "110660"
+      },
+      {
+        "gis_freguesia_id": "110661",
+        "records": 31,
+        "soap_freguesia_id": "110660"
+      },
+      {
+        "gis_freguesia_id": "110665",
+        "records": 2,
+        "soap_freguesia_id": "110660"
+      },
+      {
+        "gis_freguesia_id": "110665",
+        "records": 15,
+        "soap_freguesia_id": "110661"
+      },
+      {
+        "gis_freguesia_id": "110666",
+        "records": 12,
+        "soap_freguesia_id": "110661"
+      },
+      {
+        "gis_freguesia_id": "110667",
+        "records": 1,
+        "soap_freguesia_id": "110661"
+      },
+      {
+        "gis_freguesia_id": "110661",
+        "records": 1,
+        "soap_freguesia_id": "110662"
+      },
+      {
+        "gis_freguesia_id": "110656",
+        "records": 3,
+        "soap_freguesia_id": "110663"
+      },
+      {
+        "gis_freguesia_id": "110656",
+        "records": 3,
+        "soap_freguesia_id": "110665"
+      },
+      {
+        "gis_freguesia_id": "110661",
+        "records": 6,
+        "soap_freguesia_id": "110665"
+      },
+      {
+        "gis_freguesia_id": "110667",
+        "records": 22,
+        "soap_freguesia_id": "110665"
+      },
+      {
+        "gis_freguesia_id": "110656",
+        "records": 2,
+        "soap_freguesia_id": "110666"
+      },
+      {
+        "gis_freguesia_id": "110665",
+        "records": 2,
+        "soap_freguesia_id": "110666"
+      },
+      {
+        "gis_freguesia_id": "110664",
+        "records": 1,
+        "soap_freguesia_id": "110667"
+      },
+      {
+        "gis_freguesia_id": "110665",
+        "records": 14,
+        "soap_freguesia_id": "110667"
+      },
+      {
+        "gis_freguesia_id": "110666",
+        "records": 4,
+        "soap_freguesia_id": "110667"
+      }
+    ],
+    "shared_capacity_disagreements": 0,
+    "shared_ids": 11865,
+    "shared_parish_disagreements": 172,
+    "shared_registration_date_disagreements": 0,
+    "soap_early_dates": 7,
+    "soap_only_ids": 0,
+    "soap_parish_name_disagreements": 0,
+    "soap_populated_cessation_dates": 0,
+    "soap_records": 11865
+  }
+}

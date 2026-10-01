@@ -31,6 +31,8 @@ The test suite exercises local fixtures without downloading the research dataset
 
 The [2026-10-01 primary-source audit](docs/source-audit.md) verifies housing coverage for all 24 parishes over 2019 Q4–2026 Q1 and reads the official Census workbook. The RNAL snapshot has no populated cessation dates and includes unusually early registration dates. Historical RNAL completeness remains unresolved; this input set is not yet designated the definitive v1.1 study.
 
+The [RNAL coverage investigation](docs/rnal-coverage.md) confirms the early dates in a second official feed, finds 172 conflicting parish assignments, and reconstructs only 11,525 registrations at November 2022 against the municipality's published 20,134. Historical extracts and geographic reconciliation are needed before the definitive run.
+
 ### Committed empirical evidence
 
 The repository includes a small inspectable release layer:

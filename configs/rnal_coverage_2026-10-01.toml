@@ -1,0 +1,39 @@
+# Exact local snapshots for the offline RNAL coverage comparison.
+audit_date = "2026-10-01"
+
+[inputs.soap_manifest]
+path = "data/raw/turismo_portugal/rnal/lisboa/20261001T103859Z.manifest.json"
+sha256 = "22cd22598c7fb29118de1958049e7ee5ec489339f4f217346e703ff15fb7aeee"
+size_bytes = 1066
+
+[inputs.gis_manifest]
+path = "data/raw/turismo_portugal/rnal_geodata/lisboa/20261001T134754Z/manifest.json"
+sha256 = "1df263a8c12ba7d4616f795108c127ce0065a1f3c8619f2a5292116004f533ae"
+size_bytes = 106198
+
+[inputs.reference]
+path = "data/processed/reference/lisbon_freguesias.csv"
+sha256 = "6bdf8543905d97cb20ff289076288e1211d9edebf45b23e7acda72fa3f57d465"
+size_bytes = 2366
+
+[inputs.cml_report]
+path = "data/raw/cml/rnal_report_2022/20261001T134526Z/report.pdf"
+sha256 = "1e446b0b71d55a3f0086b539278810f1875d5e4244174786295489b40fea8195"
+size_bytes = 6538471
+
+[inputs.cml_manifest]
+path = "data/raw/cml/rnal_report_2022/20261001T134526Z/manifest.json"
+sha256 = "5897c05709b7ac2a015a64b5cb380c274f81f3648cb5a55e0ca036192eb743e5"
+size_bytes = 546
+
+[benchmark]
+date = "2022-11-30"
+registrations = 20134
+unit = "unweighted RNAL registrations"
+source = "CML, Relatorio de Caracterizacao e Monitorizacao do Alojamento Local, December 2022"
+printed_page = 38
+pdf_page = 50
+original_url = "https://www.lisboa.pt/fileadmin/portal/temas/economia/alojamento_local/RelatorioCaracterizacaoMonitorizacaoAlojamentoLocal.pdf"
+archive_url = "https://arquivo.pt/noFrame/replay/20260216185851id_/https://www.lisboa.pt/fileadmin/portal/temas/economia/alojamento_local/RelatorioCaracterizacaoMonitorizacaoAlojamentoLocal.pdf"
+archive_capture = "2026-02-16T18:58:51Z"
+note = "Page 38 explicitly refers to end-November 2022; other tables use 1 November. Registration stock is not operating establishments."

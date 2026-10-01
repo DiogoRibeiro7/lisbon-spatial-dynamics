@@ -6,6 +6,7 @@ All notable repository-level changes are documented here.
 
 ### Added
 
+- An RNAL cross-feed coverage investigation: reproducible GIS acquisition, offline comparisons, a historical municipal benchmark, and aggregate evidence for parish/date discrepancies.
 - A primary-source coverage audit with retained acquisition provenance and compact housing, Census, and RNAL snapshot summaries for 2026-10-01.
 - An explicit 24-parish, 26-quarter INE housing request for the 2019 Q4–2026 Q1 study window.
 - Code-quality CI, offline tests on Linux and Windows, and an installed-wheel smoke check.
@@ -15,6 +16,7 @@ All notable repository-level changes are documented here.
 
 ### Fixed
 
+- Source-catalogue claims that the current RNAL SOAP feed establishes a longitudinal source merely by exposing date fields.
 - Audit acceptance of truncated housing windows and missing automated comparison with the published Census municipality total.
 - Lazy Census workbook errors now use the public population/context exception types; numeric identifier cells fail explicitly without guessing leading zeros.
 - Audit line-ending attributes now apply only to CSV/JSON files, preserving binary handling for figures and archives.

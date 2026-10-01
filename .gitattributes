@@ -10,3 +10,5 @@
 *.zip binary
 results/source-audit/**/*.csv text eol=lf
 results/source-audit/**/*.json text eol=lf
+results/rnal-coverage/**/*.csv text eol=lf
+results/rnal-coverage/**/*.json text eol=lf

@@ -35,6 +35,8 @@ The archive's member name has no UTF-8 flag and contains legacy bytes `87 c6` fo
 
 ## RNAL interpretation remains unresolved
 
+**Follow-up:** the [RNAL coverage investigation](rnal-coverage.md) confirms the seven early dates upstream, identifies 172 parish disagreements between official feeds, and quantifies a discrepancy against the municipal November 2022 benchmark. This original audit bundle remains unchanged.
+
 The [official SOAP operation](https://webservices.turismodeportugal.pt/RNT_External/WS_RNT.asmx?op=list_RNAL) accepts a municipality filter and documents registration and cessation fields. It does not document a historical-date or cancelled-record selector. In this capture, **all 11,865 cessation fields are empty**. That observation does not prove that no establishments closed, or that cancelled establishments remain in the response.
 
 Registration dates range from **1930-06-02 to 2026-09-30**. Seven records date before 2000: two in 1930, one in 1947, two in 1965, one in 1985, and one in 1992. The year-2000 threshold is a transparent screening rule, not an asserted registry inception date. The date meanings need provider clarification; records and dates have been retained unchanged.
