@@ -9,7 +9,7 @@ Committed evidence lives under:
 - `data/release/v1.0.1/`;
 - `results/release/v1.0.1/`.
 
-Large raw source snapshots remain outside Git. Each curated table documents its source, period definition, and limitations.
+Large raw source snapshots remain outside Git. The accompanying documentation identifies each curated table's source and period, with limitations noted where applicable.
 
 The empirical correction does not change the project's interpretation boundary: reported relationships are descriptive and do not establish causality.
 
