@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "release": "v1.0.1",
+  "status": "post-release empirical correction",
+  "housing_2019q1_2026q1": {
+    "n_freguesias": 24,
+    "median_change_pct": 66.290782,
+    "mean_change_pct": 65.371343,
+    "largest_pct_change": {"freguesia": "Beato", "change_pct": 105.540661},
+    "smallest_pct_change": {"freguesia": "Santa Maria Maior", "change_pct": 12.334307},
+    "largest_absolute_change": {"freguesia": "Parque das Nações", "change_eur_m2": 3096}
+  },
+  "rnal_weighted_2019_2022": {
+    "source_published_total_2019": 22941,
+    "displayed_parish_sum_2019": 22940,
+    "source_published_total_2022": 24080,
+    "displayed_parish_sum_2022": 24080,
+    "displayed_parish_change_abs": 1140,
+    "parishes_increase": 20,
+    "parishes_decrease": 4
+  },
+  "aligned_2018_cross_section": {
+    "n": 24,
+    "pearson_r": 0.637846443,
+    "pearson_p": 0.00079885155,
+    "spearman_rho": 0.795563364,
+    "spearman_p": 0.000003369024,
+    "interpretation": "positive descriptive cross-sectional association; not causal"
+  },
+  "al_pressure_population_2021": {
+    "n": 24,
+    "pearson_r": -0.762499154,
+    "pearson_p": 0.000014827036,
+    "spearman_rho": -0.209895878,
+    "spearman_p": 0.324915912954,
+    "interpretation": "Pearson result is strongly influenced by extreme high-AL central parishes; no strong monotone association in Spearman rank correlation"
+  }
+}

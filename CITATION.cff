@@ -5,8 +5,8 @@ type: software
 authors:
   - family-names: "Ribeiro"
     given-names: "Diogo"
-version: "1.0.0"
-date-released: "2026-09-30"
+version: "1.0.1"
+date-released: "2026-10-01"
 repository-code: "https://github.com/DiogoRibeiro7/lisbon-spatial-dynamics"
 license: "MIT"
 abstract: >-

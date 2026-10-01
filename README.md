@@ -25,9 +25,20 @@ Lisbon Spatial Dynamics is a Python research pipeline for examining how changes 
 
 ## Project status
 
-[Version 1.0.0](https://github.com/DiogoRibeiro7/lisbon-spatial-dynamics/releases/tag/v1.0.0) provides the study software. Its GitHub release has no attached input snapshots or computed results. This repository therefore provides the code and acquisition workflow; reproducing a particular historical result also requires its original snapshots and model configuration. Fetching today's data produces a new study run.
+[Version 1.0.1](https://github.com/DiogoRibeiro7/lisbon-spatial-dynamics/releases/tag/v1.0.1) adds committed empirical datasets and generated findings as a patch correction to the v1.0.0 software release. The full raw-snapshot pipeline remains available for reproducible study runs; fetching today's sources creates a new run rather than reproducing an earlier archived snapshot.
 
 The test suite exercises local fixtures without downloading the research datasets. Live source availability and a study run using official data require separate verification. Mobility, accessibility, infrastructure, and additional longitudinal demographic sources are outside the v1 scope.
+
+### Committed empirical evidence
+
+The repository includes a small inspectable release layer:
+
+```text
+data/release/v1.0.1/
+results/release/v1.0.1/
+```
+
+The data directory contains five 24-freguesia tables with provenance notes. The results directory contains summary metrics, association results, and machine/human-readable findings. Large raw source snapshots remain outside Git.
 
 ## Quick start
 
@@ -134,6 +145,8 @@ Start with `results/final/findings.md`, then inspect the tables and diagnostics.
 | [`tests/`](tests/) | Offline unit and integration tests |
 | [`docs/`](docs/) | MkDocs documentation and methodological detail |
 | `data/raw/`, `data/interim/`, `data/processed/` | Local data workspace; generated contents are not committed |
+| [`data/release/v1.0.1/`](data/release/v1.0.1/) | Curated committed empirical evidence with provenance |
+| [`results/release/v1.0.1/`](results/release/v1.0.1/) | Committed empirical summary/results for the patch release |
 | [`.github/workflows/`](.github/workflows/) | Code checks, tests, package build, and documentation deployment |
 
 ## Development

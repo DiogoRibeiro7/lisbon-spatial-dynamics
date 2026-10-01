@@ -1,5 +1,18 @@
 # Releases
 
+## v1.0.1 — empirical data/results correction
+
+Version 1.0.1 corrects the main omission in v1.0.0: the repository now contains small, inspectable empirical datasets and generated result tables.
+
+Committed evidence lives under:
+
+- `data/release/v1.0.1/`;
+- `results/release/v1.0.1/`.
+
+Large raw source snapshots remain outside Git. Each curated table documents its source, period definition, and limitations.
+
+The empirical correction does not change the project's interpretation boundary: reported relationships are descriptive and do not establish causality.
+
 ## v1.0.0 — first stable research release
 
 Version 1.0.0 packages the Lisbon Spatial Dynamics study pipeline. The GitHub release contains the source code, with no attached input snapshots or computed results. It should be distinguished from an archived empirical study bundle.

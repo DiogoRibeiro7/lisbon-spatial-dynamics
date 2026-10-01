@@ -36,7 +36,7 @@ def _inputs(tmp_path: Path) -> StudyV1Inputs:
 
 
 def test_study_v1_version_is_stable_release() -> None:
-    assert STUDY_V1_VERSION == "1.0.0"
+    assert STUDY_V1_VERSION == "1.0.1"
 
 
 def test_missing_input_fails_before_creating_output(tmp_path: Path) -> None:

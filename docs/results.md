@@ -94,3 +94,18 @@ The generated `findings.md` is intentionally concise. It reports:
 - leave-one-freguesia-out coefficient stability.
 
 The narrative is generated directly from the analysis artifacts and preserves the interpretation contract: adjusted associations are descriptive and not causal.
+
+
+## Committed empirical correction — v1.0.1
+
+The v1.0.0 software release did not include committed empirical datasets or generated study results. Version 1.0.1 adds an inspectable evidence layer:
+
+- `data/release/v1.0.1/` — curated 24-freguesia empirical tables with provenance;
+- `results/release/v1.0.1/summary_metrics.csv`;
+- `results/release/v1.0.1/association_results.csv`;
+- `results/release/v1.0.1/findings.json`;
+- `results/release/v1.0.1/findings.md`.
+
+The committed evidence includes Q1-2019→Q1-2026 housing changes, Nov-2019→Nov-2022 weighted RNAL and capacity changes, a published June-2018 housing/AL cross-section, and 2011→2021 population change with the 2021 AL/AFC ratio.
+
+These release tables are transparent empirical evidence, not replacements for the full raw-snapshot pipeline. Period definitions and source limitations are documented beside the data.
