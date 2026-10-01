@@ -104,15 +104,11 @@ def build_housing_change_panel(
         freguesia_periods = by_freguesia.setdefault(row.freguesia_id, {})
 
         if period.ordinal in freguesia_periods:
-            raise HousingTimeError(
-                f"duplicate quarter for {row.freguesia_id}: {row.period_code}"
-            )
+            raise HousingTimeError(f"duplicate quarter for {row.freguesia_id}: {row.period_code}")
 
         known_name = names.get(row.freguesia_id)
         if known_name is not None and known_name != row.freguesia_name:
-            raise HousingTimeError(
-                f"inconsistent freguesia name for {row.freguesia_id}"
-            )
+            raise HousingTimeError(f"inconsistent freguesia name for {row.freguesia_id}")
         names[row.freguesia_id] = row.freguesia_name
         freguesia_periods[period.ordinal] = (period, row)
 
@@ -192,12 +188,8 @@ def load_housing_panel_csv(path: Path) -> tuple[HousingPanelRow, ...]:
                     freguesia_id=_required(raw, "freguesia_id", index),
                     freguesia_name=_required(raw, "freguesia_name", index),
                     indicator_code=_required(raw, "indicator_code", index),
-                    source_geography_code=_required(
-                        raw, "source_geography_code", index
-                    ),
-                    source_geography_name=_required(
-                        raw, "source_geography_name", index
-                    ),
+                    source_geography_code=_required(raw, "source_geography_code", index),
+                    source_geography_name=_required(raw, "source_geography_name", index),
                     category_code=_required(raw, "category_code", index),
                     category_name=_required(raw, "category_name", index),
                     value_eur_m2=value,

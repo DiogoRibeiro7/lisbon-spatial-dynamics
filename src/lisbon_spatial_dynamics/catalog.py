@@ -11,11 +11,11 @@ import tomllib
 from collections.abc import Mapping
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Literal, Self, TypeAlias, cast
+from typing import Literal, Self, cast
 from urllib.parse import urlparse
 
-SourceKind: TypeAlias = Literal["dataset", "portal", "platform"]
-SourceStatus: TypeAlias = Literal["candidate", "catalogued", "access_required"]
+type SourceKind = Literal["dataset", "portal", "platform"]
+type SourceStatus = Literal["candidate", "catalogued", "access_required"]
 
 _ALLOWED_KINDS = frozenset({"dataset", "portal", "platform"})
 _ALLOWED_STATUSES = frozenset({"candidate", "catalogued", "access_required"})

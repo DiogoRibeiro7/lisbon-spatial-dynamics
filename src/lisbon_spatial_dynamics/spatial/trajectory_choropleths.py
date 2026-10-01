@@ -73,20 +73,14 @@ def load_trajectory_map(path: Path) -> TrajectoryMapData:
         )
         feature_id = feature.get("id")
         if feature_id != freguesia_id:
-            raise ChoroplethError(
-                f"{context}.id must equal properties.freguesia_id"
-            )
+            raise ChoroplethError(f"{context}.id must equal properties.freguesia_id")
         if freguesia_id in seen_ids:
-            raise ChoroplethError(
-                f"duplicate trajectory freguesia_id: {freguesia_id}"
-            )
+            raise ChoroplethError(f"duplicate trajectory freguesia_id: {freguesia_id}")
         seen_ids.add(freguesia_id)
 
         geometry_type = geometry.get("type")
         if geometry_type not in {"Polygon", "MultiPolygon"}:
-            raise ChoroplethError(
-                f"{context}.geometry has unsupported type: {geometry_type!r}"
-            )
+            raise ChoroplethError(f"{context}.geometry has unsupported type: {geometry_type!r}")
         coordinates = geometry.get("coordinates")
         if not isinstance(coordinates, list) or not coordinates:
             raise ChoroplethError(f"{context}.geometry has no coordinates")
@@ -182,9 +176,9 @@ def _write_choropleth(
     from matplotlib.patches import Polygon
 
     values = [
-        _metric_value(feature, value_name)
+        value
         for feature in data.features
-        if _metric_value(feature, value_name) is not None
+        if (value := _metric_value(feature, value_name)) is not None
     ]
     if not values:
         raise ChoroplethError(f"{value_name} has no non-missing values")
@@ -287,15 +281,11 @@ def _exterior_rings(
 
     for polygon_index, polygon_raw in enumerate(polygon_rings):
         if not isinstance(polygon_raw, list) or not polygon_raw:
-            raise ChoroplethError(
-                f"polygon {polygon_index} must contain at least one ring"
-            )
+            raise ChoroplethError(f"polygon {polygon_index} must contain at least one ring")
 
         exterior_raw = polygon_raw[0]
         if not isinstance(exterior_raw, list) or len(exterior_raw) < 4:
-            raise ChoroplethError(
-                f"polygon {polygon_index} exterior ring is invalid"
-            )
+            raise ChoroplethError(f"polygon {polygon_index} exterior ring is invalid")
 
         exterior: list[tuple[float, float]] = []
         for point_index, point_raw in enumerate(exterior_raw):
@@ -307,9 +297,7 @@ def _exterior_rings(
                 or not isinstance(point_raw[0], (int, float))
                 or not isinstance(point_raw[1], (int, float))
             ):
-                raise ChoroplethError(
-                    f"polygon {polygon_index} point {point_index} is invalid"
-                )
+                raise ChoroplethError(f"polygon {polygon_index} point {point_index} is invalid")
             exterior.append((float(point_raw[0]), float(point_raw[1])))
 
         exteriors.append(exterior)
@@ -331,7 +319,7 @@ def _label_point(geometry: Mapping[str, object]) -> tuple[float, float]:
 def _signed_area(ring: Sequence[tuple[float, float]]) -> float:
     """Return polygon signed area for selecting the dominant exterior."""
     area = 0.0
-    for current, following in zip(ring, ring[1:] + ring[:1], strict=True):
+    for current, following in zip(ring, (*ring[1:], *ring[:1]), strict=True):
         area += current[0] * following[1] - following[0] * current[1]
     return area / 2.0
 

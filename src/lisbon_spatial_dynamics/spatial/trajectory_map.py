@@ -59,18 +59,10 @@ def load_trajectory_csv(path: Path) -> tuple[FreguesiaTrajectory, ...]:
             rows.append(
                 FreguesiaTrajectory(
                     freguesia_id=_required(raw.get("freguesia_id"), index, "freguesia_id"),
-                    freguesia_name=_required(
-                        raw.get("freguesia_name"), index, "freguesia_name"
-                    ),
-                    baseline_year=_required_int(
-                        raw.get("baseline_year"), index, "baseline_year"
-                    ),
-                    latest_year=_required_int(
-                        raw.get("latest_year"), index, "latest_year"
-                    ),
-                    years_elapsed=_required_int(
-                        raw.get("years_elapsed"), index, "years_elapsed"
-                    ),
+                    freguesia_name=_required(raw.get("freguesia_name"), index, "freguesia_name"),
+                    baseline_year=_required_int(raw.get("baseline_year"), index, "baseline_year"),
+                    latest_year=_required_int(raw.get("latest_year"), index, "latest_year"),
+                    years_elapsed=_required_int(raw.get("years_elapsed"), index, "years_elapsed"),
                     observed_q4_years=_required_int(
                         raw.get("observed_q4_years"), index, "observed_q4_years"
                     ),
@@ -207,8 +199,7 @@ def build_trajectory_geojson(
 
         if row.freguesia_name != feature.name:
             raise TrajectoryMapError(
-                f"name mismatch for {freguesia_id}: "
-                f"{row.freguesia_name!r} != {feature.name!r}"
+                f"name mismatch for {freguesia_id}: {row.freguesia_name!r} != {feature.name!r}"
             )
 
         properties = dict(feature.properties)
@@ -260,9 +251,7 @@ def _trajectory_properties(row: FreguesiaTrajectory) -> dict[str, object]:
         "observed_q4_years": row.observed_q4_years,
         "housing_baseline_eur_m2": _decimal_number(row.housing_baseline_eur_m2),
         "housing_latest_eur_m2": _decimal_number(row.housing_latest_eur_m2),
-        "housing_change_abs_eur_m2": _decimal_number(
-            row.housing_change_abs_eur_m2
-        ),
+        "housing_change_abs_eur_m2": _decimal_number(row.housing_change_abs_eur_m2),
         "housing_change_pct": _decimal_number(row.housing_change_pct),
         "housing_latest_yoy_pct": _decimal_number(row.housing_latest_yoy_pct),
         "rnal_active_baseline": row.rnal_active_baseline,
@@ -290,9 +279,7 @@ def _unique_trajectory_mapping(
 
     for row in rows:
         if row.freguesia_id in mapping:
-            raise TrajectoryMapError(
-                f"duplicate trajectory freguesia_id: {row.freguesia_id}"
-            )
+            raise TrajectoryMapError(f"duplicate trajectory freguesia_id: {row.freguesia_id}")
         mapping[row.freguesia_id] = row
 
     return mapping
@@ -306,9 +293,7 @@ def _unique_reference_mapping(
 
     for feature in reference:
         if feature.freguesia_id in mapping:
-            raise TrajectoryMapError(
-                f"duplicate reference freguesia_id: {feature.freguesia_id}"
-            )
+            raise TrajectoryMapError(f"duplicate reference freguesia_id: {feature.freguesia_id}")
         mapping[feature.freguesia_id] = feature
 
     return mapping

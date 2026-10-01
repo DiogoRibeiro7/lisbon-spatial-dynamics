@@ -93,9 +93,7 @@ _SOURCE_COLUMNS: Mapping[str, str] = {
     "total_dwellings": "N_ALOJAMENTOS_TOTAL",
     "family_dwellings": "N_ALOJAMENTOS_FAMILIARES",
     "usual_residence_dwellings": "N_ALOJAMENTOS_ FAM_CLASS_RHABITUAL",
-    "vacant_or_secondary_dwellings": (
-        "N_ALOJAMENTOS_ FAM_CLASS_VAGOS OU RESID SECUNDARIA"
-    ),
+    "vacant_or_secondary_dwellings": ("N_ALOJAMENTOS_ FAM_CLASS_VAGOS OU RESID SECUNDARIA"),
     "owner_occupied_dwellings": "N_RHABITUAL_PROP_OCUP",
     "rented_dwellings": "N_RHABITUAL_ARRENDADOS",
     "private_households": "N_AGREGADOS DOMESTICOS PRIVADOS",
@@ -104,6 +102,13 @@ _SOURCE_COLUMNS: Mapping[str, str] = {
     "age_25_64": "N_INDIVIDUOS_25A64",
     "age_65_plus": "N_INDIVIDUOS_65_OU_MAIS",
 }
+
+
+def _normalize_header(value: str) -> str:
+    """Normalize source header whitespace and Unicode without changing semantics."""
+    normalized = unicodedata.normalize("NFKC", value)
+    return " ".join(normalized.strip().split())
+
 
 _REQUIRED_HEADERS = {
     _normalize_header("DTMNFR21"),
@@ -120,8 +125,7 @@ def build_census2021_context(
     """Aggregate official subsection counts to the canonical Lisboa freguesias."""
     reference = _load_reference(reference_csv, expected_count=expected_count)
     totals: dict[str, dict[str, int]] = {
-        freguesia_id: {field: 0 for field in _SOURCE_COLUMNS}
-        for freguesia_id in reference
+        freguesia_id: {field: 0 for field in _SOURCE_COLUMNS} for freguesia_id in reference
     }
     matched_subsections = 0
 
@@ -130,9 +134,7 @@ def build_census2021_context(
 
         for row_index, raw_row in enumerate(reader, start=2):
             row = {
-                _normalize_header(key): value
-                for key, value in raw_row.items()
-                if key is not None
+                _normalize_header(key): value for key, value in raw_row.items() if key is not None
             }
             freguesia_id = _required_text(
                 row.get(_normalize_header("DTMNFR21")),
@@ -179,9 +181,7 @@ def build_census2021_context(
                 total_dwellings=values["total_dwellings"],
                 family_dwellings=family_dwellings,
                 usual_residence_dwellings=usual_residence,
-                vacant_or_secondary_dwellings=values[
-                    "vacant_or_secondary_dwellings"
-                ],
+                vacant_or_secondary_dwellings=values["vacant_or_secondary_dwellings"],
                 owner_occupied_dwellings=values["owner_occupied_dwellings"],
                 rented_dwellings=values["rented_dwellings"],
                 private_households=values["private_households"],
@@ -214,8 +214,7 @@ def build_census2021_context(
                     classic_buildings,
                 ),
                 dwellings_per_classic_building=(
-                    Decimal(values["total_dwellings"])
-                    / Decimal(classic_buildings)
+                    Decimal(values["total_dwellings"]) / Decimal(classic_buildings)
                 ),
             )
         )
@@ -269,8 +268,7 @@ def build_census2021_context_geojson(
 
         if row.freguesia_name != feature.name:
             raise CensusContextError(
-                f"{freguesia_id} name mismatch: "
-                f"{row.freguesia_name!r} != {feature.name!r}"
+                f"{freguesia_id} name mismatch: {row.freguesia_name!r} != {feature.name!r}"
             )
 
         properties = dict(feature.properties)
@@ -323,8 +321,7 @@ def _find_synthesis_table(
     candidates = [
         member
         for member in archive.infolist()
-        if not member.is_dir()
-        and Path(member.filename).suffix.casefold() in {".csv", ".txt"}
+        if not member.is_dir() and Path(member.filename).suffix.casefold() in {".csv", ".txt"}
     ]
 
     for member in candidates:
@@ -342,9 +339,7 @@ def _find_synthesis_table(
         stream = io.StringIO(text)
         reader = csv.DictReader(stream, dialect=dialect)
         normalized_fields = {
-            _normalize_header(field)
-            for field in (reader.fieldnames or ())
-            if field is not None
+            _normalize_header(field) for field in (reader.fieldnames or ()) if field is not None
         }
 
         if _REQUIRED_HEADERS.issubset(normalized_fields):
@@ -374,8 +369,7 @@ def _load_reference(
 
         if missing:
             raise CensusContextError(
-                "reference CSV is missing columns: "
-                + ", ".join(sorted(missing))
+                "reference CSV is missing columns: " + ", ".join(sorted(missing))
             )
 
         for row_index, row in enumerate(reader, start=2):
@@ -389,15 +383,12 @@ def _load_reference(
             )
 
             if freguesia_id in reference:
-                raise CensusContextError(
-                    f"duplicate reference freguesia_id: {freguesia_id}"
-                )
+                raise CensusContextError(f"duplicate reference freguesia_id: {freguesia_id}")
             reference[freguesia_id] = name
 
     if len(reference) != expected_count:
         raise CensusContextError(
-            f"unexpected reference freguesia count: "
-            f"{len(reference)} != {expected_count}"
+            f"unexpected reference freguesia count: {len(reference)} != {expected_count}"
         )
 
     return reference
@@ -415,34 +406,21 @@ def _validate_aggregates(
         "usual_residence_dwellings",
     ):
         if values[field] <= 0:
-            raise CensusContextError(
-                f"{freguesia_id} has non-positive {field}"
-            )
+            raise CensusContextError(f"{freguesia_id} has non-positive {field}")
 
     age_total = (
-        values["age_0_14"]
-        + values["age_15_24"]
-        + values["age_25_64"]
-        + values["age_65_plus"]
+        values["age_0_14"] + values["age_15_24"] + values["age_25_64"] + values["age_65_plus"]
     )
     if age_total != values["population_resident"]:
-        raise CensusContextError(
-            f"{freguesia_id} age bands do not sum to total population"
-        )
+        raise CensusContextError(f"{freguesia_id} age bands do not sum to total population")
 
     if (
-        values["owner_occupied_dwellings"]
-        + values["rented_dwellings"]
+        values["owner_occupied_dwellings"] + values["rented_dwellings"]
         > values["usual_residence_dwellings"]
     ):
-        raise CensusContextError(
-            f"{freguesia_id} owner+rented dwellings exceed usual residences"
-        )
+        raise CensusContextError(f"{freguesia_id} owner+rented dwellings exceed usual residences")
 
-    if (
-        values["vacant_or_secondary_dwellings"]
-        > values["family_dwellings"]
-    ):
+    if values["vacant_or_secondary_dwellings"] > values["family_dwellings"]:
         raise CensusContextError(
             f"{freguesia_id} vacant/secondary dwellings exceed family dwellings"
         )
@@ -452,9 +430,7 @@ def _validate_aggregates(
         "repair_needed_buildings",
     ):
         if values[numerator] > values["classic_buildings"]:
-            raise CensusContextError(
-                f"{freguesia_id} {numerator} exceeds classic buildings"
-            )
+            raise CensusContextError(f"{freguesia_id} {numerator} exceeds classic buildings")
 
 
 def _context_values(row: CensusContextRow) -> tuple[object, ...]:
@@ -493,10 +469,9 @@ def _context_values(row: CensusContextRow) -> tuple[object, ...]:
 
 def _context_properties(row: CensusContextRow) -> dict[str, object]:
     """Return interoperable GeoJSON properties for one context row."""
-    values = _context_values(row)
     return {
-        column: _json_value(value)
-        for column, value in zip(CENSUS_CONTEXT_COLUMNS, values, strict=True)
+        column: _json_value(getattr(row, column))
+        for column in CENSUS_CONTEXT_COLUMNS
         if column not in {"freguesia_id", "freguesia_name"}
     }
 
@@ -509,9 +484,7 @@ def _unique_context_mapping(
 
     for row in rows:
         if row.freguesia_id in mapping:
-            raise CensusContextError(
-                f"duplicate context freguesia_id: {row.freguesia_id}"
-            )
+            raise CensusContextError(f"duplicate context freguesia_id: {row.freguesia_id}")
         mapping[row.freguesia_id] = row
 
     return mapping
@@ -525,18 +498,10 @@ def _unique_reference_mapping(
 
     for feature in reference:
         if feature.freguesia_id in mapping:
-            raise CensusContextError(
-                f"duplicate reference freguesia_id: {feature.freguesia_id}"
-            )
+            raise CensusContextError(f"duplicate reference freguesia_id: {feature.freguesia_id}")
         mapping[feature.freguesia_id] = feature
 
     return mapping
-
-
-def _normalize_header(value: str) -> str:
-    """Normalize source header whitespace and Unicode without changing semantics."""
-    normalized = unicodedata.normalize("NFKC", value)
-    return " ".join(normalized.strip().split())
 
 
 def _decode_text(payload: bytes) -> str:
@@ -547,9 +512,7 @@ def _decode_text(payload: bytes) -> str:
         except UnicodeDecodeError:
             continue
 
-    raise CensusContextError(
-        "census synthesis table has an unsupported text encoding"
-    )
+    raise CensusContextError("census synthesis table has an unsupported text encoding")
 
 
 def _required_text(value: str | None, context: str) -> str:
@@ -572,9 +535,7 @@ def _parse_non_negative_int(
         raise CensusContextError(f"{context} must be numeric") from exc
 
     if not math.isfinite(number) or number < 0 or not number.is_integer():
-        raise CensusContextError(
-            f"{context} must be a non-negative integer"
-        )
+        raise CensusContextError(f"{context} must be a non-negative integer")
 
     return int(number)
 

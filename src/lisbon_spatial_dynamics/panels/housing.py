@@ -77,8 +77,7 @@ def load_freguesia_index(
         missing_columns = required - fieldnames
         if missing_columns:
             raise HousingPanelError(
-                "reference CSV is missing columns: "
-                + ", ".join(sorted(missing_columns))
+                "reference CSV is missing columns: " + ", ".join(sorted(missing_columns))
             )
 
         for row_index, raw in enumerate(reader, start=2):
@@ -89,9 +88,7 @@ def load_freguesia_index(
             name = _required_csv_value(raw.get("name"), f"row {row_index}.name")
 
             if freguesia_id in seen_ids:
-                raise HousingPanelError(
-                    f"duplicate freguesia_id in reference CSV: {freguesia_id}"
-                )
+                raise HousingPanelError(f"duplicate freguesia_id in reference CSV: {freguesia_id}")
 
             seen_ids.add(freguesia_id)
             rows.append(FreguesiaIndexRow(freguesia_id=freguesia_id, name=name))
@@ -153,9 +150,7 @@ def build_current_housing_freguesia_panel(
         freguesia_id = matched_ids[0]
         canonical = reference_by_id[freguesia_id]
 
-        if _normalise_name(observation.geography_name) != _normalise_name(
-            canonical.name
-        ):
+        if _normalise_name(observation.geography_name) != _normalise_name(canonical.name):
             raise HousingPanelError(
                 "INE/CAOP geography-name mismatch for "
                 f"{freguesia_id}: {observation.geography_name!r} != "
@@ -169,8 +164,7 @@ def build_current_housing_freguesia_panel(
         period_rows = joined_by_period[observation.period_code]
         if freguesia_id in period_rows:
             raise HousingPanelError(
-                "duplicate housing observation for "
-                f"{observation.period_code} / {freguesia_id}"
+                f"duplicate housing observation for {observation.period_code} / {freguesia_id}"
             )
 
         period_rows[freguesia_id] = HousingPanelRow(
@@ -197,8 +191,7 @@ def build_current_housing_freguesia_panel(
         missing_ids = expected_ids - set(period_rows)
         if missing_ids:
             raise HousingPanelCoverageError(
-                f"{period_code} is missing canonical freguesias: "
-                + ", ".join(sorted(missing_ids))
+                f"{period_code} is missing canonical freguesias: " + ", ".join(sorted(missing_ids))
             )
 
         panel.extend(period_rows[freguesia_id] for freguesia_id in sorted(expected_ids))
@@ -248,9 +241,7 @@ def _reference_mapping(
         if not row.name.strip():
             raise HousingPanelError("reference freguesia name cannot be empty")
         if row.freguesia_id in mapping:
-            raise HousingPanelError(
-                f"duplicate reference freguesia_id: {row.freguesia_id}"
-            )
+            raise HousingPanelError(f"duplicate reference freguesia_id: {row.freguesia_id}")
         mapping[row.freguesia_id] = row
 
     return mapping

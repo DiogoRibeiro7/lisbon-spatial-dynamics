@@ -176,9 +176,7 @@ def build_study_v1(
             expected_count=expected_freguesias,
         )
 
-        housing_observations = parse_ine_housing_payload(
-            inputs.housing_snapshot.read_bytes()
-        )
+        housing_observations = parse_ine_housing_payload(inputs.housing_snapshot.read_bytes())
         housing_panel = build_current_housing_freguesia_panel(
             housing_observations,
             reference_index,
@@ -272,6 +270,7 @@ def build_study_v1(
             multivariable_dir,
             permutations=permutations,
             seed=seed,
+            expected_freguesias=expected_freguesias,
         )
 
         build_final_results_package(
@@ -306,9 +305,7 @@ def _validate_inputs(inputs: StudyV1Inputs) -> None:
     """Require all release inputs to exist as regular files."""
     missing = [str(path) for path in inputs.paths() if not path.is_file()]
     if missing:
-        raise StudyV1BuildError(
-            "missing v1 study input files: " + ", ".join(missing)
-        )
+        raise StudyV1BuildError("missing v1 study input files: " + ", ".join(missing))
 
 
 def _write_manifest(

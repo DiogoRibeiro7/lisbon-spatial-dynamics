@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import csv
-import json
 import zipfile
 from decimal import Decimal
 from pathlib import Path
@@ -18,7 +17,6 @@ from lisbon_spatial_dynamics.transformations.census_context import (
     build_census2021_context_geojson,
     write_census2021_context_csv,
 )
-
 
 _HEADER = ";".join(
     (
@@ -55,9 +53,7 @@ def _archive(path: Path) -> None:
 
 def _reference_csv(path: Path) -> None:
     path.write_text(
-        "freguesia_id,name\n"
-        "110654,Alvalade\n"
-        "110656,Arroios\n",
+        "freguesia_id,name\n110654,Alvalade\n110656,Arroios\n",
         encoding="utf-8",
     )
 

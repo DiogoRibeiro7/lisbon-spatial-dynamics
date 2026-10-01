@@ -30,9 +30,7 @@ def _archive(path: Path) -> None:
 
 def _reference(path: Path) -> None:
     path.write_text(
-        "freguesia_id,name,area_ha\n"
-        "110654,Alvalade,100\n"
-        "110656,Arroios,200\n",
+        "freguesia_id,name,area_ha\n110654,Alvalade,100\n110656,Arroios,200\n",
         encoding="utf-8",
     )
 

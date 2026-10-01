@@ -5,13 +5,13 @@
 A reproducible spatial study of how housing values and local-accommodation pressure changed across Lisbon's 24 canonical freguesias.
 
 [Reproduce v1](getting-started.md){ .md-button .md-button--primary }
-[Read the results](results.md){ .md-button }
+[Understand the outputs](results.md){ .md-button }
 
 </div>
 
 ## Version 1.0.0
 
-The v1 repository is a completed research pipeline rather than an exploratory scaffold.
+Version 1.0.0 provides the study software and acquisition commands. The GitHub release has no attached source snapshots or computed results; reproducing a particular empirical run requires its archived inputs and model configuration.
 
 It combines official housing, RNAL, Census, and CAOP sources to build a common neighbourhood-level research panel, then applies descriptive, spatial, and pre-specified multivariable analyses.
 

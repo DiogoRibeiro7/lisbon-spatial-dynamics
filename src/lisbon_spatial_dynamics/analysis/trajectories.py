@@ -95,15 +95,11 @@ def build_freguesia_trajectories(
     for row in rows:
         years = grouped.setdefault(row.freguesia_id, {})
         if row.year in years:
-            raise TrajectoryError(
-                f"duplicate annual row for {row.freguesia_id}/{row.year}"
-            )
+            raise TrajectoryError(f"duplicate annual row for {row.freguesia_id}/{row.year}")
 
         known_name = names.get(row.freguesia_id)
         if known_name is not None and known_name != row.freguesia_name:
-            raise TrajectoryError(
-                f"inconsistent freguesia name for {row.freguesia_id}"
-            )
+            raise TrajectoryError(f"inconsistent freguesia name for {row.freguesia_id}")
         names[row.freguesia_id] = row.freguesia_name
         years[row.year] = row
 
@@ -111,9 +107,7 @@ def build_freguesia_trajectories(
     for freguesia_id, years in grouped.items():
         ordered_years = sorted(years)
         if len(ordered_years) < 2:
-            raise TrajectoryError(
-                f"{freguesia_id} needs at least two annual observations"
-            )
+            raise TrajectoryError(f"{freguesia_id} needs at least two annual observations")
         windows[freguesia_id] = (ordered_years[0], ordered_years[-1])
 
     if require_common_window:
@@ -123,9 +117,7 @@ def build_freguesia_trajectories(
                 f"{freguesia_id}:{start}-{end}"
                 for freguesia_id, (start, end) in sorted(windows.items())
             )
-            raise TrajectoryError(
-                "freguesias do not share a common comparison window: " + details
-            )
+            raise TrajectoryError("freguesias do not share a common comparison window: " + details)
 
     output: list[FreguesiaTrajectory] = []
 
@@ -140,8 +132,7 @@ def build_freguesia_trajectories(
             baseline.housing_value_eur_m2,
         )
         rnal_active_abs = (
-            latest.rnal_active_registrations_year_end
-            - baseline.rnal_active_registrations_year_end
+            latest.rnal_active_registrations_year_end - baseline.rnal_active_registrations_year_end
         )
         rnal_active_pct = _integer_pct_change(
             latest.rnal_active_registrations_year_end,
@@ -249,11 +240,7 @@ def _integer_pct_change(current: int, baseline: int) -> Decimal | None:
     if baseline == 0:
         return None
 
-    return (
-        Decimal(current - baseline)
-        / Decimal(baseline)
-        * Decimal("100")
-    )
+    return Decimal(current - baseline) / Decimal(baseline) * Decimal("100")
 
 
 def _decimal_text(value: Decimal | None) -> str:

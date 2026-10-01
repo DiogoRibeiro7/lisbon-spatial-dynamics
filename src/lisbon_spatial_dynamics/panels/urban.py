@@ -92,30 +92,18 @@ def load_housing_change_csv(path: Path) -> tuple[HousingChangeRow, ...]:
                     period_code=_required(raw.get("period_code"), index, "period_code"),
                     year=_required_int(raw.get("year"), index, "year"),
                     quarter=_required_int(raw.get("quarter"), index, "quarter"),
-                    period_end=_required_date(
-                        raw.get("period_end"), index, "period_end"
-                    ),
-                    freguesia_id=_required(
-                        raw.get("freguesia_id"), index, "freguesia_id"
-                    ),
-                    freguesia_name=_required(
-                        raw.get("freguesia_name"), index, "freguesia_name"
-                    ),
-                    value_eur_m2=_optional_decimal(
-                        raw.get("value_eur_m2"), index, "value_eur_m2"
-                    ),
+                    period_end=_required_date(raw.get("period_end"), index, "period_end"),
+                    freguesia_id=_required(raw.get("freguesia_id"), index, "freguesia_id"),
+                    freguesia_name=_required(raw.get("freguesia_name"), index, "freguesia_name"),
+                    value_eur_m2=_optional_decimal(raw.get("value_eur_m2"), index, "value_eur_m2"),
                     qoq_abs_eur_m2=_optional_decimal(
                         raw.get("qoq_abs_eur_m2"), index, "qoq_abs_eur_m2"
                     ),
-                    qoq_pct=_optional_decimal(
-                        raw.get("qoq_pct"), index, "qoq_pct"
-                    ),
+                    qoq_pct=_optional_decimal(raw.get("qoq_pct"), index, "qoq_pct"),
                     yoy_abs_eur_m2=_optional_decimal(
                         raw.get("yoy_abs_eur_m2"), index, "yoy_abs_eur_m2"
                     ),
-                    yoy_pct=_optional_decimal(
-                        raw.get("yoy_pct"), index, "yoy_pct"
-                    ),
+                    yoy_pct=_optional_decimal(raw.get("yoy_pct"), index, "yoy_pct"),
                 )
             )
 
@@ -154,21 +142,11 @@ def load_rnal_quarter_csv(path: Path) -> tuple[RNALQuarterRow, ...]:
                     period_code=_required(raw.get("period_code"), index, "period_code"),
                     year=_required_int(raw.get("year"), index, "year"),
                     quarter=_required_int(raw.get("quarter"), index, "quarter"),
-                    period_end=_required_date(
-                        raw.get("period_end"), index, "period_end"
-                    ),
-                    freguesia_id=_required(
-                        raw.get("freguesia_id"), index, "freguesia_id"
-                    ),
-                    freguesia_name=_required(
-                        raw.get("freguesia_name"), index, "freguesia_name"
-                    ),
-                    registrations=_required_int(
-                        raw.get("registrations"), index, "registrations"
-                    ),
-                    cessations=_required_int(
-                        raw.get("cessations"), index, "cessations"
-                    ),
+                    period_end=_required_date(raw.get("period_end"), index, "period_end"),
+                    freguesia_id=_required(raw.get("freguesia_id"), index, "freguesia_id"),
+                    freguesia_name=_required(raw.get("freguesia_name"), index, "freguesia_name"),
+                    registrations=_required_int(raw.get("registrations"), index, "registrations"),
+                    cessations=_required_int(raw.get("cessations"), index, "cessations"),
                     net_registrations=_required_int(
                         raw.get("net_registrations"), index, "net_registrations"
                     ),
@@ -360,9 +338,7 @@ def _require_columns(
     """Validate required CSV columns."""
     missing = required - set(fieldnames or ())
     if missing:
-        raise UrbanPanelError(
-            f"{label} is missing columns: " + ", ".join(sorted(missing))
-        )
+        raise UrbanPanelError(f"{label} is missing columns: " + ", ".join(sorted(missing)))
 
 
 def _required(value: str | None, row: int, field: str) -> str:

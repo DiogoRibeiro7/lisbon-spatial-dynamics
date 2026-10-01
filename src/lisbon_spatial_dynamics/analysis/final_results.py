@@ -50,21 +50,11 @@ def build_final_results_package(
     output_directory: Path,
 ) -> FinalResultsOutputs:
     """Synthesize existing analysis outputs into final research artifacts."""
-    normalized_summary = _read_json(
-        normalized_directory / "normalized_summary.json"
-    )
-    association = _read_json(
-        normalized_directory / "normalized_association.json"
-    )
-    global_moran = _read_json(
-        normalized_directory / "global_morans_i.json"
-    )
-    local_moran = _read_json(
-        normalized_directory / "local_morans_i.json"
-    )
-    model_report = _read_json(
-        multivariable_directory / "model_report.json"
-    )
+    normalized_summary = _read_json(normalized_directory / "normalized_summary.json")
+    association = _read_json(normalized_directory / "normalized_association.json")
+    global_moran = _read_json(normalized_directory / "global_morans_i.json")
+    local_moran = _read_json(normalized_directory / "local_morans_i.json")
+    model_report = _read_json(multivariable_directory / "model_report.json")
 
     _validate_cross_artifact_window(
         normalized_summary,
@@ -82,15 +72,9 @@ def build_final_results_package(
         diagnostics_table_csv=output_directory / "table_4_diagnostics.csv",
         findings_json=output_directory / "findings.json",
         findings_markdown=output_directory / "findings.md",
-        figure_pressure_association=(
-            output_directory / "figure_1_pressure_association.png"
-        ),
-        figure_pressure_coefficients=(
-            output_directory / "figure_2_pressure_coefficients.png"
-        ),
-        figure_primary_residuals=(
-            output_directory / "figure_3_primary_residuals.png"
-        ),
+        figure_pressure_association=(output_directory / "figure_1_pressure_association.png"),
+        figure_pressure_coefficients=(output_directory / "figure_2_pressure_coefficients.png"),
+        figure_primary_residuals=(output_directory / "figure_3_primary_residuals.png"),
     )
 
     for path in outputs.paths():
@@ -213,10 +197,22 @@ def _descriptive_rows(
 
     return [
         {"section": "study", "metric": "baseline_year", "value": comparison["baseline_year"]},
-        {"section": "study", "metric": "latest_common_year", "value": comparison["latest_common_year"]},
+        {
+            "section": "study",
+            "metric": "latest_common_year",
+            "value": comparison["latest_common_year"],
+        },
         {"section": "coverage", "metric": "freguesia_count", "value": coverage["freguesia_count"]},
-        {"section": "descriptive", "metric": "median_housing_change_pct", "value": descriptive["housing_change_pct_median"]},
-        {"section": "descriptive", "metric": "median_rnal_pressure_change_per_1000", "value": descriptive["rnal_pressure_change_per_1000_median"]},
+        {
+            "section": "descriptive",
+            "metric": "median_housing_change_pct",
+            "value": descriptive["housing_change_pct_median"],
+        },
+        {
+            "section": "descriptive",
+            "metric": "median_rnal_pressure_change_per_1000",
+            "value": descriptive["rnal_pressure_change_per_1000_median"],
+        },
         {"section": "association", "metric": "pearson_r", "value": assoc_corr["pearson_r"]},
         {"section": "association", "metric": "spearman_rho", "value": assoc_corr["spearman_rho"]},
         {"section": "association", "metric": "complete_cases", "value": assoc["complete_cases"]},
@@ -248,7 +244,7 @@ def _spatial_rows(
                 significant += 1
             cluster = observation.get("cluster_class")
             if cluster in cluster_counts:
-                cluster_counts[cast(str, cluster)] += 1
+                cluster_counts[cluster] += 1
 
         rows.append(
             {
@@ -331,10 +327,7 @@ def _findings_document(
 
     models = {
         _string(model["name"], "model.name"): model
-        for model in (
-            _as_mapping(raw, "model")
-            for raw in _sequence(report, "models")
-        )
+        for model in (_as_mapping(raw, "model") for raw in _sequence(report, "models"))
     }
     if primary_name not in models:
         raise FinalResultsError(f"primary model {primary_name!r} is absent from report")
@@ -417,7 +410,10 @@ def _findings_markdown(findings: Mapping[str, object]) -> str:
     lines = [
         "# Final research findings",
         "",
-        f"The common comparison window runs from {window['baseline_year']} to {window['latest_common_year']}.",
+        (
+            f"The common comparison window runs from {window['baseline_year']} "
+            f"to {window['latest_common_year']}."
+        ),
         "",
         "## Descriptive pattern",
         "",
@@ -559,13 +555,16 @@ def _write_rows(
 
 def _write_json(path: Path, document: Mapping[str, object]) -> None:
     """Write deterministic JSON."""
-    payload = json.dumps(
-        document,
-        ensure_ascii=False,
-        indent=2,
-        sort_keys=True,
-        allow_nan=False,
-    ) + "\n"
+    payload = (
+        json.dumps(
+            document,
+            ensure_ascii=False,
+            indent=2,
+            sort_keys=True,
+            allow_nan=False,
+        )
+        + "\n"
+    )
     path.write_text(payload, encoding="utf-8")
 
 
@@ -589,9 +588,7 @@ def _find_coefficient(
         coefficient = _as_mapping(raw, "coefficient")
         if coefficient.get("term") == term:
             return coefficient
-    raise FinalResultsError(
-        f"model {model.get('name')!r} is missing coefficient {term!r}"
-    )
+    raise FinalResultsError(f"model {model.get('name')!r} is missing coefficient {term!r}")
 
 
 def _result_mapping(

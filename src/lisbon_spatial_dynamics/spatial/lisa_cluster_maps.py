@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import json
 import math
-from collections.abc import Mapping, Sequence
+from collections.abc import Mapping
 from dataclasses import dataclass
 from pathlib import Path
 from typing import cast
@@ -14,9 +14,9 @@ from lisbon_spatial_dynamics.analysis.local_spatial_autocorrelation import (
     LocalMoranObservation,
     LocalMoranResult,
     LocalStatus,
-    MetricName,
     Quadrant,
 )
+from lisbon_spatial_dynamics.analysis.spatial_autocorrelation import MetricName
 from lisbon_spatial_dynamics.spatial.trajectory_choropleths import (
     TrajectoryMapData,
     _exterior_rings,
@@ -51,9 +51,7 @@ def load_local_morans_json(path: Path) -> LISAMapBundle:
 
     document = _require_mapping(raw, "root")
     if document.get("analysis") != "local_morans_i":
-        raise LISAClusterMapError(
-            "Local Moran JSON has an unexpected analysis identifier"
-        )
+        raise LISAClusterMapError("Local Moran JSON has an unexpected analysis identifier")
 
     results_raw = document.get("results")
     if not isinstance(results_raw, list):
@@ -66,17 +64,14 @@ def load_local_morans_json(path: Path) -> LISAMapBundle:
         result = _parse_result(raw_result, context)
 
         if result.metric in results:
-            raise LISAClusterMapError(
-                f"duplicate Local Moran metric: {result.metric}"
-            )
+            raise LISAClusterMapError(f"duplicate Local Moran metric: {result.metric}")
         results[result.metric] = result
 
     missing = set(_SUPPORTED_METRICS) - set(results)
     extra = set(results) - set(_SUPPORTED_METRICS)
     if missing or extra:
         raise LISAClusterMapError(
-            f"Local Moran metric set mismatch; missing={sorted(missing)}, "
-            f"extra={sorted(extra)}"
+            f"Local Moran metric set mismatch; missing={sorted(missing)}, extra={sorted(extra)}"
         )
 
     return LISAMapBundle(
@@ -149,8 +144,7 @@ def _write_cluster_map(
     from matplotlib.patches import Patch, Polygon
 
     observation_by_id = {
-        observation.freguesia_id: observation
-        for observation in result.observations
+        observation.freguesia_id: observation for observation in result.observations
     }
 
     class_styles: dict[ClusterClass, tuple[str, str]] = {
@@ -199,9 +193,7 @@ def _write_cluster_map(
     axis.set_aspect("equal", adjustable="datalim")
     axis.axis("off")
     axis.set_title(
-        f"{title}\n"
-        f"{trajectory.baseline_year}–{trajectory.latest_year}, "
-        f"FDR α={result.alpha:g}",
+        f"{title}\n{trajectory.baseline_year}–{trajectory.latest_year}, FDR α={result.alpha:g}",
         pad=12,
     )
 
@@ -256,27 +248,19 @@ def _validate_result_against_trajectory(
         )
 
     trajectory_ids = {feature.freguesia_id for feature in trajectory.features}
-    observation_ids = {
-        observation.freguesia_id for observation in result.observations
-    }
+    observation_ids = {observation.freguesia_id for observation in result.observations}
 
     if len(observation_ids) != len(result.observations):
-        raise LISAClusterMapError(
-            f"{result.metric} contains duplicate freguesia observations"
-        )
+        raise LISAClusterMapError(f"{result.metric} contains duplicate freguesia observations")
 
     if trajectory_ids != observation_ids:
         missing = sorted(trajectory_ids - observation_ids)
         extra = sorted(observation_ids - trajectory_ids)
         raise LISAClusterMapError(
-            f"{result.metric} trajectory/LISA key mismatch; "
-            f"missing={missing}, extra={extra}"
+            f"{result.metric} trajectory/LISA key mismatch; missing={missing}, extra={extra}"
         )
 
-    names = {
-        feature.freguesia_id: feature.name
-        for feature in trajectory.features
-    }
+    names = {feature.freguesia_id: feature.name for feature in trajectory.features}
     for observation in result.observations:
         expected_name = names[observation.freguesia_id]
         if observation.freguesia_name != expected_name:
@@ -302,9 +286,7 @@ def _parse_result(value: object, context: str) -> LocalMoranResult:
 
     observations_raw = raw.get("observations")
     if not isinstance(observations_raw, list):
-        raise LISAClusterMapError(
-            f"{context}.observations must be a list"
-        )
+        raise LISAClusterMapError(f"{context}.observations must be a list")
 
     observations = tuple(
         _parse_observation(item, metric, f"{context}.observations[{index}]")
@@ -396,7 +378,7 @@ def _parse_metric(value: object, context: str) -> MetricName:
     """Parse a supported metric name."""
     if value not in _SUPPORTED_METRICS:
         raise LISAClusterMapError(f"{context} is not a supported metric")
-    return cast(MetricName, value)
+    return value
 
 
 def _optional_quadrant(value: object, context: str) -> Quadrant | None:

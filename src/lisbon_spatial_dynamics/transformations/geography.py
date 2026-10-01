@@ -93,9 +93,7 @@ def parse_caop_reference(
 
         freguesia_id = _require_string(properties, "dtmnfr", f"{context}.properties")
         if freguesia_id in seen_ids:
-            raise ReferenceGeographyError(
-                f"duplicate freguesia identifier: {freguesia_id}"
-            )
+            raise ReferenceGeographyError(f"duplicate freguesia identifier: {freguesia_id}")
         seen_ids.add(freguesia_id)
 
         geometry_type = geometry.get("type")
@@ -108,9 +106,7 @@ def parse_caop_reference(
         if not isinstance(coordinates, list) or not coordinates:
             raise ReferenceGeographyError(f"{context}.geometry has no coordinates")
 
-        municipality = _require_string(
-            properties, "municipio", f"{context}.properties"
-        )
+        municipality = _require_string(properties, "municipio", f"{context}.properties")
         if municipality.casefold() != "lisboa":
             raise ReferenceGeographyError(
                 f"{context} belongs to municipality {municipality!r}, not Lisboa"
@@ -124,24 +120,12 @@ def parse_caop_reference(
                     properties, "designacao_simplificada", f"{context}.properties"
                 ),
                 municipality=municipality,
-                district=_require_string(
-                    properties, "distrito_ilha", f"{context}.properties"
-                ),
-                nuts3_code=_require_string(
-                    properties, "nuts3_cod", f"{context}.properties"
-                ),
-                nuts3_name=_require_string(
-                    properties, "nuts3", f"{context}.properties"
-                ),
-                nuts2_name=_require_string(
-                    properties, "nuts2", f"{context}.properties"
-                ),
-                nuts1_name=_require_string(
-                    properties, "nuts1", f"{context}.properties"
-                ),
-                area_ha=_require_positive_number(
-                    properties, "area_ha", f"{context}.properties"
-                ),
+                district=_require_string(properties, "distrito_ilha", f"{context}.properties"),
+                nuts3_code=_require_string(properties, "nuts3_cod", f"{context}.properties"),
+                nuts3_name=_require_string(properties, "nuts3", f"{context}.properties"),
+                nuts2_name=_require_string(properties, "nuts2", f"{context}.properties"),
+                nuts1_name=_require_string(properties, "nuts1", f"{context}.properties"),
+                area_ha=_require_positive_number(properties, "area_ha", f"{context}.properties"),
                 geometry=geometry,
             )
         )
@@ -241,12 +225,15 @@ def _build_geojson_payload(references: Sequence[FreguesiaReference]) -> str:
         "name": "lisbon_freguesias_caop2025",
         "features": features,
     }
-    return json.dumps(
-        document,
-        ensure_ascii=False,
-        indent=2,
-        sort_keys=True,
-    ) + "\n"
+    return (
+        json.dumps(
+            document,
+            ensure_ascii=False,
+            indent=2,
+            sort_keys=True,
+        )
+        + "\n"
+    )
 
 
 def _require_mapping(value: object, context: str) -> Mapping[str, object]:

@@ -11,23 +11,15 @@ from lisbon_spatial_dynamics.analysis.associations import (
     write_association_json,
     write_association_scatter,
 )
+from lisbon_spatial_dynamics.analysis.census_context_bundle import (
+    build_census2021_context_bundle,
+)
 from lisbon_spatial_dynamics.analysis.final_results import (
     build_final_results_package,
 )
 from lisbon_spatial_dynamics.analysis.local_spatial_autocorrelation import (
     analyse_local_morans_i,
     write_local_morans_i_json,
-)
-from lisbon_spatial_dynamics.analysis.study_v1 import (
-    StudyV1Inputs,
-    build_study_v1,
-)
-from lisbon_spatial_dynamics.analysis.spatial_autocorrelation import (
-    analyse_global_morans_i,
-    write_morans_i_json,
-)
-from lisbon_spatial_dynamics.analysis.census_context_bundle import (
-    build_census2021_context_bundle,
 )
 from lisbon_spatial_dynamics.analysis.multivariable import (
     build_multivariable_analysis,
@@ -41,13 +33,21 @@ from lisbon_spatial_dynamics.analysis.pressure_associations import (
     write_pressure_association_json,
     write_pressure_association_scatter,
 )
-from lisbon_spatial_dynamics.analysis.trajectory_summary import (
-    build_trajectory_summary,
-    write_trajectory_summary_json,
+from lisbon_spatial_dynamics.analysis.spatial_autocorrelation import (
+    analyse_global_morans_i,
+    write_morans_i_json,
+)
+from lisbon_spatial_dynamics.analysis.study_v1 import (
+    StudyV1Inputs,
+    build_study_v1,
 )
 from lisbon_spatial_dynamics.analysis.trajectories import (
     build_freguesia_trajectories,
     write_freguesia_trajectory_csv,
+)
+from lisbon_spatial_dynamics.analysis.trajectory_summary import (
+    build_trajectory_summary,
+    write_trajectory_summary_json,
 )
 from lisbon_spatial_dynamics.panels.annual import (
     build_annual_urban_panel,
@@ -104,13 +104,13 @@ from lisbon_spatial_dynamics.spatial.annual_maps import (
     load_reference_geojson,
     write_annual_geojson_layers,
 )
-from lisbon_spatial_dynamics.spatial.trajectory_choropleths import (
-    load_trajectory_map,
-    write_trajectory_choropleths,
-)
 from lisbon_spatial_dynamics.spatial.lisa_cluster_maps import (
     load_local_morans_json,
     write_lisa_cluster_maps,
+)
+from lisbon_spatial_dynamics.spatial.trajectory_choropleths import (
+    load_trajectory_map,
+    write_trajectory_choropleths,
 )
 from lisbon_spatial_dynamics.spatial.trajectory_map import (
     build_trajectory_geojson,
@@ -121,14 +121,14 @@ from lisbon_spatial_dynamics.transformations.geography import (
     parse_caop_reference,
     write_reference_geography,
 )
-from lisbon_spatial_dynamics.transformations.population import (
-    build_census_population_reference,
-    write_census_population_csv,
-)
 from lisbon_spatial_dynamics.transformations.housing import (
     parse_ine_housing_payload,
     select_housing_observations,
     write_housing_csv,
+)
+from lisbon_spatial_dynamics.transformations.population import (
+    build_census_population_reference,
+    write_census_population_csv,
 )
 
 
@@ -271,9 +271,7 @@ def build_housing_changes() -> None:
 
 def fetch_rnal_lisboa() -> None:
     """Fetch privacy-minimised RNAL records for Lisboa."""
-    parser = ArgumentParser(
-        description="Fetch Turismo de Portugal RNAL records for Lisboa."
-    )
+    parser = ArgumentParser(description="Fetch Turismo de Portugal RNAL records for Lisboa.")
     parser.add_argument(
         "--config",
         type=Path,
@@ -315,8 +313,7 @@ def build_rnal_quarter_panel_cli() -> None:
     write_rnal_quarter_csv(rows, output)
 
     print(
-        f"Wrote {len(rows)} RNAL freguesia-quarter rows across "
-        f"{len(periods)} periods to {output}"
+        f"Wrote {len(rows)} RNAL freguesia-quarter rows across {len(periods)} periods to {output}"
     )
 
 
@@ -345,9 +342,7 @@ def build_urban_change_panel_cli() -> None:
 
 def build_annual_urban_panel_cli() -> None:
     """Build the Q4-anchored annual Lisbon urban-change panel."""
-    parser = ArgumentParser(
-        description="Build year-end urban-change comparisons by freguesia."
-    )
+    parser = ArgumentParser(description="Build year-end urban-change comparisons by freguesia.")
     parser.add_argument("input", type=Path)
     parser.add_argument("output", type=Path)
     args = parser.parse_args()
@@ -368,9 +363,7 @@ def build_annual_urban_panel_cli() -> None:
 
 def build_annual_map_layers_cli() -> None:
     """Build one map-ready annual GeoJSON layer per available year."""
-    parser = ArgumentParser(
-        description="Build annual Lisbon urban-change GeoJSON layers."
-    )
+    parser = ArgumentParser(description="Build annual Lisbon urban-change GeoJSON layers.")
     parser.add_argument("annual", type=Path)
     parser.add_argument("reference", type=Path)
     parser.add_argument("output_directory", type=Path)
@@ -384,17 +377,12 @@ def build_annual_map_layers_cli() -> None:
         cast(Path, args.output_directory),
     )
 
-    print(
-        f"Wrote {len(paths)} annual GeoJSON layers "
-        f"for {len(reference)} freguesias."
-    )
+    print(f"Wrote {len(paths)} annual GeoJSON layers for {len(reference)} freguesias.")
 
 
 def build_freguesia_trajectories_cli() -> None:
     """Build common-window baseline-to-latest trajectories by freguesia."""
-    parser = ArgumentParser(
-        description="Build baseline-to-latest Lisbon freguesia trajectories."
-    )
+    parser = ArgumentParser(description="Build baseline-to-latest Lisbon freguesia trajectories.")
     parser.add_argument("annual", type=Path)
     parser.add_argument("output", type=Path)
     args = parser.parse_args()
@@ -415,9 +403,7 @@ def build_freguesia_trajectories_cli() -> None:
 
 def build_trajectory_map_cli() -> None:
     """Build the baseline-to-latest trajectory GeoJSON."""
-    parser = ArgumentParser(
-        description="Build map-ready Lisbon freguesia trajectory GeoJSON."
-    )
+    parser = ArgumentParser(description="Build map-ready Lisbon freguesia trajectory GeoJSON.")
     parser.add_argument("trajectories", type=Path)
     parser.add_argument("reference", type=Path)
     parser.add_argument("output", type=Path)
@@ -430,16 +416,12 @@ def build_trajectory_map_cli() -> None:
     output = cast(Path, args.output)
     write_trajectory_geojson(document, output)
 
-    print(
-        f"Wrote trajectory GeoJSON for {len(trajectories)} freguesias to {output}"
-    )
+    print(f"Wrote trajectory GeoJSON for {len(trajectories)} freguesias to {output}")
 
 
 def build_trajectory_summary_cli() -> None:
     """Build the aggregate common-window trajectory summary JSON."""
-    parser = ArgumentParser(
-        description="Build aggregate descriptive Lisbon trajectory summary."
-    )
+    parser = ArgumentParser(description="Build aggregate descriptive Lisbon trajectory summary.")
     parser.add_argument("trajectories", type=Path)
     parser.add_argument("output", type=Path)
     args = parser.parse_args()
@@ -518,9 +500,7 @@ def build_trajectory_choropleths_cli() -> None:
 
 def build_global_morans_i_cli() -> None:
     """Calculate Global Moran's I for housing and RNAL trajectory changes."""
-    parser = ArgumentParser(
-        description="Build Global Moran's I spatial autocorrelation outputs."
-    )
+    parser = ArgumentParser(description="Build Global Moran's I spatial autocorrelation outputs.")
     parser.add_argument("trajectory_geojson", type=Path)
     parser.add_argument("output", type=Path)
     parser.add_argument(
@@ -558,9 +538,7 @@ def build_global_morans_i_cli() -> None:
 
 def build_local_morans_i_cli() -> None:
     """Calculate Local Moran's I for housing and RNAL trajectory changes."""
-    parser = ArgumentParser(
-        description="Build Local Moran's I (LISA) spatial association outputs."
-    )
+    parser = ArgumentParser(description="Build Local Moran's I (LISA) spatial association outputs.")
     parser.add_argument("trajectory_geojson", type=Path)
     parser.add_argument("output", type=Path)
     parser.add_argument(
@@ -596,8 +574,7 @@ def build_local_morans_i_cli() -> None:
 
     for result in results:
         significant = sum(
-            observation.significant_fdr is True
-            for observation in result.observations
+            observation.significant_fdr is True for observation in result.observations
         )
         print(
             f"{result.metric}: {significant} FDR-significant local associations "
@@ -635,9 +612,7 @@ def build_lisa_cluster_maps_cli() -> None:
 
 def fetch_census2021_population() -> None:
     """Fetch the official INE Censos 2021 subsection synthesis archive."""
-    parser = ArgumentParser(
-        description="Fetch the official Censos 2021 subsection synthesis ZIP."
-    )
+    parser = ArgumentParser(description="Fetch the official Censos 2021 subsection synthesis ZIP.")
     parser.add_argument(
         "--config",
         type=Path,
@@ -654,18 +629,14 @@ def fetch_census2021_population() -> None:
         timeout=cast(float, args.timeout),
     )
 
-    print(
-        f"Censos 2021 snapshot captured with {snapshot.member_count} files:"
-    )
+    print(f"Censos 2021 snapshot captured with {snapshot.member_count} files:")
     print(f"  archive:  {snapshot.archive_path}")
     print(f"  manifest: {snapshot.manifest_path}")
 
 
 def build_census2021_population_reference_cli() -> None:
     """Aggregate Censos 2021 subsection population to Lisboa freguesias."""
-    parser = ArgumentParser(
-        description="Build the static 2021 population reference by freguesia."
-    )
+    parser = ArgumentParser(description="Build the static 2021 population reference by freguesia.")
     parser.add_argument("archive", type=Path)
     parser.add_argument("reference", type=Path)
     parser.add_argument("output", type=Path)
@@ -687,9 +658,7 @@ def build_census2021_population_reference_cli() -> None:
 
 def build_rnal_population_pressure_cli() -> None:
     """Normalize the RNAL quarter panel using the static 2021 census population."""
-    parser = ArgumentParser(
-        description="Build population-normalized RNAL pressure metrics."
-    )
+    parser = ArgumentParser(description="Build population-normalized RNAL pressure metrics.")
     parser.add_argument("rnal", type=Path)
     parser.add_argument("population", type=Path)
     parser.add_argument("output", type=Path)
@@ -710,9 +679,7 @@ def build_rnal_population_pressure_cli() -> None:
 
 def build_annual_rnal_pressure_cli() -> None:
     """Build Q4-anchored annual RNAL pressure metrics."""
-    parser = ArgumentParser(
-        description="Build annual population-normalized RNAL pressure metrics."
-    )
+    parser = ArgumentParser(description="Build annual population-normalized RNAL pressure metrics.")
     parser.add_argument("input", type=Path)
     parser.add_argument("output", type=Path)
     args = parser.parse_args()
@@ -733,9 +700,7 @@ def build_annual_rnal_pressure_cli() -> None:
 
 def build_annual_housing_pressure_panel_cli() -> None:
     """Join annual housing dynamics to population-normalized RNAL pressure."""
-    parser = ArgumentParser(
-        description="Build the annual housing + RNAL pressure research panel."
-    )
+    parser = ArgumentParser(description="Build the annual housing + RNAL pressure research panel.")
     parser.add_argument("housing", type=Path)
     parser.add_argument("pressure", type=Path)
     parser.add_argument("output", type=Path)
@@ -935,9 +900,7 @@ def build_final_results_cli() -> None:
 
 def build_study_v1_cli() -> None:
     """Build the complete reproducible v1 study from immutable source snapshots."""
-    parser = ArgumentParser(
-        description="Build the complete Lisbon Spatial Dynamics v1 study."
-    )
+    parser = ArgumentParser(description="Build the complete Lisbon Spatial Dynamics v1 study.")
     parser.add_argument("housing_snapshot", type=Path)
     parser.add_argument("rnal_snapshot", type=Path)
     parser.add_argument("census_archive", type=Path)

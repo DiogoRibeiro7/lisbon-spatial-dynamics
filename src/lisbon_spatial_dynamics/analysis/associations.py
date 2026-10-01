@@ -50,9 +50,7 @@ def build_descriptive_association(
 
     windows = {(row.baseline_year, row.latest_year) for row in rows}
     if len(windows) != 1:
-        raise AssociationError(
-            "trajectory rows must share one baseline/latest comparison window"
-        )
+        raise AssociationError("trajectory rows must share one baseline/latest comparison window")
 
     baseline_year, latest_year = next(iter(windows))
     points: list[AssociationPoint] = []
@@ -82,9 +80,7 @@ def build_descriptive_association(
         )
 
     if len(points) < 2:
-        raise AssociationError(
-            "at least two complete freguesia observations are required"
-        )
+        raise AssociationError("at least two complete freguesia observations are required")
 
     housing = [point.housing_change_pct for point in points]
     rnal = [point.rnal_active_change_pct for point in points]
@@ -146,8 +142,7 @@ def write_association_json(
     }
 
     payload = (
-        json.dumps(document, ensure_ascii=False, indent=2, sort_keys=True, allow_nan=False)
-        + "\n"
+        json.dumps(document, ensure_ascii=False, indent=2, sort_keys=True, allow_nan=False) + "\n"
     )
 
     with path.open("x", encoding="utf-8") as stream:
@@ -188,10 +183,7 @@ def write_association_scatter(
 
     axis.set_xlabel("Change in active RNAL registrations (%)")
     axis.set_ylabel("Change in housing value (€/m², %)")
-    axis.set_title(
-        f"Lisbon freguesia trajectories: "
-        f"{result.baseline_year}–{result.latest_year}"
-    )
+    axis.set_title(f"Lisbon freguesia trajectories: {result.baseline_year}–{result.latest_year}")
     axis.grid(True, alpha=0.25)
     figure.tight_layout()
 
@@ -220,8 +212,7 @@ def _pearson(x: Sequence[float], y: Sequence[float]) -> float | None:
         return None
 
     covariance_sum = sum(
-        value_x * value_y
-        for value_x, value_y in zip(centered_x, centered_y, strict=True)
+        value_x * value_y for value_x, value_y in zip(centered_x, centered_y, strict=True)
     )
     return covariance_sum / math.sqrt(sum_sq_x * sum_sq_y)
 

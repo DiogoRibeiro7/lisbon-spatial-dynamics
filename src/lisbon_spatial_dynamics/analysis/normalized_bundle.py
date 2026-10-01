@@ -125,16 +125,12 @@ def build_normalized_trajectory(
     for row in rows:
         years = by_id.setdefault(row.freguesia_id, {})
         if row.year in years:
-            raise NormalizedBundleError(
-                f"duplicate annual key: ({row.year}, {row.freguesia_id})"
-            )
+            raise NormalizedBundleError(f"duplicate annual key: ({row.year}, {row.freguesia_id})")
         years[row.year] = row
 
     common_years = set.intersection(*(set(years) for years in by_id.values()))
     if not common_years:
-        raise NormalizedBundleError(
-            "freguesias do not share any common annual observation year"
-        )
+        raise NormalizedBundleError("freguesias do not share any common annual observation year")
 
     latest_year = max(common_years)
     output: list[NormalizedTrajectoryRow] = []
@@ -143,9 +139,7 @@ def build_normalized_trajectory(
         row = by_id[freguesia_id][latest_year]
 
         if row.baseline_year != baseline_year:
-            raise NormalizedBundleError(
-                f"{freguesia_id} baseline year changed unexpectedly"
-            )
+            raise NormalizedBundleError(f"{freguesia_id} baseline year changed unexpectedly")
 
         output.append(
             NormalizedTrajectoryRow(
@@ -158,9 +152,7 @@ def build_normalized_trajectory(
                 population_density_per_km2=row.population_density_per_km2,
                 housing_change_pct=row.housing_change_from_baseline_pct,
                 housing_latest_eur_m2=row.housing_value_eur_m2,
-                rnal_pressure_latest_per_1000=(
-                    row.rnal_active_registrations_per_1000_year_end
-                ),
+                rnal_pressure_latest_per_1000=(row.rnal_active_registrations_per_1000_year_end),
                 rnal_pressure_change_per_1000=(
                     row.rnal_active_registrations_per_1000_change_from_baseline
                 ),
@@ -262,9 +254,7 @@ def build_normalized_analysis_bundle(
             outputs.pressure_choropleth,
             label_freguesias=label_maps,
         )
-        written.extend(
-            (outputs.housing_choropleth, outputs.pressure_choropleth)
-        )
+        written.extend((outputs.housing_choropleth, outputs.pressure_choropleth))
 
         _write_global_morans_json(
             global_results,
@@ -331,15 +321,11 @@ def _as_spatial_data(
                 freguesia_id=row.freguesia_id,
                 name=row.freguesia_name,
                 housing_change_pct=(
-                    None
-                    if row.housing_change_pct is None
-                    else float(row.housing_change_pct)
+                    None if row.housing_change_pct is None else float(row.housing_change_pct)
                 ),
                 # The spatial engine's second numeric slot is reused internally.
                 # Bundle outputs relabel it as normalized RNAL pressure change.
-                rnal_active_change_pct=float(
-                    row.rnal_pressure_change_per_1000
-                ),
+                rnal_active_change_pct=float(row.rnal_pressure_change_per_1000),
                 geometry=reference_feature.geometry,
             )
         )
@@ -379,8 +365,7 @@ def _validate_reference(
         expected = reference_by_id[freguesia_id].name
         if row.freguesia_name != expected:
             raise NormalizedBundleError(
-                f"{freguesia_id} name mismatch: "
-                f"{row.freguesia_name!r} != {expected!r}"
+                f"{freguesia_id} name mismatch: {row.freguesia_name!r} != {expected!r}"
             )
 
 
@@ -429,21 +414,11 @@ def _write_trajectory_geojson(
                 "latest_year": row.latest_year,
                 "population_reference_year": row.population_reference_year,
                 "population_resident": row.population_resident,
-                "population_density_per_km2": float(
-                    row.population_density_per_km2
-                ),
-                "housing_change_pct": _decimal_number(
-                    row.housing_change_pct
-                ),
-                "housing_latest_eur_m2": _decimal_number(
-                    row.housing_latest_eur_m2
-                ),
-                "rnal_pressure_latest_per_1000": float(
-                    row.rnal_pressure_latest_per_1000
-                ),
-                _NORMALIZED_RNAL_METRIC: float(
-                    row.rnal_pressure_change_per_1000
-                ),
+                "population_density_per_km2": float(row.population_density_per_km2),
+                "housing_change_pct": _decimal_number(row.housing_change_pct),
+                "housing_latest_eur_m2": _decimal_number(row.housing_latest_eur_m2),
+                "rnal_pressure_latest_per_1000": float(row.rnal_pressure_latest_per_1000),
+                _NORMALIZED_RNAL_METRIC: float(row.rnal_pressure_change_per_1000),
             }
         )
 
@@ -458,10 +433,7 @@ def _write_trajectory_geojson(
 
     document: dict[str, object] = {
         "type": "FeatureCollection",
-        "name": (
-            f"lisbon_normalized_trajectories_"
-            f"{rows[0].baseline_year}_{rows[0].latest_year}"
-        ),
+        "name": (f"lisbon_normalized_trajectories_{rows[0].baseline_year}_{rows[0].latest_year}"),
         "baseline_year": rows[0].baseline_year,
         "latest_year": rows[0].latest_year,
         "feature_count": len(features),
@@ -478,14 +450,9 @@ def _write_summary_json(
 ) -> None:
     """Write compact normalized-analysis summary metadata."""
     housing_values = [
-        float(row.housing_change_pct)
-        for row in rows
-        if row.housing_change_pct is not None
+        float(row.housing_change_pct) for row in rows if row.housing_change_pct is not None
     ]
-    pressure_values = [
-        float(row.rnal_pressure_change_per_1000)
-        for row in rows
-    ]
+    pressure_values = [float(row.rnal_pressure_change_per_1000) for row in rows]
 
     document: dict[str, object] = {
         "schema_version": 1,
@@ -501,13 +468,9 @@ def _write_summary_json(
             "housing_missing_count": len(rows) - len(housing_values),
         },
         "descriptive": {
-            "housing_change_pct_median": (
-                median(housing_values) if housing_values else None
-            ),
+            "housing_change_pct_median": (median(housing_values) if housing_values else None),
             "rnal_pressure_change_per_1000_median": median(pressure_values),
-            "population_total_2021": sum(
-                row.population_resident for row in rows
-            ),
+            "population_total_2021": sum(row.population_resident for row in rows),
         },
         "association": {
             "pearson_r": association.pearson_r,
@@ -694,9 +657,7 @@ def _write_local_morans_json(
                         "value": observation.value,
                         "local_i": observation.local_i,
                         "neighbor_count": observation.neighbor_count,
-                        "permutation_p_two_sided": (
-                            observation.permutation_p_two_sided
-                        ),
+                        "permutation_p_two_sided": (observation.permutation_p_two_sided),
                         "fdr_q": observation.fdr_q,
                         "significant_fdr": observation.significant_fdr,
                         "quadrant": observation.quadrant,

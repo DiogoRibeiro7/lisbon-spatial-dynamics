@@ -61,29 +61,18 @@ def load_annual_urban_csv(path: Path) -> tuple[AnnualUrbanRow, ...]:
         missing = required - set(reader.fieldnames or ())
         if missing:
             raise AnnualMapError(
-                "annual urban CSV is missing columns: "
-                + ", ".join(sorted(missing))
+                "annual urban CSV is missing columns: " + ", ".join(sorted(missing))
             )
 
         for index, raw in enumerate(reader, start=2):
             rows.append(
                 AnnualUrbanRow(
                     year=_required_int(raw.get("year"), index, "year"),
-                    baseline_year=_required_int(
-                        raw.get("baseline_year"), index, "baseline_year"
-                    ),
-                    period_code=_required(
-                        raw.get("period_code"), index, "period_code"
-                    ),
-                    period_end=_required_date(
-                        raw.get("period_end"), index, "period_end"
-                    ),
-                    freguesia_id=_required(
-                        raw.get("freguesia_id"), index, "freguesia_id"
-                    ),
-                    freguesia_name=_required(
-                        raw.get("freguesia_name"), index, "freguesia_name"
-                    ),
+                    baseline_year=_required_int(raw.get("baseline_year"), index, "baseline_year"),
+                    period_code=_required(raw.get("period_code"), index, "period_code"),
+                    period_end=_required_date(raw.get("period_end"), index, "period_end"),
+                    freguesia_id=_required(raw.get("freguesia_id"), index, "freguesia_id"),
+                    freguesia_name=_required(raw.get("freguesia_name"), index, "freguesia_name"),
                     flow_quarters_observed=_required_int(
                         raw.get("flow_quarters_observed"),
                         index,
@@ -205,31 +194,21 @@ def load_reference_geojson(
     for index, feature_raw in enumerate(features_raw):
         context = f"features[{index}]"
         feature = _require_mapping(feature_raw, context)
-        properties = _require_mapping(
-            feature.get("properties"), f"{context}.properties"
-        )
+        properties = _require_mapping(feature.get("properties"), f"{context}.properties")
         geometry = _require_mapping(feature.get("geometry"), f"{context}.geometry")
 
-        freguesia_id = _require_object_string(
-            properties, "freguesia_id", f"{context}.properties"
-        )
+        freguesia_id = _require_object_string(properties, "freguesia_id", f"{context}.properties")
         feature_id = feature.get("id")
         if feature_id != freguesia_id:
-            raise AnnualMapError(
-                f"{context}.id must equal properties.freguesia_id"
-            )
+            raise AnnualMapError(f"{context}.id must equal properties.freguesia_id")
         if freguesia_id in seen_ids:
-            raise AnnualMapError(
-                f"duplicate reference freguesia_id: {freguesia_id}"
-            )
+            raise AnnualMapError(f"duplicate reference freguesia_id: {freguesia_id}")
         seen_ids.add(freguesia_id)
 
         name = _require_object_string(properties, "name", f"{context}.properties")
         geometry_type = geometry.get("type")
         if geometry_type not in {"Polygon", "MultiPolygon"}:
-            raise AnnualMapError(
-                f"{context}.geometry has unsupported type: {geometry_type!r}"
-            )
+            raise AnnualMapError(f"{context}.geometry has unsupported type: {geometry_type!r}")
 
         features.append(
             ReferenceFeature(
@@ -260,9 +239,7 @@ def build_annual_geojson_layers(
     for row in rows:
         year_rows = by_year.setdefault(row.year, {})
         if row.freguesia_id in year_rows:
-            raise AnnualMapError(
-                f"duplicate annual key: ({row.year}, {row.freguesia_id})"
-            )
+            raise AnnualMapError(f"duplicate annual key: ({row.year}, {row.freguesia_id})")
         year_rows[row.freguesia_id] = row
 
     layers: dict[int, dict[str, object]] = {}
@@ -275,8 +252,7 @@ def build_annual_geojson_layers(
             missing = sorted(expected_ids - ids)
             extra = sorted(ids - expected_ids)
             raise AnnualMapError(
-                f"{year} annual/reference key mismatch; "
-                f"missing={missing}, extra={extra}"
+                f"{year} annual/reference key mismatch; missing={missing}, extra={extra}"
             )
 
         features: list[dict[str, object]] = []
@@ -323,8 +299,7 @@ def write_annual_geojson_layers(
         raise AnnualMapError("annual GeoJSON layers cannot be empty")
 
     targets = tuple(
-        output_directory / f"lisbon_urban_change_{year}.geojson"
-        for year in sorted(layers)
+        output_directory / f"lisbon_urban_change_{year}.geojson" for year in sorted(layers)
     )
 
     existing = [path for path in targets if path.exists()]
@@ -369,38 +344,24 @@ def _annual_properties(row: AnnualUrbanRow) -> dict[str, object]:
         "period_end": row.period_end.isoformat(),
         "flow_quarters_observed": row.flow_quarters_observed,
         "housing_value_eur_m2": _decimal_number(row.housing_value_eur_m2),
-        "housing_yoy_abs_eur_m2": _decimal_number(
-            row.housing_yoy_abs_eur_m2
-        ),
+        "housing_yoy_abs_eur_m2": _decimal_number(row.housing_yoy_abs_eur_m2),
         "housing_yoy_pct": _decimal_number(row.housing_yoy_pct),
         "housing_change_from_baseline_abs_eur_m2": _decimal_number(
             row.housing_change_from_baseline_abs_eur_m2
         ),
-        "housing_change_from_baseline_pct": _decimal_number(
-            row.housing_change_from_baseline_pct
-        ),
+        "housing_change_from_baseline_pct": _decimal_number(row.housing_change_from_baseline_pct),
         "rnal_registrations_year": row.rnal_registrations_year,
         "rnal_cessations_year": row.rnal_cessations_year,
         "rnal_net_registrations_year": row.rnal_net_registrations_year,
-        "rnal_active_registrations_year_end": (
-            row.rnal_active_registrations_year_end
-        ),
-        "rnal_active_change_from_baseline_abs": (
-            row.rnal_active_change_from_baseline_abs
-        ),
+        "rnal_active_registrations_year_end": (row.rnal_active_registrations_year_end),
+        "rnal_active_change_from_baseline_abs": (row.rnal_active_change_from_baseline_abs),
         "rnal_active_change_from_baseline_pct": _decimal_number(
             row.rnal_active_change_from_baseline_pct
         ),
         "rnal_active_beds_known_year_end": row.rnal_active_beds_known_year_end,
-        "rnal_active_beds_missing_year_end": (
-            row.rnal_active_beds_missing_year_end
-        ),
-        "rnal_active_users_known_year_end": (
-            row.rnal_active_users_known_year_end
-        ),
-        "rnal_active_users_missing_year_end": (
-            row.rnal_active_users_missing_year_end
-        ),
+        "rnal_active_beds_missing_year_end": (row.rnal_active_beds_missing_year_end),
+        "rnal_active_users_known_year_end": (row.rnal_active_users_known_year_end),
+        "rnal_active_users_missing_year_end": (row.rnal_active_users_missing_year_end),
     }
 
 
@@ -412,9 +373,7 @@ def _reference_mapping(
 
     for feature in reference:
         if feature.freguesia_id in mapping:
-            raise AnnualMapError(
-                f"duplicate reference freguesia_id: {feature.freguesia_id}"
-            )
+            raise AnnualMapError(f"duplicate reference freguesia_id: {feature.freguesia_id}")
         mapping[feature.freguesia_id] = feature
 
     return mapping

@@ -11,14 +11,14 @@ from datetime import UTC, datetime
 from hashlib import sha256
 from io import BytesIO
 from pathlib import Path
+from typing import cast
 from urllib.parse import urlparse
 from urllib.request import Request, urlopen
 
 FetchBytes = Callable[[str, float], bytes]
 
 _USER_AGENT = (
-    "lisbon-spatial-dynamics/0.1 "
-    "(+https://github.com/DiogoRibeiro7/lisbon-spatial-dynamics)"
+    "lisbon-spatial-dynamics/0.1 (+https://github.com/DiogoRibeiro7/lisbon-spatial-dynamics)"
 )
 
 
@@ -43,7 +43,7 @@ class Census2021Config:
     output_directory: Path
 
     @classmethod
-    def from_toml(cls, path: Path) -> "Census2021Config":
+    def from_toml(cls, path: Path) -> Census2021Config:
         """Load and validate census source configuration."""
         with path.open("rb") as stream:
             raw = tomllib.load(stream)
@@ -57,9 +57,7 @@ class Census2021Config:
         return cls(
             source_id=_require_string(source, "source_id", "source"),
             archive_url=archive_url,
-            output_directory=Path(
-                _require_string(output, "directory", "output")
-            ),
+            output_directory=Path(_require_string(output, "directory", "output")),
         )
 
 
@@ -99,9 +97,7 @@ def fetch_census2021_snapshot(
 
     for path in (archive_path, manifest_path):
         if path.exists():
-            raise CensusSnapshotExistsError(
-                f"snapshot file already exists: {path}"
-            )
+            raise CensusSnapshotExistsError(f"snapshot file already exists: {path}")
 
     fetch_bytes = fetcher or _fetch_url
     payload = fetch_bytes(config.archive_url, timeout)
@@ -147,16 +143,10 @@ def _validate_archive(payload: bytes) -> tuple[str, ...]:
         with zipfile.ZipFile(BytesIO(payload)) as archive:
             bad_member = archive.testzip()
             if bad_member is not None:
-                raise CensusPayloadError(
-                    f"census ZIP contains a corrupt member: {bad_member}"
-                )
+                raise CensusPayloadError(f"census ZIP contains a corrupt member: {bad_member}")
 
             members = tuple(
-                sorted(
-                    member.filename
-                    for member in archive.infolist()
-                    if not member.is_dir()
-                )
+                sorted(member.filename for member in archive.infolist() if not member.is_dir())
             )
     except zipfile.BadZipFile as exc:
         raise CensusPayloadError("census payload is not a valid ZIP archive") from exc
@@ -174,7 +164,7 @@ def _fetch_url(url: str, timeout: float) -> bytes:
         headers={"User-Agent": _USER_AGENT},
     )
     with urlopen(request, timeout=timeout) as response:
-        return response.read()
+        return cast(bytes, response.read())
 
 
 def _write_new_file(path: Path, payload: bytes) -> None:
@@ -184,9 +174,7 @@ def _write_new_file(path: Path, payload: bytes) -> None:
         with path.open("xb") as stream:
             stream.write(payload)
     except FileExistsError as exc:
-        raise CensusSnapshotExistsError(
-            f"snapshot file already exists: {path}"
-        ) from exc
+        raise CensusSnapshotExistsError(f"snapshot file already exists: {path}") from exc
 
 
 def _require_mapping(value: object, context: str) -> Mapping[str, object]:
@@ -204,9 +192,7 @@ def _require_string(
     """Return a required non-empty string."""
     value = raw.get(key)
     if not isinstance(value, str) or not value.strip():
-        raise CensusConfigError(
-            f"{context}.{key} must be a non-empty string"
-        )
+        raise CensusConfigError(f"{context}.{key} must be a non-empty string")
     return value.strip()
 
 
@@ -214,6 +200,4 @@ def _validate_http_url(value: str, field: str) -> None:
     """Validate an absolute HTTP(S) URL."""
     parsed = urlparse(value)
     if parsed.scheme not in {"http", "https"} or not parsed.netloc:
-        raise CensusConfigError(
-            f"{field} must be an absolute HTTP(S) URL"
-        )
+        raise CensusConfigError(f"{field} must be an absolute HTTP(S) URL")

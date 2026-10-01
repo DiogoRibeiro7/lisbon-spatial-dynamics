@@ -31,9 +31,7 @@ def _document() -> dict[str, object]:
                 },
                 "geometry": {
                     "type": "Polygon",
-                    "coordinates": [
-                        [[0, 0], [1, 0], [1, 1], [0, 0]]
-                    ],
+                    "coordinates": [[[0, 0], [1, 0], [1, 1], [0, 0]]],
                 },
             },
             {
@@ -47,11 +45,7 @@ def _document() -> dict[str, object]:
                 },
                 "geometry": {
                     "type": "MultiPolygon",
-                    "coordinates": [
-                        [
-                            [[2, 0], [3, 0], [3, 1], [2, 0]]
-                        ]
-                    ],
+                    "coordinates": [[[[2, 0], [3, 0], [3, 1], [2, 0]]]],
                 },
             },
         ],

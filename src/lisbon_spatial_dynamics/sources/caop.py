@@ -9,14 +9,14 @@ from dataclasses import dataclass
 from datetime import UTC, datetime
 from hashlib import sha256
 from pathlib import Path
+from typing import cast
 from urllib.parse import urlencode, urlparse
 from urllib.request import Request, urlopen
 
 FetchBytes = Callable[[str, float], bytes]
 
 _USER_AGENT = (
-    "lisbon-spatial-dynamics/0.1 "
-    "(+https://github.com/DiogoRibeiro7/lisbon-spatial-dynamics)"
+    "lisbon-spatial-dynamics/0.1 (+https://github.com/DiogoRibeiro7/lisbon-spatial-dynamics)"
 )
 
 
@@ -54,7 +54,7 @@ class CAOPConfig:
 
         source = _require_mapping(raw.get("source"), "source")
         output = _require_mapping(raw.get("output"), "output")
-        layer_url = _require_string(source, "layer_url")
+        layer_url = _require_string(source, "layer_url", "source")
         _validate_http_url(layer_url, "source.layer_url")
 
         out_fields_raw = source.get("out_fields")
@@ -64,35 +64,31 @@ class CAOPConfig:
         out_fields: list[str] = []
         for index, field in enumerate(out_fields_raw):
             if not isinstance(field, str) or not field.strip():
-                raise CAOPConfigError(
-                    f"source.out_fields[{index}] must be a non-empty string"
-                )
+                raise CAOPConfigError(f"source.out_fields[{index}] must be a non-empty string")
             out_fields.append(field.strip())
 
         expected_feature_count = source.get("expected_feature_count")
         if not isinstance(expected_feature_count, int) or expected_feature_count <= 0:
             raise CAOPConfigError("source.expected_feature_count must be positive")
 
-        municipality_field = _require_string(source, "municipality_field")
-        id_field = _require_string(source, "id_field")
-        name_field = _require_string(source, "name_field")
+        municipality_field = _require_string(source, "municipality_field", "source")
+        id_field = _require_string(source, "id_field", "source")
+        name_field = _require_string(source, "name_field", "source")
 
         required_fields = {municipality_field, id_field, name_field}
         if not required_fields.issubset(out_fields):
-            raise CAOPConfigError(
-                "source.out_fields must include municipality, id and name fields"
-            )
+            raise CAOPConfigError("source.out_fields must include municipality, id and name fields")
 
         return cls(
-            source_id=_require_string(source, "source_id"),
+            source_id=_require_string(source, "source_id", "source"),
             layer_url=layer_url.rstrip("/"),
-            municipality=_require_string(source, "municipality"),
+            municipality=_require_string(source, "municipality", "source"),
             municipality_field=municipality_field,
             id_field=id_field,
             name_field=name_field,
             out_fields=tuple(out_fields),
             expected_feature_count=expected_feature_count,
-            output_directory=Path(_require_string(output, "directory")),
+            output_directory=Path(_require_string(output, "directory", "output")),
         )
 
 
@@ -183,8 +179,7 @@ def fetch_caop_snapshot(
         },
     }
     manifest_payload = (
-        json.dumps(manifest, ensure_ascii=False, indent=2, sort_keys=True).encode("utf-8")
-        + b"\n"
+        json.dumps(manifest, ensure_ascii=False, indent=2, sort_keys=True).encode("utf-8") + b"\n"
     )
 
     _write_new_file(geojson_path, geojson_payload)
@@ -210,23 +205,16 @@ def _validate_geojson(payload: bytes, config: CAOPConfig) -> None:
         raise CAOPPayloadError("CAOP GeoJSON features must be a list")
     if len(features) != config.expected_feature_count:
         raise CAOPPayloadError(
-            "unexpected Lisbon freguesia count: "
-            f"{len(features)} != {config.expected_feature_count}"
+            f"unexpected Lisbon freguesia count: {len(features)} != {config.expected_feature_count}"
         )
 
     identifiers: set[str] = set()
     for index, feature_raw in enumerate(features):
         feature = _require_mapping(feature_raw, f"features[{index}]")
-        properties = _require_mapping(
-            feature.get("properties"), f"features[{index}].properties"
-        )
-        geometry = _require_mapping(
-            feature.get("geometry"), f"features[{index}].geometry"
-        )
+        properties = _require_mapping(feature.get("properties"), f"features[{index}].properties")
+        geometry = _require_mapping(feature.get("geometry"), f"features[{index}].geometry")
 
-        identifier = _require_string(
-            properties, config.id_field, f"features[{index}].properties"
-        )
+        identifier = _require_string(properties, config.id_field, f"features[{index}].properties")
         if identifier in identifiers:
             raise CAOPPayloadError(f"duplicate CAOP identifier: {identifier}")
         identifiers.add(identifier)
@@ -286,7 +274,7 @@ def _fetch_url(url: str, timeout: float) -> bytes:
         },
     )
     with urlopen(request, timeout=timeout) as response:
-        return response.read()
+        return cast(bytes, response.read())
 
 
 def _load_json_object(payload: bytes, label: str) -> Mapping[str, object]:

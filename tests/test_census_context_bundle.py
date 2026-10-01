@@ -110,10 +110,7 @@ def _write_inputs(tmp_path: Path) -> tuple[Path, Path, Path, Path]:
                         if value is None
                         else value
                     )
-                    for value in (
-                        getattr(row, field)
-                        for field in ANNUAL_HOUSING_PRESSURE_COLUMNS
-                    )
+                    for value in (getattr(row, field) for field in ANNUAL_HOUSING_PRESSURE_COLUMNS)
                 ]
             )
 

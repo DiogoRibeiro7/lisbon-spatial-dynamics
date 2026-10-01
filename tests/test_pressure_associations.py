@@ -49,20 +49,12 @@ def _row(
         rnal_registrations_year=10 if year > 2019 else None,
         rnal_cessations_year=3 if year > 2019 else None,
         rnal_net_registrations_year=7 if year > 2019 else None,
-        rnal_registrations_year_per_1000=(
-            Decimal("1") if year > 2019 else None
-        ),
-        rnal_cessations_year_per_1000=(
-            Decimal("0.3") if year > 2019 else None
-        ),
-        rnal_net_registrations_year_per_1000=(
-            Decimal("0.7") if year > 2019 else None
-        ),
+        rnal_registrations_year_per_1000=(Decimal("1") if year > 2019 else None),
+        rnal_cessations_year_per_1000=(Decimal("0.3") if year > 2019 else None),
+        rnal_net_registrations_year_per_1000=(Decimal("0.7") if year > 2019 else None),
         rnal_active_registrations_year_end=100,
         rnal_active_registrations_per_1000_year_end=Decimal("10"),
-        rnal_active_registrations_per_1000_change_from_baseline=Decimal(
-            pressure_change
-        ),
+        rnal_active_registrations_per_1000_change_from_baseline=Decimal(pressure_change),
         rnal_active_beds_known_year_end=200,
         rnal_active_beds_missing_year_end=0,
         rnal_active_beds_known_per_1000_year_end=Decimal("20"),
@@ -132,9 +124,7 @@ def test_json_output_is_explicit_and_immutable(tmp_path: Path) -> None:
 
     document = json.loads(path.read_text(encoding="utf-8"))
     assert document["comparison_window"]["latest_common_year"] == 2025
-    assert document["variables"]["x"] == (
-        "rnal_active_registrations_per_1000_change_from_baseline"
-    )
+    assert document["variables"]["x"] == ("rnal_active_registrations_per_1000_change_from_baseline")
     assert document["correlations"]["pearson_r"] == pytest.approx(1.0)
 
     with pytest.raises(FileExistsError):

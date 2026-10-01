@@ -103,8 +103,7 @@ def load_population_reference(
         missing = required - set(reader.fieldnames or ())
         if missing:
             raise RNALPressureError(
-                "population reference is missing columns: "
-                + ", ".join(sorted(missing))
+                "population reference is missing columns: " + ", ".join(sorted(missing))
             )
 
         for row_index, raw in enumerate(reader, start=2):
@@ -113,9 +112,7 @@ def load_population_reference(
                 f"row {row_index}.freguesia_id",
             )
             if freguesia_id in seen_ids:
-                raise RNALPressureError(
-                    f"duplicate population freguesia_id: {freguesia_id}"
-                )
+                raise RNALPressureError(f"duplicate population freguesia_id: {freguesia_id}")
             seen_ids.add(freguesia_id)
 
             census_year = _required_int(
@@ -178,8 +175,7 @@ def build_rnal_population_pressure(
         missing = sorted(rnal_ids - population_ids)
         extra = sorted(population_ids - rnal_ids)
         raise RNALPressureError(
-            f"RNAL/population key mismatch; missing_population={missing}, "
-            f"population_only={extra}"
+            f"RNAL/population key mismatch; missing_population={missing}, population_only={extra}"
         )
 
     seen_keys: set[tuple[int, int, str]] = set()
@@ -298,13 +294,9 @@ def _population_mapping(
 
     for row in rows:
         if row.freguesia_id in mapping:
-            raise RNALPressureError(
-                f"duplicate population freguesia_id: {row.freguesia_id}"
-            )
+            raise RNALPressureError(f"duplicate population freguesia_id: {row.freguesia_id}")
         if row.population_resident <= 0:
-            raise RNALPressureError(
-                f"{row.freguesia_id} has non-positive population"
-            )
+            raise RNALPressureError(f"{row.freguesia_id} has non-positive population")
         mapping[row.freguesia_id] = row
 
     return mapping

@@ -100,4 +100,4 @@ def test_write_change_panel_csv(tmp_path: Path) -> None:
     assert table[-1]["year"] == "2026"
     assert table[-1]["quarter"] == "1"
     assert table[-1]["period_end"] == "2026-03-31"
-    assert table[-1]["yoy_pct"] == "15"
+    assert Decimal(table[-1]["yoy_pct"]) == Decimal("15")

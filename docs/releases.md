@@ -2,7 +2,7 @@
 
 ## v1.0.0 — first stable research release
 
-Version 1.0.0 represents the first complete reproducible Lisbon Spatial Dynamics study.
+Version 1.0.0 packages the Lisbon Spatial Dynamics study pipeline. The GitHub release contains the source code, with no attached input snapshots or computed results. It should be distinguished from an archived empirical study bundle.
 
 ### Scope
 
@@ -26,7 +26,7 @@ The release studies descriptive and adjusted associations. It does not claim cau
 
 ### Reproduce
 
-Use `poetry run build-study-v1` with archived release snapshots.
+Use `poetry run build-study-v1` with the original archived study snapshots, reference geography, and model configuration. To create a new run from current sources, follow [Getting started](getting-started.md). New downloads are not guaranteed to reproduce an earlier result.
 
 ## Versioning
 

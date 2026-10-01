@@ -16,6 +16,7 @@ from dataclasses import dataclass
 from datetime import UTC, datetime
 from hashlib import sha256
 from pathlib import Path
+from typing import cast
 from urllib.parse import urlparse
 from urllib.request import Request, urlopen
 from xml.sax.saxutils import escape
@@ -25,8 +26,7 @@ PostBytes = Callable[[str, bytes, Mapping[str, str], float], bytes]
 _SOAP_NS = "http://schemas.xmlsoap.org/soap/envelope/"
 _OUTSYSTEMS_NS = "http://www.outsystems.com"
 _USER_AGENT = (
-    "lisbon-spatial-dynamics/0.1 "
-    "(+https://github.com/DiogoRibeiro7/lisbon-spatial-dynamics)"
+    "lisbon-spatial-dynamics/0.1 (+https://github.com/DiogoRibeiro7/lisbon-spatial-dynamics)"
 )
 
 _ALLOWED_FIELDS: tuple[str, ...] = (
@@ -105,7 +105,7 @@ def build_rnal_request(config: RNALConfig) -> bytes:
     municipality = escape(config.municipality)
     xml = (
         '<?xml version="1.0" encoding="utf-8"?>'
-        '<soap:Envelope '
+        "<soap:Envelope "
         'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" '
         'xmlns:xsd="http://www.w3.org/2001/XMLSchema" '
         'xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">'
@@ -273,9 +273,7 @@ def _parse_and_sanitise(
     except ValueError as exc:
         raise RNALPayloadError("RNAL totalRegistos is not an integer") from exc
 
-    record_elements = response.findall(
-        f".//{{{_OUTSYSTEMS_NS}}}RNAL_Registo"
-    )
+    record_elements = response.findall(f".//{{{_OUTSYSTEMS_NS}}}RNAL_Registo")
 
     records: list[dict[str, object]] = []
     registration_ids: set[str] = set()
@@ -298,8 +296,7 @@ def _parse_and_sanitise(
         record_municipality = str(record["Concelho"]).strip()
         if record_municipality.casefold() != municipality.casefold():
             raise RNALPayloadError(
-                f"record {registration_id} belongs to {record_municipality!r}, "
-                f"not {municipality!r}"
+                f"record {registration_id} belongs to {record_municipality!r}, not {municipality!r}"
             )
 
         dtmnfr = str(record["DTMNFR"]).strip()
@@ -325,7 +322,7 @@ def _post_url(
         method="POST",
     )
     with urlopen(request, timeout=timeout) as response:
-        return response.read()
+        return cast(bytes, response.read())
 
 
 def _write_new_file(path: Path, payload: bytes) -> None:

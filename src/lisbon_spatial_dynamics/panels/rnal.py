@@ -105,9 +105,7 @@ def load_rnal_snapshot(path: Path) -> tuple[RNALRecord, ...]:
         )
 
         if ceased_on is not None and ceased_on < registered_on:
-            raise RNALPanelError(
-                f"{registration_id} cessation precedes registration"
-            )
+            raise RNALPanelError(f"{registration_id} cessation precedes registration")
 
         records.append(
             RNALRecord(
@@ -118,9 +116,7 @@ def load_rnal_snapshot(path: Path) -> tuple[RNALRecord, ...]:
                 freguesia_name=_require_string(record, "Freguesia", context),
                 modality=_optional_string(record.get("Modalidade"), f"{context}.Modalidade"),
                 beds=_optional_non_negative_int(record.get("NrCamas"), f"{context}.NrCamas"),
-                users=_optional_non_negative_int(
-                    record.get("NrUtentes"), f"{context}.NrUtentes"
-                ),
+                users=_optional_non_negative_int(record.get("NrUtentes"), f"{context}.NrUtentes"),
             )
         )
 
@@ -139,8 +135,7 @@ def load_analysis_quarters(
         missing = required - set(reader.fieldnames or ())
         if missing:
             raise RNALPanelError(
-                "housing changes CSV is missing columns: "
-                + ", ".join(sorted(missing))
+                "housing changes CSV is missing columns: " + ", ".join(sorted(missing))
             )
 
         for row_index, row in enumerate(reader, start=2):
@@ -155,19 +150,13 @@ def load_analysis_quarters(
             )
 
             if (period.year, period.quarter) != (year, quarter):
-                raise RNALPanelError(
-                    f"row {row_index} period fields disagree with {label!r}"
-                )
+                raise RNALPanelError(f"row {row_index} period fields disagree with {label!r}")
             if period.period_end != period_end:
-                raise RNALPanelError(
-                    f"row {row_index} period_end disagrees with {label!r}"
-                )
+                raise RNALPanelError(f"row {row_index} period_end disagrees with {label!r}")
 
             existing = periods.get(period.ordinal)
             if existing is not None and existing.source_label != period.source_label:
-                raise RNALPanelError(
-                    f"multiple labels map to quarter ordinal {period.ordinal}"
-                )
+                raise RNALPanelError(f"multiple labels map to quarter ordinal {period.ordinal}")
             periods[period.ordinal] = period
 
     if not periods:
@@ -195,16 +184,13 @@ def build_rnal_quarter_panel(
     seen_registrations: set[str] = set()
     for record in records:
         if record.registration_id in seen_registrations:
-            raise RNALPanelError(
-                f"duplicate RNAL registration: {record.registration_id}"
-            )
+            raise RNALPanelError(f"duplicate RNAL registration: {record.registration_id}")
         seen_registrations.add(record.registration_id)
 
         canonical = reference_by_id.get(record.freguesia_id)
         if canonical is None:
             raise RNALPanelError(
-                f"RNAL DTMNFR is outside canonical Lisboa reference: "
-                f"{record.freguesia_id}"
+                f"RNAL DTMNFR is outside canonical Lisboa reference: {record.freguesia_id}"
             )
         if _normalise_name(record.freguesia_name) != _normalise_name(canonical.name):
             raise RNALPanelError(
@@ -226,12 +212,10 @@ def build_rnal_quarter_panel(
             freguesia_records = records_by_freguesia[freguesia_id]
 
             registrations = sum(
-                period_start <= record.registered_on <= period_end
-                for record in freguesia_records
+                period_start <= record.registered_on <= period_end for record in freguesia_records
             )
             cessations = sum(
-                record.ceased_on is not None
-                and period_start <= record.ceased_on <= period_end
+                record.ceased_on is not None and period_start <= record.ceased_on <= period_end
                 for record in freguesia_records
             )
             active = [
@@ -243,9 +227,7 @@ def build_rnal_quarter_panel(
 
             beds_known = sum(record.beds or 0 for record in active if record.beds is not None)
             beds_missing = sum(record.beds is None for record in active)
-            users_known = sum(
-                record.users or 0 for record in active if record.users is not None
-            )
+            users_known = sum(record.users or 0 for record in active if record.users is not None)
             users_missing = sum(record.users is None for record in active)
 
             output.append(
@@ -359,9 +341,7 @@ def _reference_mapping(
     mapping: dict[str, FreguesiaIndexRow] = {}
     for row in reference:
         if row.freguesia_id in mapping:
-            raise RNALPanelError(
-                f"duplicate reference freguesia_id: {row.freguesia_id}"
-            )
+            raise RNALPanelError(f"duplicate reference freguesia_id: {row.freguesia_id}")
         mapping[row.freguesia_id] = row
     return mapping
 

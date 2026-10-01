@@ -109,15 +109,9 @@ def load_urban_change_csv(path: Path) -> tuple[UrbanChangeRow, ...]:
                     period_code=_required(raw.get("period_code"), index, "period_code"),
                     year=_required_int(raw.get("year"), index, "year"),
                     quarter=_required_int(raw.get("quarter"), index, "quarter"),
-                    period_end=_required_date(
-                        raw.get("period_end"), index, "period_end"
-                    ),
-                    freguesia_id=_required(
-                        raw.get("freguesia_id"), index, "freguesia_id"
-                    ),
-                    freguesia_name=_required(
-                        raw.get("freguesia_name"), index, "freguesia_name"
-                    ),
+                    period_end=_required_date(raw.get("period_end"), index, "period_end"),
+                    freguesia_id=_required(raw.get("freguesia_id"), index, "freguesia_id"),
+                    freguesia_name=_required(raw.get("freguesia_name"), index, "freguesia_name"),
                     housing_value_eur_m2=_optional_decimal(
                         raw.get("housing_value_eur_m2"),
                         index,
@@ -218,9 +212,7 @@ def build_annual_urban_panel(
 
         known_name = names.get(row.freguesia_id)
         if known_name is not None and known_name != row.freguesia_name:
-            raise AnnualPanelError(
-                f"inconsistent freguesia name for {row.freguesia_id}"
-            )
+            raise AnnualPanelError(f"inconsistent freguesia name for {row.freguesia_id}")
         names[row.freguesia_id] = row.freguesia_name
         quarters[row.quarter] = row
 
@@ -251,10 +243,7 @@ def build_annual_urban_panel(
                 baseline_q4.housing_value_eur_m2,
             )
 
-            rnal_active_abs = (
-                q4.rnal_active_registrations
-                - baseline_q4.rnal_active_registrations
-            )
+            rnal_active_abs = q4.rnal_active_registrations - baseline_q4.rnal_active_registrations
             rnal_active_pct = _integer_pct_change(
                 q4.rnal_active_registrations,
                 baseline_q4.rnal_active_registrations,
@@ -368,11 +357,7 @@ def _integer_pct_change(current: int, baseline: int) -> Decimal | None:
     if baseline == 0:
         return None
 
-    return (
-        Decimal(current - baseline)
-        / Decimal(baseline)
-        * Decimal("100")
-    )
+    return Decimal(current - baseline) / Decimal(baseline) * Decimal("100")
 
 
 def _required(value: str | None, row: int, field: str) -> str:

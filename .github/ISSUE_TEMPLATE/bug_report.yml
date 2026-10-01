@@ -1,0 +1,30 @@
+name: Bug report
+description: Report a reproducible software or documentation problem.
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Expected and observed behaviour
+      description: Explain the command or workflow that failed and what you expected.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Minimal reproduction
+      description: Include commands and a small synthetic example. Do not attach raw RNAL responses, contact information, or credentials.
+      render: text
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: Include the OS, Python version, Poetry version, and software tag or commit.
+    validations:
+      required: true
+  - type: textarea
+    id: diagnostics
+    attributes:
+      label: Error output and provenance
+      description: Include a redacted traceback and, when relevant, source indicator, snapshot date, and analysis parameters.
