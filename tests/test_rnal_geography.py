@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import importlib.util
 import json
+import tomllib
 from copy import deepcopy
 from datetime import date
 from pathlib import Path
@@ -291,6 +292,7 @@ def audit_config(tmp_path: Path, audit_module: ModuleType, request: pytest.Fixtu
                 "DTMNFR": "110654",
                 "Freguesia": "A",
                 "CessadoEm": "",
+                "NrUtentes": 4,
             }
         ]
     }
@@ -304,7 +306,7 @@ def audit_config(tmp_path: Path, audit_module: ModuleType, request: pytest.Fixtu
                 "Concelho": "Lisboa",
                 "DataRegisto": 0,
                 "DataAberturaPublico": None,
-                "NrUtentes": 1,
+                "NrUtentes": 4,
             }
         ]
     }
@@ -340,11 +342,14 @@ def audit_config(tmp_path: Path, audit_module: ModuleType, request: pytest.Fixtu
     return config
 
 
-@pytest.mark.parametrize("audit_config", [False, True], indirect=True)
+@pytest.mark.parametrize(
+    "audit_config,sensitivity", [(False, False), (True, True)], indirect=["audit_config"]
+)
 def test_offline_replay_hashes_and_atomic_failure(
     tmp_path: Path,
     audit_module: ModuleType,
     audit_config: Path,
+    sensitivity: bool,
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
     def no_network(*args: object, **kwargs: object) -> None:
@@ -369,6 +374,16 @@ def test_offline_replay_hashes_and_atomic_failure(
     report = json.loads((output / "audit.json").read_bytes())
     assert report["summary"]["conflicting_records"] == 1
     assert report["summary"]["assignments_corrected"] == 0
+    assert report["schema_version"] == 1
+    expected_files = {"coordinate_support_by_parish.csv"}
+    if sensitivity:
+        expected_files |= {"parish_scenarios.csv", "parish_sensitivity.png"}
+        assert report["coordinate_summary"]["conflicting_records"] == 1
+        assert report["coordinate_summary"] != report["summary"]
+    else:
+        assert "coordinate_summary" not in report
+    assert {Path(item["path"]).name for item in report["outputs"]} == expected_files
+    assert {path.name for path in output.iterdir()} == expected_files | {"audit.json"}
     for artifact in report["outputs"]:
         assert Path(artifact["path"]).parent == output
         audit_module.verify(Path(artifact["path"]), artifact)
@@ -376,16 +391,81 @@ def test_offline_replay_hashes_and_atomic_failure(
         audit_module.audit(audit_config, output)
     replay = tmp_path / "replay"
     audit_module.audit(audit_config, replay)
-    assert (output / "coordinate_support_by_parish.csv").read_bytes() == (
-        replay / "coordinate_support_by_parish.csv"
-    ).read_bytes()
-    if (output / "parish_scenarios.csv").exists():
-        assert (output / "parish_scenarios.csv").read_bytes() == (
-            replay / "parish_scenarios.csv"
-        ).read_bytes()
+    assert {path.name for path in replay.iterdir()} == expected_files | {"audit.json"}
+    for filename in expected_files:
+        if filename.endswith(".csv"):
+            assert (output / filename).read_bytes() == (replay / filename).read_bytes()
     (tmp_path / "locations/locations.json").write_bytes(b"{}")
     with pytest.raises(ValueError, match="integrity mismatch"):
         audit_module.audit(audit_config, tmp_path / "tampered")
+
+
+@pytest.mark.parametrize("audit_config", [True], indirect=True)
+@pytest.mark.parametrize(
+    "target_name",
+    [
+        "soap",
+        "gis",
+        "reference",
+        "population",
+        "locations_manifest",
+        "locations_locations.json",
+        "locations_layer.json",
+        "config",
+    ],
+)
+def test_audit_parses_exact_verified_bytes_when_files_change(
+    tmp_path: Path,
+    audit_module: ModuleType,
+    audit_config: Path,
+    target_name: str,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    expected_output = tmp_path / "expected"
+    audit_module.audit(audit_config, expected_output)
+    expected_report = json.loads((expected_output / "audit.json").read_bytes())
+    config = tomllib.loads(audit_config.read_text(encoding="utf-8"))
+    if target_name == "config":
+        target = audit_config
+    elif target_name in config["inputs"]:
+        target = Path(config["inputs"][target_name]["path"])
+    else:
+        target = tmp_path / "locations" / target_name.removeprefix("locations_")
+    original_fingerprint = audit_module.fingerprint(target)
+    original_read = Path.read_bytes
+    reads = 0
+
+    def change_after_read(path: Path) -> bytes:
+        nonlocal reads
+        payload = original_read(path)
+        if path == target:
+            reads += 1
+            # A valid capacity change keeps the identity/count checks passing.
+            if target_name == "soap":
+                changed = json.loads(payload)
+                changed["records"][0]["NrUtentes"] = 9999
+                path.write_bytes(json.dumps(changed).encode())
+            else:
+                path.write_bytes(b"changed after reading")
+        return payload
+
+    output = tmp_path / "changed_during_run"
+    with monkeypatch.context() as patch:
+        patch.setattr(Path, "read_bytes", change_after_read)
+        audit_module.audit(audit_config, output)
+    report = json.loads((output / "audit.json").read_bytes())
+    assert reads == 1
+    assert report["summary"] == expected_report["summary"]
+    assert all(row["municipality_users_known"] == 4 for row in report["summary"]["scenarios"])
+    recorded = (
+        report["code_and_configuration"][0]
+        if target_name == "config"
+        else report["inputs"][target_name]
+    )
+    assert recorded == original_fingerprint
+    assert audit_module.fingerprint(target)["sha256"] != recorded["sha256"]
+    for filename in ("coordinate_support_by_parish.csv", "parish_scenarios.csv"):
+        assert (output / filename).read_bytes() == (expected_output / filename).read_bytes()
 
 
 @pytest.mark.parametrize("source,index", [("SOAP", 0), ("GIS", 1)])

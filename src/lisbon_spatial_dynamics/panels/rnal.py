@@ -73,8 +73,13 @@ RNAL_PANEL_COLUMNS: tuple[str, ...] = (
 
 def load_rnal_snapshot(path: Path) -> tuple[RNALRecord, ...]:
     """Load and validate a privacy-minimised RNAL JSON snapshot."""
+    return parse_rnal_snapshot(path.read_text(encoding="utf-8"))
+
+
+def parse_rnal_snapshot(payload: str) -> tuple[RNALRecord, ...]:
+    """Validate snapshot text already captured by a caller, without rereading a file."""
     try:
-        raw: object = json.loads(path.read_text(encoding="utf-8"))
+        raw: object = json.loads(payload)
     except json.JSONDecodeError as exc:
         raise RNALPanelError("RNAL snapshot is not valid JSON") from exc
 

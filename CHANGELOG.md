@@ -19,6 +19,7 @@ All notable repository-level changes are documented here.
 
 ### Fixed
 
+- RNAL geography audits now parse the exact verified input bytes and reuse the parsed SOAP cohort, preventing file changes during a run from separating reported hashes from analysed values. Default coordinate reports no longer duplicate their summary; replay tests require each mode's complete artifact set.
 - RNAL coordinate audits now identify unknown SOAP/GIS parish codes before classifying any points, and coordinate acquisition reuses the GIS HTTP helper.
 - Historical-source discovery now distinguishes epoch zero and non-null field counts from verified valid registration dates.
 - Failed RNAL coverage audit writes no longer leave partial output directories that block retries.

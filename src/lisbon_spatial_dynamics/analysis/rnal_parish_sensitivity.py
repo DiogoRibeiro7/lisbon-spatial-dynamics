@@ -8,6 +8,7 @@ import re
 from collections.abc import Mapping, Sequence
 from dataclasses import dataclass
 from fractions import Fraction
+from io import StringIO
 from pathlib import Path
 from typing import Any
 
@@ -17,8 +18,13 @@ from lisbon_spatial_dynamics.panels.rnal import RNALRecord
 
 def load_population(path: Path) -> dict[str, int]:
     """Read the previously audited Census 2021 denominators without collapsing duplicates."""
+    return parse_population(path.read_text(encoding="utf-8"))
+
+
+def parse_population(payload: str) -> dict[str, int]:
+    """Validate captured Census CSV text without reopening its source file."""
     population: dict[str, int] = {}
-    with path.open(encoding="utf-8", newline="") as stream:
+    with StringIO(payload, newline="") as stream:
         reader = csv.DictReader(stream)
         if not {"freguesia_id", "census_year", "population_resident"} <= set(
             reader.fieldnames or []
