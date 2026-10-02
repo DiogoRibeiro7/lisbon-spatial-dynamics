@@ -14,3 +14,5 @@ results/rnal-coverage/**/*.csv text eol=lf
 results/rnal-coverage/**/*.json text eol=lf
 results/rnal-geography/**/*.csv text eol=lf
 results/rnal-geography/**/*.json text eol=lf
+results/rnal-parish-sensitivity/**/*.csv text eol=lf
+results/rnal-parish-sensitivity/**/*.json text eol=lf

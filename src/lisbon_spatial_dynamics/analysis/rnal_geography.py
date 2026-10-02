@@ -5,7 +5,7 @@ from __future__ import annotations
 import math
 import re
 from collections import Counter
-from collections.abc import Mapping, Sequence
+from collections.abc import Collection, Mapping, Sequence
 from typing import Any
 
 from pyproj import Transformer
@@ -83,6 +83,20 @@ def project_boundaries(
     return polygons, names, projector
 
 
+def validate_conflict_parishes(
+    conflicts: Mapping[int, tuple[str, str]], parish_ids: Collection[str]
+) -> None:
+    """Reject unknown parish codes before projecting or classifying any point."""
+    for index, source in enumerate(("SOAP", "GIS")):
+        unknown = sorted({pair[index] for pair in conflicts.values()} - set(parish_ids))
+        if unknown:
+            raise ValueError(
+                f"{source} conflict parishes absent from canonical reference: {unknown}"
+            )
+    if any(soap == gis for soap, gis in conflicts.values()):
+        raise ValueError("conflicts must have distinct SOAP and GIS parish assignments")
+
+
 def classify_point(
     point: Point | None,
     polygons: Mapping[str, BaseGeometry],
@@ -90,8 +104,7 @@ def classify_point(
     gis_parish: str,
 ) -> tuple[str, float | None]:
     """Classify metre-based coordinates; boundary points are never assigned by tie-break."""
-    if soap_parish not in polygons or gis_parish not in polygons or soap_parish == gis_parish:
-        raise ValueError("expected two distinct canonical parish assignments")
+    validate_conflict_parishes({0: (soap_parish, gis_parish)}, polygons)
     if point is None:
         return "missing_geometry", None
     if point.is_empty or not math.isfinite(point.x) or not math.isfinite(point.y):
@@ -111,6 +124,27 @@ def classify_point(
     ), distance
 
 
+def coordinate_evidence(
+    conflicts: Mapping[int, tuple[str, str]],
+    locations: list[dict[str, Any]],
+    polygons: Mapping[str, BaseGeometry],
+    projector: Transformer,
+) -> dict[int, tuple[str, float | None]]:
+    """Return in-memory evidence after validating the complete conflict cohort."""
+    validate_conflict_parishes(conflicts, polygons)
+    validate_locations(locations, {key: value[1] for key, value in conflicts.items()})
+    evidence = {}
+    for row in locations:
+        geometry = row["geometry"]
+        point = (
+            None
+            if geometry is None
+            else Point(projector.transform(geometry["x"], geometry["y"], errcheck=True))
+        )
+        evidence[row["NrRNAL"]] = classify_point(point, polygons, *conflicts[row["NrRNAL"]])
+    return evidence
+
+
 def reconcile(
     conflicts: Mapping[int, tuple[str, str]],
     locations: list[dict[str, Any]],
@@ -127,7 +161,7 @@ def reconcile(
         or any(not math.isfinite(value) or value < 0 for value in thresholds_m)
     ):
         raise ValueError("unique finite non-negative boundary thresholds required")
-    validate_locations(locations, {key: value[1] for key, value in conflicts.items()})
+    evidence = coordinate_evidence(conflicts, locations, polygons, projector)
     categories = (
         "supports_soap",
         "supports_gis",
@@ -141,14 +175,8 @@ def reconcile(
     sensitivity = {threshold: Counter[str]() for threshold in sorted(thresholds_m)}
     reliability: Counter[str] = Counter()
     for row in locations:
-        soap_parish, gis_parish = conflicts[row["NrRNAL"]]
-        geometry = row["geometry"]
-        point = (
-            None
-            if geometry is None
-            else Point(projector.transform(geometry["x"], geometry["y"], errcheck=True))
-        )
-        category, distance = classify_point(point, polygons, soap_parish, gis_parish)
+        soap_parish, _ = conflicts[row["NrRNAL"]]
+        category, distance = evidence[row["NrRNAL"]]
         counts[category] += 1
         by_parish[soap_parish][category] += 1
         reliability[row["FiabilidadeGeo"] or "missing"] += 1

@@ -35,6 +35,8 @@ The [RNAL coverage investigation](docs/rnal-coverage.md) confirms the early date
 
 The [geographic follow-up](docs/rnal-geography.md) finds that all 172 disputed map coordinates fall in the GIS-labelled CAOP2025 parish; 67 are within 25 metres of a boundary. The results support GIS label consistency, with positional uncertainty retained and no automatic corrections.
 
+The [parish-label sensitivity analysis](docs/rnal-parish-sensitivity.md) holds the retained SOAP cohort and captured capacity fixed. Both GIS scenarios change six parishes' record-pressure ranks by one position and preserve the top four; local count and capacity differences can change direction. These scenarios do not resolve historical completeness or correct registry records.
+
 ### Committed empirical evidence
 
 The repository includes a small inspectable release layer:

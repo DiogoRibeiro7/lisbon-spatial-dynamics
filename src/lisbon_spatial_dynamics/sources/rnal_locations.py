@@ -11,9 +11,8 @@ from pathlib import Path
 from tempfile import TemporaryDirectory
 from typing import Any
 from urllib.parse import urlencode
-from urllib.request import Request, urlopen
 
-from lisbon_spatial_dynamics.sources.rnal_geodata import LAYER_URL, GetBytes
+from lisbon_spatial_dynamics.sources.rnal_geodata import LAYER_URL, GetBytes, _get
 
 FIELDS = ("NrRNAL", "DTMNFR", "Concelho", "FiabilidadeGeo")
 
@@ -47,14 +46,6 @@ def validate_locations(rows: list[dict[str, Any]], expected: Mapping[int, str]) 
                     raise ValueError("invalid WGS84 coordinate")
     if seen != set(expected):
         raise ValueError("location response is missing selected registrations")
-
-
-def _get(url: str, timeout: float) -> bytes:
-    with urlopen(
-        Request(url, headers={"User-Agent": "lisbon-spatial-dynamics/1.0.1"}), timeout=timeout
-    ) as response:
-        payload: bytes = response.read()
-    return payload
 
 
 def fetch_locations(
