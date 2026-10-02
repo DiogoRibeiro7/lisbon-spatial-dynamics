@@ -1,0 +1,50 @@
+# Pinned conflict cohort and CAOP2025 boundaries; no automatic corrections.
+audit_date = "2026-10-01"
+
+[expectations]
+conflicts = 172
+parishes = 24
+
+[analysis]
+boundary_margins_m = [0.0, 10.0, 25.0, 50.0, 100.0]
+boundary_rule = "Distance strictly greater than the margin; sensitivity screens, not measured coordinate errors."
+
+[inputs.soap]
+path = "data/raw/turismo_portugal/rnal/lisboa/20261001T103859Z.records.json"
+sha256 = "87bbc8adcdb93ae10ce83644df1155bd57df967c0a6f92e468f9cac292249d5e"
+size_bytes = 5476280
+
+[inputs.soap_manifest]
+path = "data/raw/turismo_portugal/rnal/lisboa/20261001T103859Z.manifest.json"
+sha256 = "22cd22598c7fb29118de1958049e7ee5ec489339f4f217346e703ff15fb7aeee"
+size_bytes = 1066
+
+[inputs.gis]
+path = "data/raw/turismo_portugal/rnal_geodata/lisboa/20261001T134754Z/records.json"
+sha256 = "4abde6680ff6c6670e4461dec2477eb0f72e2b9cddb25afa38f94770251bfb30"
+size_bytes = 2989902
+
+[inputs.gis_manifest]
+path = "data/raw/turismo_portugal/rnal_geodata/lisboa/20261001T134754Z/manifest.json"
+sha256 = "1df263a8c12ba7d4616f795108c127ce0065a1f3c8619f2a5292116004f533ae"
+size_bytes = 106198
+
+[inputs.reference]
+path = "data/processed/reference/lisbon_freguesias.geojson"
+sha256 = "ef186f413e10c264761ad4701d0c90aa636a77c88535554644f9d876cbecacf3"
+size_bytes = 769748
+
+[inputs.caop_manifest]
+path = "data/raw/dgt/caop2025/lisbon_freguesias/20261001T103603Z.manifest.json"
+sha256 = "b781e38e8a8c184bdebb12ae225c1524f2e87ecef16711e3ffd570dd36f6a337"
+size_bytes = 1114
+
+[inputs.baseline_audit]
+path = "results/rnal-coverage/2026-10-01/audit.json"
+sha256 = "75c7f2efd506baf5fbe9f4c19630a417dec919b57970be556d69a0a5b2406601"
+size_bytes = 12786
+
+[inputs.locations_manifest]
+path = "data/raw/turismo_portugal/rnal_locations/lisboa/20261001_conflicts/manifest.json"
+sha256 = "c4583c06b5300cd59fa915d6ba948e7a1973dd26c516a6106942627796398c6c"
+size_bytes = 3144

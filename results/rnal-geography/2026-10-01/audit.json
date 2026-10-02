@@ -1,0 +1,214 @@
+{
+  "analysis": {
+    "boundary_margins_m": [
+      0.0,
+      10.0,
+      25.0,
+      50.0,
+      100.0
+    ],
+    "boundary_rule": "Distance strictly greater than the margin; sensitivity screens, not measured coordinate errors."
+  },
+  "archive_status": "Local ignored inputs; only aggregates committed.",
+  "audit_date": "2026-10-01",
+  "code_and_configuration": [
+    {
+      "path": "configs/rnal_geography_2026-10-01.toml",
+      "sha256": "b83a9f785af0873ffa9a6c1c7b781607f3acbb019a178f441b1f8a4496c46e82",
+      "size_bytes": 1872
+    },
+    {
+      "path": "scripts/audit_rnal_geography.py",
+      "sha256": "e5803fab9ec3083402b77b12a6bf81e806d57b224ef278dd4689b8ea3c0d680b",
+      "size_bytes": 7108
+    },
+    {
+      "path": "pyproject.toml",
+      "sha256": "a2cfa37c27ec70978bfd6e5f8503aee9f02ab1840d21b97ccd71e86cb6374016",
+      "size_bytes": 4588
+    },
+    {
+      "path": "poetry.lock",
+      "sha256": "eacfc9e9167df23309405e0f1c22e452715dc018082229b67c6e62f28a521cc7",
+      "size_bytes": 223966
+    },
+    {
+      "path": "src/lisbon_spatial_dynamics/analysis/rnal_geography.py",
+      "sha256": "676b5651731d1989965b2ba77c97abd39f03b61213c2411f440ad209c6005587",
+      "size_bytes": 8065
+    },
+    {
+      "path": "src/lisbon_spatial_dynamics/sources/rnal_locations.py",
+      "sha256": "6a308a1b48b4e5dc5fc17eb943a83b608ff7d3ee0a797a9abef7e02ff4faabea",
+      "size_bytes": 6775
+    },
+    {
+      "path": "src/lisbon_spatial_dynamics/sources/rnal_geodata.py",
+      "sha256": "76f3d5276259bc94cd1d882486191425c409df5db253c509c0bd7d18cd480d8c",
+      "size_bytes": 8309
+    },
+    {
+      "path": "src/lisbon_spatial_dynamics/panels/rnal.py",
+      "sha256": "e4c6f5c04d90422df832eddd61e49a5aec7cbfc3d1f1b1260afbbca3cc126a6b",
+      "size_bytes": 14845
+    }
+  ],
+  "coordinate_capture": {
+    "completed_at": "2026-10-01T17:27:56.275420+00:00",
+    "crs": "EPSG:4326",
+    "record_count": 172,
+    "started_at": "2026-10-01T17:27:53.330172+00:00"
+  },
+  "inputs": {
+    "baseline_audit": {
+      "path": "results/rnal-coverage/2026-10-01/audit.json",
+      "sha256": "75c7f2efd506baf5fbe9f4c19630a417dec919b57970be556d69a0a5b2406601",
+      "size_bytes": 12786
+    },
+    "caop_manifest": {
+      "path": "data/raw/dgt/caop2025/lisbon_freguesias/20261001T103603Z.manifest.json",
+      "sha256": "b781e38e8a8c184bdebb12ae225c1524f2e87ecef16711e3ffd570dd36f6a337",
+      "size_bytes": 1114
+    },
+    "gis": {
+      "path": "data/raw/turismo_portugal/rnal_geodata/lisboa/20261001T134754Z/records.json",
+      "sha256": "4abde6680ff6c6670e4461dec2477eb0f72e2b9cddb25afa38f94770251bfb30",
+      "size_bytes": 2989902
+    },
+    "gis_manifest": {
+      "path": "data/raw/turismo_portugal/rnal_geodata/lisboa/20261001T134754Z/manifest.json",
+      "sha256": "1df263a8c12ba7d4616f795108c127ce0065a1f3c8619f2a5292116004f533ae",
+      "size_bytes": 106198
+    },
+    "locations_layer.json": {
+      "path": "data/raw/turismo_portugal/rnal_locations/lisboa/20261001_conflicts/layer.json",
+      "sha256": "4bbd541dbd12212a9cb10bc060b07266e1742c651ca4fde915409bfdfc958b08",
+      "size_bytes": 7911
+    },
+    "locations_locations.json": {
+      "path": "data/raw/turismo_portugal/rnal_locations/lisboa/20261001_conflicts/locations.json",
+      "sha256": "ec2f0cae7d40ee7334df44e93cd70c569aa522cd7db29ff004a45e0f490f775e",
+      "size_bytes": 37113
+    },
+    "locations_manifest": {
+      "path": "data/raw/turismo_portugal/rnal_locations/lisboa/20261001_conflicts/manifest.json",
+      "sha256": "c4583c06b5300cd59fa915d6ba948e7a1973dd26c516a6106942627796398c6c",
+      "size_bytes": 3144
+    },
+    "reference": {
+      "path": "data/processed/reference/lisbon_freguesias.geojson",
+      "sha256": "ef186f413e10c264761ad4701d0c90aa636a77c88535554644f9d876cbecacf3",
+      "size_bytes": 769748
+    },
+    "soap": {
+      "path": "data/raw/turismo_portugal/rnal/lisboa/20261001T103859Z.records.json",
+      "sha256": "87bbc8adcdb93ae10ce83644df1155bd57df967c0a6f92e468f9cac292249d5e",
+      "size_bytes": 5476280
+    },
+    "soap_manifest": {
+      "path": "data/raw/turismo_portugal/rnal/lisboa/20261001T103859Z.manifest.json",
+      "sha256": "22cd22598c7fb29118de1958049e7ee5ec489339f4f217346e703ff15fb7aeee",
+      "size_bytes": 1066
+    }
+  },
+  "interpretation": "Only the pinned SOAP/GIS parish conflicts are inspected. The GIS coordinates and labels share a provider. No establishment locations or registry assignments are independently verified or corrected.",
+  "outputs": [
+    {
+      "path": "results/rnal-geography/2026-10-01/coordinate_support_by_parish.csv",
+      "sha256": "b50edfa3e0a1dc2527d5d986399e8a5ded0f0d8d5a39b96a33531003869bfeee",
+      "size_bytes": 948
+    }
+  ],
+  "projection": {
+    "always_xy": true,
+    "definition": "proj=pipeline step proj=unitconvert xy_in=deg xy_out=rad step proj=tmerc lat_0=39.6682583333333 lon_0=-8.13310833333333 k=1 x_0=0 y_0=0 ellps=GRS80",
+    "description": "Inverse of ETRS89 to WGS 84 (1) + Portugual TM06 (with axis order normalized for visualization)",
+    "network_enabled": false,
+    "reported_accuracy_m": 1.0,
+    "source_crs": "EPSG:4326",
+    "target_crs": "EPSG:3763"
+  },
+  "provider_reliability_domain": {
+    "codedValues": [
+      {
+        "code": "Fiavel",
+        "name": "Fiável"
+      },
+      {
+        "code": "PoucoFiavel",
+        "name": "Pouco Fiável"
+      },
+      {
+        "code": "NaoFiavel",
+        "name": "Não Fiável"
+      }
+    ],
+    "description": "Fiabilidade da Informação",
+    "mergePolicy": "esriMPTDefaultValue",
+    "name": "dFiabilidade",
+    "splitPolicy": "esriSPTDefaultValue",
+    "type": "codedValue"
+  },
+  "schema_version": 1,
+  "software": {
+    "geos": "3.13.1",
+    "proj": "9.8.1",
+    "pyproj": "3.8.0",
+    "python": "3.13.5",
+    "shapely": "2.1.2"
+  },
+  "summary": {
+    "assignments_corrected": 0,
+    "boundary_sensitivity": [
+      {
+        "margin_m": 0.0,
+        "supports_gis": 172,
+        "supports_other_parish": 0,
+        "supports_soap": 0,
+        "within_boundary_margin": 0
+      },
+      {
+        "margin_m": 10.0,
+        "supports_gis": 124,
+        "supports_other_parish": 0,
+        "supports_soap": 0,
+        "within_boundary_margin": 48
+      },
+      {
+        "margin_m": 25.0,
+        "supports_gis": 105,
+        "supports_other_parish": 0,
+        "supports_soap": 0,
+        "within_boundary_margin": 67
+      },
+      {
+        "margin_m": 50.0,
+        "supports_gis": 70,
+        "supports_other_parish": 0,
+        "supports_soap": 0,
+        "within_boundary_margin": 102
+      },
+      {
+        "margin_m": 100.0,
+        "supports_gis": 38,
+        "supports_other_parish": 0,
+        "supports_soap": 0,
+        "within_boundary_margin": 134
+      }
+    ],
+    "categories": {
+      "boundary_ambiguous": 0,
+      "missing_geometry": 0,
+      "outside_reference": 0,
+      "supports_gis": 172,
+      "supports_other_parish": 0,
+      "supports_soap": 0
+    },
+    "conflicting_records": 172,
+    "interpretation": "Coordinate support among previously conflicting records, not verified establishment addresses or full-registry accuracy.",
+    "provider_reliability_values": {
+      "Fiavel": 164,
+      "Fiável": 8
+    }
+  }
+}

@@ -1,6 +1,6 @@
 {
   "archive_status": "Exact metadata and aggregate responses retained in ignored local workspace.",
-  "assessment": "Not accepted as a historical municipal panel: stated 2018 reference date differs from registration dates extending into 2020; only 2551 records and no time series configuration. Coverage and reference-date semantics are unverified.",
+  "assessment": "Not accepted as a historical municipal panel: stated 2018 reference date differs from registration dates extending into 2020; only 2551 records and no time series configuration. The minimum is epoch zero (1970-01-01 UTC). The registered_count of 2551 counts non-null field values, including zero; it is not a count of verified valid dates. Whether epoch zero is a placeholder is unverified, and it is not silently converted to null or excluded. Coverage and reference-date semantics are unverified.",
   "candidate": {
     "arcgis_item_id": "4216d9ecb47b4cfe9c91e648e725e6e9",
     "attribution": "DMU/Divisão de Monitorização",

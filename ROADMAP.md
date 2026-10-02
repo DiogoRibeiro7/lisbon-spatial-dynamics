@@ -37,6 +37,8 @@ New research capabilities belong in later minor or major releases.
 
 The subsequent [RNAL coverage investigation](docs/rnal-coverage.md) confirms the seven early dates in both official interfaces, identifies 172 conflicting parish assignments, and finds that the retained SOAP cohort reconstructs 11,525 registrations at end-November 2022 versus the municipal report's 20,134. The report documents a monthly historical data exchange between Turismo de Portugal and CML. The next evidence requirement is that historical extract (or reconciled parish aggregates), plus documented parish/date semantics; the live GIS feed does not resolve the historical gap.
 
+The [coordinate follow-up](docs/rnal-geography.md) locates all 172 disputed points inside their GIS-labelled CAOP2025 parish. Of those, 67 are within 25 metres of a boundary. This supports spatial consistency of the GIS labels while retaining positional uncertainty; no automatic corrections or historical-stock claims follow from it.
+
 ### Goal
 
 Produce one canonical Lisbon study run generated end-to-end from a fixed set of archived primary-source snapshots.

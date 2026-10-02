@@ -33,6 +33,8 @@ The [2026-10-01 primary-source audit](docs/source-audit.md) verifies housing cov
 
 The [RNAL coverage investigation](docs/rnal-coverage.md) confirms the early dates in a second official feed, finds 172 conflicting parish assignments, and reconstructs only 11,525 registrations at November 2022 against the municipality's published 20,134. Historical extracts and geographic reconciliation are needed before the definitive run.
 
+The [geographic follow-up](docs/rnal-geography.md) finds that all 172 disputed map coordinates fall in the GIS-labelled CAOP2025 parish; 67 are within 25 metres of a boundary. The results support GIS label consistency, with positional uncertainty retained and no automatic corrections.
+
 ### Committed empirical evidence
 
 The repository includes a small inspectable release layer:
