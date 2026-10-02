@@ -55,6 +55,8 @@ Use a new audit configuration with the resulting manifest's path, hash and size.
 
 ## Implications for v1.1
 
+The [subsequent parish-label sensitivity analysis](rnal-parish-sensitivity.md) quantifies how the disagreements affect counts, captured user capacity and pressure rankings while holding the retained SOAP cohort fixed. It compares all GIS conflict labels with GIS-supported points strictly beyond the 25-metre boundary margin; neither scenario is an adopted correction policy.
+
 The coordinate evidence supports GIS parish assignments for this cohort, subject to positional verification. **No records have been corrected**, and the existing study pipeline's parish selection is unchanged. A canonical harmonisation policy still needs to specify coordinate quality, boundary vintage and treatment of uncertain locations, with an explicit correction log.
 
 Historical RNAL completeness is a separate unresolved requirement. Coordinate agreement cannot recover missing ceased/cancelled records or historical capacity. The earlier November 2022 benchmark discrepancy remains. Raw snapshots are retained locally with hashes; they have not been placed in a public archive, and provider redistribution terms remain unverified.

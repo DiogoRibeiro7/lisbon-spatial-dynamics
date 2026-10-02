@@ -39,6 +39,8 @@ The subsequent [RNAL coverage investigation](docs/rnal-coverage.md) confirms the
 
 The [coordinate follow-up](docs/rnal-geography.md) locates all 172 disputed points inside their GIS-labelled CAOP2025 parish. Of those, 67 are within 25 metres of a boundary. This supports spatial consistency of the GIS labels while retaining positional uncertainty; no automatic corrections or historical-stock claims follow from it.
 
+**Progress, 2026-10-02:** the [parish-label sensitivity analysis](docs/rnal-parish-sensitivity.md) compares the original SOAP labels with all GIS conflicts and the 105 conflicts supported more than 25 metres from a boundary. Both scenarios preserve municipality totals and the top four record-pressure ranks, with six parishes moving one position. Local count/capacity effects can change direction. The comparison informs geographic harmonisation but leaves historical completeness, verified assignments and durable archiving open.
+
 ### Goal
 
 Produce one canonical Lisbon study run generated end-to-end from a fixed set of archived primary-source snapshots.

@@ -17,8 +17,14 @@ import shapely
 
 from lisbon_spatial_dynamics.analysis.rnal_geography import (
     conflict_cohort,
+    coordinate_evidence,
     project_boundaries,
     reconcile,
+)
+from lisbon_spatial_dynamics.analysis.rnal_parish_sensitivity import (
+    compare_assignments,
+    load_population,
+    plot_sensitivity,
 )
 from lisbon_spatial_dynamics.panels.rnal import load_rnal_snapshot
 from lisbon_spatial_dynamics.sources.rnal_locations import fetch_locations
@@ -59,6 +65,9 @@ def audit(config_path: Path, output: Path) -> None:
     if output.exists() or output.is_symlink():
         raise FileExistsError(f"geography audit output already exists: {output}")
     config = tomllib.loads(config_path.read_text(encoding="utf-8"))
+    kind = config["analysis"].get("kind", "coordinate_support")
+    if kind not in {"coordinate_support", "parish_sensitivity"}:
+        raise ValueError("unknown geography audit kind")
     cohort, inputs = load_baseline(config)
     pinned = config["inputs"]["locations_manifest"]
     manifest_path = Path(pinned["path"])
@@ -86,10 +95,30 @@ def audit(config_path: Path, output: Path) -> None:
         projector,
         thresholds_m=config["analysis"]["boundary_margins_m"],
     )
+    coordinate_summary = summary
+    datasets = {"coordinate_support_by_parish.csv": rows}
+    if kind == "parish_sensitivity":
+        population = load_population(Path(inputs["population"]["path"]))
+        soap = load_rnal_snapshot(Path(inputs["soap"]["path"]))
+        if (
+            len(soap) != config["expectations"]["snapshot_records"]
+            or sum(population.values()) != config["expectations"]["population_2021"]
+        ):
+            raise ValueError("snapshot count or Census population differs from pinned expectation")
+        summary, scenario_rows = compare_assignments(
+            soap,
+            cohort,
+            coordinate_evidence(cohort, locations, polygons, projector),
+            names,
+            population,
+            margin_m=config["analysis"]["reassignment_margin_m"],
+        )
+        datasets["parish_scenarios.csv"] = scenario_rows
     report: dict[str, Any] = {
         "schema_version": 1,
         "audit_date": config["audit_date"],
         "summary": summary,
+        "coordinate_summary": coordinate_summary,
         "inputs": inputs,
         "analysis": config["analysis"],
         "coordinate_capture": {
@@ -122,6 +151,7 @@ def audit(config_path: Path, output: Path) -> None:
                 Path("pyproject.toml"),
                 Path("poetry.lock"),
                 Path("src/lisbon_spatial_dynamics/analysis/rnal_geography.py"),
+                Path("src/lisbon_spatial_dynamics/analysis/rnal_parish_sensitivity.py"),
                 Path("src/lisbon_spatial_dynamics/sources/rnal_locations.py"),
                 Path("src/lisbon_spatial_dynamics/sources/rnal_geodata.py"),
                 Path("src/lisbon_spatial_dynamics/panels/rnal.py"),
@@ -129,8 +159,9 @@ def audit(config_path: Path, output: Path) -> None:
         ],
         "interpretation": (
             "Only the pinned SOAP/GIS parish conflicts are inspected. The GIS coordinates and "
-            "labels share a provider. No establishment locations or registry assignments are "
-            "independently verified or corrected."
+            "labels share a provider. Any reassignment is a sensitivity scenario within the "
+            "unchanged SOAP cohort. No establishment locations or registry assignments are "
+            "independently verified or corrected; no historical completeness is established."
         ),
         "archive_status": "Local ignored inputs; only aggregates committed.",
     }
@@ -138,14 +169,27 @@ def audit(config_path: Path, output: Path) -> None:
     with TemporaryDirectory(prefix=".rnal-geography-", dir=output.parent) as temporary:
         staging = Path(temporary) / "bundle"
         staging.mkdir()
-        csv_path = staging / "coordinate_support_by_parish.csv"
-        with csv_path.open("x", encoding="utf-8", newline="") as stream:
-            writer = csv.DictWriter(stream, fieldnames=list(rows[0]), lineterminator="\n")
-            writer.writeheader()
-            writer.writerows(rows)
-        artifact = fingerprint(csv_path)
-        artifact["path"] = (output / csv_path.name).as_posix()
-        report["outputs"] = [artifact]
+        artifacts = []
+        for filename, data_rows in datasets.items():
+            csv_path = staging / filename
+            with csv_path.open("x", encoding="utf-8", newline="") as stream:
+                writer = csv.DictWriter(stream, fieldnames=list(data_rows[0]), lineterminator="\n")
+                writer.writeheader()
+                writer.writerows(data_rows)
+            artifact = fingerprint(csv_path)
+            artifact["path"] = (output / csv_path.name).as_posix()
+            artifacts.append(artifact)
+        if kind == "parish_sensitivity":
+            figure = staging / "parish_sensitivity.png"
+            plot_sensitivity(
+                datasets["parish_scenarios.csv"],
+                figure,
+                margin_m=config["analysis"]["reassignment_margin_m"],
+            )
+            artifact = fingerprint(figure)
+            artifact["path"] = (output / figure.name).as_posix()
+            artifacts.append(artifact)
+        report["outputs"] = artifacts
         (staging / "audit.json").write_bytes(
             (json.dumps(report, ensure_ascii=False, indent=2, sort_keys=True) + "\n").encode()
         )

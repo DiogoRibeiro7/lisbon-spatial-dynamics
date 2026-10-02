@@ -6,6 +6,7 @@ All notable repository-level changes are documented here.
 
 ### Added
 
+- A fixed-cohort RNAL parish-label sensitivity comparison, with three scenarios, count/capacity/pressure/rank changes, a generated figure, and an offline aggregate evidence bundle.
 - A coordinate-based investigation of all 172 RNAL parish conflicts against CAOP2025, with metre-based boundary sensitivity, minimized acquisition, and aggregate provenance.
 - A provenance record for the historical GIS source search, documenting why the inspected Lisboaenova layer is not accepted as a municipal time series.
 - An RNAL cross-feed coverage investigation: reproducible GIS acquisition, offline comparisons, a historical municipal benchmark, and aggregate evidence for parish/date discrepancies.
@@ -18,6 +19,7 @@ All notable repository-level changes are documented here.
 
 ### Fixed
 
+- RNAL coordinate audits now identify unknown SOAP/GIS parish codes before classifying any points, and coordinate acquisition reuses the GIS HTTP helper.
 - Historical-source discovery now distinguishes epoch zero and non-null field counts from verified valid registration dates.
 - Failed RNAL coverage audit writes no longer leave partial output directories that block retries.
 - Source-catalogue claims that the current RNAL SOAP feed establishes a longitudinal source merely by exposing date fields.

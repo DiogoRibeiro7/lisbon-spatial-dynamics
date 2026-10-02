@@ -281,7 +281,7 @@ def test_input_tampering_fails(tmp_path: Path, audit_module: ModuleType) -> None
 
 
 @pytest.fixture
-def audit_config(tmp_path: Path, audit_module: ModuleType) -> Path:
+def audit_config(tmp_path: Path, audit_module: ModuleType, request: pytest.FixtureRequest) -> Path:
     capture(tmp_path / "locations", documents())
     soap = {
         "records": [
@@ -321,6 +321,15 @@ def audit_config(tmp_path: Path, audit_module: ModuleType) -> Path:
         "[analysis]",
         "boundary_margins_m = [0.0, 25.0, 100.0]",
     ]
+    if getattr(request, "param", False):
+        lines[4:4] = ["snapshot_records = 1", "population_2021 = 200"]
+        lines.extend(['kind = "parish_sensitivity"', "reassignment_margin_m = 25.0"])
+        population = tmp_path / "population.csv"
+        population.write_text(
+            "freguesia_id,census_year,population_resident\n110654,2021,100\n110655,2021,100\n",
+            encoding="utf-8",
+        )
+        inputs["population"] = population
     for name, path in inputs.items():
         lines.append(f"[inputs.{name}]")
         lines.extend(
@@ -331,6 +340,7 @@ def audit_config(tmp_path: Path, audit_module: ModuleType) -> Path:
     return config
 
 
+@pytest.mark.parametrize("audit_config", [False, True], indirect=True)
 def test_offline_replay_hashes_and_atomic_failure(
     tmp_path: Path,
     audit_module: ModuleType,
@@ -340,7 +350,7 @@ def test_offline_replay_hashes_and_atomic_failure(
     def no_network(*args: object, **kwargs: object) -> None:
         pytest.fail("offline audit attempted network access")
 
-    monkeypatch.setattr("lisbon_spatial_dynamics.sources.rnal_locations.urlopen", no_network)
+    monkeypatch.setattr("lisbon_spatial_dynamics.sources.rnal_geodata.urlopen", no_network)
     output = tmp_path / "audit"
     original_write = Path.write_bytes
 
@@ -369,6 +379,33 @@ def test_offline_replay_hashes_and_atomic_failure(
     assert (output / "coordinate_support_by_parish.csv").read_bytes() == (
         replay / "coordinate_support_by_parish.csv"
     ).read_bytes()
+    if (output / "parish_scenarios.csv").exists():
+        assert (output / "parish_scenarios.csv").read_bytes() == (
+            replay / "parish_scenarios.csv"
+        ).read_bytes()
     (tmp_path / "locations/locations.json").write_bytes(b"{}")
     with pytest.raises(ValueError, match="integrity mismatch"):
         audit_module.audit(audit_config, tmp_path / "tampered")
+
+
+@pytest.mark.parametrize("source,index", [("SOAP", 0), ("GIS", 1)])
+def test_unknown_parish_fails_before_any_classification(
+    source: str, index: int, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    def no_classification(*args: object, **kwargs: object) -> None:
+        pytest.fail("classification began before cohort validation")
+
+    monkeypatch.setattr(
+        "lisbon_spatial_dynamics.analysis.rnal_geography.classify_point", no_classification
+    )
+    pair = ["110654", "110655"]
+    pair[index] = "110699"
+    with pytest.raises(ValueError, match=f"{source} conflict parishes.*110699"):
+        reconcile(
+            {1: ("110654", "110655"), 2: (pair[0], pair[1])},
+            [location(), location(number=2)],
+            {"110654": box(0, 0, 20, 20), "110655": box(20, 0, 40, 20)},
+            {"110654": "A", "110655": "B"},
+            Transformer.from_crs(3763, 3763, always_xy=True),
+            thresholds_m=[25],
+        )
