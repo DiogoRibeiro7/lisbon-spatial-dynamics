@@ -6,6 +6,7 @@ All notable repository-level changes are documented here.
 
 ### Added
 
+- Published CML parish benchmarks for November 2019 and November 2022, separating weighted AL units from user capacity, preserving displayed discrepancies, and providing a checked transcription and reproducible arithmetic audit.
 - A fixed-cohort RNAL parish-label sensitivity comparison, with three scenarios, count/capacity/pressure/rank changes, a generated figure, and an offline aggregate evidence bundle.
 - A coordinate-based investigation of all 172 RNAL parish conflicts against CAOP2025, with metre-based boundary sensitivity, minimized acquisition, and aggregate provenance.
 - A provenance record for the historical GIS source search, documenting why the inspected Lisboaenova layer is not accepted as a municipal time series.

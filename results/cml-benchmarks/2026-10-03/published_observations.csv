@@ -1,0 +1,101 @@
+metric,unit,printed_page,pdf_page,table_number,geography_id,geography_name,scope,reference_month,published_value
+weighted_al,capacity_weighted_al_units,93,105,18,1106,LISBOA - TOTAL,municipality,2019-11,22941
+weighted_al,capacity_weighted_al_units,93,105,18,1106,LISBOA - TOTAL,municipality,2022-11,24080
+weighted_al,capacity_weighted_al_units,93,105,18,110601,Ajuda,freguesia,2019-11,204
+weighted_al,capacity_weighted_al_units,93,105,18,110601,Ajuda,freguesia,2022-11,318
+weighted_al,capacity_weighted_al_units,93,105,18,110602,Alcântara,freguesia,2019-11,374
+weighted_al,capacity_weighted_al_units,93,105,18,110602,Alcântara,freguesia,2022-11,487
+weighted_al,capacity_weighted_al_units,93,105,18,110607,Beato,freguesia,2019-11,99
+weighted_al,capacity_weighted_al_units,93,105,18,110607,Beato,freguesia,2022-11,138
+weighted_al,capacity_weighted_al_units,93,105,18,110608,Benfica,freguesia,2019-11,58
+weighted_al,capacity_weighted_al_units,93,105,18,110608,Benfica,freguesia,2022-11,107
+weighted_al,capacity_weighted_al_units,93,105,18,110610,Campolide,freguesia,2019-11,192
+weighted_al,capacity_weighted_al_units,93,105,18,110610,Campolide,freguesia,2022-11,266
+weighted_al,capacity_weighted_al_units,93,105,18,110611,Carnide,freguesia,2019-11,39
+weighted_al,capacity_weighted_al_units,93,105,18,110611,Carnide,freguesia,2022-11,42
+weighted_al,capacity_weighted_al_units,93,105,18,110618,Lumiar,freguesia,2019-11,120
+weighted_al,capacity_weighted_al_units,93,105,18,110618,Lumiar,freguesia,2022-11,127
+weighted_al,capacity_weighted_al_units,93,105,18,110621,Marvila,freguesia,2019-11,67
+weighted_al,capacity_weighted_al_units,93,105,18,110621,Marvila,freguesia,2022-11,93
+weighted_al,capacity_weighted_al_units,93,105,18,110633,Olivais,freguesia,2019-11,149
+weighted_al,capacity_weighted_al_units,93,105,18,110633,Olivais,freguesia,2022-11,196
+weighted_al,capacity_weighted_al_units,93,105,18,110639,São Domingos de Benfica,freguesia,2019-11,143
+weighted_al,capacity_weighted_al_units,93,105,18,110639,São Domingos de Benfica,freguesia,2022-11,166
+weighted_al,capacity_weighted_al_units,93,105,18,110654,Alvalade,freguesia,2019-11,272
+weighted_al,capacity_weighted_al_units,93,105,18,110654,Alvalade,freguesia,2022-11,318
+weighted_al,capacity_weighted_al_units,93,105,18,110655,Areeiro,freguesia,2019-11,268
+weighted_al,capacity_weighted_al_units,93,105,18,110655,Areeiro,freguesia,2022-11,347
+weighted_al,capacity_weighted_al_units,93,105,18,110656,Arroios,freguesia,2019-11,3018
+weighted_al,capacity_weighted_al_units,93,105,18,110656,Arroios,freguesia,2022-11,3161
+weighted_al,capacity_weighted_al_units,93,105,18,110657,Avenidas Novas,freguesia,2019-11,968
+weighted_al,capacity_weighted_al_units,93,105,18,110657,Avenidas Novas,freguesia,2022-11,1040
+weighted_al,capacity_weighted_al_units,93,105,18,110658,Belém,freguesia,2019-11,384
+weighted_al,capacity_weighted_al_units,93,105,18,110658,Belém,freguesia,2022-11,457
+weighted_al,capacity_weighted_al_units,93,105,18,110659,Campo de Ourique,freguesia,2019-11,478
+weighted_al,capacity_weighted_al_units,93,105,18,110659,Campo de Ourique,freguesia,2022-11,589
+weighted_al,capacity_weighted_al_units,93,105,18,110660,Estrela,freguesia,2019-11,1289
+weighted_al,capacity_weighted_al_units,93,105,18,110660,Estrela,freguesia,2022-11,1467
+weighted_al,capacity_weighted_al_units,93,105,18,110661,Misericórdia,freguesia,2019-11,4072
+weighted_al,capacity_weighted_al_units,93,105,18,110661,Misericórdia,freguesia,2022-11,4096
+weighted_al,capacity_weighted_al_units,93,105,18,110662,Parque das Nações,freguesia,2019-11,497
+weighted_al,capacity_weighted_al_units,93,105,18,110662,Parque das Nações,freguesia,2022-11,477
+weighted_al,capacity_weighted_al_units,93,105,18,110663,Penha de França,freguesia,2019-11,620
+weighted_al,capacity_weighted_al_units,93,105,18,110663,Penha de França,freguesia,2022-11,730
+weighted_al,capacity_weighted_al_units,93,105,18,110664,Santa Clara,freguesia,2019-11,10
+weighted_al,capacity_weighted_al_units,93,105,18,110664,Santa Clara,freguesia,2022-11,22
+weighted_al,capacity_weighted_al_units,93,105,18,110665,Santa Maria Maior,freguesia,2019-11,5595
+weighted_al,capacity_weighted_al_units,93,105,18,110665,Santa Maria Maior,freguesia,2022-11,5484
+weighted_al,capacity_weighted_al_units,93,105,18,110666,Santo António,freguesia,2019-11,2216
+weighted_al,capacity_weighted_al_units,93,105,18,110666,Santo António,freguesia,2022-11,2200
+weighted_al,capacity_weighted_al_units,93,105,18,110667,São Vicente,freguesia,2019-11,1808
+weighted_al,capacity_weighted_al_units,93,105,18,110667,São Vicente,freguesia,2022-11,1752
+capacity,reported_user_capacity,95,107,19,1106,LISBOA - TOTAL,municipality,2019-11,111492
+capacity,reported_user_capacity,95,107,19,1106,LISBOA - TOTAL,municipality,2022-11,116218
+capacity,reported_user_capacity,95,107,19,110601,Ajuda,freguesia,2019-11,982
+capacity,reported_user_capacity,95,107,19,110601,Ajuda,freguesia,2022-11,1505
+capacity,reported_user_capacity,95,107,19,110602,Alcântara,freguesia,2019-11,1747
+capacity,reported_user_capacity,95,107,19,110602,Alcântara,freguesia,2022-11,2287
+capacity,reported_user_capacity,95,107,19,110607,Beato,freguesia,2019-11,499
+capacity,reported_user_capacity,95,107,19,110607,Beato,freguesia,2022-11,651
+capacity,reported_user_capacity,95,107,19,110608,Benfica,freguesia,2019-11,307
+capacity,reported_user_capacity,95,107,19,110608,Benfica,freguesia,2022-11,543
+capacity,reported_user_capacity,95,107,19,110610,Campolide,freguesia,2019-11,876
+capacity,reported_user_capacity,95,107,19,110610,Campolide,freguesia,2022-11,1251
+capacity,reported_user_capacity,95,107,19,110611,Carnide,freguesia,2019-11,183
+capacity,reported_user_capacity,95,107,19,110611,Carnide,freguesia,2022-11,202
+capacity,reported_user_capacity,95,107,19,110618,Lumiar,freguesia,2019-11,629
+capacity,reported_user_capacity,95,107,19,110618,Lumiar,freguesia,2022-11,641
+capacity,reported_user_capacity,95,107,19,110621,Marvila,freguesia,2019-11,381
+capacity,reported_user_capacity,95,107,19,110621,Marvila,freguesia,2022-11,515
+capacity,reported_user_capacity,95,107,19,110633,Olivais,freguesia,2019-11,778
+capacity,reported_user_capacity,95,107,19,110633,Olivais,freguesia,2022-11,1014
+capacity,reported_user_capacity,95,107,19,110639,São Domingos de Benfica,freguesia,2019-11,851
+capacity,reported_user_capacity,95,107,19,110639,São Domingos de Benfica,freguesia,2022-11,952
+capacity,reported_user_capacity,95,107,19,110654,Alvalade,freguesia,2019-11,1458
+capacity,reported_user_capacity,95,107,19,110654,Alvalade,freguesia,2022-11,1702
+capacity,reported_user_capacity,95,107,19,110655,Areeiro,freguesia,2019-11,1703
+capacity,reported_user_capacity,95,107,19,110655,Areeiro,freguesia,2022-11,1975
+capacity,reported_user_capacity,95,107,19,110656,Arroios,freguesia,2019-11,15791
+capacity,reported_user_capacity,95,107,19,110656,Arroios,freguesia,2022-11,16379
+capacity,reported_user_capacity,95,107,19,110657,Avenidas Novas,freguesia,2019-11,5298
+capacity,reported_user_capacity,95,107,19,110657,Avenidas Novas,freguesia,2022-11,5624
+capacity,reported_user_capacity,95,107,19,110658,Belém,freguesia,2019-11,1820
+capacity,reported_user_capacity,95,107,19,110658,Belém,freguesia,2022-11,2154
+capacity,reported_user_capacity,95,107,19,110659,Campo de Ourique,freguesia,2019-11,2333
+capacity,reported_user_capacity,95,107,19,110659,Campo de Ourique,freguesia,2022-11,2971
+capacity,reported_user_capacity,95,107,19,110660,Estrela,freguesia,2019-11,6062
+capacity,reported_user_capacity,95,107,19,110660,Estrela,freguesia,2022-11,6638
+capacity,reported_user_capacity,95,107,19,110661,Misericórdia,freguesia,2019-11,19082
+capacity,reported_user_capacity,95,107,19,110661,Misericórdia,freguesia,2022-11,19085
+capacity,reported_user_capacity,95,107,19,110662,Parque das Nações,freguesia,2019-11,2220
+capacity,reported_user_capacity,95,107,19,110662,Parque das Nações,freguesia,2022-11,2219
+capacity,reported_user_capacity,95,107,19,110663,Penha de França,freguesia,2019-11,3198
+capacity,reported_user_capacity,95,107,19,110663,Penha de França,freguesia,2022-11,3769
+capacity,reported_user_capacity,95,107,19,110664,Santa Clara,freguesia,2019-11,39
+capacity,reported_user_capacity,95,107,19,110664,Santa Clara,freguesia,2022-11,91
+capacity,reported_user_capacity,95,107,19,110665,Santa Maria Maior,freguesia,2019-11,25793
+capacity,reported_user_capacity,95,107,19,110665,Santa Maria Maior,freguesia,2022-11,25081
+capacity,reported_user_capacity,95,107,19,110666,Santo António,freguesia,2019-11,11019
+capacity,reported_user_capacity,95,107,19,110666,Santo António,freguesia,2022-11,10723
+capacity,reported_user_capacity,95,107,19,110667,São Vicente,freguesia,2019-11,8443
+capacity,reported_user_capacity,95,107,19,110667,São Vicente,freguesia,2022-11,8246

@@ -39,6 +39,8 @@ The [parish-label sensitivity analysis](docs/rnal-parish-sensitivity.md) holds t
 
 ### Committed empirical evidence
 
+The [historical municipal benchmarks](docs/cml-historical-benchmarks.md) add November 2019/2022 observations for all 24 parishes. The capacity table reconciles at 111,492 and 116,218 places; weighted-AL values are kept separate from raw registration counts, with displayed arithmetic differences recorded explicitly. These two observations do not constitute the quarterly series required for v1.1.
+
 The repository includes a small inspectable release layer:
 
 ```text

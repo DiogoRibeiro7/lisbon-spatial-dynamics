@@ -78,6 +78,8 @@ The [discovery record](https://github.com/DiogoRibeiro7/lisbon-spatial-dynamics/
 
 ### Required extract
 
+The [historical benchmark follow-up](cml-historical-benchmarks.md) transcribes the report's 24-parish November 2019/2022 tables. These contain weighted AL units and user capacity, rather than unweighted registration counts. Their source values, arithmetic discrepancies and month-level date precision are preserved for future extract validation.
+
 The next source to pursue is the historical municipal monitoring extract documented in the report. No request has been sent to the provider. A usable extract or equivalent published aggregates should include:
 
 - Quarterly or monthly snapshots covering the 2019 Q4–2025 Q4 analysis endpoints, with capture dates, scope and revision policy.

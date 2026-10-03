@@ -41,6 +41,8 @@ The [coordinate follow-up](docs/rnal-geography.md) locates all 172 disputed poin
 
 **Progress, 2026-10-02:** the [parish-label sensitivity analysis](docs/rnal-parish-sensitivity.md) compares the original SOAP labels with all GIS conflicts and the 105 conflicts supported more than 25 metres from a boundary. Both scenarios preserve municipality totals and the top four record-pressure ranks, with six parishes moving one position. Local count/capacity effects can change direction. The comparison informs geographic harmonisation but leaves historical completeness, verified assignments and durable archiving open.
 
+**Progress, 2026-10-03:** the [historical municipal benchmarks](docs/cml-historical-benchmarks.md) preserve 96 parish-level values from the report's November 2019/2022 weighted-AL and capacity tables. The capacity table reconciles exactly; weighted values retain explicit displayed-arithmetic discrepancies. These benchmarks support validation of a future extract but do not replace the required quarterly, consistently defined series.
+
 ### Goal
 
 Produce one canonical Lisbon study run generated end-to-end from a fixed set of archived primary-source snapshots.

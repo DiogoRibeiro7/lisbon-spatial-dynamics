@@ -149,7 +149,7 @@ temporal_coverage = "includes November 2019–November 2022 monitoring; referenc
 access = "official PDF recovered through Arquivo.pt capture 20260216185851; original URL returned HTTP 404 on 2026-10-01"
 licence = "public report; no redistribution licence verified"
 landing_page = "https://www.lisboa.pt/fileadmin/portal/temas/economia/alojamento_local/RelatorioCaracterizacaoMonitorizacaoAlojamentoLocal.pdf"
-notes = "Printed page 38 reports 20,134 unweighted registrations at end-November 2022. Pages 2 and 87 describe monthly existing, new, changed, ceased and cancelled records supplied to municipal monitoring. Retained PDF SHA-256 and archive URL are pinned in configs/rnal_coverage_2026-10-01.toml."
+notes = "Printed page 38 reports 20,134 unweighted registrations at end-November 2022. Tables 18 and 19 (printed pages 93/95) provide November 2019/2022 parish weighted-AL and user-capacity benchmarks; their displayed values and arithmetic discrepancies are preserved in data/benchmarks/cml-rnal-2019-2022. They do not establish a quarterly raw-registration series. Pages 2 and 87 describe monthly monitoring extracts. PDF identity is pinned in configs/rnal_coverage_2026-10-01.toml and configs/cml_benchmarks_2026-10-03.toml."
 
 
 [[sources]]
