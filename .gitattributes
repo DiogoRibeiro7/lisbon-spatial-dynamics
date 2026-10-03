@@ -16,3 +16,6 @@ results/rnal-geography/**/*.csv text eol=lf
 results/rnal-geography/**/*.json text eol=lf
 results/rnal-parish-sensitivity/**/*.csv text eol=lf
 results/rnal-parish-sensitivity/**/*.json text eol=lf
+data/benchmarks/**/*.csv text eol=lf
+results/cml-benchmarks/**/*.csv text eol=lf
+results/cml-benchmarks/**/*.json text eol=lf

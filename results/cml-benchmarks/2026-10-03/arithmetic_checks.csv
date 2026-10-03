@@ -1,0 +1,51 @@
+metric,unit,printed_page,pdf_page,table_number,geography_id,geography_name,scope,published_change,calculated_change_from_displayed_levels,calculated_minus_published_change
+weighted_al,capacity_weighted_al_units,93,105,18,1106,LISBOA - TOTAL,municipality,1138,1139,1
+weighted_al,capacity_weighted_al_units,93,105,18,110601,Ajuda,freguesia,114,114,0
+weighted_al,capacity_weighted_al_units,93,105,18,110602,Alcântara,freguesia,113,113,0
+weighted_al,capacity_weighted_al_units,93,105,18,110607,Beato,freguesia,39,39,0
+weighted_al,capacity_weighted_al_units,93,105,18,110608,Benfica,freguesia,49,49,0
+weighted_al,capacity_weighted_al_units,93,105,18,110610,Campolide,freguesia,74,74,0
+weighted_al,capacity_weighted_al_units,93,105,18,110611,Carnide,freguesia,3,3,0
+weighted_al,capacity_weighted_al_units,93,105,18,110618,Lumiar,freguesia,7,7,0
+weighted_al,capacity_weighted_al_units,93,105,18,110621,Marvila,freguesia,26,26,0
+weighted_al,capacity_weighted_al_units,93,105,18,110633,Olivais,freguesia,47,47,0
+weighted_al,capacity_weighted_al_units,93,105,18,110639,São Domingos de Benfica,freguesia,22,23,1
+weighted_al,capacity_weighted_al_units,93,105,18,110654,Alvalade,freguesia,46,46,0
+weighted_al,capacity_weighted_al_units,93,105,18,110655,Areeiro,freguesia,79,79,0
+weighted_al,capacity_weighted_al_units,93,105,18,110656,Arroios,freguesia,143,143,0
+weighted_al,capacity_weighted_al_units,93,105,18,110657,Avenidas Novas,freguesia,72,72,0
+weighted_al,capacity_weighted_al_units,93,105,18,110658,Belém,freguesia,73,73,0
+weighted_al,capacity_weighted_al_units,93,105,18,110659,Campo de Ourique,freguesia,112,111,-1
+weighted_al,capacity_weighted_al_units,93,105,18,110660,Estrela,freguesia,178,178,0
+weighted_al,capacity_weighted_al_units,93,105,18,110661,Misericórdia,freguesia,24,24,0
+weighted_al,capacity_weighted_al_units,93,105,18,110662,Parque das Nações,freguesia,-21,-20,1
+weighted_al,capacity_weighted_al_units,93,105,18,110663,Penha de França,freguesia,110,110,0
+weighted_al,capacity_weighted_al_units,93,105,18,110664,Santa Clara,freguesia,12,12,0
+weighted_al,capacity_weighted_al_units,93,105,18,110665,Santa Maria Maior,freguesia,-111,-111,0
+weighted_al,capacity_weighted_al_units,93,105,18,110666,Santo António,freguesia,-16,-16,0
+weighted_al,capacity_weighted_al_units,93,105,18,110667,São Vicente,freguesia,-56,-56,0
+capacity,reported_user_capacity,95,107,19,1106,LISBOA - TOTAL,municipality,4726,4726,0
+capacity,reported_user_capacity,95,107,19,110601,Ajuda,freguesia,523,523,0
+capacity,reported_user_capacity,95,107,19,110602,Alcântara,freguesia,540,540,0
+capacity,reported_user_capacity,95,107,19,110607,Beato,freguesia,152,152,0
+capacity,reported_user_capacity,95,107,19,110608,Benfica,freguesia,236,236,0
+capacity,reported_user_capacity,95,107,19,110610,Campolide,freguesia,375,375,0
+capacity,reported_user_capacity,95,107,19,110611,Carnide,freguesia,19,19,0
+capacity,reported_user_capacity,95,107,19,110618,Lumiar,freguesia,12,12,0
+capacity,reported_user_capacity,95,107,19,110621,Marvila,freguesia,134,134,0
+capacity,reported_user_capacity,95,107,19,110633,Olivais,freguesia,236,236,0
+capacity,reported_user_capacity,95,107,19,110639,São Domingos de Benfica,freguesia,101,101,0
+capacity,reported_user_capacity,95,107,19,110654,Alvalade,freguesia,244,244,0
+capacity,reported_user_capacity,95,107,19,110655,Areeiro,freguesia,272,272,0
+capacity,reported_user_capacity,95,107,19,110656,Arroios,freguesia,588,588,0
+capacity,reported_user_capacity,95,107,19,110657,Avenidas Novas,freguesia,326,326,0
+capacity,reported_user_capacity,95,107,19,110658,Belém,freguesia,334,334,0
+capacity,reported_user_capacity,95,107,19,110659,Campo de Ourique,freguesia,638,638,0
+capacity,reported_user_capacity,95,107,19,110660,Estrela,freguesia,576,576,0
+capacity,reported_user_capacity,95,107,19,110661,Misericórdia,freguesia,3,3,0
+capacity,reported_user_capacity,95,107,19,110662,Parque das Nações,freguesia,-1,-1,0
+capacity,reported_user_capacity,95,107,19,110663,Penha de França,freguesia,571,571,0
+capacity,reported_user_capacity,95,107,19,110664,Santa Clara,freguesia,52,52,0
+capacity,reported_user_capacity,95,107,19,110665,Santa Maria Maior,freguesia,-712,-712,0
+capacity,reported_user_capacity,95,107,19,110666,Santo António,freguesia,-296,-296,0
+capacity,reported_user_capacity,95,107,19,110667,São Vicente,freguesia,-197,-197,0

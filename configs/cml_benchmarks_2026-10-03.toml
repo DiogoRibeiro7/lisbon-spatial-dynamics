@@ -1,0 +1,43 @@
+# Published aggregate benchmarks; no interpolation or source-value correction.
+audit_date = "2026-10-03"
+parishes = 24
+
+[source]
+provider = "Câmara Municipal de Lisboa"
+title = "Relatório de Caracterização e Monitorização do Alojamento Local"
+report_date = "2022-12"
+reference_months = ["2019-11", "2022-11"]
+date_precision = "month; exact observation days are not stated in tables 18 and 19"
+original_url = "https://www.lisboa.pt/fileadmin/portal/temas/economia/alojamento_local/RelatorioCaracterizacaoMonitorizacaoAlojamentoLocal.pdf"
+archive_url = "https://arquivo.pt/noFrame/replay/20260216185851id_/https://www.lisboa.pt/fileadmin/portal/temas/economia/alojamento_local/RelatorioCaracterizacaoMonitorizacaoAlojamentoLocal.pdf"
+
+[transcription]
+method = "Manual numeric transcription checked against rendered PDF pages 105 and 107; table 19 additionally checked against extracted text."
+review_date = "2026-10-03"
+tools = "pdftoppm and pdftotext 24.04.0 (preparation only; not needed for replay)"
+identifier_mapping = "Published parish names matched to the canonical IDs in the previously audited Census table."
+source_row_zero = "Unnumbered municipality total row"
+rounding = "Published integer display retained; underlying precision and rounding method are unverified."
+weighted_al_definition = "Per-record capacity divided by five, with one unit when capacity is below five; not raw registrations."
+capacity_definition = "Table 19 capacity; its 2022 values match the total-user column in table 6."
+replay_scope = "Verifies file identity, coverage and arithmetic; source-cell transcription requires visual review."
+
+[inputs.source_pdf]
+path = "data/raw/cml/rnal_report_2022/20261001T134526Z/report.pdf"
+sha256 = "1e446b0b71d55a3f0086b539278810f1875d5e4244174786295489b40fea8195"
+size_bytes = 6538471
+
+[inputs.source_manifest]
+path = "data/raw/cml/rnal_report_2022/20261001T134526Z/manifest.json"
+sha256 = "5897c05709b7ac2a015a64b5cb380c274f81f3648cb5a55e0ca036192eb743e5"
+size_bytes = 546
+
+[inputs.reference]
+path = "results/source-audit/2026-10-01/census_context.csv"
+sha256 = "5ac702c77ac2a37817cdee1f9d853c488f9beb105174626ead5c8c8ee5c43a32"
+size_bytes = 10079
+
+[inputs.transcription]
+path = "data/benchmarks/cml-rnal-2019-2022/published_values.csv"
+sha256 = "fde0fc9ec0d138b2057e1e8392008302220b3a1b67521856f92b91d7c96a6f7b"
+size_bytes = 1944

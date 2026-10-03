@@ -1,0 +1,190 @@
+{
+  "archive_status": "Source PDF retained locally; transcribed aggregate facts committed.",
+  "audit_date": "2026-10-03",
+  "code_and_configuration": [
+    {
+      "path": "configs/cml_benchmarks_2026-10-03.toml",
+      "sha256": "55bcb31643b2b64c92ddf19acb23bde81a7a61cca4c44d7235ef78fd76f4d98a",
+      "size_bytes": 2359
+    },
+    {
+      "path": "scripts/audit_cml_benchmarks.py",
+      "sha256": "dfeb1462c397492bd58ff28407d5db7d7ec5d6f48c246228358d75a4d18b7d99",
+      "size_bytes": 4644
+    },
+    {
+      "path": "src/lisbon_spatial_dynamics/analysis/cml_benchmarks.py",
+      "sha256": "56dfcdcda23e802152bc854bdce56994bc44f1d40be5aba3defe50b2467e702e",
+      "size_bytes": 7512
+    },
+    {
+      "path": "pyproject.toml",
+      "sha256": "a2cfa37c27ec70978bfd6e5f8503aee9f02ab1840d21b97ccd71e86cb6374016",
+      "size_bytes": 4588
+    },
+    {
+      "path": "poetry.lock",
+      "sha256": "eacfc9e9167df23309405e0f1c22e452715dc018082229b67c6e62f28a521cc7",
+      "size_bytes": 223966
+    }
+  ],
+  "inputs": {
+    "reference": {
+      "path": "results/source-audit/2026-10-01/census_context.csv",
+      "sha256": "5ac702c77ac2a37817cdee1f9d853c488f9beb105174626ead5c8c8ee5c43a32",
+      "size_bytes": 10079
+    },
+    "source_manifest": {
+      "path": "data/raw/cml/rnal_report_2022/20261001T134526Z/manifest.json",
+      "sha256": "5897c05709b7ac2a015a64b5cb380c274f81f3648cb5a55e0ca036192eb743e5",
+      "size_bytes": 546
+    },
+    "source_pdf": {
+      "path": "data/raw/cml/rnal_report_2022/20261001T134526Z/report.pdf",
+      "sha256": "1e446b0b71d55a3f0086b539278810f1875d5e4244174786295489b40fea8195",
+      "size_bytes": 6538471
+    },
+    "transcription": {
+      "path": "data/benchmarks/cml-rnal-2019-2022/published_values.csv",
+      "sha256": "fde0fc9ec0d138b2057e1e8392008302220b3a1b67521856f92b91d7c96a6f7b",
+      "size_bytes": 1944
+    }
+  },
+  "outputs": [
+    {
+      "path": "results/cml-benchmarks/2026-10-03/published_observations.csv",
+      "sha256": "8c50afc9612694397eefa76b3101f334096a73297d919deb7eacf1a62b524bb3",
+      "size_bytes": 8791
+    },
+    {
+      "path": "results/cml-benchmarks/2026-10-03/arithmetic_checks.csv",
+      "sha256": "6bcd8909ca53da14b253e2c74cc4e1ec76e03903048f66ff041eb4a3048dd1ed",
+      "size_bytes": 4354
+    }
+  ],
+  "schema_version": 1,
+  "software": {
+    "python": "3.13.5"
+  },
+  "source": {
+    "archive_url": "https://arquivo.pt/noFrame/replay/20260216185851id_/https://www.lisboa.pt/fileadmin/portal/temas/economia/alojamento_local/RelatorioCaracterizacaoMonitorizacaoAlojamentoLocal.pdf",
+    "date_precision": "month; exact observation days are not stated in tables 18 and 19",
+    "original_url": "https://www.lisboa.pt/fileadmin/portal/temas/economia/alojamento_local/RelatorioCaracterizacaoMonitorizacaoAlojamentoLocal.pdf",
+    "provider": "Câmara Municipal de Lisboa",
+    "reference_months": [
+      "2019-11",
+      "2022-11"
+    ],
+    "report_date": "2022-12",
+    "title": "Relatório de Caracterização e Monitorização do Alojamento Local"
+  },
+  "summary": {
+    "interpretation": "Two published monthly-reference benchmarks, not a quarterly panel or unweighted registration counts. Displayed values and changes are preserved; discrepancies are diagnostics, and their cause is not inferred.",
+    "parish_observations": 96,
+    "parishes": 24,
+    "published_values_corrected": 0,
+    "reference_months": [
+      "2019-11",
+      "2022-11"
+    ],
+    "tables": [
+      {
+        "calculated_municipality_change_from_displayed_levels": 1139,
+        "column_sum_checks": [
+          {
+            "field": "value_2019_11",
+            "parish_sum": 22940,
+            "parish_sum_minus_published_municipality": -1,
+            "published_municipality": 22941
+          },
+          {
+            "field": "value_2022_11",
+            "parish_sum": 24080,
+            "parish_sum_minus_published_municipality": 0,
+            "published_municipality": 24080
+          },
+          {
+            "field": "reported_change",
+            "parish_sum": 1139,
+            "parish_sum_minus_published_municipality": 1,
+            "published_municipality": 1138
+          }
+        ],
+        "metric": "weighted_al",
+        "parishes_decreased_from_displayed_levels": 4,
+        "parishes_increased_from_displayed_levels": 20,
+        "pdf_page": 105,
+        "printed_page": 93,
+        "published_municipality_2019_11": 22941,
+        "published_municipality_2022_11": 24080,
+        "published_municipality_change": 1138,
+        "row_change_discrepancies": [
+          {
+            "calculated_minus_published_change": 1,
+            "geography_id": "1106"
+          },
+          {
+            "calculated_minus_published_change": 1,
+            "geography_id": "110639"
+          },
+          {
+            "calculated_minus_published_change": -1,
+            "geography_id": "110659"
+          },
+          {
+            "calculated_minus_published_change": 1,
+            "geography_id": "110662"
+          }
+        ],
+        "table_number": 18,
+        "unit": "capacity_weighted_al_units"
+      },
+      {
+        "calculated_municipality_change_from_displayed_levels": 4726,
+        "column_sum_checks": [
+          {
+            "field": "value_2019_11",
+            "parish_sum": 111492,
+            "parish_sum_minus_published_municipality": 0,
+            "published_municipality": 111492
+          },
+          {
+            "field": "value_2022_11",
+            "parish_sum": 116218,
+            "parish_sum_minus_published_municipality": 0,
+            "published_municipality": 116218
+          },
+          {
+            "field": "reported_change",
+            "parish_sum": 4726,
+            "parish_sum_minus_published_municipality": 0,
+            "published_municipality": 4726
+          }
+        ],
+        "metric": "capacity",
+        "parishes_decreased_from_displayed_levels": 4,
+        "parishes_increased_from_displayed_levels": 20,
+        "pdf_page": 107,
+        "printed_page": 95,
+        "published_municipality_2019_11": 111492,
+        "published_municipality_2022_11": 116218,
+        "published_municipality_change": 4726,
+        "row_change_discrepancies": [],
+        "table_number": 19,
+        "unit": "reported_user_capacity"
+      }
+    ]
+  },
+  "transcription": {
+    "capacity_definition": "Table 19 capacity; its 2022 values match the total-user column in table 6.",
+    "identifier_mapping": "Published parish names matched to the canonical IDs in the previously audited Census table.",
+    "method": "Manual numeric transcription checked against rendered PDF pages 105 and 107; table 19 additionally checked against extracted text.",
+    "replay_scope": "Verifies file identity, coverage and arithmetic; source-cell transcription requires visual review.",
+    "review_date": "2026-10-03",
+    "rounding": "Published integer display retained; underlying precision and rounding method are unverified.",
+    "source_row_zero": "Unnumbered municipality total row",
+    "tools": "pdftoppm and pdftotext 24.04.0 (preparation only; not needed for replay)",
+    "weighted_al_definition": "Per-record capacity divided by five, with one unit when capacity is below five; not raw registrations."
+  },
+  "verification_scope": "Replay verifies the source PDF identity and transcription bytes, coverage and arithmetic. It does not automatically extract PDF cells or independently prove the manual transcription. Source-page review is documented separately."
+}
