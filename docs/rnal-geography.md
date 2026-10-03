@@ -45,7 +45,7 @@ poetry run python scripts/audit_rnal_geography.py audit --output data/processed/
 
 The command is offline and requires a new output directory. It verifies hashes and sizes before deriving the cohort. CSV and JSON are staged together and published only when complete. Compare the output CSV hash and aggregate summary with the committed audit; paths and recorded software/code provenance can differ across replay environments.
 
-The audit reads each pinned input into memory, verifies its captured bytes, and parses those same bytes. Changes to a file after capture cannot alter that run's values. The configuration fingerprint likewise describes the bytes used to select the analysis. Original snapshots should still be retained unchanged for future replay. The default coordinate report keeps schema version 1 with a single `summary`; `coordinate_summary` is emitted only in parish-sensitivity mode alongside its different scenario summary. Previously committed evidence bundles remain unchanged.
+The audit reads and verifies each pinned input once. Analysis inputs are parsed from those captured bytes; files used only as provenance references are checked by hash and size without parsing their contents. Changes to a file after capture cannot alter that run's values. The configuration fingerprint likewise describes the bytes used to select the analysis. Original snapshots should still be retained unchanged for future replay. The default coordinate report keeps schema version 1 with a single `summary`; `coordinate_summary` is emitted only in parish-sensitivity mode alongside its different scenario summary. Previously committed evidence bundles remain unchanged.
 
 To acquire a fresh coordinate observation for the pinned cohort:
 
