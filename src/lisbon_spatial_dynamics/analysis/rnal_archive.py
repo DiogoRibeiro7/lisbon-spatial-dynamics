@@ -25,6 +25,33 @@ EXPORT_FIELDS = (
     "Localização (Concelho)",
 )
 RECORD_FIELDS = {"registration_id", "registered_on", "freguesia_id", "users"}
+CAPACITY_COLUMN_DEFINITIONS = {
+    "users_known": {
+        "unit": "reported accommodation places",
+        "definition": (
+            "Sum of declared user capacity (source Nº Utentes) over unique registry numbers "
+            "in the row's capture and geography. Missing capacity is excluded; zero is retained. "
+            "This is not a count of people, accounts, occupied places or overnight stays."
+        ),
+        "files": ["snapshot_summary.csv", "parish_snapshots.csv"],
+    },
+    "users_missing_records": {
+        "unit": "registry records",
+        "definition": (
+            "Number of unique registry numbers with missing declared user capacity "
+            "in the row's capture and geography. Zero capacity is not missing."
+        ),
+        "files": ["snapshot_summary.csv", "parish_snapshots.csv"],
+    },
+    "users_zero_records": {
+        "unit": "registry records",
+        "definition": (
+            "Number of unique registry numbers with declared user capacity exactly zero "
+            "in the row's capture and geography. Missing capacity is excluded."
+        ),
+        "files": ["snapshot_summary.csv"],
+    },
+}
 
 
 def normalized_name(value: str) -> str:
@@ -122,10 +149,11 @@ class ArchiveSnapshot:
 
 
 def parse_snapshot(payload: bytes, reference: Mapping[str, str]) -> ArchiveSnapshot:
-    """Validate minimized bytes without reopening the file verified by the caller."""
-    document = json.loads(payload)
+    """Parse verified bytes, rejecting malformed JSON shapes/values with ValueError."""
+    document: object = json.loads(payload)
     if (
-        set(document)
+        not isinstance(document, dict)
+        or set(document)
         != {
             "schema_version",
             "source_file",
@@ -134,28 +162,35 @@ def parse_snapshot(payload: bytes, reference: Mapping[str, str]) -> ArchiveSnaps
             "lisbon_source_rows",
             "records",
         }
+        or type(document["schema_version"]) is not int
         or document["schema_version"] != 1
     ):
         raise ValueError("invalid minimized archive schema")
+    if not isinstance(document["source_file"], str):
+        raise ValueError("invalid minimized source filename")
     timestamp = timestamp_from_filename(document["source_file"])
     if document["source_timestamp"] != timestamp:
         raise ValueError("invalid minimized timestamp")
+    if not isinstance(document["records"], list):
+        raise ValueError("minimized records must be a list")
     records = {}
     for row in document["records"]:
-        if set(row) != RECORD_FIELDS:
+        if not isinstance(row, dict) or set(row) != RECORD_FIELDS:
             raise ValueError("unexpected minimized record fields")
         key, users = row["registration_id"], row["users"]
         if type(key) is not int or key <= 0 or key in records:
             raise ValueError("duplicate or invalid minimized registry number")
         if users is not None and (type(users) is not int or users < 0):
             raise ValueError("invalid minimized capacity")
+        if not isinstance(row["registered_on"], str):
+            raise ValueError("invalid minimized registration date")
         registered = date.fromisoformat(row["registered_on"])
         if (
             registered.isoformat() != row["registered_on"]
             or registered.isoformat() > timestamp[:10]
         ):
             raise ValueError("invalid minimized registration date")
-        if row["freguesia_id"] not in reference:
+        if not isinstance(row["freguesia_id"], str) or row["freguesia_id"] not in reference:
             raise ValueError("unknown minimized parish")
         records[key] = ArchiveRecord(registered, row["freguesia_id"], users)
     source_rows = document["source_rows"]
