@@ -1,0 +1,93 @@
+# Community archive assessment; not a definitive historical stock input.
+audit_date = "2026-10-03"
+parishes = 24
+
+[source]
+repository = "sztanko/al-pulse"
+revision = "50322b0ae5680d24013fae4ee19d757350a8ba2c"
+attributed_upstream = "https://rnt.turismodeportugal.pt/RNT/Pesquisa_AL.aspx"
+
+[inputs.reference]
+path = "results/source-audit/2026-10-01/census_context.csv"
+sha256 = "5ac702c77ac2a37817cdee1f9d853c488f9beb105174626ead5c8c8ee5c43a32"
+size_bytes = 10079
+
+[inputs.soap]
+path = "data/raw/turismo_portugal/rnal/lisboa/20261001T103859Z.records.json"
+sha256 = "87bbc8adcdb93ae10ce83644df1155bd57df967c0a6f92e468f9cac292249d5e"
+size_bytes = 5476280
+
+[inputs.soap_manifest]
+path = "data/raw/turismo_portugal/rnal/lisboa/20261001T103859Z.manifest.json"
+sha256 = "22cd22598c7fb29118de1958049e7ee5ec489339f4f217346e703ff15fb7aeee"
+size_bytes = 1066
+
+[[exports]]
+file = "al_20250525_151726.csv.gz"
+git_blob_sha1 = "8914534854e888c44310a8d36b151603160456b3"
+size_bytes = 7960894
+
+[[exports]]
+file = "al_20250607_141011.csv.gz"
+git_blob_sha1 = "3fb0f21195ce32a8bfc9a386a55eca62ba1bbcd2"
+size_bytes = 8000876
+
+[[exports]]
+file = "al_20250703_203137.csv.gz"
+git_blob_sha1 = "470477a43f2c071c72231fa92346ec44ce84fa2a"
+size_bytes = 8039370
+
+[[exports]]
+file = "al_20250804_194837.csv.gz"
+git_blob_sha1 = "b874fe6c071e40ac73696a70d28996a8822fcfb5"
+size_bytes = 8076413
+
+[[exports]]
+file = "al_20250901_183120.csv.gz"
+git_blob_sha1 = "8a6793e644f7f9743ed6d88a4bd699a50042539f"
+size_bytes = 8125062
+
+[[exports]]
+file = "al_20251001_182443.csv.gz"
+git_blob_sha1 = "72c93ec9802521838b56ec3e02ab3cf213291bcf"
+size_bytes = 8162348
+
+[[exports]]
+file = "al_20251108_110211.csv.gz"
+git_blob_sha1 = "9d33d03817038b8ea084776fc6f21e54e85db0b8"
+size_bytes = 8519715
+
+[[exports]]
+file = "al_20251211_171247.csv.gz"
+git_blob_sha1 = "fccf3ae960cf7ac42beb8f9dc1cade02483b6f4f"
+size_bytes = 8550843
+
+[[exports]]
+file = "al_20260103_093105.csv.gz"
+git_blob_sha1 = "82c4b85e937c9d95bdd383cdc4b16cb12dc3dcaf"
+size_bytes = 8544697
+
+[[exports]]
+file = "al_20260201_101323.csv.gz"
+git_blob_sha1 = "bff6d0b6b114183a4661d92f0e8878a828a0864e"
+size_bytes = 8214310
+
+[[exports]]
+file = "al_20260307_134959.csv.gz"
+git_blob_sha1 = "3de81e593e9282170cd6fe1789fa6acc2a19d299"
+size_bytes = 8222749
+
+[[exports]]
+file = "al_20260916_160208.csv.gz"
+git_blob_sha1 = "0ff917513de2e9db455332f76245a1296633911c"
+size_bytes = 5361795
+
+[[exports]]
+file = "al_20261002_041840.csv.gz"
+git_blob_sha1 = "b6f6d333b5897d930e007aa22bea84fe4ea75e39"
+size_bytes = 5379905
+
+[inputs.acquisition_manifest]
+path = "data/raw/community/rnal_al_pulse/20261003/manifest.json"
+sha256 = "0b5ec4c6b941fd51a74cdeb33db16fbff531d842ac244278a512b2e3bcb19d2c"
+size_bytes = 9534

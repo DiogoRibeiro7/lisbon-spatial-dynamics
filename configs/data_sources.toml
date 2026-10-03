@@ -153,6 +153,21 @@ notes = "Printed page 38 reports 20,134 unweighted registrations at end-November
 
 
 [[sources]]
+source_id = "community_al_pulse_rnal_archive"
+name = "Community RNAL exports — AL Pulse"
+provider = "sztanko/al-pulse; attributes upstream exports to Turismo de Portugal RNAL"
+domain = "tourism_local_accommodation"
+kind = "dataset"
+status = "catalogued"
+spatial_unit = "Lisbon establishment subset; parish names matched to canonical IDs"
+frequency = "irregular community captures"
+temporal_coverage = "13 assessed captures from 2025-05-25 to 2026-10-02; no pre-May-2025 observations in this file set"
+access = "compressed CSVs pinned to Git revision 50322b0ae5680d24013fae4ee19d757350a8ba2c"
+licence = "redistribution terms not established; only aggregate assessment outputs committed"
+landing_page = "https://github.com/sztanko/al-pulse/tree/50322b0ae5680d24013fae4ee19d757350a8ba2c/downloads/al"
+notes = "Diagnostic candidate outside definitive study inputs. Acquisition minimizes in memory and retains only Lisbon analytical fields. Duplicate rows, reappearances, unspecified timestamp timezone, date-filter exclusions and incomplete temporal coverage are documented in docs/rnal-archive-coverage.md. Absence is not a dated cancellation event."
+
+[[sources]]
 source_id = "ine_census2021_subsection_population"
 name = "Censos 2021 — ficheiro síntese por subsecção"
 provider = "Instituto Nacional de Estatística (INE)"

@@ -78,6 +78,8 @@ The [discovery record](https://github.com/DiogoRibeiro7/lisbon-spatial-dynamics/
 
 ### Required extract
 
+The [community archive follow-up](rnal-archive-coverage.md) identifies 13 public exports from May 2025 to October 2026. They add earlier membership evidence and reveal duplicate rows and reappearances. Their scope and quality limitations are explicit; they do not provide the missing 2019–2025 quarterly extract or establish dated cancellation events.
+
 The [historical benchmark follow-up](cml-historical-benchmarks.md) transcribes the report's 24-parish November 2019/2022 tables. These contain weighted AL units and user capacity, rather than unweighted registration counts. Their source values, arithmetic discrepancies and month-level date precision are preserved for future extract validation.
 
 The next source to pursue is the historical municipal monitoring extract documented in the report. No request has been sent to the provider. A usable extract or equivalent published aggregates should include:
