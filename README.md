@@ -41,6 +41,8 @@ The [parish-label sensitivity analysis](docs/rnal-parish-sensitivity.md) holds t
 
 The [historical municipal benchmarks](docs/cml-historical-benchmarks.md) add November 2019/2022 observations for all 24 parishes. The capacity table reconciles at 111,492 and 116,218 places; weighted-AL values are kept separate from raw registration counts, with displayed arithmetic differences recorded explicitly. These two observations do not constitute the quarterly series required for v1.1.
 
+The [community RNAL archive assessment](docs/rnal-archive-coverage.md) adds 13 captures from May 2025 to October 2026. It identifies 339 repeated Lisbon rows and 418 reappearance observations, demonstrating why absence from an export cannot be treated as a dated closure. These qualified historical observations remain outside the definitive study inputs.
+
 The repository includes a small inspectable release layer:
 
 ```text

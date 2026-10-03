@@ -47,6 +47,8 @@ The [coordinate follow-up](docs/rnal-geography.md) locates all 172 disputed poin
 
 Produce one canonical Lisbon study run generated end-to-end from a fixed set of archived primary-source snapshots.
 
+The [community archive assessment](docs/rnal-archive-coverage.md), completed on 2026-10-03, adds 13 RNAL captures from May 2025 to October 2026. Explicit duplicate and reappearance diagnostics make these useful evidence of changing archive membership, but the missing earlier years, observation gaps and unverified status semantics prevent their promotion to the definitive quarterly input set.
+
 The objective is to move from a repository that can run the study to a release that contains a **fully traceable empirical study instance**.
 
 ### Scope

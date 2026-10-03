@@ -19,3 +19,5 @@ results/rnal-parish-sensitivity/**/*.json text eol=lf
 data/benchmarks/**/*.csv text eol=lf
 results/cml-benchmarks/**/*.csv text eol=lf
 results/cml-benchmarks/**/*.json text eol=lf
+results/rnal-archive/**/*.csv text eol=lf
+results/rnal-archive/**/*.json text eol=lf
