@@ -43,6 +43,8 @@ The [historical municipal benchmarks](docs/cml-historical-benchmarks.md) add Nov
 
 The [community RNAL archive assessment](docs/rnal-archive-coverage.md) adds 13 captures from May 2025 to October 2026. It identifies 339 repeated Lisbon rows and 418 reappearance observations, demonstrating why absence from an export cannot be treated as a dated closure. These qualified historical observations remain outside the definitive study inputs.
 
+The [capture-gap follow-up](docs/rnal-capture-gaps.md) identifies two entirely empty registration-month groups in the October 2025 and February 2026 exports. Matching the same registry numbers on both sides isolates 383 missing records in those groups, supporting targeted source validation without imputing observations or asserting a cause.
+
 The repository includes a small inspectable release layer:
 
 ```text

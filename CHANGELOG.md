@@ -6,6 +6,7 @@ All notable repository-level changes are documented here.
 
 ### Added
 
+- A registration-month audit of adjacent RNAL archive captures, identifying two entirely empty groups, separating temporary gaps from persistent absences, and publishing reproducible aggregate evidence without imputing records.
 - An assessment of 13 community RNAL exports from May 2025 to October 2026, with commit-pinned acquisition, explicit duplicate handling, membership/reappearance diagnostics, SOAP comparison, and reproducible parish aggregates.
 - Published CML parish benchmarks for November 2019 and November 2022, separating weighted AL units from user capacity, preserving displayed discrepancies, and providing a checked transcription and reproducible arithmetic audit.
 - A fixed-cohort RNAL parish-label sensitivity comparison, with three scenarios, count/capacity/pressure/rank changes, a generated figure, and an offline aggregate evidence bundle.
