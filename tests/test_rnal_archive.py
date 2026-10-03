@@ -17,6 +17,7 @@ from typing import Any
 import pytest
 
 from lisbon_spatial_dynamics.analysis.rnal_archive import (
+    CAPACITY_COLUMN_DEFINITIONS,
     EXPORT_FIELDS,
     analyse_archive,
     minimize_export,
@@ -162,6 +163,91 @@ def test_minimized_input_validation(failure: str) -> None:
         parse_snapshot(json.dumps(document).encode(), REFERENCE)
 
 
+@pytest.mark.parametrize("value", [None, True, 1, 1.5, "text", []])
+def test_minimized_root_requires_a_json_object(value: object) -> None:
+    with pytest.raises(ValueError, match="archive schema"):
+        parse_snapshot(json.dumps(value).encode(), REFERENCE)
+
+
+@pytest.mark.parametrize(
+    ("field", "value", "message"),
+    [
+        ("schema_version", True, "archive schema"),
+        ("schema_version", 1.0, "archive schema"),
+        ("source_file", 123, "source filename"),
+        ("source_file", None, "source filename"),
+        ("source_timestamp", 123, "timestamp"),
+        ("records", None, "must be a list"),
+        ("records", {}, "must be a list"),
+        ("records", "records", "must be a list"),
+    ],
+)
+def test_minimized_document_field_types_fail_uniformly(
+    field: str, value: object, message: str
+) -> None:
+    document = json.loads(minimize_export(export(), FIRST, REFERENCE))
+    document[field] = value
+    with pytest.raises(ValueError, match=message):
+        parse_snapshot(json.dumps(document).encode(), REFERENCE)
+
+
+@pytest.mark.parametrize("value", [None, True, 1, "record", []])
+def test_minimized_record_requires_a_json_object(value: object) -> None:
+    document = json.loads(minimize_export(export(), FIRST, REFERENCE))
+    document["records"][0] = value
+    with pytest.raises(ValueError, match="record fields"):
+        parse_snapshot(json.dumps(document).encode(), REFERENCE)
+
+
+@pytest.mark.parametrize(
+    ("field", "value", "message"),
+    [
+        ("registered_on", 123, "registration date"),
+        ("registered_on", None, "registration date"),
+        ("registered_on", [], "registration date"),
+        ("freguesia_id", [], "parish"),
+        ("freguesia_id", {}, "parish"),
+        ("freguesia_id", 110601, "parish"),
+        ("registration_id", True, "registry number"),
+        ("registration_id", 1.0, "registry number"),
+        ("users", 1.5, "capacity"),
+        ("users", "4", "capacity"),
+    ],
+)
+def test_minimized_record_field_types_fail_uniformly(
+    field: str, value: object, message: str
+) -> None:
+    document = json.loads(minimize_export(export(), FIRST, REFERENCE))
+    document["records"][0][field] = value
+    with pytest.raises(ValueError, match=message):
+        parse_snapshot(json.dumps(document).encode(), REFERENCE)
+
+
+@pytest.mark.parametrize("field", ["source_rows", "lisbon_source_rows"])
+@pytest.mark.parametrize("value", [None, True, 3.0, "3", []])
+def test_row_counts_reject_non_integer_types(field: str, value: object) -> None:
+    # Floats already failed before the review fix; keep the strict count contract.
+    document = json.loads(minimize_export(export(), FIRST, REFERENCE))
+    document[field] = value
+    with pytest.raises(ValueError, match="row count"):
+        parse_snapshot(json.dumps(document).encode(), REFERENCE)
+
+
+def test_capacity_dictionary_covers_published_columns_and_units() -> None:
+    root = Path(__file__).resolve().parents[1] / "results/rnal-archive"
+    published = json.loads((root / "column_definitions.json").read_bytes())
+    assert published == CAPACITY_COLUMN_DEFINITIONS
+    assert published["users_known"]["unit"] == "reported accommodation places"
+    assert published["users_missing_records"]["unit"] == "registry records"
+    assert published["users_zero_records"]["unit"] == "registry records"
+    for filename in ("snapshot_summary.csv", "parish_snapshots.csv"):
+        with (root / "2026-10-03" / filename).open(encoding="utf-8", newline="") as stream:
+            fields = next(csv.reader(stream))
+        assert {field for field in fields if field.startswith("users_")} == {
+            field for field, definition in published.items() if filename in definition["files"]
+        }
+
+
 @pytest.fixture
 def script() -> ModuleType:
     path = Path(__file__).resolve().parents[1] / "scripts/audit_rnal_archive.py"
@@ -265,6 +351,7 @@ def test_acquisition_replay_integrity_and_atomic_failure(
     }
     report = json.loads((output / "audit.json").read_bytes())
     assert report["summary"]["snapshots"] == 2
+    assert report["column_definitions"] == CAPACITY_COLUMN_DEFINITIONS
     for artifact in report["outputs"]:
         assert (
             script.fingerprint(Path(artifact["path"]).read_bytes())["sha256"] == artifact["sha256"]

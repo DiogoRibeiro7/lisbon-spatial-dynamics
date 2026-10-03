@@ -32,6 +32,16 @@ These dates label irregular captures, not month-end or quarter-end observations.
 
 Capacity is the sum of the retained exports' `Nº Utentes` field after duplicate handling. Every assessed Lisbon row has a populated value. One record has zero capacity in each capture through January 2026; zero is preserved as reported. These are registered capacities, not occupied places or verified operation. Capacity totals reflect both membership and recorded-capacity changes.
 
+The CSVs retain their original column names and hashes. Their capacity fields have the following definitions, also supplied in the [machine-readable column dictionary](https://github.com/DiogoRibeiro7/lisbon-spatial-dynamics/blob/main/results/rnal-archive/column_definitions.json):
+
+| Column | Quantity | Unit |
+| --- | --- | --- |
+| `users_known` | Sum of declared capacity over unique registry numbers in the capture/geography; missing values excluded, zero included | Reported accommodation places |
+| `users_missing_records` | Unique registry numbers whose declared capacity is missing; zero is not missing | Registry records |
+| `users_zero_records` | Unique registry numbers whose declared capacity is exactly zero; missing values excluded; municipality summary only | Registry records |
+
+These fields do not count people or user accounts. Current replay reports embed this dictionary under `column_definitions` in `audit.json`. The original dated audit predates that metadata field and remains unchanged; the companion dictionary documents its CSVs without rewriting the evidence bundle.
+
 ## Duplicates and reappearances matter
 
 The October 2025 export contains **329 repeated Lisbon rows**, and February 2026 contains **10**. Repeated normalized registry numbers agree on all retained analytical fields: registration date, parish and capacity. They are counted once, with the repeated-row counts reported separately. This does not assert that discarded contact or proprietor fields are identical. Conflicting analytical duplicates cause acquisition to fail; none were found in these files.
@@ -59,7 +69,7 @@ poetry sync --with docs
 poetry run python scripts/audit_rnal_archive.py audit --output data/processed/rnal-archive-recheck
 ```
 
-Replay is offline. It checks hashes and sizes, manifest/resource identities, the complete expected file set, canonical parishes and analytical field validity. Analytical inputs are parsed from the exact bytes verified; publisher documents are checked for identity only. The three CSVs and `audit.json` are published together after successful preparation. Existing outputs are preserved; failures leave no partially published bundle. CSV hashes and numerical findings reproduce; output paths and code/software provenance reflect the replay environment.
+Replay is offline. It checks hashes and sizes, manifest/resource identities, the complete expected file set, canonical parishes and analytical field validity. The minimized JSON parser rejects malformed document/record shapes and invalid field types with `ValueError`, including non-string dates/parish identifiers and non-integer row counts. Analytical inputs are parsed from the exact bytes verified; publisher documents are checked for identity only. The three CSVs and `audit.json` are published together after successful preparation. Existing outputs are preserved; failures leave no partially published bundle. CSV hashes and numerical findings reproduce; output paths and code/software provenance reflect the replay environment.
 
 To acquire the same pinned public exports again into a new ignored directory:
 

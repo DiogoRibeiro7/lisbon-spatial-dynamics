@@ -1,0 +1,25 @@
+{
+  "users_known": {
+    "definition": "Sum of declared user capacity (source Nº Utentes) over unique registry numbers in the row's capture and geography. Missing capacity is excluded; zero is retained. This is not a count of people, accounts, occupied places or overnight stays.",
+    "files": [
+      "snapshot_summary.csv",
+      "parish_snapshots.csv"
+    ],
+    "unit": "reported accommodation places"
+  },
+  "users_missing_records": {
+    "definition": "Number of unique registry numbers with missing declared user capacity in the row's capture and geography. Zero capacity is not missing.",
+    "files": [
+      "snapshot_summary.csv",
+      "parish_snapshots.csv"
+    ],
+    "unit": "registry records"
+  },
+  "users_zero_records": {
+    "definition": "Number of unique registry numbers with declared user capacity exactly zero in the row's capture and geography. Missing capacity is excluded.",
+    "files": [
+      "snapshot_summary.csv"
+    ],
+    "unit": "registry records"
+  }
+}

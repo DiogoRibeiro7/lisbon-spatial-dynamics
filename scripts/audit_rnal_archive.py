@@ -17,6 +17,7 @@ from urllib.request import Request, urlopen
 
 from lisbon_spatial_dynamics.analysis.cml_benchmarks import parse_reference
 from lisbon_spatial_dynamics.analysis.rnal_archive import (
+    CAPACITY_COLUMN_DEFINITIONS,
     analyse_archive,
     minimize_export,
     parse_snapshot,
@@ -199,6 +200,7 @@ def audit(config_path: Path, output: Path) -> None:
         "schema_version": 1,
         "audit_date": config["audit_date"],
         "summary": summary,
+        "column_definitions": CAPACITY_COLUMN_DEFINITIONS,
         "inputs": config["inputs"],
         "acquisition": manifest,
         "software": {"python": platform.python_version()},
