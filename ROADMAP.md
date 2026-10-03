@@ -49,6 +49,8 @@ Produce one canonical Lisbon study run generated end-to-end from a fixed set of 
 
 The [community archive assessment](docs/rnal-archive-coverage.md), completed on 2026-10-03, adds 13 RNAL captures from May 2025 to October 2026. Explicit duplicate and reappearance diagnostics make these useful evidence of changing archive membership, but the missing earlier years, observation gaps and unverified status semantics prevent their promotion to the definitive quarterly input set.
 
+The [registration-month follow-up](docs/rnal-capture-gaps.md) narrows two capture-quality flags to entirely empty May-2018 and September-2014 groups. Their 383 matched missing records require targeted validation of the October 2025 and February 2026 exports; no totals are repaired or interpreted as dated closures.
+
 The objective is to move from a repository that can run the study to a release that contains a **fully traceable empirical study instance**.
 
 ### Scope

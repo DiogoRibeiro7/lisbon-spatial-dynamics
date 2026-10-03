@@ -23,6 +23,13 @@ from lisbon_spatial_dynamics.analysis.rnal_archive import (
     parse_snapshot,
     timestamp_from_filename,
 )
+from lisbon_spatial_dynamics.analysis.rnal_capture_gaps import (
+    COLUMN_DEFINITIONS as GAP_COLUMN_DEFINITIONS,
+)
+from lisbon_spatial_dynamics.analysis.rnal_capture_gaps import (
+    DATASET_COLUMNS as GAP_DATASET_COLUMNS,
+)
+from lisbon_spatial_dynamics.analysis.rnal_capture_gaps import analyse_capture_gaps
 from lisbon_spatial_dynamics.panels.rnal import parse_rnal_snapshot
 
 
@@ -130,8 +137,10 @@ def fetch(config_path: Path, output: Path) -> None:
         staging.rename(output)
 
 
-def audit(config_path: Path, output: Path) -> None:
+def audit(config_path: Path, output: Path, *, analysis: str = "coverage") -> None:
     ensure_new(output)
+    if analysis not in {"coverage", "capture-gaps"}:
+        raise ValueError("unknown archive analysis")
     config_payload = config_path.read_bytes()
     config = tomllib.loads(config_payload.decode())
     base = source_base(config)
@@ -186,8 +195,11 @@ def audit(config_path: Path, output: Path) -> None:
         if document["file"] != "publisher_" + document["url"].rsplit("/", 1)[1]:
             raise ValueError("unexpected publisher document filename")
         verified(directory / document["file"], document)
-    summary, datasets = analyse_archive(snapshots, reference, soap)
-    summary["soap_capture_utc"] = soap_manifest["fetched_at"]
+    if analysis == "coverage":
+        summary, datasets = analyse_archive(snapshots, reference, soap)
+        summary["soap_capture_utc"] = soap_manifest["fetched_at"]
+    else:
+        summary, datasets = analyse_capture_gaps(snapshots)
     code_paths = [
         Path(__file__).relative_to(Path.cwd()),
         Path("src/lisbon_spatial_dynamics/analysis/rnal_archive.py"),
@@ -196,11 +208,16 @@ def audit(config_path: Path, output: Path) -> None:
         Path("pyproject.toml"),
         Path("poetry.lock"),
     ]
+    if analysis == "capture-gaps":
+        code_paths.append(Path("src/lisbon_spatial_dynamics/analysis/rnal_capture_gaps.py"))
     report = {
         "schema_version": 1,
         "audit_date": config["audit_date"],
+        "analysis": analysis,
         "summary": summary,
-        "column_definitions": CAPACITY_COLUMN_DEFINITIONS,
+        "column_definitions": (
+            CAPACITY_COLUMN_DEFINITIONS if analysis == "coverage" else GAP_COLUMN_DEFINITIONS
+        ),
         "inputs": config["inputs"],
         "acquisition": manifest,
         "software": {"python": platform.python_version()},
@@ -229,7 +246,10 @@ def audit(config_path: Path, output: Path) -> None:
         for filename, rows in datasets.items():
             path = staging / filename
             with path.open("x", encoding="utf-8", newline="") as stream:
-                writer = csv.DictWriter(stream, fieldnames=list(rows[0]), lineterminator="\n")
+                columns = (
+                    GAP_DATASET_COLUMNS[filename] if analysis == "capture-gaps" else list(rows[0])
+                )
+                writer = csv.DictWriter(stream, fieldnames=columns, lineterminator="\n")
                 writer.writeheader()
                 writer.writerows(rows)
             artifacts.append(
@@ -247,8 +267,14 @@ def main() -> None:
     parser.add_argument("command", choices=("fetch", "audit"))
     parser.add_argument("--config", type=Path, default=Path("configs/rnal_archive_2026-10-03.toml"))
     parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument("--analysis", choices=("coverage", "capture-gaps"), default="coverage")
     args = parser.parse_args()
-    (fetch if args.command == "fetch" else audit)(args.config, args.output)
+    if args.command == "fetch":
+        if args.analysis != "coverage":
+            parser.error("--analysis applies only to the audit command")
+        fetch(args.config, args.output)
+    else:
+        audit(args.config, args.output, analysis=args.analysis)
 
 
 if __name__ == "__main__":

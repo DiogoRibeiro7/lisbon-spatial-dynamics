@@ -1,0 +1,367 @@
+{
+  "acquisition": {
+    "completed_at": "2026-10-03T08:49:22.821958+00:00",
+    "privacy": "Only Lisbon registry number, registration date, parish ID and user capacity retained.",
+    "publisher_documents": [
+      {
+        "file": "publisher_README.md",
+        "sha256": "c41ed7087dd89022ba37ed38cbffcaa652bbe2bd626929a1ac5f0e3f9a787c36",
+        "size_bytes": 6604,
+        "url": "https://raw.githubusercontent.com/sztanko/al-pulse/50322b0ae5680d24013fae4ee19d757350a8ba2c/README.md"
+      },
+      {
+        "file": "publisher_fetch_al_list.py",
+        "sha256": "26a00e667c3ba350777a2cf2e7249f1ad828dd51993d2414d0e3cfb18d3fe180",
+        "size_bytes": 7755,
+        "url": "https://raw.githubusercontent.com/sztanko/al-pulse/50322b0ae5680d24013fae4ee19d757350a8ba2c/scripts/fetch_al_list.py"
+      },
+      {
+        "file": "publisher_run_fetch.sh",
+        "sha256": "5c1a3229a5d67280d37967b54462610e22a72cb305acc87feaaaff3aedf2dd30",
+        "size_bytes": 867,
+        "url": "https://raw.githubusercontent.com/sztanko/al-pulse/50322b0ae5680d24013fae4ee19d757350a8ba2c/scripts/run_fetch.sh"
+      }
+    ],
+    "raw_export_retained": false,
+    "reference": {
+      "path": "results/source-audit/2026-10-01/census_context.csv",
+      "sha256": "5ac702c77ac2a37817cdee1f9d853c488f9beb105174626ead5c8c8ee5c43a32",
+      "size_bytes": 10079
+    },
+    "resources": [
+      {
+        "download": {
+          "git_blob_sha1": "8914534854e888c44310a8d36b151603160456b3",
+          "sha256": "b53ad50e968f634af0cb28018f071f0c5514960b645353e076921bef9d14d631",
+          "size_bytes": 7960894
+        },
+        "minimized": {
+          "file": "al_20250525_151726.json",
+          "sha256": "35e128811ed7ff5b62940afbba05cc7617e1406a9b4e3bc1441cc6f13c030ffa",
+          "size_bytes": 2487154
+        },
+        "source_file": "al_20250525_151726.csv.gz",
+        "url": "https://raw.githubusercontent.com/sztanko/al-pulse/50322b0ae5680d24013fae4ee19d757350a8ba2c/downloads/al/al_20250525_151726.csv.gz"
+      },
+      {
+        "download": {
+          "git_blob_sha1": "3fb0f21195ce32a8bfc9a386a55eca62ba1bbcd2",
+          "sha256": "71c523f13b5ba28440fcdb8cd45f760164cb34508f4e4fe3381d97727bba8186",
+          "size_bytes": 8000876
+        },
+        "minimized": {
+          "file": "al_20250607_141011.json",
+          "sha256": "5b673e33d4ccd3f372f158e6ac46e68338ec241068fd64754f8940095dae7c77",
+          "size_bytes": 2485847
+        },
+        "source_file": "al_20250607_141011.csv.gz",
+        "url": "https://raw.githubusercontent.com/sztanko/al-pulse/50322b0ae5680d24013fae4ee19d757350a8ba2c/downloads/al/al_20250607_141011.csv.gz"
+      },
+      {
+        "download": {
+          "git_blob_sha1": "470477a43f2c071c72231fa92346ec44ce84fa2a",
+          "sha256": "10a54c513e0f985027cf4fd7cb4ac06a7cbb25bea6b47a3ebb6986b360d9220f",
+          "size_bytes": 8039370
+        },
+        "minimized": {
+          "file": "al_20250703_203137.json",
+          "sha256": "82e8ff393eb28bf43d21310a3773a2e5174ad45d835776d1db8a3e7349a209f1",
+          "size_bytes": 2460548
+        },
+        "source_file": "al_20250703_203137.csv.gz",
+        "url": "https://raw.githubusercontent.com/sztanko/al-pulse/50322b0ae5680d24013fae4ee19d757350a8ba2c/downloads/al/al_20250703_203137.csv.gz"
+      },
+      {
+        "download": {
+          "git_blob_sha1": "b874fe6c071e40ac73696a70d28996a8822fcfb5",
+          "sha256": "0c770dfade4b85396fde60a2f941b222afd380d2d37c3cf1c04dd6a807b1c41c",
+          "size_bytes": 8076413
+        },
+        "minimized": {
+          "file": "al_20250804_194837.json",
+          "sha256": "b9a088a7b91315ba62bb580875a76b77dea760688096b8ec33d571a1f366e849",
+          "size_bytes": 2437989
+        },
+        "source_file": "al_20250804_194837.csv.gz",
+        "url": "https://raw.githubusercontent.com/sztanko/al-pulse/50322b0ae5680d24013fae4ee19d757350a8ba2c/downloads/al/al_20250804_194837.csv.gz"
+      },
+      {
+        "download": {
+          "git_blob_sha1": "8a6793e644f7f9743ed6d88a4bd699a50042539f",
+          "sha256": "8616c882295ec808e7df28a82ac19ab692b99860f12742a934ffd61ed25b25e1",
+          "size_bytes": 8125062
+        },
+        "minimized": {
+          "file": "al_20250901_183120.json",
+          "sha256": "aee5ad264868e51de824ba36566ab9d27a6dad0f4faa7b503a68c8cfe6be4b56",
+          "size_bytes": 2437465
+        },
+        "source_file": "al_20250901_183120.csv.gz",
+        "url": "https://raw.githubusercontent.com/sztanko/al-pulse/50322b0ae5680d24013fae4ee19d757350a8ba2c/downloads/al/al_20250901_183120.csv.gz"
+      },
+      {
+        "download": {
+          "git_blob_sha1": "72c93ec9802521838b56ec3e02ab3cf213291bcf",
+          "sha256": "fb687c4ebe41697e7f4740bcfc9fb9314bf8cd8f2b265cc1625e37173868a1e6",
+          "size_bytes": 8162348
+        },
+        "minimized": {
+          "file": "al_20251001_182443.json",
+          "sha256": "84594fb1d7ce06e37f1e2dc630d39fcf2d35edc4caf8af418621d1c1c5a080a1",
+          "size_bytes": 2389104
+        },
+        "source_file": "al_20251001_182443.csv.gz",
+        "url": "https://raw.githubusercontent.com/sztanko/al-pulse/50322b0ae5680d24013fae4ee19d757350a8ba2c/downloads/al/al_20251001_182443.csv.gz"
+      },
+      {
+        "download": {
+          "git_blob_sha1": "9d33d03817038b8ea084776fc6f21e54e85db0b8",
+          "sha256": "9249a9fea350a91a5ffbc931ef3eadc51140ad98f10ef2e2f47db749d28e8794",
+          "size_bytes": 8519715
+        },
+        "minimized": {
+          "file": "al_20251108_110211.json",
+          "sha256": "963bf4c11e4965a3da5d3dbc3f226a2cd3c01e2f976a8dbe88dd7235e0524538",
+          "size_bytes": 2433536
+        },
+        "source_file": "al_20251108_110211.csv.gz",
+        "url": "https://raw.githubusercontent.com/sztanko/al-pulse/50322b0ae5680d24013fae4ee19d757350a8ba2c/downloads/al/al_20251108_110211.csv.gz"
+      },
+      {
+        "download": {
+          "git_blob_sha1": "fccf3ae960cf7ac42beb8f9dc1cade02483b6f4f",
+          "sha256": "79dc2c9bc7f8c5427d786d515a162d9704a42b6df967540df3f38d9db7c06635",
+          "size_bytes": 8550843
+        },
+        "minimized": {
+          "file": "al_20251211_171247.json",
+          "sha256": "35e2ea4ca4ac0098933eba53d07373ff2ed8c606e6e462b5a180659e631e8a52",
+          "size_bytes": 2430790
+        },
+        "source_file": "al_20251211_171247.csv.gz",
+        "url": "https://raw.githubusercontent.com/sztanko/al-pulse/50322b0ae5680d24013fae4ee19d757350a8ba2c/downloads/al/al_20251211_171247.csv.gz"
+      },
+      {
+        "download": {
+          "git_blob_sha1": "82c4b85e937c9d95bdd383cdc4b16cb12dc3dcaf",
+          "sha256": "128459058a66bb6a0a4760df769cab69d5ddcbf98a4a4d197dae5ec30d91b61f",
+          "size_bytes": 8544697
+        },
+        "minimized": {
+          "file": "al_20260103_093105.json",
+          "sha256": "3b46673607313e0fbdb9ecb76060eb0d3e5d9aecc3e0656407eecaafadf7988d",
+          "size_bytes": 2350736
+        },
+        "source_file": "al_20260103_093105.csv.gz",
+        "url": "https://raw.githubusercontent.com/sztanko/al-pulse/50322b0ae5680d24013fae4ee19d757350a8ba2c/downloads/al/al_20260103_093105.csv.gz"
+      },
+      {
+        "download": {
+          "git_blob_sha1": "bff6d0b6b114183a4661d92f0e8878a828a0864e",
+          "sha256": "6d03ca38ef8e97ea3fb1540a0e14ef3dc0a57ce540c53bb809aecf4880e5d079",
+          "size_bytes": 8214310
+        },
+        "minimized": {
+          "file": "al_20260201_101323.json",
+          "sha256": "3b4babf07cf8b7b24da45810abf25e8b25e6916d6ada0b48c5446ade38f746c8",
+          "size_bytes": 1539664
+        },
+        "source_file": "al_20260201_101323.csv.gz",
+        "url": "https://raw.githubusercontent.com/sztanko/al-pulse/50322b0ae5680d24013fae4ee19d757350a8ba2c/downloads/al/al_20260201_101323.csv.gz"
+      },
+      {
+        "download": {
+          "git_blob_sha1": "3de81e593e9282170cd6fe1789fa6acc2a19d299",
+          "sha256": "6c8d7fdc272a8ddaa5adee58ea23935d5798264947117352a63df4c23f16f9c4",
+          "size_bytes": 8222749
+        },
+        "minimized": {
+          "file": "al_20260307_134959.json",
+          "sha256": "a530a950813cfd75532f641d7f1d47be642b4fa30ab241bc9c1ca29da1734792",
+          "size_bytes": 1545142
+        },
+        "source_file": "al_20260307_134959.csv.gz",
+        "url": "https://raw.githubusercontent.com/sztanko/al-pulse/50322b0ae5680d24013fae4ee19d757350a8ba2c/downloads/al/al_20260307_134959.csv.gz"
+      },
+      {
+        "download": {
+          "git_blob_sha1": "0ff917513de2e9db455332f76245a1296633911c",
+          "sha256": "cd4282c6a194009eed9bfe206891971e048466547252f2b17139a3e942be3207",
+          "size_bytes": 5361795
+        },
+        "minimized": {
+          "file": "al_20260916_160208.json",
+          "sha256": "498ac326e34dc65572034be203cb844ca88c083ff05324ae2d0f0a8c439ec3e4",
+          "size_bytes": 1555449
+        },
+        "source_file": "al_20260916_160208.csv.gz",
+        "url": "https://raw.githubusercontent.com/sztanko/al-pulse/50322b0ae5680d24013fae4ee19d757350a8ba2c/downloads/al/al_20260916_160208.csv.gz"
+      },
+      {
+        "download": {
+          "git_blob_sha1": "b6f6d333b5897d930e007aa22bea84fe4ea75e39",
+          "sha256": "846edb5b0bd931d735e6e37a90da2712cacd7b56fac43fb9e69e701dc6d99513",
+          "size_bytes": 5379905
+        },
+        "minimized": {
+          "file": "al_20261002_041840.json",
+          "sha256": "5357d157875b1d7e9d8e28b1a058a8952a56763570c8d7e2739d0c93e20c3999",
+          "size_bytes": 1555850
+        },
+        "source_file": "al_20261002_041840.csv.gz",
+        "url": "https://raw.githubusercontent.com/sztanko/al-pulse/50322b0ae5680d24013fae4ee19d757350a8ba2c/downloads/al/al_20261002_041840.csv.gz"
+      }
+    ],
+    "schema_version": 1,
+    "source": {
+      "attributed_upstream": "https://rnt.turismodeportugal.pt/RNT/Pesquisa_AL.aspx",
+      "repository": "sztanko/al-pulse",
+      "revision": "50322b0ae5680d24013fae4ee19d757350a8ba2c"
+    },
+    "started_at": "2026-10-03T08:48:24.997994+00:00"
+  },
+  "analysis": "capture-gaps",
+  "archive_status": "Minimized establishment data retained locally, only aggregates committed. Original national CSVs processed in memory; redistribution terms not established.",
+  "audit_date": "2026-10-03",
+  "code_and_configuration": [
+    {
+      "path": "configs/rnal_archive_2026-10-03.toml",
+      "sha256": "a1173dd4b60f0e6d6a38857a6f2ef542724a86b6b1c41714221ddf86cea54f48",
+      "size_bytes": 2701
+    },
+    {
+      "path": "scripts/audit_rnal_archive.py",
+      "sha256": "2c66396e111967eea75dcc69eda653795fd57daef7a434c2d489462c1f7bbffa",
+      "size_bytes": 12223
+    },
+    {
+      "path": "src/lisbon_spatial_dynamics/analysis/rnal_archive.py",
+      "sha256": "4ae00e63e1e456e149ca9dd3fe83d1f30bda21fa0ef1c259dc4d14a788462f6d",
+      "size_bytes": 14703
+    },
+    {
+      "path": "src/lisbon_spatial_dynamics/analysis/cml_benchmarks.py",
+      "sha256": "56dfcdcda23e802152bc854bdce56994bc44f1d40be5aba3defe50b2467e702e",
+      "size_bytes": 7512
+    },
+    {
+      "path": "src/lisbon_spatial_dynamics/panels/rnal.py",
+      "sha256": "b6891b2e988cd686ec8c138bdb594ce70d72bbb1b94dc86ff5262fd8fcf3f886",
+      "size_bytes": 15041
+    },
+    {
+      "path": "pyproject.toml",
+      "sha256": "a2cfa37c27ec70978bfd6e5f8503aee9f02ab1840d21b97ccd71e86cb6374016",
+      "size_bytes": 4588
+    },
+    {
+      "path": "poetry.lock",
+      "sha256": "eacfc9e9167df23309405e0f1c22e452715dc018082229b67c6e62f28a521cc7",
+      "size_bytes": 223966
+    },
+    {
+      "path": "src/lisbon_spatial_dynamics/analysis/rnal_capture_gaps.py",
+      "sha256": "b0ce8d2ad59a2c300f3935ded63a3da06f7d3d5d2fcbc86c11e99d3579b11bd3",
+      "size_bytes": 7862
+    }
+  ],
+  "column_definitions": {
+    "bracket_date_disagreements_excluded": "Common registry numbers with different registration dates at the brackets; excluded from cohort comparisons.",
+    "common_bracket_records": "Registry numbers present in both the earlier and later captures.",
+    "day_intervals": "Differences between publisher calendar dates, not precise elapsed UTC time.",
+    "earlier_records_in_month / middle_records_in_month / later_records_in_month": "Unique registry numbers reporting this registration month in that capture; not limited to shared records.",
+    "empty_middle_registration_month": "True only when eligible bracket records exist, every one is absent in the middle, and no middle-capture record reports that registration month.",
+    "present_records_with_changed_middle_date": "Eligible bracket registry numbers present in the middle capture with a registration date different from the bracket date.",
+    "record_units": "Unique registry numbers within each comparison, not people or capacity.",
+    "registration_month": "YYYY-MM of the identical registration date in both bracketing captures.",
+    "same_date_bracket_records": "Common registry numbers with identical registration dates at the brackets. Restricted to the registration month in affected_cohorts.csv.",
+    "same_date_bracket_records_missing_middle": "Eligible bracket registry numbers absent from the middle capture. An observed gap, not a closure or a reconstructed stock value.",
+    "same_date_bracket_records_present_middle": "Eligible bracket registry numbers also present in the middle capture, regardless of that capture's registration-date value.",
+    "timestamps": "Publisher-supplied capture labels; timezone unspecified."
+  },
+  "inputs": {
+    "acquisition_manifest": {
+      "path": "data/raw/community/rnal_al_pulse/20261003/manifest.json",
+      "sha256": "0b5ec4c6b941fd51a74cdeb33db16fbff531d842ac244278a512b2e3bcb19d2c",
+      "size_bytes": 9534
+    },
+    "reference": {
+      "path": "results/source-audit/2026-10-01/census_context.csv",
+      "sha256": "5ac702c77ac2a37817cdee1f9d853c488f9beb105174626ead5c8c8ee5c43a32",
+      "size_bytes": 10079
+    },
+    "soap": {
+      "path": "data/raw/turismo_portugal/rnal/lisboa/20261001T103859Z.records.json",
+      "sha256": "87bbc8adcdb93ae10ce83644df1155bd57df967c0a6f92e468f9cac292249d5e",
+      "size_bytes": 5476280
+    },
+    "soap_manifest": {
+      "path": "data/raw/turismo_portugal/rnal/lisboa/20261001T103859Z.manifest.json",
+      "sha256": "22cd22598c7fb29118de1958049e7ee5ec489339f4f217346e703ff15fb7aeee",
+      "size_bytes": 1066
+    }
+  },
+  "interpretation": "Community-maintained copies attributed to the official RNAL search export. Source timestamps and national completeness are not independently verified. Absence between captures is not a dated cessation or cancellation. Publisher documents are fingerprinted for provenance, not executed or parsed. Offline replay checks minimized bytes; reacquisition checks original Git blob identity.",
+  "outputs": [
+    {
+      "path": "results/rnal-capture-gaps/2026-10-03/capture_windows.csv",
+      "sha256": "fadf81c3d023b042a198e271e40a24faad634b7219adfa6554132968929b1a92",
+      "size_bytes": 1234
+    },
+    {
+      "path": "results/rnal-capture-gaps/2026-10-03/affected_cohorts.csv",
+      "sha256": "25de46f18d0e5c112fb07f32b7a952d7659d5c7a5736bcf7155b94547036ab42",
+      "size_bytes": 1294
+    }
+  ],
+  "schema_version": 1,
+  "software": {
+    "python": "3.13.5"
+  },
+  "summary": {
+    "affected_cohort_rows": 10,
+    "bracket_date_disagreement_observations_excluded": 0,
+    "capture_cause_established": false,
+    "consecutive_triples_assessed": 11,
+    "distinct_registry_numbers_missing_middle": 392,
+    "empty_middle_registration_months": [
+      {
+        "earlier_records_in_month": 349,
+        "earlier_timestamp": "2025-09-01 18:31:20",
+        "empty_middle_registration_month": true,
+        "later_records_in_month": 349,
+        "later_timestamp": "2025-11-08 11:02:11",
+        "middle_records_in_month": 0,
+        "middle_timestamp": "2025-10-01 18:24:43",
+        "present_records_with_changed_middle_date": 0,
+        "registration_month": "2018-05",
+        "same_date_bracket_records": 349,
+        "same_date_bracket_records_missing_middle": 349,
+        "same_date_bracket_records_present_middle": 0
+      },
+      {
+        "earlier_records_in_month": 39,
+        "earlier_timestamp": "2026-01-03 09:31:05",
+        "empty_middle_registration_month": true,
+        "later_records_in_month": 34,
+        "later_timestamp": "2026-03-07 13:49:59",
+        "middle_records_in_month": 0,
+        "middle_timestamp": "2026-02-01 10:13:23",
+        "present_records_with_changed_middle_date": 0,
+        "registration_month": "2014-09",
+        "same_date_bracket_records": 34,
+        "same_date_bracket_records_missing_middle": 34,
+        "same_date_bracket_records_present_middle": 0
+      }
+    ],
+    "historical_completeness_established": false,
+    "missing_middle_record_observations": 392,
+    "records_imputed": 0,
+    "snapshots": 13,
+    "unassessed_endpoint_timestamps": [
+      "2025-05-25 15:17:26",
+      "2026-10-02 04:18:40"
+    ],
+    "windows_with_gaps": 2
+  }
+}
