@@ -10,7 +10,7 @@ import tomllib
 from hashlib import sha256
 from pathlib import Path
 from tempfile import TemporaryDirectory
-from typing import Any
+from typing import Any, NamedTuple
 
 import pyproj
 import shapely
@@ -23,15 +23,25 @@ from lisbon_spatial_dynamics.analysis.rnal_geography import (
 )
 from lisbon_spatial_dynamics.analysis.rnal_parish_sensitivity import (
     compare_assignments,
-    load_population,
+    parse_population,
     plot_sensitivity,
 )
-from lisbon_spatial_dynamics.panels.rnal import load_rnal_snapshot
+from lisbon_spatial_dynamics.panels.rnal import RNALRecord, parse_rnal_snapshot
 from lisbon_spatial_dynamics.sources.rnal_locations import fetch_locations
 
 
-def fingerprint(path: Path) -> dict[str, Any]:
-    payload = path.read_bytes()
+class VerifiedFile(NamedTuple):
+    payload: bytes
+    provenance: dict[str, Any]
+
+
+class Baseline(NamedTuple):
+    cohort: dict[int, tuple[str, str]]
+    soap: tuple[RNALRecord, ...]
+    files: dict[str, VerifiedFile]
+
+
+def fingerprint_bytes(path: Path, payload: bytes) -> dict[str, Any]:
     return {
         "path": path.as_posix(),
         "sha256": sha256(payload).hexdigest(),
@@ -39,51 +49,65 @@ def fingerprint(path: Path) -> dict[str, Any]:
     }
 
 
-def verify(path: Path, expected: dict[str, Any]) -> dict[str, Any]:
-    actual = fingerprint(path)
+def fingerprint(path: Path) -> dict[str, Any]:
+    return fingerprint_bytes(path, path.read_bytes())
+
+
+def read_verified(path: Path, expected: dict[str, Any]) -> VerifiedFile:
+    """Return the exact bytes hashed, so parsing never reopens a verified path."""
+    payload = path.read_bytes()
+    actual = fingerprint_bytes(path, payload)
     if any(actual[key] != expected[key] for key in ("sha256", "size_bytes")):
         raise ValueError(f"input integrity mismatch: {path}")
-    return actual
+    return VerifiedFile(payload, actual)
 
 
-def load_baseline(config: dict[str, Any]) -> tuple[dict[int, tuple[str, str]], dict[str, Any]]:
-    inputs = {
-        name: verify(Path(value["path"]), value)
+def verify(path: Path, expected: dict[str, Any]) -> dict[str, Any]:
+    return read_verified(path, expected).provenance
+
+
+def load_baseline(config: dict[str, Any]) -> Baseline:
+    files = {
+        name: read_verified(Path(value["path"]), value)
         for name, value in config["inputs"].items()
         if name != "locations_manifest"
     }
-    soap = load_rnal_snapshot(Path(inputs["soap"]["path"]))
-    gis = json.loads(Path(inputs["gis"]["path"]).read_bytes())["records"]
+    soap = parse_rnal_snapshot(files["soap"].payload.decode("utf-8"))
+    gis = json.loads(files["gis"].payload)["records"]
     cohort = conflict_cohort(soap, gis)
     if len(cohort) != config["expectations"]["conflicts"]:
         raise ValueError("conflict count differs from the pinned baseline audit")
-    return cohort, inputs
+    return Baseline(cohort, soap, files)
 
 
 def audit(config_path: Path, output: Path) -> None:
     """Validate provenance, compare projected coordinates and publish aggregates atomically."""
     if output.exists() or output.is_symlink():
         raise FileExistsError(f"geography audit output already exists: {output}")
-    config = tomllib.loads(config_path.read_text(encoding="utf-8"))
+    config_payload = config_path.read_bytes()
+    config = tomllib.loads(config_payload.decode("utf-8"))
     kind = config["analysis"].get("kind", "coordinate_support")
     if kind not in {"coordinate_support", "parish_sensitivity"}:
         raise ValueError("unknown geography audit kind")
-    cohort, inputs = load_baseline(config)
+    baseline = load_baseline(config)
+    cohort, soap, files = baseline
+    inputs = {name: file.provenance for name, file in files.items()}
     pinned = config["inputs"]["locations_manifest"]
     manifest_path = Path(pinned["path"])
-    inputs["locations_manifest"] = verify(manifest_path, pinned)
-    manifest = json.loads(manifest_path.read_bytes())
+    manifest_file = read_verified(manifest_path, pinned)
+    inputs["locations_manifest"] = manifest_file.provenance
+    manifest = json.loads(manifest_file.payload)
     if manifest["crs"] != "EPSG:4326" or manifest["record_count"] != len(cohort):
         raise ValueError("location acquisition CRS or cohort count mismatch")
     if {resource["file"] for resource in manifest["resources"]} != {"locations.json", "layer.json"}:
         raise ValueError("unexpected location resource set")
     for resource in manifest["resources"]:
-        inputs["locations_" + resource["file"]] = verify(
-            manifest_path.parent / resource["file"], resource
-        )
-    locations = json.loads((manifest_path.parent / "locations.json").read_bytes())["records"]
-    layer = json.loads((manifest_path.parent / "layer.json").read_bytes())
-    reference = json.loads(Path(inputs["reference"]["path"]).read_bytes())
+        file = read_verified(manifest_path.parent / resource["file"], resource)
+        files["locations_" + resource["file"]] = file
+        inputs["locations_" + resource["file"]] = file.provenance
+    locations = json.loads(files["locations_locations.json"].payload)["records"]
+    layer = json.loads(files["locations_layer.json"].payload)
+    reference = json.loads(files["reference"].payload)
     polygons, names, projector = project_boundaries(
         reference, expected_count=config["expectations"]["parishes"]
     )
@@ -98,8 +122,7 @@ def audit(config_path: Path, output: Path) -> None:
     coordinate_summary = summary
     datasets = {"coordinate_support_by_parish.csv": rows}
     if kind == "parish_sensitivity":
-        population = load_population(Path(inputs["population"]["path"]))
-        soap = load_rnal_snapshot(Path(inputs["soap"]["path"]))
+        population = parse_population(files["population"].payload.decode("utf-8"))
         if (
             len(soap) != config["expectations"]["snapshot_records"]
             or sum(population.values()) != config["expectations"]["population_2021"]
@@ -118,7 +141,6 @@ def audit(config_path: Path, output: Path) -> None:
         "schema_version": 1,
         "audit_date": config["audit_date"],
         "summary": summary,
-        "coordinate_summary": coordinate_summary,
         "inputs": inputs,
         "analysis": config["analysis"],
         "coordinate_capture": {
@@ -144,18 +166,20 @@ def audit(config_path: Path, output: Path) -> None:
             "geos": shapely.geos_version_string,
         },
         "code_and_configuration": [
-            fingerprint(path)
-            for path in (
-                config_path,
-                Path(__file__).relative_to(Path.cwd()),
-                Path("pyproject.toml"),
-                Path("poetry.lock"),
-                Path("src/lisbon_spatial_dynamics/analysis/rnal_geography.py"),
-                Path("src/lisbon_spatial_dynamics/analysis/rnal_parish_sensitivity.py"),
-                Path("src/lisbon_spatial_dynamics/sources/rnal_locations.py"),
-                Path("src/lisbon_spatial_dynamics/sources/rnal_geodata.py"),
-                Path("src/lisbon_spatial_dynamics/panels/rnal.py"),
-            )
+            fingerprint_bytes(config_path, config_payload),
+            *(
+                fingerprint(path)
+                for path in (
+                    Path(__file__).relative_to(Path.cwd()),
+                    Path("pyproject.toml"),
+                    Path("poetry.lock"),
+                    Path("src/lisbon_spatial_dynamics/analysis/rnal_geography.py"),
+                    Path("src/lisbon_spatial_dynamics/analysis/rnal_parish_sensitivity.py"),
+                    Path("src/lisbon_spatial_dynamics/sources/rnal_locations.py"),
+                    Path("src/lisbon_spatial_dynamics/sources/rnal_geodata.py"),
+                    Path("src/lisbon_spatial_dynamics/panels/rnal.py"),
+                )
+            ),
         ],
         "interpretation": (
             "Only the pinned SOAP/GIS parish conflicts are inspected. The GIS coordinates and "
@@ -165,6 +189,8 @@ def audit(config_path: Path, output: Path) -> None:
         ),
         "archive_status": "Local ignored inputs; only aggregates committed.",
     }
+    if kind == "parish_sensitivity":
+        report["coordinate_summary"] = coordinate_summary
     output.parent.mkdir(parents=True, exist_ok=True)
     with TemporaryDirectory(prefix=".rnal-geography-", dir=output.parent) as temporary:
         staging = Path(temporary) / "bundle"
@@ -209,8 +235,10 @@ def main() -> None:
     args = parser.parse_args()
     if args.command == "fetch":
         config = tomllib.loads(args.config.read_text(encoding="utf-8"))
-        cohort, _ = load_baseline(config)
-        print(fetch_locations({key: value[1] for key, value in cohort.items()}, args.output))
+        baseline = load_baseline(config)
+        print(
+            fetch_locations({key: value[1] for key, value in baseline.cohort.items()}, args.output)
+        )
     else:
         audit(args.config, args.output)
 

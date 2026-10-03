@@ -153,3 +153,14 @@ def test_population_loader_rejects_ambiguous_denominators(tmp_path: Path, failur
     path.write_text(text, encoding="utf-8")
     with pytest.raises(ValueError):
         load_population(path)
+
+
+@pytest.mark.parametrize("newline", ["\n", "\r\n"])
+def test_population_loader_accepts_valid_census_rows(tmp_path: Path, newline: str) -> None:
+    path = tmp_path / "population.csv"
+    path.write_bytes(
+        newline.join(
+            ["freguesia_id,census_year,population_resident", "110601,2021,14306", ""]
+        ).encode()
+    )
+    assert load_population(path) == {"110601": 14306}
