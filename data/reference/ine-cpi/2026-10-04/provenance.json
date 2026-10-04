@@ -1,0 +1,88 @@
+{
+  "acquisition": {
+    "fetched_at": "2026-10-04T21:27:49.958318+00:00",
+    "indicator_code": "0014642",
+    "language": "PT",
+    "resources": {
+      "data": {
+        "path": "data/raw/ine/cpi/0014642/2019_2025/20261004T212749Z.data.json",
+        "sha256": "3d1329a4e8883ab74b17f7d51b002291cfa4a8fce4627a66cf6220800fdd1394",
+        "size_bytes": 1781,
+        "url": "https://www.ine.pt/ine/json_indicador/pindica.jsp?op=2&varcd=0014642&lang=PT&Dim1=S7A2019%2CS7A2020%2CS7A2021%2CS7A2022%2CS7A2023%2CS7A2024%2CS7A2025&Dim2=PT&Dim3=T"
+      },
+      "metadata": {
+        "path": "data/raw/ine/cpi/0014642/2019_2025/20261004T212749Z.metadata.json",
+        "sha256": "e6f938cffec085eed2f3dd265c53c15fdcd2823f7e28b4ba242df0b6748151bc",
+        "size_bytes": 20961,
+        "url": "https://www.ine.pt/ine/json_indicador/pindicaMeta.jsp?varcd=0014642&lang=PT"
+      }
+    },
+    "schema_version": 1,
+    "source_id": "ine_cpi_annual_base2025"
+  },
+  "analysis_date": "2026-10-04",
+  "archive_scope": "Canonical CSV committed; original JSON responses retained locally outside Git.",
+  "attribution": "Instituto Nacional de Estatística (INE), annual CPI indicator 0014642, Portugal, Total, base 2025.",
+  "code_and_configuration": [
+    {
+      "path": "configs/cpi_reference_2026-10-04.toml",
+      "sha256": "184eb002862e8835e146fbb55689427a927247bc187b785d4ce55ca1f6660ffb",
+      "size_bytes": 795
+    },
+    {
+      "path": "scripts/build_cpi_reference.py",
+      "sha256": "940a0bafbad506947c09146110259a091834c3f1d88138833b11813e86ba1665",
+      "size_bytes": 4479
+    },
+    {
+      "path": "src/lisbon_spatial_dynamics/transformations/cpi.py",
+      "sha256": "de3c4953f39fd98566bcc3a620e8da1698acad0c486ab56c3aba772b9c0413a5",
+      "size_bytes": 6315
+    },
+    {
+      "path": "src/lisbon_spatial_dynamics/sources/ine.py",
+      "sha256": "66a246005339f15ab3bc68282cd01ded89abc6a46583cd10cb47a9850c814404",
+      "size_bytes": 9579
+    }
+  ],
+  "inputs": {
+    "acquisition_config": {
+      "path": "configs/ine_cpi_annual.toml",
+      "sha256": "c0ff91bee62156e7c0ccc18b1ff6cdc74059eef44fb225575bb3ea7588f2fb2e",
+      "size_bytes": 545
+    },
+    "data": {
+      "path": "data/raw/ine/cpi/0014642/2019_2025/20261004T212749Z.data.json",
+      "sha256": "3d1329a4e8883ab74b17f7d51b002291cfa4a8fce4627a66cf6220800fdd1394",
+      "size_bytes": 1781
+    },
+    "manifest": {
+      "path": "data/raw/ine/cpi/0014642/2019_2025/20261004T212749Z.manifest.json",
+      "sha256": "2459246d84a73765f792769402a40e9758e13a9d2fc7b15f1e61ff557973ca48",
+      "size_bytes": 892
+    },
+    "metadata": {
+      "path": "data/raw/ine/cpi/0014642/2019_2025/20261004T212749Z.metadata.json",
+      "sha256": "e6f938cffec085eed2f3dd265c53c15fdcd2823f7e28b4ba242df0b6748151bc",
+      "size_bytes": 20961
+    }
+  },
+  "licence": "CC-BY-4.0",
+  "licence_source": "https://dados.gov.pt/pt/datasets/indice-de-precos-no-consumidor-ipc-base-2025-0014642",
+  "output": {
+    "path": "data/reference/ine-cpi/2026-10-04/annual_cpi.csv",
+    "sha256": "bde0aaa448f8d4b8435ab6cc79e9fbaf201d32976e8f07d5c98e187df9b0e225",
+    "size_bytes": 418
+  },
+  "schema_version": 1,
+  "transformation": "Select the explicitly requested national Total annual observations; preserve published numeric index values. No base splicing or inflation-rate compounding.",
+  "years": [
+    2019,
+    2020,
+    2021,
+    2022,
+    2023,
+    2024,
+    2025
+  ]
+}

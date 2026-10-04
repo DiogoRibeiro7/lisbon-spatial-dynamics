@@ -1,0 +1,156 @@
+{
+  "analysis_date": "2026-10-04",
+  "code_and_configuration": [
+    {
+      "path": "configs/housing_inflation_2026-10-04.toml",
+      "sha256": "763c70d48484af589dcffc027e3c1744a8b2b88bc3d12d78debd5b0a27090957",
+      "size_bytes": 1128
+    },
+    {
+      "path": "scripts/analyse_housing_inflation.py",
+      "sha256": "e2a4b05dcdfe9c28a19c028ce7280b09e8027fa490f8bfb118afc2f8547a8d06",
+      "size_bytes": 7150
+    },
+    {
+      "path": "src/lisbon_spatial_dynamics/analysis/housing_inflation.py",
+      "sha256": "e2a51f04c70569e63603bb4b29daa50001ee7bb558b5659d83d6aeea64c44102",
+      "size_bytes": 9926
+    },
+    {
+      "path": "src/lisbon_spatial_dynamics/analysis/housing_history.py",
+      "sha256": "0d99260a71e72fdf0da3a785e4fb9414cbdb956d6c811489b2d2357381a647ba",
+      "size_bytes": 10191
+    },
+    {
+      "path": "src/lisbon_spatial_dynamics/analysis/cml_benchmarks.py",
+      "sha256": "56dfcdcda23e802152bc854bdce56994bc44f1d40be5aba3defe50b2467e702e",
+      "size_bytes": 7512
+    },
+    {
+      "path": "src/lisbon_spatial_dynamics/transformations/cpi.py",
+      "sha256": "de3c4953f39fd98566bcc3a620e8da1698acad0c486ab56c3aba772b9c0413a5",
+      "size_bytes": 6315
+    },
+    {
+      "path": "src/lisbon_spatial_dynamics/panels/temporal.py",
+      "sha256": "c917c39be420c9b9e2b1691d6097557f5f047c834dbb4b136fe0947687c8a739",
+      "size_bytes": 8754
+    },
+    {
+      "path": "src/lisbon_spatial_dynamics/panels/housing.py",
+      "sha256": "625389684686b13f1b14137822276b4ccd4f2d35b85d0542aac85b5f30b49c4e",
+      "size_bytes": 8772
+    },
+    {
+      "path": "pyproject.toml",
+      "sha256": "a2cfa37c27ec70978bfd6e5f8503aee9f02ab1840d21b97ccd71e86cb6374016",
+      "size_bytes": 4588
+    },
+    {
+      "path": "poetry.lock",
+      "sha256": "eacfc9e9167df23309405e0f1c22e452715dc018082229b67c6e62f28a521cc7",
+      "size_bytes": 223966
+    }
+  ],
+  "cpi_attribution": "Instituto Nacional de Estatística (INE), annual CPI indicator 0014642, Portugal, Total, base 2025.",
+  "cpi_licence": "CC-BY-4.0",
+  "inputs": {
+    "cpi": {
+      "path": "data/reference/ine-cpi/2026-10-04/annual_cpi.csv",
+      "sha256": "bde0aaa448f8d4b8435ab6cc79e9fbaf201d32976e8f07d5c98e187df9b0e225",
+      "size_bytes": 418
+    },
+    "cpi_provenance": {
+      "path": "data/reference/ine-cpi/2026-10-04/provenance.json",
+      "sha256": "3dc3f83492946c89729aad1dc10a49d9b8d9009f63b6cc7dff41d44a4028c5ac",
+      "size_bytes": 3420
+    },
+    "housing": {
+      "path": "results/source-audit/2026-10-01/housing_quarter_panel.csv",
+      "sha256": "d69cb05743da7a3ae483a490b5ac73d8c670d095c3ede6186fa8d59be70a736a",
+      "size_bytes": 53284
+    },
+    "housing_report": {
+      "path": "results/housing-history/2026-10-04/analysis.json",
+      "sha256": "b448ca688cbe1bab3e12cfe4e7183cb1c7771dd1f00a6ade1a9eb1b23bac6e93",
+      "size_bytes": 6237
+    },
+    "reference": {
+      "path": "results/source-audit/2026-10-01/census_context.csv",
+      "sha256": "5ac702c77ac2a37817cdee1f9d853c488f9beb105174626ead5c8c8ee5c43a32",
+      "size_bytes": 10079
+    },
+    "source_audit": {
+      "path": "results/source-audit/2026-10-01/audit.json",
+      "sha256": "a0c576c84d7c003473e1205b70c41194be4f1826eada0d9114500826664da99a",
+      "size_bytes": 18498
+    }
+  },
+  "interpretation": {
+    "adjustment": "Housing_t * annual_CPI_baseline / annual_CPI_t, in baseline-year euros per m2.",
+    "aggregation": "Equal-parish summaries; a median of parish medians is not a municipal transaction median.",
+    "archive": "Replay uses committed housing aggregates and CPI reference; original CPI JSON is locally retained and linked by the reference provenance, not publicly archived.",
+    "limits": "Does not deflate individual transactions before computing their median or control for changes in sold-property composition. No RNAL effect or causal interpretation.",
+    "precision": "Decimal precision 28; preserve decimal CSV values, use numeric floats in JSON summary.",
+    "scope": "A national consumption-price adjustment to published parish sale medians; not local inflation, income affordability or fixed-dwelling appreciation.",
+    "spatial": "A common endpoint deflator is a positive affine transformation of percentage changes; standardized values and corresponding Moran results are unchanged algebraically.",
+    "timing": "Q4 housing medians cover the preceding calendar year; use annual national CPI averages, not December CPI."
+  },
+  "nominal_summary_verified": true,
+  "outputs": [
+    {
+      "path": "results/housing-inflation/2026-10-04/annual_adjusted.csv",
+      "sha256": "0edb2b5a62afa25b4a466e2e3335c7cb95af4df2bafb777a0b3aa7afe09b3f65",
+      "size_bytes": 29010
+    },
+    {
+      "path": "results/housing-inflation/2026-10-04/housing_inflation.png",
+      "sha256": "769a484a82dce41c9dfe069e421d61a5cef495f7f7b251549ba5bd9b477920d0",
+      "size_bytes": 208828
+    },
+    {
+      "path": "results/housing-inflation/2026-10-04/parish_changes.csv",
+      "sha256": "733abdd794e00250e51827680056e220fd4a8a3ef45b712f19e2973c65375462",
+      "size_bytes": 2781
+    },
+    {
+      "path": "results/housing-inflation/2026-10-04/yearly_summary.csv",
+      "sha256": "7439425ae23e6fa93516c39a422ffa13e2caea87d631983d9af92170723c0296",
+      "size_bytes": 1157
+    }
+  ],
+  "schema_version": 1,
+  "software": {
+    "matplotlib": "3.11.2",
+    "python": "3.13.5"
+  },
+  "summary": {
+    "annual_rows": 168,
+    "baseline_year": 2019,
+    "cpi_change_pct": 19.36735302894658,
+    "cpi_years": 7,
+    "currency_reference_year": 2019,
+    "decreased_parishes": [
+      {
+        "change_pct": -5.424087776201095,
+        "freguesia_id": "110661",
+        "freguesia_name": "Misericórdia"
+      },
+      {
+        "change_pct": -11.908517350157728,
+        "freguesia_id": "110665",
+        "freguesia_name": "Santa Maria Maior"
+      }
+    ],
+    "latest_conversion_to_baseline": 0.83775,
+    "latest_year": 2025,
+    "maximum_cpi_adjusted_change_pct": 56.66825806451613,
+    "median_cpi_adjusted_change_pct": 23.587590006373045,
+    "median_nominal_change_pct": 47.52323486287442,
+    "minimum_cpi_adjusted_change_pct": -11.908517350157728,
+    "parishes": 24,
+    "parishes_decreased_cpi_adjusted": 2,
+    "parishes_increased_cpi_adjusted": 22,
+    "parishes_unchanged_cpi_adjusted": 0
+  }
+}

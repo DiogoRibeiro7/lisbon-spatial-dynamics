@@ -1,6 +1,21 @@
 # Canonical registry of candidate and approved project data sources.
 
 [[sources]]
+source_id = "ine_cpi_annual_base2025"
+name = "INE annual consumer price index — base 2025 (0014642)"
+provider = "Instituto Nacional de Estatística (INE)"
+domain = "consumer_prices"
+kind = "dataset"
+status = "catalogued"
+spatial_unit = "Portugal; national Total aggregate"
+frequency = "annual average"
+temporal_coverage = "2019–2025 explicitly captured on 2026-10-04 from one 2025-base series"
+access = "public INE JSON API"
+licence = "Creative Commons Attribution 4.0 (CC BY 4.0)"
+landing_page = "https://www.ine.pt/xurl/indx/0014642/PT"
+notes = "National consumption-price context for Q4 rolling-year housing medians. Seven canonical aggregate values are committed with acquisition provenance. Not a parish inflation series, dwelling-price deflator, or affordability measure."
+
+[[sources]]
 source_id = "dgt_caop2025_lisbon_freguesias"
 name = "CAOP2025 — Lisbon freguesia boundaries"
 provider = "Direção-Geral do Território (DGT)"

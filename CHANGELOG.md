@@ -6,6 +6,7 @@ All notable repository-level changes are documented here.
 
 ### Added
 
+- National CPI context for the 2019–2025 housing comparison: a pinned INE annual index, strict attributed reference extraction, 168 CPI-adjusted observations, endpoint/yearly summaries, a figure and offline provenance-verified replay. Published nominal results remain unchanged; national-price, transaction-composition and affordability limits are explicit.
 - Housing spatial sensitivity evidence: percentage/log/absolute changes under queen and rook contiguity, Holm correction across six declared global comparisons, and all 24 descriptive parish omissions. The published bundle exposes identical effective graphs and Santa Maria Maior's influence, with verified offline replay and a comparison figure.
 - Housing-only spatial evidence for 2019 Q4–2025 Q4: an attributed archived CAOP2025 Lisbon reference, 54 queen-neighbour pairs, global/local permutation diagnostics, an FDR classification map and offline provenance-verified replay. Single-metric entry points reuse the existing Moran calculations without requiring RNAL data.
 - A reproducible housing-only Q4 comparison for 2019–2025 from the committed INE audit aggregates: 168 annual observations, parish changes, yearly summaries, a figure and verified provenance, with explicit nominal-value and equal-parish interpretation.
@@ -26,6 +27,7 @@ All notable repository-level changes are documented here.
 
 ### Fixed
 
+- CPI replay enforces the declared three-decimal source precision and resolves relative script paths before recording provenance. Documentation now makes the offline tests' dependence on committed, immutable aggregate evidence explicit.
 - Queen-contiguity validation now rejects identical and contained administrative polygons as intersecting interiors, alongside partial overlaps. The archived Lisbon graph remains unchanged.
 - RNAL archive replay now rejects malformed JSON shapes and field types consistently with `ValueError`. Capacity columns have explicit units and missing/zero semantics in new audit reports and a companion dictionary for the unchanged published CSVs.
 - RNAL geography audits now parse the exact verified input bytes and reuse the parsed SOAP cohort, preventing file changes during a run from separating reported hashes from analysed values. Default coordinate reports no longer duplicate their summary; replay tests require each mode's complete artifact set.

@@ -27,7 +27,7 @@ Lisbon Spatial Dynamics is a Python research pipeline for examining how changes 
 
 [Version 1.0.1](https://github.com/DiogoRibeiro7/lisbon-spatial-dynamics/releases/tag/v1.0.1) adds committed empirical datasets and generated findings as a patch correction to the v1.0.0 software release. The full raw-snapshot pipeline remains available for reproducible study runs; fetching today's sources creates a new run rather than reproducing an earlier archived snapshot.
 
-The test suite exercises local fixtures without downloading the research datasets. Live source availability and a study run using official data require separate verification. Mobility, accessibility, infrastructure, and additional longitudinal demographic sources are outside the v1 scope.
+The test suite uses synthetic fixtures and committed aggregate research evidence without downloading source datasets. Replay tests verify the dated artifacts and hashes pinned in their configurations; later observations belong in new bundles rather than replacing those inputs. Live source availability and a study run using official data require separate verification. Mobility, accessibility, infrastructure, and additional longitudinal demographic sources are outside the v1 scope.
 
 The [2026-10-01 primary-source audit](docs/source-audit.md) verifies housing coverage for all 24 parishes over 2019 Q4–2026 Q1 and reads the official Census workbook. The RNAL snapshot has no populated cessation dates and includes unusually early registration dates. Historical RNAL completeness remains unresolved; this input set is not yet designated the definitive v1.1 study.
 
@@ -42,6 +42,8 @@ The next evidence step is the [historical-data request package](docs/rnal-histor
 ### Committed empirical evidence
 
 The [Q4 housing comparison](docs/housing-history.md) uses the audited INE series for 2019–2025: all 24 parishes have higher endpoint values, with a median parish increase of 47.52%. Its 168 annual observations, comparison figure and tables reproduce from committed aggregate inputs. These nominal changes in published medians do not estimate RNAL effects.
+
+The [national CPI adjustment](docs/housing-inflation.md) puts that median increase at 23.59%. Twenty-two parishes remain above their 2019 baseline; Misericórdia and Santa Maria Maior fall below it. This adjusts published sale medians for national consumer-price changes and does not measure affordability or fixed-dwelling appreciation.
 
 The [housing spatial follow-up](docs/housing-spatial.md) finds positive global association under 54 queen-neighbour pairs (Moran's I 0.3421; permutation p 0.0029), with no local result surviving FDR correction. Its map, statistics and attributed CAOP2025 Lisbon subset reproduce entirely from committed inputs.
 
@@ -74,7 +76,7 @@ poetry run build-study-v1 --help
 poetry run pytest -q
 ```
 
-These checks need no research data or service credentials. Installation downloads dependencies; subsequent tests use local fixtures. Run commands from the repository root so the versioned configuration files can be found.
+These checks need no uncommitted raw datasets or service credentials. Installation downloads dependencies; subsequent tests run offline using synthetic fixtures and the aggregate evidence included in the checkout. Run commands from the repository root so the versioned configuration files can be found.
 
 To preview the documentation:
 
