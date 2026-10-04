@@ -51,6 +51,8 @@ The [community archive assessment](docs/rnal-archive-coverage.md), completed on 
 
 The [registration-month follow-up](docs/rnal-capture-gaps.md) narrows two capture-quality flags to entirely empty May-2018 and September-2014 groups. Their 383 matched missing records require targeted validation of the October 2025 and February 2026 exports; no totals are repaired or interpreted as dated closures.
 
+**Next evidence step, prepared 2026-10-04:** the [provider request package](docs/rnal-history-request.md) specifies 25 quarter ends across 24 parishes (600 requested observations), with Portuguese drafts, public routing contacts, a technical annex and criteria for assessing a return. Neither request has been sent. An accepted historical series will need a reviewed importer and explicit alignment of the study window before it can enter the definitive run; the existing registry-record command does not ingest aggregate histories.
+
 The objective is to move from a repository that can run the study to a release that contains a **fully traceable empirical study instance**.
 
 ### Scope
