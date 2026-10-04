@@ -1,0 +1,171 @@
+{
+  "analysis_date": "2026-10-04",
+  "code_and_configuration": [
+    {
+      "path": "configs/housing_spatial_sensitivity_2026-10-04.toml",
+      "sha256": "261a0dcbd659c597e1278c96ea646bf427012b27a41d82bc987415fdc1663ad5",
+      "size_bytes": 925
+    },
+    {
+      "path": "scripts/analyse_housing_spatial_sensitivity.py",
+      "sha256": "b1aa0ae2c014c0f48b00b7d36513c21232752d22e66d7598069bf9896e32e21f",
+      "size_bytes": 8279
+    },
+    {
+      "path": "src/lisbon_spatial_dynamics/analysis/housing_spatial_sensitivity.py",
+      "sha256": "63c73c7435d94169c8407d84df2b2482886e29426ea4bd33b1862cffafd24906",
+      "size_bytes": 12800
+    },
+    {
+      "path": "src/lisbon_spatial_dynamics/analysis/housing_spatial.py",
+      "sha256": "4caef2c25ff34c608f886829ec81544a449cd6c9c132f90b1e0a980105fa99ab",
+      "size_bytes": 9918
+    },
+    {
+      "path": "src/lisbon_spatial_dynamics/analysis/spatial_autocorrelation.py",
+      "sha256": "4397e8ae6135830123e145bc38a3d3d0d99ceb88c1443a9e436043a0beb0fedc",
+      "size_bytes": 11047
+    },
+    {
+      "path": "src/lisbon_spatial_dynamics/analysis/local_spatial_autocorrelation.py",
+      "sha256": "4e901280ac1d8b2be32c8a05825251010b3478da1b8f51a0b00d54da763863f9",
+      "size_bytes": 17535
+    },
+    {
+      "path": "src/lisbon_spatial_dynamics/analysis/cml_benchmarks.py",
+      "sha256": "56dfcdcda23e802152bc854bdce56994bc44f1d40be5aba3defe50b2467e702e",
+      "size_bytes": 7512
+    },
+    {
+      "path": "src/lisbon_spatial_dynamics/spatial/trajectory_choropleths.py",
+      "sha256": "41a3904a59d5c7ab1135e8bac153b8eaa08c28a2ba18beed3af945966148531b",
+      "size_bytes": 12111
+    },
+    {
+      "path": "pyproject.toml",
+      "sha256": "a2cfa37c27ec70978bfd6e5f8503aee9f02ab1840d21b97ccd71e86cb6374016",
+      "size_bytes": 4588
+    },
+    {
+      "path": "poetry.lock",
+      "sha256": "eacfc9e9167df23309405e0f1c22e452715dc018082229b67c6e62f28a521cc7",
+      "size_bytes": 223966
+    }
+  ],
+  "geography_attribution": "Direção-Geral do Território (DGT), CAOP2025; Lisbon subset and canonical property names by Lisbon Spatial Dynamics.",
+  "geography_licence": "CC-BY-4.0",
+  "inputs": {
+    "geometry": {
+      "path": "data/reference/caop2025-lisbon/freguesias.geojson",
+      "sha256": "e17f542ac4f876e08b97d5a7f0565583a76786f07cafa91ae68eb011fe353dcd",
+      "size_bytes": 306358
+    },
+    "housing": {
+      "path": "results/housing-history/2026-10-04/parish_changes.csv",
+      "sha256": "bae4b72ee0b3c4669933f845bcfa13251bcee7d0f8279ececa75bb9380b1739c",
+      "size_bytes": 1873
+    },
+    "reference": {
+      "path": "results/source-audit/2026-10-01/census_context.csv",
+      "sha256": "5ac702c77ac2a37817cdee1f9d853c488f9beb105174626ead5c8c8ee5c43a32",
+      "size_bytes": 10079
+    },
+    "spatial_report": {
+      "path": "results/housing-spatial/2026-10-04/analysis.json",
+      "sha256": "e4cdf1664b982771a967f7b39fbc94dd52c6bba61db09d7a50f4785ad204db62",
+      "size_bytes": 5566
+    }
+  },
+  "interpretation": {
+    "archive": "Verified committed aggregates and polygons linked to the primary spatial report; no raw-source reacquisition or transformation.",
+    "design": "Exploratory follow-up to the known primary result; all six scenarios fixed before their computation.",
+    "global_test": "Same seed/shuffle sequence for every scenario; distance from -1/(n-1), (extreme+1)/(permutations+1).",
+    "influence": "Queen/percentage only; remove one parish, induce remaining graph and renormalize rows; recompute centring and n/S0. No omission p-values or confidence intervals.",
+    "islands": "Retained with zero-weight rows; no replacement links. Island codes are recorded in output tables.",
+    "limits": "No local retesting, historical-boundary sensitivity, inflation/composition adjustment, causal inference or RNAL effect.",
+    "metrics": "Percentage change, natural log(latest)-log(baseline), and nominal EUR/m2 difference; distinct estimands.",
+    "multiplicity": "Holm step-down Bonferroni adjustment across all six global scenarios, including any duplicate graphs.",
+    "weights": "Queen boundary contact; rook additionally requires positive shared-boundary length; row standardized, no snapping or buffers."
+  },
+  "outputs": [
+    {
+      "path": "results/housing-spatial-sensitivity/2026-10-04/global_scenarios.csv",
+      "sha256": "83ab74830870cdba717ba3def336fb36f46154647402ae4e28329cbde3f634a0",
+      "size_bytes": 750
+    },
+    {
+      "path": "results/housing-spatial-sensitivity/2026-10-04/leave_one_out.csv",
+      "sha256": "00181d4072d6065109002a84ef53a3751ef4808469cd4ca6335b7663912e52fa",
+      "size_bytes": 1683
+    },
+    {
+      "path": "results/housing-spatial-sensitivity/2026-10-04/neighbor_pairs.csv",
+      "sha256": "618124b73cd90fcf391261a2b50f109d7aaeb763e8ff377674fedf2125b977a1",
+      "size_bytes": 4282
+    },
+    {
+      "path": "results/housing-spatial-sensitivity/2026-10-04/parish_metrics.csv",
+      "sha256": "48ca3a008e239d6f38afdf34ed294088837281d4a640fdde4ee0e4e5e02e6ee6",
+      "size_bytes": 1861
+    },
+    {
+      "path": "results/housing-spatial-sensitivity/2026-10-04/sensitivity.png",
+      "sha256": "cf2db836e6bc1b37c94f9caf0b3571195a2437122c0f6a231c2798dddc0588f0",
+      "size_bytes": 178200
+    }
+  ],
+  "parameters": {
+    "alpha": 0.05,
+    "contiguities": [
+      "queen",
+      "rook"
+    ],
+    "metrics": [
+      "percentage_change",
+      "log_change",
+      "absolute_change"
+    ],
+    "permutations": 9999,
+    "seed": 42
+  },
+  "primary_reproduction": {
+    "p_value_verified": true,
+    "statistic_verified": true
+  },
+  "schema_version": 1,
+  "software": {
+    "matplotlib": "3.11.2",
+    "numpy": "2.5.3",
+    "python": "3.13.5",
+    "shapely": "2.1.2"
+  },
+  "summary": {
+    "baseline_year": 2019,
+    "identical_graphs": true,
+    "latest_year": 2025,
+    "leave_one_out_maximum": {
+      "difference_from_full": 0.05302600980845751,
+      "islands": "",
+      "morans_i": 0.3951338248092951,
+      "neighbor_pairs": 48,
+      "omitted_id": "110655",
+      "omitted_name": "Areeiro",
+      "retained_parishes": 23
+    },
+    "leave_one_out_minimum": {
+      "difference_from_full": -0.14606904862464004,
+      "islands": "",
+      "morans_i": 0.19603876637619755,
+      "neighbor_pairs": 50,
+      "omitted_id": "110665",
+      "omitted_name": "Santa Maria Maior",
+      "retained_parishes": 23
+    },
+    "leave_one_out_positive": 24,
+    "parishes": 24,
+    "queen_pairs": 54,
+    "rook_pairs": 54,
+    "scenarios": 6,
+    "significant_holm": 6
+  }
+}

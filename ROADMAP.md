@@ -57,6 +57,8 @@ The [registration-month follow-up](docs/rnal-capture-gaps.md) narrows two captur
 
 The [housing spatial analysis](docs/housing-spatial.md) adds the 54-pair queen graph, global/local permutation results and a projected map. It archives the small, attributed CAOP2025 Lisbon reference for offline reproduction. Positive global association and no FDR-significant local clusters are reported separately; this does not resolve the RNAL historical requirement.
 
+The [spatial sensitivity follow-up](docs/housing-spatial-sensitivity.md) checks three change measures under queen/rook contiguity and all 24 parish omissions. It reports the identical effective graphs, adjusted global tests and the influence of Santa Maria Maior explicitly. These checks strengthen interpretation of the housing component while the joint study remains open.
+
 The objective is to move from a repository that can run the study to a release that contains a **fully traceable empirical study instance**.
 
 ### Scope

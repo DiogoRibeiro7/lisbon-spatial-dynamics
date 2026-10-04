@@ -1,0 +1,29 @@
+analysis_date = "2026-10-04"
+parishes = 24
+baseline_year = 2019
+latest_year = 2025
+permutations = 9999
+seed = 42
+alpha = 0.05
+metrics = ["percentage_change", "log_change", "absolute_change"]
+contiguities = ["queen", "rook"]
+
+[inputs.housing]
+path = "results/housing-history/2026-10-04/parish_changes.csv"
+sha256 = "bae4b72ee0b3c4669933f845bcfa13251bcee7d0f8279ececa75bb9380b1739c"
+size_bytes = 1873
+
+[inputs.geometry]
+path = "data/reference/caop2025-lisbon/freguesias.geojson"
+sha256 = "e17f542ac4f876e08b97d5a7f0565583a76786f07cafa91ae68eb011fe353dcd"
+size_bytes = 306358
+
+[inputs.reference]
+path = "results/source-audit/2026-10-01/census_context.csv"
+sha256 = "5ac702c77ac2a37817cdee1f9d853c488f9beb105174626ead5c8c8ee5c43a32"
+size_bytes = 10079
+
+[inputs.spatial_report]
+path = "results/housing-spatial/2026-10-04/analysis.json"
+sha256 = "e4cdf1664b982771a967f7b39fbc94dd52c6bba61db09d7a50f4785ad204db62"
+size_bytes = 5566
