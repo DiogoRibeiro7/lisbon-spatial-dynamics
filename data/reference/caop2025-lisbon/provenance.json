@@ -1,0 +1,51 @@
+{
+  "archived": {
+    "path": "data/reference/caop2025-lisbon/freguesias.geojson",
+    "sha256": "e17f542ac4f876e08b97d5a7f0565583a76786f07cafa91ae68eb011fe353dcd",
+    "size_bytes": 306358
+  },
+  "archived_on": "2026-10-04",
+  "attribution": "Direção-Geral do Território (DGT), CAOP2025; Lisbon subset and canonical property names by Lisbon Spatial Dynamics.",
+  "changes": "Compact UTF-8 JSON serialization with sorted keys and LF; parsed document equals the canonical reference. No coordinate changes, simplification or geometric repair.",
+  "coordinates": "EPSG:4326, longitude then latitude; original acquisition requested outSR=4326.",
+  "feature_count": 24,
+  "licence": "CC-BY-4.0",
+  "licence_checked_on": "2026-10-04",
+  "licence_sources": [
+    "https://www.dgterritorio.gov.pt/dados-abertos",
+    "https://dados.gov.pt/en/datasets/unidades-administrativas"
+  ],
+  "licence_url": "https://creativecommons.org/licenses/by/4.0/",
+  "original_canonical": {
+    "path": "data/processed/reference/lisbon_freguesias.geojson",
+    "sha256": "ef186f413e10c264761ad4701d0c90aa636a77c88535554644f9d876cbecacf3",
+    "size_bytes": 769748
+  },
+  "parent_audit": {
+    "path": "results/source-audit/2026-10-01/audit.json",
+    "sha256": "a0c576c84d7c003473e1205b70c41194be4f1826eada0d9114500826664da99a",
+    "size_bytes": 18498
+  },
+  "schema_version": 1,
+  "source_acquisition": {
+    "expected_feature_count": 24,
+    "fetched_at": "2026-10-01T10:36:03.519280+00:00",
+    "municipality": "Lisboa",
+    "resources": {
+      "geojson": {
+        "path": "data/raw/dgt/caop2025/lisbon_freguesias/20261001T103603Z.geojson",
+        "sha256": "d2b1459176db712ed38d501f0ee5a3d98c31c167f2459d65d8388cb86f47a445",
+        "size_bytes": 305286,
+        "url": "https://infogeo.dgterritorio.gov.pt/arcgis/rest/services/Hosted/FreguesiaCAOP2025/FeatureServer/7/query?where=municipio%3D%27Lisboa%27&outFields=dtmnfr%2Cfreguesia%2Cmunicipio%2Cdistrito_ilha%2Cnuts3_cod%2Cnuts3%2Cnuts2%2Cnuts1%2Carea_ha%2Cdesignacao_simplificada&returnGeometry=true&outSR=4326&orderByFields=dtmnfr&f=geojson"
+      },
+      "layer_metadata": {
+        "path": "data/raw/dgt/caop2025/lisbon_freguesias/20261001T103603Z.layer.json",
+        "sha256": "a82bb2693a247fd070b148a8dbc3605c6fdf41d22c66e68e32f908ce584efc01",
+        "size_bytes": 9756,
+        "url": "https://infogeo.dgterritorio.gov.pt/arcgis/rest/services/Hosted/FreguesiaCAOP2025/FeatureServer/7?f=pjson"
+      }
+    },
+    "schema_version": 1,
+    "source_id": "dgt_caop2025_lisbon_freguesias"
+  }
+}

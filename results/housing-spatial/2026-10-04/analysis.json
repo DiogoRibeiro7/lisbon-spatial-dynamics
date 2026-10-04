@@ -1,0 +1,145 @@
+{
+  "analysis_date": "2026-10-04",
+  "code_and_configuration": [
+    {
+      "path": "configs/housing_spatial_2026-10-04.toml",
+      "sha256": "19f9e9add00ed05e159d513f786580322a9d7599b75ac6893b87ffe7466e2c55",
+      "size_bytes": 1177
+    },
+    {
+      "path": "scripts/analyse_housing_spatial.py",
+      "sha256": "33ce46a69540d83973580ea15387ba28bd490818a2b03b55a4be75534d683b0a",
+      "size_bytes": 9640
+    },
+    {
+      "path": "src/lisbon_spatial_dynamics/analysis/housing_spatial.py",
+      "sha256": "4caef2c25ff34c608f886829ec81544a449cd6c9c132f90b1e0a980105fa99ab",
+      "size_bytes": 9918
+    },
+    {
+      "path": "src/lisbon_spatial_dynamics/analysis/spatial_autocorrelation.py",
+      "sha256": "4397e8ae6135830123e145bc38a3d3d0d99ceb88c1443a9e436043a0beb0fedc",
+      "size_bytes": 11047
+    },
+    {
+      "path": "src/lisbon_spatial_dynamics/analysis/local_spatial_autocorrelation.py",
+      "sha256": "4e901280ac1d8b2be32c8a05825251010b3478da1b8f51a0b00d54da763863f9",
+      "size_bytes": 17535
+    },
+    {
+      "path": "src/lisbon_spatial_dynamics/analysis/cml_benchmarks.py",
+      "sha256": "56dfcdcda23e802152bc854bdce56994bc44f1d40be5aba3defe50b2467e702e",
+      "size_bytes": 7512
+    },
+    {
+      "path": "src/lisbon_spatial_dynamics/spatial/trajectory_choropleths.py",
+      "sha256": "41a3904a59d5c7ab1135e8bac153b8eaa08c28a2ba18beed3af945966148531b",
+      "size_bytes": 12111
+    },
+    {
+      "path": "pyproject.toml",
+      "sha256": "a2cfa37c27ec70978bfd6e5f8503aee9f02ab1840d21b97ccd71e86cb6374016",
+      "size_bytes": 4588
+    },
+    {
+      "path": "poetry.lock",
+      "sha256": "eacfc9e9167df23309405e0f1c22e452715dc018082229b67c6e62f28a521cc7",
+      "size_bytes": 223966
+    }
+  ],
+  "geography_attribution": "Direção-Geral do Território (DGT), CAOP2025; Lisbon subset and canonical property names by Lisbon Spatial Dynamics.",
+  "geography_licence": "CC-BY-4.0",
+  "inputs": {
+    "geometry": {
+      "path": "data/reference/caop2025-lisbon/freguesias.geojson",
+      "sha256": "e17f542ac4f876e08b97d5a7f0565583a76786f07cafa91ae68eb011fe353dcd",
+      "size_bytes": 306358
+    },
+    "geometry_provenance": {
+      "path": "data/reference/caop2025-lisbon/provenance.json",
+      "sha256": "105c2977f4b1c4c9f591a668464349ed94098068dec03ffc8ec355093cd6e5c3",
+      "size_bytes": 2538
+    },
+    "housing": {
+      "path": "results/housing-history/2026-10-04/parish_changes.csv",
+      "sha256": "bae4b72ee0b3c4669933f845bcfa13251bcee7d0f8279ececa75bb9380b1739c",
+      "size_bytes": 1873
+    },
+    "housing_report": {
+      "path": "results/housing-history/2026-10-04/analysis.json",
+      "sha256": "b448ca688cbe1bab3e12cfe4e7183cb1c7771dd1f00a6ade1a9eb1b23bac6e93",
+      "size_bytes": 6237
+    },
+    "reference": {
+      "path": "results/source-audit/2026-10-01/census_context.csv",
+      "sha256": "5ac702c77ac2a37817cdee1f9d853c488f9beb105174626ead5c8c8ee5c43a32",
+      "size_bytes": 10079
+    },
+    "source_audit": {
+      "path": "results/source-audit/2026-10-01/audit.json",
+      "sha256": "a0c576c84d7c003473e1205b70c41194be4f1826eada0d9114500826664da99a",
+      "size_bytes": 18498
+    }
+  },
+  "interpretation": {
+    "archive": "All replay inputs committed; original raw acquisitions are not re-downloaded or re-transformed.",
+    "global_null": "Randomly permute housing values; compare distance from -1/(n-1).",
+    "local_null": "Hold focal standardized value fixed; sample other values without replacement; compare absolute local I.",
+    "map": "Original topology in EPSG:4326; display reprojected to EPSG:3763 without simplification.",
+    "metric": "Nominal Q4-2019 to Q4-2025 housing percentage change; no RNAL observations.",
+    "multiplicity": "Benjamini-Hochberg across the housing local tests, at configured alpha.",
+    "scope": "Descriptive spatial association under one boundary/weight definition; no causal or RNAL effect.",
+    "weights": "Queen boundary contact, row-standardized; no snapping, buffer or distance cutoff."
+  },
+  "outputs": [
+    {
+      "path": "results/housing-spatial/2026-10-04/global_moran.json",
+      "sha256": "30da2785fe269157a8239af9a8190886fc02dba3f74e076288c4717623044d5a",
+      "size_bytes": 961
+    },
+    {
+      "path": "results/housing-spatial/2026-10-04/housing_spatial.png",
+      "sha256": "7a3017c722a617d066a8dc0ca43938dd89c95e4a278e0fc9fc7a5d44d35782cc",
+      "size_bytes": 336745
+    },
+    {
+      "path": "results/housing-spatial/2026-10-04/local_moran.json",
+      "sha256": "454c8cfbd1353a794a6515900b04a55530f01ec69b7b64db31e6a6c4b5c7095d",
+      "size_bytes": 13833
+    },
+    {
+      "path": "results/housing-spatial/2026-10-04/local_results.csv",
+      "sha256": "05cc043ee95347c4d928add44020d083b3e899857678d1cffaedc0f6306cab7c",
+      "size_bytes": 4187
+    },
+    {
+      "path": "results/housing-spatial/2026-10-04/queen_pairs.csv",
+      "sha256": "ebcd384e03e04ed6e095099e543b47e3cf6e8b6ebe70b017d2e8aab392666f55",
+      "size_bytes": 2393
+    }
+  ],
+  "parameters": {
+    "alpha": 0.05,
+    "permutations": 9999,
+    "seed": 42
+  },
+  "schema_version": 1,
+  "software": {
+    "matplotlib": "3.11.2",
+    "pyproj": "3.8.0",
+    "python": "3.13.5",
+    "shapely": "2.1.2"
+  },
+  "summary": {
+    "baseline_year": 2019,
+    "global_expected_i": -0.043478260869565216,
+    "global_morans_i": 0.3421078150008379,
+    "global_permutation_p_two_sided": 0.0029,
+    "islands": [],
+    "latest_year": 2025,
+    "local_raw_p_at_or_below_alpha": 3,
+    "local_significant_fdr": [],
+    "parishes": 24,
+    "queen_pairs": 54
+  }
+}

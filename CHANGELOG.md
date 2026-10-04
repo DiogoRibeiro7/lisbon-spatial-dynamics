@@ -6,6 +6,7 @@ All notable repository-level changes are documented here.
 
 ### Added
 
+- Housing-only spatial evidence for 2019 Q4–2025 Q4: an attributed archived CAOP2025 Lisbon reference, 54 queen-neighbour pairs, global/local permutation diagnostics, an FDR classification map and offline provenance-verified replay. Single-metric entry points reuse the existing Moran calculations without requiring RNAL data.
 - A reproducible housing-only Q4 comparison for 2019–2025 from the committed INE audit aggregates: 168 annual observations, parish changes, yearly summaries, a figure and verified provenance, with explicit nominal-value and equal-parish interpretation.
 - A historical RNAL provider request package with unsent Portuguese drafts, verified public routing contacts, a technical annex, 600 requested parish-quarter keys for 2019 Q4–2025 Q4, and explicit assessment/integration requirements.
 - A registration-month audit of adjacent RNAL archive captures, identifying two entirely empty groups, separating temporary gaps from persistent absences, and publishing reproducible aggregate evidence without imputing records.
@@ -24,6 +25,7 @@ All notable repository-level changes are documented here.
 
 ### Fixed
 
+- Queen-contiguity validation now rejects identical and contained administrative polygons as intersecting interiors, alongside partial overlaps. The archived Lisbon graph remains unchanged.
 - RNAL archive replay now rejects malformed JSON shapes and field types consistently with `ValueError`. Capacity columns have explicit units and missing/zero semantics in new audit reports and a companion dictionary for the unchanged published CSVs.
 - RNAL geography audits now parse the exact verified input bytes and reuse the parsed SOAP cohort, preventing file changes during a run from separating reported hashes from analysed values. Default coordinate reports no longer duplicate their summary; replay tests require each mode's complete artifact set.
 - RNAL coordinate audits now identify unknown SOAP/GIS parish codes before classifying any points, and coordinate acquisition reuses the GIS HTTP helper.

@@ -2,6 +2,8 @@
 
 Spatial analysis is a core part of the project rather than a visualisation step added at the end.
 
+The [2019–2025 housing evidence](housing-spatial.md) provides a completed, housing-only example: committed boundaries, the neighbour graph, global/local statistics, a map and an offline replay command. The joint RNAL study remains open.
+
 ## Reference geography
 
 The canonical project geography is the **24-freguesia map of the municipality of Lisboa**, acquired from DGT's official CAOP2025 parish layer.

@@ -55,6 +55,8 @@ The [registration-month follow-up](docs/rnal-capture-gaps.md) narrows two captur
 
 **Independent evidence, 2026-10-04:** the [housing Q4 comparison](docs/housing-history.md) publishes 168 observations, 24 endpoint comparisons and a figure for 2019–2025, reproducible from the committed primary-source aggregates. This establishes an inspectable housing component while leaving the RNAL historical requirement and canonical joint run open.
 
+The [housing spatial analysis](docs/housing-spatial.md) adds the 54-pair queen graph, global/local permutation results and a projected map. It archives the small, attributed CAOP2025 Lisbon reference for offline reproduction. Positive global association and no FDR-significant local clusters are reported separately; this does not resolve the RNAL historical requirement.
+
 The objective is to move from a repository that can run the study to a release that contains a **fully traceable empirical study instance**.
 
 ### Scope
