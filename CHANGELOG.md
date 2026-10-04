@@ -6,6 +6,7 @@ All notable repository-level changes are documented here.
 
 ### Added
 
+- A historical RNAL provider request package with unsent Portuguese drafts, verified public routing contacts, a technical annex, 600 requested parish-quarter keys for 2019 Q4–2025 Q4, and explicit assessment/integration requirements.
 - A registration-month audit of adjacent RNAL archive captures, identifying two entirely empty groups, separating temporary gaps from persistent absences, and publishing reproducible aggregate evidence without imputing records.
 - An assessment of 13 community RNAL exports from May 2025 to October 2026, with commit-pinned acquisition, explicit duplicate handling, membership/reappearance diagnostics, SOAP comparison, and reproducible parish aggregates.
 - Published CML parish benchmarks for November 2019 and November 2022, separating weighted AL units from user capacity, preserving displayed discrepancies, and providing a checked transcription and reproducible arithmetic audit.

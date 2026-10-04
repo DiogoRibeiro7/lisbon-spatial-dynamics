@@ -37,6 +37,8 @@ The [geographic follow-up](docs/rnal-geography.md) finds that all 172 disputed m
 
 The [parish-label sensitivity analysis](docs/rnal-parish-sensitivity.md) holds the retained SOAP cohort and captured capacity fixed. Both GIS scenarios change six parishes' record-pressure ranks by one position and preserve the top four; local count and capacity differences can change direction. These scenarios do not resolve historical completeness or correct registry records.
 
+The next evidence step is the [historical-data request package](docs/rnal-history-request.md): unsent Portuguese drafts for CML and Turismo de Portugal, a technical specification, and the 600 requested parish-quarter keys for 2019 Q4–2025 Q4. Historical stock, capacity and administrative definitions remain prerequisites for the definitive study.
+
 ### Committed empirical evidence
 
 The [historical municipal benchmarks](docs/cml-historical-benchmarks.md) add November 2019/2022 observations for all 24 parishes. The capacity table reconciles at 111,492 and 116,218 places; weighted-AL values are kept separate from raw registration counts, with displayed arithmetic differences recorded explicitly. These two observations do not constitute the quarterly series required for v1.1.
