@@ -59,6 +59,8 @@ The [housing spatial analysis](docs/housing-spatial.md) adds the 54-pair queen g
 
 The [spatial sensitivity follow-up](docs/housing-spatial-sensitivity.md) checks three change measures under queen/rook contiguity and all 24 parish omissions. It reports the identical effective graphs, adjusted global tests and the influence of Santa Maria Maior explicitly. These checks strengthen interpretation of the housing component while the joint study remains open.
 
+The [CPI context](docs/housing-inflation.md) adds a captured national annual index and a reproducible adjustment of the 168 housing observations. The median endpoint change is 23.59% after adjustment, with two parishes below baseline. This adds price-level context without resolving housing composition, affordability or historical RNAL coverage.
+
 The objective is to move from a repository that can run the study to a release that contains a **fully traceable empirical study instance**.
 
 ### Scope

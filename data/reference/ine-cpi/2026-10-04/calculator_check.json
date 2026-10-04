@@ -1,0 +1,30 @@
+{
+  "calculator_minus_index_inflation_pp": "0.013069892667416890480453600",
+  "checked_on": "2026-10-04",
+  "displayed_fields": {
+    "data_fim": "2025",
+    "data_inic": "2019",
+    "fac_act": "1,19380422921614",
+    "v_actualizado": "119,38",
+    "v_actualizar": "100,00"
+  },
+  "interpretation": "Supplementary discrepancy check; cause unverified. The calculator coefficient is not used in the housing analysis. Raw HTML is locally retained; this parsed record is committed.",
+  "provider": "Instituto Nacional de Estatística (INE)",
+  "published_annual_index_ratio": "1.193673530289465831095195464",
+  "raw_capture": {
+    "path": "data/raw/ine/cpi/calculator/2026-10-04-annual-2019-2025.html",
+    "sha256": "535814250ea6fbedfd05462d69ac26b1c7fa55cf226fbf474f6ab735f8953623",
+    "size_bytes": 4567
+  },
+  "request": {
+    "form": {
+      "ano_fim": "2025",
+      "ano_inic": "2019",
+      "opc1": "05",
+      "opc_moeda": "Euros",
+      "valor_act_a": "100,00"
+    },
+    "method": "POST",
+    "url": "https://www.ine.pt/ine/ipc/ipc_tt.jsp"
+  }
+}

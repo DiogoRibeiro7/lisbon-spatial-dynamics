@@ -63,6 +63,10 @@ Missing values remain missing. No imputation occurs during ingestion or transfor
 
 ## Other source families
 
+### Annual consumer prices
+
+The [housing inflation analysis](housing-inflation.md) uses INE indicator `0014642`, annual CPI, base 2025, Portugal (`PT`), Total (`T`). `configs/ine_cpi_annual.toml` fixes the seven years 2019–2025. A strict extractor checks data/metadata identity, annual frequency, geography, aggregate and complete positive observations. The canonical CSV is committed with attribution and acquisition fingerprints; raw JSON remains outside Git. This national consumption-price reference is separate from local housing asset prices and income affordability.
+
 The catalogue also tracks INE census/geography data, Lisboa Aberta, and Strava Metro. Every integrated source must document provider, spatial unit, temporal coverage, access conditions, licence, provenance, and interpretation limits.
 
 ## Raw data policy

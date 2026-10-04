@@ -1,0 +1,22 @@
+analysis_date = "2026-10-04"
+years = [2019, 2020, 2021, 2022, 2023, 2024, 2025]
+
+[inputs.data]
+path = "data/raw/ine/cpi/0014642/2019_2025/20261004T212749Z.data.json"
+sha256 = "3d1329a4e8883ab74b17f7d51b002291cfa4a8fce4627a66cf6220800fdd1394"
+size_bytes = 1781
+
+[inputs.metadata]
+path = "data/raw/ine/cpi/0014642/2019_2025/20261004T212749Z.metadata.json"
+sha256 = "e6f938cffec085eed2f3dd265c53c15fdcd2823f7e28b4ba242df0b6748151bc"
+size_bytes = 20961
+
+[inputs.manifest]
+path = "data/raw/ine/cpi/0014642/2019_2025/20261004T212749Z.manifest.json"
+sha256 = "2459246d84a73765f792769402a40e9758e13a9d2fc7b15f1e61ff557973ca48"
+size_bytes = 892
+
+[inputs.acquisition_config]
+path = "configs/ine_cpi_annual.toml"
+sha256 = "c0ff91bee62156e7c0ccc18b1ff6cdc74059eef44fb225575bb3ea7588f2fb2e"
+size_bytes = 545

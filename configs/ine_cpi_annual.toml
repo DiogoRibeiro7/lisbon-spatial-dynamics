@@ -1,0 +1,11 @@
+# Official annual national CPI, Total, on a single 2025-base series.
+# Dimension codes verified against INE metadata on 2026-10-04.
+[indicator]
+source_id = "ine_cpi_annual_base2025"
+code = "0014642"
+language = "PT"
+data_url = "https://www.ine.pt/ine/json_indicador/pindica.jsp?op=2&varcd=0014642&lang=PT&Dim1=S7A2019%2CS7A2020%2CS7A2021%2CS7A2022%2CS7A2023%2CS7A2024%2CS7A2025&Dim2=PT&Dim3=T"
+metadata_url = "https://www.ine.pt/ine/json_indicador/pindicaMeta.jsp?varcd=0014642&lang=PT"
+
+[output]
+directory = "data/raw/ine/cpi/0014642/2019_2025"

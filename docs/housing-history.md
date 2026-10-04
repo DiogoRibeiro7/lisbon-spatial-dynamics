@@ -77,3 +77,5 @@ This Q4-2019→Q4-2025 series is distinct from the curated Q1-2019→Q1-2026 com
 The housing evidence is ready for inspection independently of RNAL. The joint housing/accommodation analysis still needs an accepted historical RNAL series, geographic/status definitions, a reviewed integration and durable input archiving. The [provider request package](rnal-history-request.md) remains the next step for that missing evidence.
 
 The [spatial follow-up](housing-spatial.md) maps these same endpoint changes and applies the existing Global and Local Moran methods, with all geographic inputs now available in the repository.
+
+The [CPI-adjusted comparison](housing-inflation.md) retains this nominal evidence and adds national inflation context. Its median adjusted increase is 23.59%, with 22 parishes above their 2019 baseline.
