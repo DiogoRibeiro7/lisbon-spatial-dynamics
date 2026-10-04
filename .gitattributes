@@ -9,6 +9,8 @@
 *.png binary
 *.zip binary
 docs/requests/*.csv text eol=lf
+results/housing-history/**/*.csv text eol=lf
+results/housing-history/**/*.json text eol=lf
 results/source-audit/**/*.csv text eol=lf
 results/source-audit/**/*.json text eol=lf
 results/rnal-coverage/**/*.csv text eol=lf
