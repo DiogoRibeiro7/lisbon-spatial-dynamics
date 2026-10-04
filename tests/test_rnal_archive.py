@@ -266,7 +266,9 @@ def input_pin(name: str, path: Path) -> str:
     )
 
 
-def prepare_config(tmp_path: Path) -> tuple[Path, dict[str, bytes]]:
+def prepare_config(
+    tmp_path: Path, filenames: tuple[str, ...] = (FIRST, SECOND)
+) -> tuple[Path, dict[str, bytes]]:
     reference = tmp_path / "reference.csv"
     reference.write_text(
         "freguesia_id,freguesia_name\n110601,Ajuda\n110602,Alcântara\n", encoding="utf-8"
@@ -314,7 +316,7 @@ revision = "50322b0ae5680d24013fae4ee19d757350a8ba2c"
         encoding="utf-8",
     )
     text += input_pin("soap_manifest", soap_manifest)
-    payloads = {filename: export(filename) for filename in (FIRST, SECOND)}
+    payloads = {filename: export(filename) for filename in filenames}
     for filename, payload in payloads.items():
         blob = sha1(f"blob {len(payload)}\0".encode() + payload).hexdigest()
         text += (
@@ -422,3 +424,54 @@ def test_replay_parses_captured_verified_bytes(
     with (output / "snapshot_summary.csv").open(encoding="utf-8") as stream:
         first = next(csv.DictReader(stream))
     assert first["users_known"] == "0"
+
+
+def test_gap_replay_without_anomalies_writes_header_only_cohorts_and_is_atomic(
+    script: ModuleType, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    config, payloads = prepare_config(tmp_path, (FIRST, SECOND, THIRD))
+    monkeypatch.setattr(
+        script,
+        "get_bytes",
+        lambda url: payloads.get(url.rsplit("/", 1)[1], b"publisher provenance"),
+    )
+    source = tmp_path / "source"
+    script.fetch(config, source)
+    with config.open("a", encoding="utf-8") as stream:
+        stream.write(input_pin("acquisition_manifest", source / "manifest.json"))
+    output = tmp_path / "output"
+    with pytest.raises(ValueError, match="unknown archive analysis"):
+        script.audit(config, output, analysis="unknown")
+    assert not output.exists()
+    original_write = script.write_json
+
+    def fail_write(path: Path, value: Any) -> None:
+        raise OSError("simulated gap report failure")
+
+    monkeypatch.setattr(script, "write_json", fail_write)
+    with pytest.raises(OSError, match="gap report failure"):
+        script.audit(config, output, analysis="capture-gaps")
+    assert not output.exists()
+    assert not list(tmp_path.glob(".rnal-archive-audit-*"))
+    monkeypatch.setattr(script, "write_json", original_write)
+    script.audit(config, output, analysis="capture-gaps")
+    assert {path.name for path in output.iterdir()} == {
+        "audit.json",
+        "capture_windows.csv",
+        "affected_cohorts.csv",
+    }
+    report = json.loads((output / "audit.json").read_bytes())
+    assert report["analysis"] == "capture-gaps"
+    assert report["summary"]["missing_middle_record_observations"] == 0
+    assert "empty_middle_registration_month" in report["column_definitions"]
+    assert "users_known" not in report["column_definitions"]
+    with (output / "affected_cohorts.csv").open(encoding="utf-8") as stream:
+        reader = csv.DictReader(stream)
+        assert reader.fieldnames and "registration_month" in reader.fieldnames
+        assert list(reader) == []
+    for artifact in report["outputs"]:
+        assert (
+            script.fingerprint(Path(artifact["path"]).read_bytes())["sha256"] == artifact["sha256"]
+        )
+    with pytest.raises(FileExistsError):
+        script.audit(config, output, analysis="capture-gaps")
