@@ -1,0 +1,157 @@
+{
+  "analysis_date": "2026-10-04",
+  "code_and_configuration": [
+    {
+      "path": "configs/housing_history_2026-10-04.toml",
+      "sha256": "8ea92fc936e577f47e665c6a1668cf1796cf02927db7f853418c791108e2c0bb",
+      "size_bytes": 608
+    },
+    {
+      "path": "scripts/analyse_housing_history.py",
+      "sha256": "7018747ac3ed2d0fa7926ae8e7290b0ae0604199aea382b56ae96c2d98db10c2",
+      "size_bytes": 5917
+    },
+    {
+      "path": "src/lisbon_spatial_dynamics/analysis/housing_history.py",
+      "sha256": "0d99260a71e72fdf0da3a785e4fb9414cbdb956d6c811489b2d2357381a647ba",
+      "size_bytes": 10191
+    },
+    {
+      "path": "src/lisbon_spatial_dynamics/analysis/cml_benchmarks.py",
+      "sha256": "56dfcdcda23e802152bc854bdce56994bc44f1d40be5aba3defe50b2467e702e",
+      "size_bytes": 7512
+    },
+    {
+      "path": "src/lisbon_spatial_dynamics/panels/housing.py",
+      "sha256": "625389684686b13f1b14137822276b4ccd4f2d35b85d0542aac85b5f30b49c4e",
+      "size_bytes": 8772
+    },
+    {
+      "path": "src/lisbon_spatial_dynamics/panels/temporal.py",
+      "sha256": "c917c39be420c9b9e2b1691d6097557f5f047c834dbb4b136fe0947687c8a739",
+      "size_bytes": 8754
+    },
+    {
+      "path": "pyproject.toml",
+      "sha256": "a2cfa37c27ec70978bfd6e5f8503aee9f02ab1840d21b97ccd71e86cb6374016",
+      "size_bytes": 4588
+    },
+    {
+      "path": "poetry.lock",
+      "sha256": "eacfc9e9167df23309405e0f1c22e452715dc018082229b67c6e62f28a521cc7",
+      "size_bytes": 223966
+    }
+  ],
+  "housing_acquisition": {
+    "fetched_at": "2026-10-01T10:39:17.054628+00:00",
+    "indicator_code": "0012234",
+    "language": "PT",
+    "resources": {
+      "data": {
+        "path": "data/raw/ine/housing/0012234/study_2019q4_2026q1/20261001T103917Z.data.json",
+        "sha256": "89d6beae57e94401078e006534d7606ad90647fc5ceeb73ecf7ad54cc96a80f7",
+        "size_bytes": 109254,
+        "url": "https://www.ine.pt/ine/json_indicador/pindica.jsp?op=2&varcd=0012234&lang=PT&Dim1=S5A20194%2CS5A20201%2CS5A20202%2CS5A20203%2CS5A20204%2CS5A20211%2CS5A20212%2CS5A20213%2CS5A20214%2CS5A20221%2CS5A20222%2CS5A20223%2CS5A20224%2CS5A20231%2CS5A20232%2CS5A20233%2CS5A20234%2CS5A20241%2CS5A20242%2CS5A20243%2CS5A20244%2CS5A20251%2CS5A20252%2CS5A20253%2CS5A20254%2CS5A20261&Dim2=1A0110601%2C1A0110602%2C1A0110607%2C1A0110608%2C1A0110610%2C1A0110611%2C1A0110618%2C1A0110621%2C1A0110633%2C1A0110639%2C1A0110654%2C1A0110655%2C1A0110656%2C1A0110657%2C1A0110658%2C1A0110659%2C1A0110660%2C1A0110661%2C1A0110662%2C1A0110663%2C1A0110664%2C1A0110665%2C1A0110666%2C1A0110667&Dim3=H1"
+      },
+      "metadata": {
+        "path": "data/raw/ine/housing/0012234/study_2019q4_2026q1/20261001T103917Z.metadata.json",
+        "sha256": "863f447190c151c91986d33cbf4069d551b3f7cfce2daa0b0c3c5bfd9e614823",
+        "size_bytes": 228193,
+        "url": "https://www.ine.pt/ine/json_indicador/pindicaMeta.jsp?varcd=0012234&lang=PT"
+      }
+    },
+    "schema_version": 1,
+    "source_id": "ine_local_housing_prices_nuts2024"
+  },
+  "inputs": {
+    "housing": {
+      "path": "results/source-audit/2026-10-01/housing_quarter_panel.csv",
+      "sha256": "d69cb05743da7a3ae483a490b5ac73d8c670d095c3ede6186fa8d59be70a736a",
+      "size_bytes": 53284
+    },
+    "reference": {
+      "path": "results/source-audit/2026-10-01/census_context.csv",
+      "sha256": "5ac702c77ac2a37817cdee1f9d853c488f9beb105174626ead5c8c8ee5c43a32",
+      "size_bytes": 10079
+    },
+    "source_audit": {
+      "path": "results/source-audit/2026-10-01/audit.json",
+      "sha256": "a0c576c84d7c003473e1205b70c41194be4f1826eada0d9114500826664da99a",
+      "size_bytes": 18498
+    }
+  },
+  "interpretation": {
+    "aggregation": "Each parish has equal weight; a median of parish medians is not the municipal median.",
+    "archive_scope": "Replay uses committed aggregates; original INE files remain locally retained, not publicly archived.",
+    "category": "Total dwellings (H1), INE indicator 0012234.",
+    "change": "100 * (latest Q4 / baseline Q4 - 1), using each parish's own baseline.",
+    "geography": "24 canonical Lisbon parishes, matched in the original CAOP2025 audit.",
+    "limitations": "No inflation adjustment, transaction-composition adjustment, RNAL association or causal claim.",
+    "measure": "Nominal median dwelling sale value per m² in the preceding 12 months.",
+    "precision": "Decimal arithmetic at precision 28; CSV preserves decimals; JSON summary uses numeric floats.",
+    "verification_scope": "Verifies aggregate bytes against the pinned parent audit; does not re-fetch or re-transform the raw INE capture."
+  },
+  "outputs": [
+    {
+      "path": "results/housing-history/2026-10-04/annual_q4.csv",
+      "sha256": "915fdd7bb6fc33fa2ccfd5086f7d81486e5be41190452f673f45c43098223679",
+      "size_bytes": 16147
+    },
+    {
+      "path": "results/housing-history/2026-10-04/housing_changes.png",
+      "sha256": "5040ed0f60917f1839645d204ab7464b3634d880b5e74fc17c1da5fb8674b9ee",
+      "size_bytes": 226825
+    },
+    {
+      "path": "results/housing-history/2026-10-04/parish_changes.csv",
+      "sha256": "bae4b72ee0b3c4669933f845bcfa13251bcee7d0f8279ececa75bb9380b1739c",
+      "size_bytes": 1873
+    },
+    {
+      "path": "results/housing-history/2026-10-04/yearly_summary.csv",
+      "sha256": "0ceea685c02f29acb38e19cdfb3302be4976502099386a9153ffad4dcb958db5",
+      "size_bytes": 525
+    }
+  ],
+  "schema_version": 1,
+  "software": {
+    "matplotlib": "3.11.2",
+    "python": "3.13.5"
+  },
+  "summary": {
+    "annual_rows": 168,
+    "baseline_year": 2019,
+    "excluded_periods": [
+      "2020Q1",
+      "2020Q2",
+      "2020Q3",
+      "2021Q1",
+      "2021Q2",
+      "2021Q3",
+      "2022Q1",
+      "2022Q2",
+      "2022Q3",
+      "2023Q1",
+      "2023Q2",
+      "2023Q3",
+      "2024Q1",
+      "2024Q2",
+      "2024Q3",
+      "2025Q1",
+      "2025Q2",
+      "2025Q3",
+      "2026Q1"
+    ],
+    "excluded_rows": 456,
+    "input_rows": 624,
+    "latest_year": 2025,
+    "maximum_parish_change_pct": 87.01075268817205,
+    "median_parish_change_pct": 47.52323486287442,
+    "minimum_parish_change_pct": 5.152471083070452,
+    "parishes": 24,
+    "parishes_decreased": 0,
+    "parishes_increased": 24,
+    "parishes_unchanged": 0,
+    "reference_quarter": 4
+  }
+}

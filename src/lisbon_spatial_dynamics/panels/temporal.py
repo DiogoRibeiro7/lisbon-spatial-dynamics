@@ -8,6 +8,7 @@ from collections.abc import Sequence
 from dataclasses import dataclass
 from datetime import date
 from decimal import Decimal, DivisionByZero
+from io import StringIO
 from pathlib import Path
 
 from lisbon_spatial_dynamics.panels.housing import HousingPanelRow
@@ -157,9 +158,14 @@ def build_housing_change_panel(
 
 def load_housing_panel_csv(path: Path) -> tuple[HousingPanelRow, ...]:
     """Load the canonical housing panel CSV."""
+    return parse_housing_panel_csv(path.read_text(encoding="utf-8"))
+
+
+def parse_housing_panel_csv(payload: str) -> tuple[HousingPanelRow, ...]:
+    """Parse captured CSV text without reopening a verified source file."""
     rows: list[HousingPanelRow] = []
 
-    with path.open(encoding="utf-8", newline="") as stream:
+    with StringIO(payload, newline="") as stream:
         reader = csv.DictReader(stream)
         required = {
             "period_code",

@@ -15,6 +15,8 @@ The [committed audit bundle](https://github.com/DiogoRibeiro7/lisbon-spatial-dyn
 
 The housing annual Q4 window is **2019–2025**. The 2026 Q1 observation remains in the quarterly panel but is not a 2026 Q4 observation. This is a housing coverage window; RNAL's historical completeness has not been established for it.
 
+The [housing-only follow-up](housing-history.md) publishes the 168 Q4 observations, endpoint changes and a comparison figure for this window. It replays from the committed aggregates and preserves this original audit bundle.
+
 The Census population and context transformations agree for every parish. The audit independently reads the workbook's municipality total and compares it with the sum of the parish populations: both are 545,796, with a difference of zero. Missing, duplicate, or mismatched municipality totals fail the audit. The context's age bands sum to population, and its dwelling/building count consistency checks pass. These figures describe this exact snapshot and should not be silently substituted for differently dated or revised published totals.
 
 ## Defects resolved by the live audit

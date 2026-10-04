@@ -53,6 +53,8 @@ The [registration-month follow-up](docs/rnal-capture-gaps.md) narrows two captur
 
 **Next evidence step, prepared 2026-10-04:** the [provider request package](docs/rnal-history-request.md) specifies 25 quarter ends across 24 parishes (600 requested observations), with Portuguese drafts, public routing contacts, a technical annex and criteria for assessing a return. Neither request has been sent. An accepted historical series will need a reviewed importer and explicit alignment of the study window before it can enter the definitive run; the existing registry-record command does not ingest aggregate histories.
 
+**Independent evidence, 2026-10-04:** the [housing Q4 comparison](docs/housing-history.md) publishes 168 observations, 24 endpoint comparisons and a figure for 2019–2025, reproducible from the committed primary-source aggregates. This establishes an inspectable housing component while leaving the RNAL historical requirement and canonical joint run open.
+
 The objective is to move from a repository that can run the study to a release that contains a **fully traceable empirical study instance**.
 
 ### Scope

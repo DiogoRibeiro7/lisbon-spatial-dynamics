@@ -1,0 +1,19 @@
+analysis_date = "2026-10-04"
+parishes = 24
+baseline_year = 2019
+latest_year = 2025
+
+[inputs.housing]
+path = "results/source-audit/2026-10-01/housing_quarter_panel.csv"
+sha256 = "d69cb05743da7a3ae483a490b5ac73d8c670d095c3ede6186fa8d59be70a736a"
+size_bytes = 53284
+
+[inputs.reference]
+path = "results/source-audit/2026-10-01/census_context.csv"
+sha256 = "5ac702c77ac2a37817cdee1f9d853c488f9beb105174626ead5c8c8ee5c43a32"
+size_bytes = 10079
+
+[inputs.source_audit]
+path = "results/source-audit/2026-10-01/audit.json"
+sha256 = "a0c576c84d7c003473e1205b70c41194be4f1826eada0d9114500826664da99a"
+size_bytes = 18498

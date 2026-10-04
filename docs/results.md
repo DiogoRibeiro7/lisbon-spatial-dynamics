@@ -2,6 +2,8 @@
 
 This page documents the interpretation contract for the project's pre-specified multivariable models. Numerical results are generated from the processed data rather than hard-coded into the documentation.
 
+For independently reproducible housing evidence, see the [2019–2025 Q4 comparison](housing-history.md). It contains actual parish values, changes and a figure from the audited INE capture; it does not supply or substitute for the joint RNAL model results described below.
+
 ## Research question
 
 The modelling stage asks whether freguesias with larger increases in population-normalized local-accommodation pressure also show larger cumulative housing-value changes after adjustment for a small set of pre-specified neighbourhood characteristics.
