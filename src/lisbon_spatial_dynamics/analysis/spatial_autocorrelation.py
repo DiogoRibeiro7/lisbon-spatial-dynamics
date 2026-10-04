@@ -83,7 +83,7 @@ def build_queen_weights(data: TrajectoryMapData) -> SpatialWeights:
         for right_id in ids[index + 1 :]:
             right = geometries[right_id]
 
-            if left.overlaps(right):
+            if left.relate_pattern(right, "T********"):
                 raise SpatialAutocorrelationError(
                     f"canonical geometries overlap: {left_id}, {right_id}"
                 )
@@ -97,6 +97,21 @@ def build_queen_weights(data: TrajectoryMapData) -> SpatialWeights:
             freguesia_id: tuple(sorted(values))
             for freguesia_id, values in sorted(neighbors.items())
         }
+    )
+
+
+def analyse_global_moran_metric(
+    data: TrajectoryMapData,
+    *,
+    metric: MetricName,
+    permutations: int = 999,
+    seed: int = 42,
+) -> MoranResult:
+    """Analyse one available metric without requiring observations for the other."""
+    if type(permutations) is not int or permutations < 0:
+        raise ValueError("permutations must be a non-negative integer")
+    return _analyse_metric(
+        data, build_queen_weights(data), metric=metric, permutations=permutations, seed=seed
     )
 
 

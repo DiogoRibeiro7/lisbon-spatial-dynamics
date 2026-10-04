@@ -75,3 +75,5 @@ This replay verifies the committed aggregates and their link to the original aud
 This Q4-2019→Q4-2025 series is distinct from the curated Q1-2019→Q1-2026 comparison in [v1.0.1](results.md#committed-empirical-correction-v101). Neither its dates nor its values are silently substituted into that release.
 
 The housing evidence is ready for inspection independently of RNAL. The joint housing/accommodation analysis still needs an accepted historical RNAL series, geographic/status definitions, a reviewed integration and durable input archiving. The [provider request package](rnal-history-request.md) remains the next step for that missing evidence.
+
+The [spatial follow-up](housing-spatial.md) maps these same endpoint changes and applies the existing Global and Local Moran methods, with all geographic inputs now available in the repository.

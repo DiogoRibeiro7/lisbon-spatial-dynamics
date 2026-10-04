@@ -1,0 +1,34 @@
+{
+  "analysis": "global_morans_i",
+  "interpretation": "Global Moran's I tests spatial autocorrelation of the observed change metric under the chosen queen-contiguity weights. It does not identify local clusters and does not imply causality.",
+  "permutation_test": {
+    "reference": "distance from randomization expectation",
+    "tail": "two-sided"
+  },
+  "results": [
+    {
+      "comparison_window": {
+        "baseline_year": 2019,
+        "latest_year": 2025
+      },
+      "coverage": {
+        "complete_cases": 24,
+        "edge_count": 54,
+        "excluded_missing": 0,
+        "islands": [],
+        "total_freguesias": 24
+      },
+      "expected_i": -0.043478260869565216,
+      "metric": "housing_change_pct",
+      "morans_i": 0.3421078150008379,
+      "permutation_p_two_sided": 0.0029,
+      "permutations": 9999,
+      "seed": 42
+    }
+  ],
+  "schema_version": 1,
+  "weights": {
+    "contiguity": "queen",
+    "standardization": "row"
+  }
+}

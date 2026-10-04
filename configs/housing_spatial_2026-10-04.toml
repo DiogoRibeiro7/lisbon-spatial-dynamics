@@ -1,0 +1,37 @@
+analysis_date = "2026-10-04"
+parishes = 24
+baseline_year = 2019
+latest_year = 2025
+permutations = 9999
+seed = 42
+alpha = 0.05
+
+[inputs.housing]
+path = "results/housing-history/2026-10-04/parish_changes.csv"
+sha256 = "bae4b72ee0b3c4669933f845bcfa13251bcee7d0f8279ececa75bb9380b1739c"
+size_bytes = 1873
+
+[inputs.housing_report]
+path = "results/housing-history/2026-10-04/analysis.json"
+sha256 = "b448ca688cbe1bab3e12cfe4e7183cb1c7771dd1f00a6ade1a9eb1b23bac6e93"
+size_bytes = 6237
+
+[inputs.reference]
+path = "results/source-audit/2026-10-01/census_context.csv"
+sha256 = "5ac702c77ac2a37817cdee1f9d853c488f9beb105174626ead5c8c8ee5c43a32"
+size_bytes = 10079
+
+[inputs.geometry]
+path = "data/reference/caop2025-lisbon/freguesias.geojson"
+sha256 = "e17f542ac4f876e08b97d5a7f0565583a76786f07cafa91ae68eb011fe353dcd"
+size_bytes = 306358
+
+[inputs.geometry_provenance]
+path = "data/reference/caop2025-lisbon/provenance.json"
+sha256 = "105c2977f4b1c4c9f591a668464349ed94098068dec03ffc8ec355093cd6e5c3"
+size_bytes = 2538
+
+[inputs.source_audit]
+path = "results/source-audit/2026-10-01/audit.json"
+sha256 = "a0c576c84d7c003473e1205b70c41194be4f1826eada0d9114500826664da99a"
+size_bytes = 18498

@@ -73,6 +73,29 @@ class LocalMoranResult:
     observations: tuple[LocalMoranObservation, ...]
 
 
+def analyse_local_moran_metric(
+    data: TrajectoryMapData,
+    *,
+    metric: MetricName,
+    permutations: int = 999,
+    seed: int = 42,
+    alpha: float = 0.05,
+) -> LocalMoranResult:
+    """Analyse one available metric; the supplied seed is used without a metric offset."""
+    if type(permutations) is not int or permutations < 0:
+        raise ValueError("permutations must be a non-negative integer")
+    if not 0.0 < alpha < 1.0:
+        raise ValueError("alpha must be between 0 and 1")
+    return _analyse_metric(
+        data,
+        build_queen_weights(data),
+        metric=metric,
+        permutations=permutations,
+        seed=seed,
+        alpha=alpha,
+    )
+
+
 def analyse_local_morans_i(
     data: TrajectoryMapData,
     *,
