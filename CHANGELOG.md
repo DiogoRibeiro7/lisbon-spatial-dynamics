@@ -6,6 +6,7 @@ All notable repository-level changes are documented here.
 
 ### Added
 
+- Housing spatial sensitivity evidence: percentage/log/absolute changes under queen and rook contiguity, Holm correction across six declared global comparisons, and all 24 descriptive parish omissions. The published bundle exposes identical effective graphs and Santa Maria Maior's influence, with verified offline replay and a comparison figure.
 - Housing-only spatial evidence for 2019 Q4–2025 Q4: an attributed archived CAOP2025 Lisbon reference, 54 queen-neighbour pairs, global/local permutation diagnostics, an FDR classification map and offline provenance-verified replay. Single-metric entry points reuse the existing Moran calculations without requiring RNAL data.
 - A reproducible housing-only Q4 comparison for 2019–2025 from the committed INE audit aggregates: 168 annual observations, parish changes, yearly summaries, a figure and verified provenance, with explicit nominal-value and equal-parish interpretation.
 - A historical RNAL provider request package with unsent Portuguese drafts, verified public routing contacts, a technical annex, 600 requested parish-quarter keys for 2019 Q4–2025 Q4, and explicit assessment/integration requirements.
