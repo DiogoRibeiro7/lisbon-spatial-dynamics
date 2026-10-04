@@ -265,5 +265,9 @@ def test_relative_script_entry_point(tmp_path: Path, monkeypatch: pytest.MonkeyP
     )
     runpy.run_path(script_path, run_name="__main__")
     report = json.loads((output / "provenance.json").read_bytes())
-    record = next(item for item in report["code_and_configuration"] if item["path"] == script_path)
+    record = next(
+        (item for item in report["code_and_configuration"] if item["path"] == script_path),
+        None,
+    )
+    assert record is not None, f"Missing script fingerprint in provenance: {script_path}"
     assert record["sha256"] == sha256(Path(script_path).read_bytes()).hexdigest()

@@ -138,7 +138,11 @@ def test_offline_replay_uses_verified_bytes_and_preserves_nominal_summary(
     assert report["summary"]["annual_rows"] == 168
     assert report["summary"]["cpi_years"] == 7
     assert report["summary"]["parishes"] == 24
-    record = next(item for item in report["code_and_configuration"] if item["path"] == script_path)
+    record = next(
+        (item for item in report["code_and_configuration"] if item["path"] == script_path),
+        None,
+    )
+    assert record is not None, f"Missing script fingerprint in provenance: {script_path}"
     assert record["sha256"] == sha256(Path(script_path).read_bytes()).hexdigest()
     assert len(seen) == 3
     assert set(p.name for p in output.iterdir()) == {
