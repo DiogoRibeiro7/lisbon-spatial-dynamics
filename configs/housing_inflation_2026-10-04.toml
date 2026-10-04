@@ -30,5 +30,5 @@ size_bytes = 418
 
 [inputs.cpi_provenance]
 path = "data/reference/ine-cpi/2026-10-04/provenance.json"
-sha256 = "fb02bec1b026f2f5d70bcc682f9d9d4771c5850464983513c8ca7a21e954fbc9"
+sha256 = "3dc3f83492946c89729aad1dc10a49d9b8d9009f63b6cc7dff41d44a4028c5ac"
 size_bytes = 3420

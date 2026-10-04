@@ -3,13 +3,13 @@
   "code_and_configuration": [
     {
       "path": "configs/housing_inflation_2026-10-04.toml",
-      "sha256": "3de6f8cd6043b780c25f3bb1953e485e089a4ec8555092d171e31b50b47c4351",
+      "sha256": "763c70d48484af589dcffc027e3c1744a8b2b88bc3d12d78debd5b0a27090957",
       "size_bytes": 1128
     },
     {
       "path": "scripts/analyse_housing_inflation.py",
-      "sha256": "3568bbd32ac2f109df41a49f72c0ece573c576c6866c21257a6a81ccaa7e153e",
-      "size_bytes": 7130
+      "sha256": "e2a4b05dcdfe9c28a19c028ce7280b09e8027fa490f8bfb118afc2f8547a8d06",
+      "size_bytes": 7150
     },
     {
       "path": "src/lisbon_spatial_dynamics/analysis/housing_inflation.py",
@@ -28,8 +28,8 @@
     },
     {
       "path": "src/lisbon_spatial_dynamics/transformations/cpi.py",
-      "sha256": "763ffd45e12e430098266f301a1225e526cfdc77da3a0080faf7f38245e665dd",
-      "size_bytes": 6143
+      "sha256": "de3c4953f39fd98566bcc3a620e8da1698acad0c486ab56c3aba772b9c0413a5",
+      "size_bytes": 6315
     },
     {
       "path": "src/lisbon_spatial_dynamics/panels/temporal.py",
@@ -62,7 +62,7 @@
     },
     "cpi_provenance": {
       "path": "data/reference/ine-cpi/2026-10-04/provenance.json",
-      "sha256": "fb02bec1b026f2f5d70bcc682f9d9d4771c5850464983513c8ca7a21e954fbc9",
+      "sha256": "3dc3f83492946c89729aad1dc10a49d9b8d9009f63b6cc7dff41d44a4028c5ac",
       "size_bytes": 3420
     },
     "housing": {

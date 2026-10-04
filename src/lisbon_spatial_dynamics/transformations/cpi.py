@@ -36,6 +36,9 @@ def _positive_decimal(value: object) -> Decimal:
         raise ValueError("invalid CPI value") from exc
     if not result.is_finite() or result <= 0:
         raise ValueError("CPI values must be finite and positive")
+    exponent = result.as_tuple().exponent
+    if isinstance(exponent, int) and exponent < -3:
+        raise ValueError("CPI values must have at most three decimal places")
     return result
 
 

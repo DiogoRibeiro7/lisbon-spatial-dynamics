@@ -2,10 +2,14 @@
 
 from __future__ import annotations
 
+import csv
 import importlib.util
 import json
+import runpy
+import sys
 from decimal import Decimal
 from hashlib import sha256
+from io import StringIO
 from pathlib import Path
 from types import ModuleType
 from typing import Any
@@ -133,8 +137,21 @@ def test_nonpositive_or_nonfinite_cpi_fails(value: str) -> None:
         parse_cpi_reference(text, [2024, 2025])
 
 
+@pytest.mark.parametrize("value", ["97.7171", "97.7170", "977171e-4", "100.0000"])
+def test_overprecise_cpi_fails_in_reference_and_raw_payload(value: str) -> None:
+    text = extract(*source()).replace("97.717", value)
+    with pytest.raises(ValueError, match="at most three decimal places"):
+        parse_cpi_reference(text, [2024, 2025])
+    data, meta = source()
+    row = data[0]["Dados"]["2024"][0]
+    row["valor"] = value
+    row["ind_string"] = value.replace(".", ",")
+    with pytest.raises(ValueError, match="at most three decimal places"):
+        extract(data, meta)
+
+
 @pytest.mark.parametrize(
-    "failure", ["base", "base_value", "geography", "aggregate", "year", "missing", "ragged"]
+    "failure", ["base", "base_value", "geography", "aggregate", "year", "missing"]
 )
 def test_reference_scope_and_coverage_are_explicit(failure: str) -> None:
     text = extract(*source())
@@ -148,11 +165,19 @@ def test_reference_scope_and_coverage_are_explicit(failure: str) -> None:
         text = text.replace(",T,Total", ",001,Total exceto habitação")
     elif failure == "year":
         text = text.replace("2024,0014642", "2025,0014642")
-    elif failure == "missing":
-        text = "\n".join(text.splitlines()[:2]) + "\n"
     else:
-        text = text.replace(",97.717", "")
+        text = "\n".join(text.splitlines()[:2]) + "\n"
     with pytest.raises(ValueError):
+        parse_cpi_reference(text, [2024, 2025])
+
+
+@pytest.mark.parametrize("extra_column", [False, True], ids=["short", "long"])
+def test_ragged_reference_rows_fail_structural_validation(extra_column: bool) -> None:
+    replacement = ",97.717,unexpected" if extra_column else ""
+    text = extract(*source()).replace(",97.717", replacement)
+    row = next(csv.DictReader(StringIO(text)))
+    assert None in row if extra_column else row["cpi_index"] is None
+    with pytest.raises(ValueError, match="malformed CPI reference row"):
         parse_cpi_reference(text, [2024, 2025])
 
 
@@ -229,3 +254,16 @@ def test_rehashed_manifest_with_broken_data_link_fails(tmp_path: Path, script: M
     with pytest.raises(ValueError, match="provenance"):
         script.build(raw_config(tmp_path, bad_link=True), output)
     assert not output.exists()
+
+
+def test_relative_script_entry_point(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    config = raw_config(tmp_path)
+    output = tmp_path / "reference"
+    script_path = "scripts/build_cpi_reference.py"
+    monkeypatch.setattr(
+        sys, "argv", [script_path, "--config", str(config), "--output", str(output)]
+    )
+    runpy.run_path(script_path, run_name="__main__")
+    report = json.loads((output / "provenance.json").read_bytes())
+    record = next(item for item in report["code_and_configuration"] if item["path"] == script_path)
+    assert record["sha256"] == sha256(Path(script_path).read_bytes()).hexdigest()

@@ -1,10 +1,18 @@
-"""Inflation adjustment must preserve the nominal evidence and reference period."""
+"""Test adjustment arithmetic with synthetic inputs and replay committed aggregate evidence.
+
+Script integration tests depend on the dated source-audit, nominal housing, and CPI
+artifacts pinned in configs/housing_inflation_2026-10-04.toml. They need no network,
+credentials, or uncommitted raw captures. These dated inputs are immutable; later
+quarters belong in new bundles. Integrity failures on edited inputs are intentional.
+"""
 
 from __future__ import annotations
 
 import csv
 import importlib.util
 import json
+import runpy
+import sys
 from decimal import ROUND_UP, Decimal, localcontext
 from hashlib import sha256
 from io import StringIO
@@ -122,12 +130,16 @@ def test_offline_replay_uses_verified_bytes_and_preserves_nominal_summary(
 
     monkeypatch.setattr(Path, "read_bytes", read_once)
     output = tmp_path / "result"
-    script.analyse(Path("configs/housing_inflation_2026-10-04.toml"), output)
+    script_path = "scripts/analyse_housing_inflation.py"
+    monkeypatch.setattr(sys, "argv", [script_path, "--output", str(output)])
+    runpy.run_path(script_path, run_name="__main__")
     report = json.loads((output / "analysis.json").read_bytes())
     assert report["nominal_summary_verified"]
     assert report["summary"]["annual_rows"] == 168
     assert report["summary"]["cpi_years"] == 7
     assert report["summary"]["parishes"] == 24
+    record = next(item for item in report["code_and_configuration"] if item["path"] == script_path)
+    assert record["sha256"] == sha256(Path(script_path).read_bytes()).hexdigest()
     assert len(seen) == 3
     assert set(p.name for p in output.iterdir()) == {
         "analysis.json",

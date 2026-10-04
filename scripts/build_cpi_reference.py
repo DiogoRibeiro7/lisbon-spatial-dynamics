@@ -73,7 +73,7 @@ def build(config_path: Path, output: Path) -> None:
             *(
                 fingerprint(path, path.read_bytes())
                 for path in (
-                    Path(__file__).relative_to(Path.cwd()),
+                    Path(__file__).resolve().relative_to(Path.cwd().resolve()),
                     Path("src/lisbon_spatial_dynamics/transformations/cpi.py"),
                     Path("src/lisbon_spatial_dynamics/sources/ine.py"),
                 )

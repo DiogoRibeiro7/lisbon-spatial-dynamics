@@ -31,13 +31,13 @@
     },
     {
       "path": "scripts/build_cpi_reference.py",
-      "sha256": "4c8a5faa74fcbba410b372d0945c700e19157665dc687678fc7f62549e98da8e",
-      "size_bytes": 4459
+      "sha256": "940a0bafbad506947c09146110259a091834c3f1d88138833b11813e86ba1665",
+      "size_bytes": 4479
     },
     {
       "path": "src/lisbon_spatial_dynamics/transformations/cpi.py",
-      "sha256": "763ffd45e12e430098266f301a1225e526cfdc77da3a0080faf7f38245e665dd",
-      "size_bytes": 6143
+      "sha256": "de3c4953f39fd98566bcc3a620e8da1698acad0c486ab56c3aba772b9c0413a5",
+      "size_bytes": 6315
     },
     {
       "path": "src/lisbon_spatial_dynamics/sources/ine.py",
