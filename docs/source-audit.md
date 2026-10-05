@@ -1,6 +1,6 @@
 # Primary-source audit: 2026-10-01
 
-The four official source families were acquired and checked against Lisbon's 24-parish geography. Housing and Census inputs now transform successfully. **This is a source audit, not a definitive v1.1 study:** the RNAL snapshot does not establish complete historical accommodation stock or closure coverage.
+The four official source families were acquired and checked against Lisbon's 24-parish geography. Housing and Census inputs now transform successfully. **This is a source audit, not a definitive v1.2 study:** the RNAL snapshot does not establish complete historical accommodation stock or closure coverage.
 
 The [committed audit bundle](https://github.com/DiogoRibeiro7/lisbon-spatial-dynamics/tree/main/results/source-audit/2026-10-01) contains `audit.json`, the 624-row housing panel, the 24-row Census context table, and a 24-row RNAL snapshot summary. The JSON records the exact input hashes, acquisition manifests, source URLs, fetch timestamps, code/dependency hashes, and CSV output hashes. It contains no establishment-level records.
 
@@ -62,11 +62,11 @@ Fresh acquisition is documented in [Getting started](getting-started.md). The RN
 
 **Archive status:** exact raw snapshots and metadata are retained in the local ignored data workspace. They have not been deposited in a public archive or attached to a release. Committed hashes identify them but do not provide a downloadable copy. Source data remain subject to their providers' terms; the repository's software licence does not change those terms.
 
-## What is needed before v1.1
+## What is needed before v1.2
 
 1. Establish whether the RNAL source includes ceased/cancelled records; obtain archived observations or a documented historical extract where needed.
 2. Resolve the unusually early registration dates and document any justified correction or exclusion. Preserve original records and a correction log.
 3. Confirm the estimand and common window against those findings. A snapshot-cohort analysis would need an explicitly revised interpretation throughout the outputs.
 4. Designate and durably archive the exact canonical inputs with access/redistribution information, then run `build-study-v1` with the versioned model settings and preserve its complete manifest and outputs.
 
-The v1.1 milestone remains open until those evidence and archival requirements are met.
+The v1.2 milestone remains open until those evidence and archival requirements are met.

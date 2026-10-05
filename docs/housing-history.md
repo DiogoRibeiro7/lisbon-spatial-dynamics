@@ -1,6 +1,6 @@
 # Housing values across Lisbon's parishes, 2019–2025
 
-All 24 parishes have higher published housing values in **2025 Q4 than in 2019 Q4** in the audited INE capture. The median of their individual nominal increases is **47.52%**, ranging from **5.15% in Santa Maria Maior** to **87.01% in Beato**. This is a housing-only comparison; it does not estimate an association with RNAL or complete the definitive v1.1 study.
+All 24 parishes have higher published housing values in **2025 Q4 than in 2019 Q4** in the audited INE capture. The median of their individual nominal increases is **47.52%**, ranging from **5.15% in Santa Maria Maior** to **87.01% in Beato**. This is a housing-only comparison; it does not estimate an association with RNAL or complete the definitive v1.2 study.
 
 The analysis was produced on **2026-10-04** from the [2026-10-01 primary-source audit](source-audit.md). Its [evidence bundle](https://github.com/DiogoRibeiro7/lisbon-spatial-dynamics/tree/main/results/housing-history/2026-10-04) contains 168 annual observations, 24 parish comparisons, seven yearly summaries, a figure and a provenance report. It can be reproduced entirely from committed aggregate inputs, without fetching raw data or relying on access to the local RNAL archive.
 

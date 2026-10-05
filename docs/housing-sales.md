@@ -69,4 +69,4 @@ The default `configs/housing_sales_2026-10-05.toml` pins six committed inputs: s
 
 Output directories must be new. Calculations use a fresh precision-28 Decimal context; CSVs use UTF-8/LF and preserve decimal results, while JSON summaries use numeric floats. Figure bytes may vary across software environments. Offline tests cover source contracts, arithmetic, zero/missing semantics and immutable aggregate replay.
 
-The missing accepted historical RNAL series remains a prerequisite for the definitive joint v1.1 study.
+The missing accepted historical RNAL series remains a prerequisite for the definitive joint v1.2 study.

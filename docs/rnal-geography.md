@@ -55,7 +55,7 @@ poetry run python scripts/audit_rnal_geography.py fetch --output data/raw/turism
 
 Use a new audit configuration with the resulting manifest's path, hash and size. Do not overwrite the original snapshots. Acquisition and audit publication both preserve existing destinations and clean their own temporary files on failure.
 
-## Implications for v1.1
+## Implications for v1.2
 
 The [subsequent parish-label sensitivity analysis](rnal-parish-sensitivity.md) quantifies how the disagreements affect counts, captured user capacity and pressure rankings while holding the retained SOAP cohort fixed. It compares all GIS conflict labels with GIS-supported points strictly beyond the 25-metre boundary margin; neither scenario is an adopted correction policy.
 

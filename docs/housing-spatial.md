@@ -78,6 +78,6 @@ The command requires a new output directory and publishes the complete bundle to
 
 Under one fixed geographic and neighbour definition, adjacent parishes tend to have more similar housing percentage changes than the global permutation null predicts. The result is descriptive and based on only 24 areas. It does not identify a causal mechanism, an RNAL effect, or a parish-specific hotspot surviving the chosen multiple-testing correction. Nominal values remain unadjusted for inflation or changes in the composition of sold properties.
 
-Historical RNAL coverage and the remaining archival requirements still need resolution before the definitive joint v1.1 run.
+Historical RNAL coverage and the remaining archival requirements still need resolution before the definitive joint v1.2 run.
 
 The [sensitivity follow-up](housing-spatial-sensitivity.md) evaluates three change measures, queen/rook graphs and all 24 parish omissions. The selected global comparisons survive Holm correction, but queen and rook have identical neighbours, and Santa Maria Maior materially influences the statistic. The original local FDR result is unchanged.

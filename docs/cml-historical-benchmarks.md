@@ -59,6 +59,6 @@ This is an offline command and the output directory must be new. It verifies eac
 
 The original PDF SHA-256 is `1e446b0b71d55a3f0086b539278810f1875d5e4244174786295489b40fea8195`. It remains in the ignored local workspace; a hash is not a public archive. Only attributed aggregate facts are committed, and no source-document redistribution licence is asserted.
 
-## Implication for v1.1
+## Implication for v1.2
 
 These are useful historical parish benchmarks, especially for capacity, and can constrain validation of a future monitoring extract. They do not resolve the seven early dates, historical registration membership, cancellations, capacity changes within the interval, or the later analysis endpoint. The definitive study still requires a compatible quarterly series, documented date/geography semantics, and durable input archiving. The existing models and their input-selection policy are unchanged.

@@ -2,24 +2,23 @@
 
 Lisbon Spatial Dynamics is now past the initial repository-building phase.
 
-Version **v1.0.1** established the first stable research-software release with committed empirical evidence and generated findings. From this point onward, development should be driven by substantive research milestones rather than incremental repository polish.
+Version **v1.0.1** established the first stable research-software release with committed empirical evidence and generated findings. Version **v1.1.0** adds an independently reproducible housing component and a documented audit of the RNAL sources. Development should continue to be driven by substantive research milestones rather than incremental repository polish.
 
 ## Current status
 
-**Current stable release:** `v1.0.1`
+**Current stable release:** `v1.1.0`
 
-The v1.0.x line contains:
+The v1.1.x line contains:
 
 - the reusable acquisition and transformation pipeline;
 - canonical Lisbon freguesia geography;
 - housing, RNAL, Census, and spatial-analysis components;
 - pre-specified multivariable modelling;
 - reproducibility and provenance contracts;
-- committed empirical evidence and descriptive findings.
+- committed empirical evidence and descriptive findings;
+- a primary-source audit and dated, offline-reproducible housing and RNAL evidence bundles.
 
-The `v1.0.x` line is now considered **frozen for feature development**.
-
-Further `v1.0.x` releases should be limited to:
+Further `v1.1.x` releases should be limited to:
 
 - genuine software defects;
 - incorrect empirical values;
@@ -31,54 +30,61 @@ New research capabilities belong in later minor or major releases.
 
 ---
 
-## v1.1.0 — definitive primary-source empirical run
+## v1.1.0 — housing evidence and RNAL source audit
 
-**Progress, 2026-10-01:** the [primary-source audit](docs/source-audit.md) captured all four source families, fixed the longitudinal housing request, and added support for the official Census XLSX archive. RNAL historical completeness and early registration dates remain unresolved. The snapshots are retained locally with hashes; no public source archive or definitive study run has been designated.
+**Released 2026-10-05.** Originally, v1.1.0 was to be the definitive joint study run. The source audit showed that the available RNAL feeds cannot supply the required historical series, so that run moved to [v1.2.0](#v120--definitive-primary-source-joint-study-run). Version 1.1.0 releases the evidence produced while establishing why.
 
-The subsequent [RNAL coverage investigation](docs/rnal-coverage.md) confirms the seven early dates in both official interfaces, identifies 172 conflicting parish assignments, and finds that the retained SOAP cohort reconstructs 11,525 registrations at end-November 2022 versus the municipal report's 20,134. The report documents a monthly historical data exchange between Turismo de Portugal and CML. The next evidence requirement is that historical extract (or reconciled parish aggregates), plus documented parish/date semantics; the live GIS feed does not resolve the historical gap.
+Each bundle below is dated, committed under `results/` with its inputs under `data/reference/` or `data/benchmarks/`, and reproducible offline with hash-verified provenance. None of them is the canonical joint housing/RNAL run.
 
-The [coordinate follow-up](docs/rnal-geography.md) locates all 172 disputed points inside their GIS-labelled CAOP2025 parish. Of those, 67 are within 25 metres of a boundary. This supports spatial consistency of the GIS labels while retaining positional uncertainty; no automatic corrections or historical-stock claims follow from it.
+### Primary-source audit
 
-**Progress, 2026-10-02:** the [parish-label sensitivity analysis](docs/rnal-parish-sensitivity.md) compares the original SOAP labels with all GIS conflicts and the 105 conflicts supported more than 25 metres from a boundary. Both scenarios preserve municipality totals and the top four record-pressure ranks, with six parishes moving one position. Local count/capacity effects can change direction. The comparison informs geographic harmonisation but leaves historical completeness, verified assignments and durable archiving open.
+The [primary-source audit](docs/source-audit.md) (2026-10-01) captured all four source families, fixed the longitudinal housing request to 24 parishes × 26 quarters for 2019 Q4–2026 Q1, and added support for the official Census XLSX archive. The snapshots are retained locally with hashes; no public source archive has been designated.
 
-**Progress, 2026-10-03:** the [historical municipal benchmarks](docs/cml-historical-benchmarks.md) preserve 96 parish-level values from the report's November 2019/2022 weighted-AL and capacity tables. The capacity table reconciles exactly; weighted values retain explicit displayed-arithmetic discrepancies. These benchmarks support validation of a future extract but do not replace the required quarterly, consistently defined series.
+### Housing component
+
+| Bundle | Evidence |
+| --- | --- |
+| [Q4 comparison](docs/housing-history.md), 2026-10-04 | 168 observations for 2019–2025. All 24 parishes have higher endpoint values; the median parish increase is 47.52%. |
+| [Spatial patterns](docs/housing-spatial.md), 2026-10-04 | 54-pair queen graph from an archived CAOP2025 Lisbon subset. Positive global association (Moran's I 0.3421; permutation p 0.0029); no FDR-significant local clusters. |
+| [Spatial sensitivity](docs/housing-spatial-sensitivity.md), 2026-10-04 | Positive global association for percentage, log and absolute changes after Holm correction. Queen and rook give identical graphs; Santa Maria Maior materially influences the magnitude. |
+| [CPI context](docs/housing-inflation.md), 2026-10-04 | The median endpoint change is 23.59% after national CPI adjustment; two parishes fall below baseline. |
+| [Dwelling categories](docs/housing-categories.md), 2026-10-05 | 504 Total/New/Existing observations with 69 unpublished values retained. Existing median change 47.64%; New has only 14 complete endpoint pairs. |
+| [Sales volume](docs/housing-sales.md), 2026-10-05 | 175 INE counts reconciling exactly to Lisbon totals. Sales fall 4.96% between 2019 and 2025; 17 parishes record fewer sales alongside higher nominal medians. |
+| [Municipal distribution](docs/housing-distribution.md), 2026-10-05 | 21 published quartiles. The municipal median rises 48.36%; the interquartile range widens in €/m² but narrows relative to the median. |
+
+### RNAL source evidence
+
+| Bundle | Evidence |
+| --- | --- |
+| [Coverage investigation](docs/rnal-coverage.md), 2026-10-01 | Seven early registration dates confirmed in both official interfaces; 172 conflicting parish assignments. The retained SOAP cohort reconstructs 11,525 registrations at end-November 2022 versus the municipal report's 20,134. |
+| [Coordinate follow-up](docs/rnal-geography.md), 2026-10-01 | All 172 disputed points fall inside their GIS-labelled CAOP2025 parish; 67 are within 25 metres of a boundary. No automatic corrections follow. |
+| [Parish-label sensitivity](docs/rnal-parish-sensitivity.md), 2026-10-02 | Both GIS scenarios preserve municipality totals and the top four record-pressure ranks; six parishes move one position. Local count/capacity effects can change direction. |
+| [Municipal benchmarks](docs/cml-historical-benchmarks.md), 2026-10-03 | 96 parish values from the November 2019/2022 weighted-AL and capacity tables. Capacity reconciles exactly; weighted values retain displayed-arithmetic discrepancies. |
+| [Community archive](docs/rnal-archive-coverage.md), 2026-10-03 | 13 captures from May 2025 to October 2026. Missing earlier years, observation gaps and unverified status semantics prevent promotion to a study input. |
+| [Capture gaps](docs/rnal-capture-gaps.md), 2026-10-03 | Two entirely empty registration-month groups (May 2018, September 2014) isolate 383 missing records in the October 2025 and February 2026 exports. Nothing is imputed. |
+| [Historical capacity](docs/historical-capacity.md), 2026-10-05 | November 2019/2022 capacity per 1,000 fixed Census 2021 residents. The four largest-capacity parishes' share falls from 64.30% to 61.32%; they lose 417 places while the other 20 gain 5,143. |
+| [Provider request package](docs/rnal-history-request.md), 2026-10-04 | Portuguese drafts for CML and Turismo de Portugal, a technical annex and 600 requested parish-quarter keys for 2019 Q4–2025 Q4. Not yet sent. |
+
+---
+
+## v1.2.0 — definitive primary-source joint study run
+
+**Status: next, blocked on a historical RNAL series.** The current official feeds retain survivors rather than history, and the community archive starts in 2025. Neither can supply the 2019–2025 parish stock the joint study needs. The next action is to send the [provider request package](docs/rnal-history-request.md); its assessment table defines how a return would be validated. An accepted series also needs a reviewed importer, because `build-study-v1` consumes registry records and has no historical-aggregate adapter.
 
 ### Goal
 
 Produce one canonical Lisbon study run generated end-to-end from a fixed set of archived primary-source snapshots.
 
-The [community archive assessment](docs/rnal-archive-coverage.md), completed on 2026-10-03, adds 13 RNAL captures from May 2025 to October 2026. Explicit duplicate and reappearance diagnostics make these useful evidence of changing archive membership, but the missing earlier years, observation gaps and unverified status semantics prevent their promotion to the definitive quarterly input set.
-
-The [registration-month follow-up](docs/rnal-capture-gaps.md) narrows two capture-quality flags to entirely empty May-2018 and September-2014 groups. Their 383 matched missing records require targeted validation of the October 2025 and February 2026 exports; no totals are repaired or interpreted as dated closures.
-
-**Next evidence step, prepared 2026-10-04:** the [provider request package](docs/rnal-history-request.md) specifies 25 quarter ends across 24 parishes (600 requested observations), with Portuguese drafts, public routing contacts, a technical annex and criteria for assessing a return. Neither request has been sent. An accepted historical series will need a reviewed importer and explicit alignment of the study window before it can enter the definitive run; the existing registry-record command does not ingest aggregate histories.
-
-**Independent evidence, 2026-10-04:** the [housing Q4 comparison](docs/housing-history.md) publishes 168 observations, 24 endpoint comparisons and a figure for 2019–2025, reproducible from the committed primary-source aggregates. This establishes an inspectable housing component while leaving the RNAL historical requirement and canonical joint run open.
-
-The [housing spatial analysis](docs/housing-spatial.md) adds the 54-pair queen graph, global/local permutation results and a projected map. It archives the small, attributed CAOP2025 Lisbon reference for offline reproduction. Positive global association and no FDR-significant local clusters are reported separately; this does not resolve the RNAL historical requirement.
-
-The [spatial sensitivity follow-up](docs/housing-spatial-sensitivity.md) checks three change measures under queen/rook contiguity and all 24 parish omissions. It reports the identical effective graphs, adjusted global tests and the influence of Santa Maria Maior explicitly. These checks strengthen interpretation of the housing component while the joint study remains open.
-
-The [CPI context](docs/housing-inflation.md) adds a captured national annual index and a reproducible adjustment of the 168 housing observations. The median endpoint change is 23.59% after adjustment, with two parishes below baseline. This adds price-level context without resolving housing composition, affordability or historical RNAL coverage.
-
-**Independent evidence, 2026-10-05:** the [dwelling-category comparison](docs/housing-categories.md) captures 504 Total/New/Existing median observations, retaining 69 unpublished values and their flags. It verifies all 168 Total values against the earlier audit and compares category changes over matched parish endpoints. The Existing median change is 47.64%; New has only 14 complete endpoint pairs. This exposes category coverage and local differences without claiming a decomposition of sales composition or resolving historical RNAL coverage.
-
-The [historical capacity context](docs/historical-capacity.md) makes the audited November 2019/2022 municipal observations comparable across parish population sizes using the fixed Census 2021 denominator. It reports the four largest-capacity parishes' baseline-defined share falling from 64.30% to 61.32% and separates their −417 places from the remaining parishes' +5,143. The source dates retain month precision; this does not supply the missing quarterly RNAL history or a housing association.
-
 The objective is to move from a repository that can run the study to a release that contains a **fully traceable empirical study instance**.
 
-The [sales-volume context](docs/housing-sales.md) adds 175 INE counts with exact annual reconciliation of the 24 parish sums to published Lisbon totals. Sales decrease by 4.96% between 2019 and 2025, with 17 parishes recording fewer sales alongside higher nominal medians. This supplies transaction-activity evidence with explicit annual windows and source vintages; it does not identify category composition or resolve historical RNAL coverage.
-
 ### Scope
-
-The [municipal distribution context](docs/housing-distribution.md) adds 21 published INE quartiles for 2019–2025. It distinguishes the municipal median's 48.36% increase from the equal-weight parish statistic and shows an absolute widening but relative narrowing of the interquartile range. This is municipality-level descriptive evidence; it neither supplies parish distributions nor resolves sales composition or historical RNAL coverage.
 
 #### Archive definitive study inputs
 
 Preserve one exact set of source snapshots:
 
 - INE housing indicator `0012234`;
-- Turismo de Portugal RNAL Lisboa records after the existing privacy-minimisation step;
+- a validated historical RNAL Lisboa series, after the existing privacy-minimisation step;
 - INE Censos 2021 synthesis archive;
 - DGT CAOP reference geography;
 - versioned multivariable model configuration.
@@ -147,8 +153,9 @@ The documentation results page should report values directly from this canonical
 
 ### Definition of done
 
-`v1.1.0` is complete when:
+`v1.2.0` is complete when:
 
+- a historical RNAL series has been obtained, validated against the municipal benchmarks, and ingested through a reviewed importer;
 - one archived input set is designated as the canonical study input;
 - `build-study-v1` completes from those inputs;
 - the manifest verifies every input and output;
@@ -160,7 +167,7 @@ The documentation results page should report values directly from this canonical
 
 ---
 
-## v1.2.0 — mobility and accessibility extension
+## v1.3.0 — mobility and accessibility extension
 
 ### Goal
 
@@ -203,7 +210,7 @@ The extension should:
 
 ### Definition of done
 
-`v1.2.0` is complete when at least one defensible mobility/accessibility dimension is integrated into the canonical panel and produces reproducible descriptive and spatial results.
+`v1.3.0` is complete when at least one defensible mobility/accessibility dimension is integrated into the canonical panel and produces reproducible descriptive and spatial results.
 
 ---
 
@@ -277,8 +284,9 @@ Further repository-polish work should be secondary to empirical research unless 
 | Release | Primary objective | Status |
 | --- | --- | --- |
 | `v1.0.1` | Stable pipeline + committed empirical correction | Released |
-| `v1.1.0` | Definitive primary-source empirical study run | Next |
-| `v1.2.0` | Mobility/accessibility extension | Planned |
+| `v1.1.0` | Housing evidence and RNAL source audit | Released |
+| `v1.2.0` | Definitive primary-source joint study run | Next; blocked on historical RNAL data |
+| `v1.3.0` | Mobility/accessibility extension | Planned |
 | `v2.0.0` | Broader longitudinal urban-change study | Future |
 
 ## Guiding principle

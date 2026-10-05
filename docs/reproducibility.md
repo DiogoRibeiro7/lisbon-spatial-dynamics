@@ -15,7 +15,7 @@ A v1 build starts from archived local snapshots:
 
 This isolates a stable research release from later upstream API changes.
 
-Version 1.0.1 commits a small empirical evidence/results layer, but it still does not include the large raw source snapshots required to reproduce a full pipeline run. Preserve those snapshots separately for every empirical study. Hashes identify files but do not make missing inputs recoverable.
+Versions 1.0.1 and 1.1.0 commit small empirical evidence layers and aggregate bundles, but they do not include the large raw source snapshots required to reproduce a full pipeline run. Preserve those snapshots separately for every empirical study. Hashes identify files but do not make missing inputs recoverable.
 
 ## Software environment
 

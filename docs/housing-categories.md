@@ -68,6 +68,6 @@ The default `configs/housing_categories_2026-10-05.toml` pins six committed inpu
 
 Output directories must be new. Calculations use a fresh precision-28 Decimal context; CSVs retain decimal results and use UTF-8/LF, while JSON summaries use numeric floats. Paths and image bytes can vary across environments. Offline integration tests intentionally depend on the immutable committed aggregate inputs; later data require new bundles. Extraction from the pinned raw capture is separately reproducible with `scripts/build_housing_category_reference.py`, as described in the reference README.
 
-Historical RNAL coverage remains unresolved, and this housing comparison does not complete the joint v1.1 study.
+Historical RNAL coverage remains unresolved, and this housing comparison does not complete the joint v1.2 study.
 
 The [sales-volume follow-up](housing-sales.md) adds Total counts for the same annual windows. They describe parish transaction activity but have no New/Existing breakdown, so they do not identify the category shares or missing-value reasons discussed here.
