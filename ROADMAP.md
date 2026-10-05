@@ -67,6 +67,8 @@ The [historical capacity context](docs/historical-capacity.md) makes the audited
 
 The objective is to move from a repository that can run the study to a release that contains a **fully traceable empirical study instance**.
 
+The [sales-volume context](docs/housing-sales.md) adds 175 INE counts with exact annual reconciliation of the 24 parish sums to published Lisbon totals. Sales decrease by 4.96% between 2019 and 2025, with 17 parishes recording fewer sales alongside higher nominal medians. This supplies transaction-activity evidence with explicit annual windows and source vintages; it does not identify category composition or resolve historical RNAL coverage.
+
 ### Scope
 
 #### Archive definitive study inputs

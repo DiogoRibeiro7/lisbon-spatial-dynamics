@@ -1,0 +1,11 @@
+# Q4 observations cover the preceding calendar year's sales, not one quarter.
+# Lisbon municipality and its 24 parishes, fixed 2019-2025 window.
+[indicator]
+source_id = "ine_housing_sales_volume"
+code = "0014363"
+language = "PT"
+data_url = "https://www.ine.pt/ine/json_indicador/pindica.jsp?op=2&varcd=0014363&lang=PT&Dim1=S5A20194%2CS5A20204%2CS5A20214%2CS5A20224%2CS5A20234%2CS5A20244%2CS5A20254&Dim2=1A01106%2C1A0110601%2C1A0110602%2C1A0110607%2C1A0110608%2C1A0110610%2C1A0110611%2C1A0110618%2C1A0110621%2C1A0110633%2C1A0110639%2C1A0110654%2C1A0110655%2C1A0110656%2C1A0110657%2C1A0110658%2C1A0110659%2C1A0110660%2C1A0110661%2C1A0110662%2C1A0110663%2C1A0110664%2C1A0110665%2C1A0110666%2C1A0110667"
+metadata_url = "https://www.ine.pt/ine/json_indicador/pindicaMeta.jsp?varcd=0014363&lang=PT"
+
+[output]
+directory = "data/raw/ine/housing/0014363/sales_2019_2025"

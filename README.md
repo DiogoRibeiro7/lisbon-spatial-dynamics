@@ -47,6 +47,8 @@ The [national CPI adjustment](docs/housing-inflation.md) puts that median increa
 
 The [dwelling-category comparison](docs/housing-categories.md) finds a 47.64% median nominal increase for Existing dwellings across all 24 parishes, with substantial local differences from Total. New-dwelling endpoints cover only 14 parishes and are compared with Total over that same sample. All unpublished medians and source flags remain explicit.
 
+The [sales-volume comparison](docs/housing-sales.md) adds 175 official counts that reconcile across parishes and the municipality in every year. Lisbon sales fall from 8,665 in 2019 to 8,235 in 2025 (−4.96%); 17 parishes have fewer sales despite higher nominal medians. Total counts provide activity context but cannot explain dwelling-category sales composition.
+
 The [housing spatial follow-up](docs/housing-spatial.md) finds positive global association under 54 queen-neighbour pairs (Moran's I 0.3421; permutation p 0.0029), with no local result surviving FDR correction. Its map, statistics and attributed CAOP2025 Lisbon subset reproduce entirely from committed inputs.
 
 The [spatial sensitivity checks](docs/housing-spatial-sensitivity.md) retain positive global association for percentage, log and absolute changes after Holm correction. Queen and rook yield the same graph. Every parish omission leaves the primary statistic positive, although Santa Maria Maior has a material influence on its magnitude.

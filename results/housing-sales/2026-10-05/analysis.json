@@ -1,0 +1,157 @@
+{
+  "analysis_date": "2026-10-05",
+  "attribution": "Instituto Nacional de Estatística (INE), indicator 0014363, rolling-year sales counts, methodology 2022, NUTS 2024. Sale medians: INE 0012234.",
+  "capture_dates": {
+    "sale_medians": "2026-10-01T10:39:17.054628+00:00",
+    "sales": "2026-10-05T08:58:15.726236+00:00"
+  },
+  "code_and_configuration": [
+    {
+      "path": "configs/housing_sales_2026-10-05.toml",
+      "sha256": "a8db8561d7ae649863c8a0e548204106ed180f54e7d1401708d76be0e272cfef",
+      "size_bytes": 1155
+    },
+    {
+      "path": "scripts/analyse_housing_sales.py",
+      "sha256": "3577470deeb11c1ed3a330c2dfde06206d831b93f2d2482b7bce0c372f2edacc",
+      "size_bytes": 7374
+    },
+    {
+      "path": "src/lisbon_spatial_dynamics/analysis/housing_sales.py",
+      "sha256": "e913c56ac5c132281969aef31165b0dd76cd3e9057f559807fea4967ab374309",
+      "size_bytes": 7692
+    },
+    {
+      "path": "src/lisbon_spatial_dynamics/transformations/housing_sales.py",
+      "sha256": "7c4fbdefce33f594afc2f71f6538a70d4af7efb983cc6504c81a8d7504972d55",
+      "size_bytes": 7964
+    },
+    {
+      "path": "src/lisbon_spatial_dynamics/analysis/housing_history.py",
+      "sha256": "0d99260a71e72fdf0da3a785e4fb9414cbdb956d6c811489b2d2357381a647ba",
+      "size_bytes": 10191
+    },
+    {
+      "path": "src/lisbon_spatial_dynamics/analysis/cml_benchmarks.py",
+      "sha256": "56dfcdcda23e802152bc854bdce56994bc44f1d40be5aba3defe50b2467e702e",
+      "size_bytes": 7512
+    },
+    {
+      "path": "src/lisbon_spatial_dynamics/panels/temporal.py",
+      "sha256": "c917c39be420c9b9e2b1691d6097557f5f047c834dbb4b136fe0947687c8a739",
+      "size_bytes": 8754
+    },
+    {
+      "path": "src/lisbon_spatial_dynamics/panels/housing.py",
+      "sha256": "625389684686b13f1b14137822276b4ccd4f2d35b85d0542aac85b5f30b49c4e",
+      "size_bytes": 8772
+    },
+    {
+      "path": "pyproject.toml",
+      "sha256": "a2cfa37c27ec70978bfd6e5f8503aee9f02ab1840d21b97ccd71e86cb6374016",
+      "size_bytes": 4588
+    },
+    {
+      "path": "poetry.lock",
+      "sha256": "eacfc9e9167df23309405e0f1c22e452715dc018082229b67c6e62f28a521cc7",
+      "size_bytes": 223966
+    }
+  ],
+  "inputs": {
+    "housing": {
+      "path": "results/source-audit/2026-10-01/housing_quarter_panel.csv",
+      "sha256": "d69cb05743da7a3ae483a490b5ac73d8c670d095c3ede6186fa8d59be70a736a",
+      "size_bytes": 53284
+    },
+    "housing_report": {
+      "path": "results/housing-history/2026-10-04/analysis.json",
+      "sha256": "b448ca688cbe1bab3e12cfe4e7183cb1c7771dd1f00a6ade1a9eb1b23bac6e93",
+      "size_bytes": 6237
+    },
+    "reference": {
+      "path": "results/source-audit/2026-10-01/census_context.csv",
+      "sha256": "5ac702c77ac2a37817cdee1f9d853c488f9beb105174626ead5c8c8ee5c43a32",
+      "size_bytes": 10079
+    },
+    "sales": {
+      "path": "data/reference/ine-housing-sales/2026-10-05/sales_panel.csv",
+      "sha256": "9d7cda089a2a9594d16fc730fed91cdcf1e158d1b18160b9b79f73ed1b9cd909",
+      "size_bytes": 13317
+    },
+    "sales_provenance": {
+      "path": "data/reference/ine-housing-sales/2026-10-05/provenance.json",
+      "sha256": "238de08d4ee1f9274d0d675a86150759a739c3c491e05c2efeb0004bc56e376a",
+      "size_bytes": 4322
+    },
+    "source_audit": {
+      "path": "results/source-audit/2026-10-01/audit.json",
+      "sha256": "a0c576c84d7c003473e1205b70c41194be4f1826eada0d9114500826664da99a",
+      "size_bytes": 18498
+    }
+  },
+  "interpretation": {
+    "alignment": "Successive Q4 observations cover non-overlapping annual windows. Q4 counts are annual sales, not October-December sales. No sum of overlapping quarterly rolling-year counts.",
+    "archive": "Replay consumes committed aggregates. Raw INE responses remain locally retained outside Git with hashes and extraction instructions. Counts and medians have separate documented capture dates.",
+    "changes": "100 * (latest - baseline) / baseline; a zero parish baseline leaves percentage change undefined but preserves the absolute change. City growth uses published city counts, not the mean of parish changes.",
+    "counts": "INE 0014363 published sales in the preceding 12 months, observed at Q4.",
+    "limits": "Counts describe transactions, not unique properties or households. No dwelling category breakdown, sales-mix decomposition, pooled median reconstruction, constant-quality change, affordability, RNAL effect or causal estimate. The earlier nominal medians are not replaced or weighted by these counts.",
+    "medians": "INE 0012234 Total dwelling sale median EUR/m2, same annual windows.",
+    "precision": "Fresh Decimal precision-28 context; decimal CSVs and float JSON.",
+    "shares": "Each parish count divided by the same year's reconciled city count."
+  },
+  "licence": "CC-BY-4.0",
+  "nominal_summary_verified": true,
+  "outputs": [
+    {
+      "path": "results/housing-sales/2026-10-05/annual_parish.csv",
+      "sha256": "3738c265eef09261566e87771ef2c47978f3e35354374577e282446d159e8370",
+      "size_bytes": 11430
+    },
+    {
+      "path": "results/housing-sales/2026-10-05/endpoint_changes.csv",
+      "sha256": "d3b80a8d2ee14f9ce7451a770da75effeeff3e431e7491b3f5c2593b1512fd77",
+      "size_bytes": 5094
+    },
+    {
+      "path": "results/housing-sales/2026-10-05/housing_sales.png",
+      "sha256": "024532d052dceb88ccb66cbac0fbdb72857ad12a3ff11a468cf8f67b6dd76fbd",
+      "size_bytes": 142378
+    },
+    {
+      "path": "results/housing-sales/2026-10-05/municipality_sales.csv",
+      "sha256": "94b40aec6787bcc682190fb8e99d5e8738299dfa14ef18077bffc343982a234b",
+      "size_bytes": 595
+    }
+  ],
+  "schema_version": 1,
+  "software": {
+    "matplotlib": "3.11.2",
+    "python": "3.13.5"
+  },
+  "summary": {
+    "baseline_municipality_sales": 8665,
+    "baseline_year": 2019,
+    "latest_municipality_sales": 8235,
+    "latest_year": 2025,
+    "median_parish_sales_change_pct": -4.868371212121212,
+    "municipality_sales_change": -430,
+    "municipality_sales_change_pct": -4.962492787074438,
+    "paired_parish_observations": 168,
+    "parishes": 24,
+    "parishes_with_higher_median_and_fewer_sales": 17,
+    "parishes_with_sales_decline": 17,
+    "parishes_with_sales_growth": 7,
+    "parishes_with_unchanged_sales": 0,
+    "parishes_with_zero_baseline_sales": 0,
+    "reconciled_years": [
+      2019,
+      2020,
+      2021,
+      2022,
+      2023,
+      2024,
+      2025
+    ],
+    "source_count_observations": 175
+  }
+}

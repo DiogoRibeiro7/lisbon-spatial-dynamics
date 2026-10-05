@@ -1,6 +1,21 @@
 # Canonical registry of candidate and approved project data sources.
 
 [[sources]]
+source_id = "ine_housing_sales_volume"
+name = "INE rolling-year dwelling sales counts — NUTS 2024 (0014363)"
+provider = "Instituto Nacional de Estatística (INE)"
+domain = "housing"
+kind = "dataset"
+status = "catalogued"
+spatial_unit = "Lisbon municipality and its 24 canonical parishes"
+frequency = "quarterly observations of preceding 12-month sales"
+temporal_coverage = "2019–2025 Q4 annual windows explicitly captured on 2026-10-05"
+access = "public INE JSON API"
+licence = "Creative Commons Attribution 4.0 (CC BY 4.0)"
+landing_page = "https://www.ine.pt/xurl/indx/0014363/PT"
+notes = "175 published counts reconcile exactly across parish sums and city totals in all seven years. The attributed canonical reference and provenance support offline replay. Q4 values cover calendar-year sales, not a single quarter; overlapping rolling-year observations must not be summed. No dwelling-category dimension or price-composition decomposition."
+
+[[sources]]
 source_id = "ine_cpi_annual_base2025"
 name = "INE annual consumer price index — base 2025 (0014642)"
 provider = "Instituto Nacional de Estatística (INE)"
