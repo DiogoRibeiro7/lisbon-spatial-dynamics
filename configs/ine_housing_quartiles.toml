@@ -1,0 +1,10 @@
+# Published municipality quartiles; the source does not supply Lisbon parish quartiles.
+[indicator]
+source_id = "ine_housing_municipality_quartiles"
+code = "0013042"
+language = "PT"
+data_url = "https://www.ine.pt/ine/json_indicador/pindica.jsp?op=2&varcd=0013042&lang=PT&Dim1=S7A2019%2CS7A2020%2CS7A2021%2CS7A2022%2CS7A2023%2CS7A2024%2CS7A2025&Dim2=1A01106&Dim3=1%2C2%2C3"
+metadata_url = "https://www.ine.pt/ine/json_indicador/pindicaMeta.jsp?varcd=0013042&lang=PT"
+
+[output]
+directory = "data/raw/ine/housing/0013042/lisbon_2019_2025"

@@ -1,0 +1,22 @@
+analysis_date = "2026-10-05"
+years = [2019, 2020, 2021, 2022, 2023, 2024, 2025]
+
+[inputs.data]
+path = "data/raw/ine/housing/0013042/lisbon_2019_2025/20261005T100408Z.data.json"
+sha256 = "a75b5d8e6905d5bc6029248ecce09da9aede80d4ac616f4d293d7c9da0ee6140"
+size_bytes = 4295
+
+[inputs.metadata]
+path = "data/raw/ine/housing/0013042/lisbon_2019_2025/20261005T100408Z.metadata.json"
+sha256 = "3998cb9c0359cb6bfdfa82661a2f073e302a2080f039fef329b194b5725c9238"
+size_bytes = 80797
+
+[inputs.manifest]
+path = "data/raw/ine/housing/0013042/lisbon_2019_2025/20261005T100408Z.manifest.json"
+sha256 = "15726232ee6057ebecac987d487a9ece8f8b031080b327a9e696200567e9e2d1"
+size_bytes = 938
+
+[inputs.acquisition_config]
+path = "configs/ine_housing_quartiles.toml"
+sha256 = "94f08c9c0a5fc60223f31b0ed13e327e7af47b85f9e91bf0933057f0898553b1"
+size_bytes = 536

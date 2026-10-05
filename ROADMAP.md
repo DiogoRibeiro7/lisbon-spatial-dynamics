@@ -71,6 +71,8 @@ The [sales-volume context](docs/housing-sales.md) adds 175 INE counts with exact
 
 ### Scope
 
+The [municipal distribution context](docs/housing-distribution.md) adds 21 published INE quartiles for 2019–2025. It distinguishes the municipal median's 48.36% increase from the equal-weight parish statistic and shows an absolute widening but relative narrowing of the interquartile range. This is municipality-level descriptive evidence; it neither supplies parish distributions nor resolves sales composition or historical RNAL coverage.
+
 #### Archive definitive study inputs
 
 Preserve one exact set of source snapshots:

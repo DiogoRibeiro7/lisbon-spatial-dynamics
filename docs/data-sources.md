@@ -65,6 +65,10 @@ Missing values remain missing. No imputation occurs during ingestion or transfor
 
 ## Other source families
 
+### Annual municipality housing quartiles
+
+The [municipal distribution analysis](housing-distribution.md) uses INE `0013042`, annual sale-value-per-m² quartiles under methodology 2022/NUTS 2024. `configs/ine_housing_quartiles.toml` requests Q1/Q2/Q3 for Lisbon municipality over 2019–2025. These quartiles are not quarters or parish statistics. The attributed 21-row reference retains the published integer EUR/m² values and verifies annual coverage, geography, units/scaling/precision and ordering. The source catalogue records CC BY 4.0 reuse and the municipality-only scope of this capture.
+
 ### Housing transaction counts
 
 The [sales-volume comparison](housing-sales.md) uses INE `0014363`, the number of dwelling sales in the preceding 12 months under methodology 2022/NUTS 2024. `configs/ine_housing_sales.toml` requests seven Q4 periods, 2019–2025, for the 24 Lisbon parishes and the municipality. Its strict extractor checks units, integer precision, geography/period metadata, complete published counts and exact parish-to-city reconciliation. Q4 represents an annual sales window; quarterly rolling-year counts are not summed. The committed 175-row reference has acquisition/extraction provenance and CC BY 4.0 attribution. This series has no dwelling-category dimension.

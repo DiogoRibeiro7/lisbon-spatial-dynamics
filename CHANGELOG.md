@@ -6,6 +6,7 @@ All notable repository-level changes are documented here.
 
 ### Added
 
+- Municipal housing-price distribution evidence for 2019–2025: 21 captured INE quartiles, annual absolute/relative interquartile ranges, endpoint comparisons and a reproducible figure. Municipal scope, separate quartile baselines and the distinction between a distribution range and a confidence interval remain explicit.
 - Housing sales-volume evidence for 2019–2025: 175 captured INE counts, exact annual parish-to-municipality reconciliation, 168 matched count/median observations, endpoint comparisons and a reproducible figure. Annual windows, separate capture dates, missing/zero semantics and composition limits remain explicit.
 - Historical accommodation-capacity context for November 2019/2022: all 24 parishes normalized to the fixed Census 2021 population, municipality and fixed-baseline concentration comparisons, a figure and provenance-verified offline replay. Month-level dates, capacity units and the distinction from actual occupancy remain explicit.
 - Matched dwelling-category housing comparisons for 2019–2025: a captured 504-row INE reference with original missing-value flags, reconciliation of all 168 Total values, matched endpoint summaries, coverage tables and a reproducible figure. Existing dwellings cover all 24 parish endpoints; New covers 14, with explicit exclusions and composition limits.

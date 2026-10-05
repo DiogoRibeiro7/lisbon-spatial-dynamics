@@ -1,6 +1,21 @@
 # Canonical registry of candidate and approved project data sources.
 
 [[sources]]
+source_id = "ine_housing_municipality_quartiles"
+name = "INE annual dwelling-sale quartiles — NUTS 2024 (0013042)"
+provider = "Instituto Nacional de Estatística (INE)"
+domain = "housing"
+kind = "dataset"
+status = "catalogued"
+spatial_unit = "Lisbon municipality; no Lisbon parish quartiles in captured metadata"
+frequency = "annual"
+temporal_coverage = "2019–2025 explicitly captured on 2026-10-05"
+access = "public INE JSON API"
+licence = "Creative Commons Attribution 4.0 (CC BY 4.0)"
+landing_page = "https://www.ine.pt/xurl/indx/0013042/PT"
+notes = "21 published Q1/Q2/Q3 observations describe the municipal sale-value-per-m2 distribution. The canonical reference preserves integer precision and verifies ordering. The IQR is a distribution range, not a confidence interval; no allocation to parishes, fixed-dwelling appreciation or sales-composition decomposition."
+
+[[sources]]
 source_id = "ine_housing_sales_volume"
 name = "INE rolling-year dwelling sales counts — NUTS 2024 (0014363)"
 provider = "Instituto Nacional de Estatística (INE)"
