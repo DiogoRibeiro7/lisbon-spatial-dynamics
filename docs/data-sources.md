@@ -65,6 +65,10 @@ Missing values remain missing. No imputation occurs during ingestion or transfor
 
 ## Other source families
 
+### Housing transaction counts
+
+The [sales-volume comparison](housing-sales.md) uses INE `0014363`, the number of dwelling sales in the preceding 12 months under methodology 2022/NUTS 2024. `configs/ine_housing_sales.toml` requests seven Q4 periods, 2019–2025, for the 24 Lisbon parishes and the municipality. Its strict extractor checks units, integer precision, geography/period metadata, complete published counts and exact parish-to-city reconciliation. Q4 represents an annual sales window; quarterly rolling-year counts are not summed. The committed 175-row reference has acquisition/extraction provenance and CC BY 4.0 attribution. This series has no dwelling-category dimension.
+
 ### Annual consumer prices
 
 The [housing inflation analysis](housing-inflation.md) uses INE indicator `0014642`, annual CPI, base 2025, Portugal (`PT`), Total (`T`). `configs/ine_cpi_annual.toml` fixes the seven years 2019–2025. A strict extractor checks data/metadata identity, annual frequency, geography, aggregate and complete positive observations. The canonical CSV is committed with attribution and acquisition fingerprints; raw JSON remains outside Git. This national consumption-price reference is separate from local housing asset prices and income affordability.

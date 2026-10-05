@@ -1,0 +1,98 @@
+{
+  "acquisition": {
+    "fetched_at": "2026-10-05T08:58:15.726236+00:00",
+    "indicator_code": "0014363",
+    "language": "PT",
+    "resources": {
+      "data": {
+        "path": "data/raw/ine/housing/0014363/sales_2019_2025/20261005T085815Z.data.json",
+        "sha256": "c56a38d2abfdb15000ecf8c56a10a89652df6fa34f7ea53b00364f3a124df6f6",
+        "size_bytes": 21911,
+        "url": "https://www.ine.pt/ine/json_indicador/pindica.jsp?op=2&varcd=0014363&lang=PT&Dim1=S5A20194%2CS5A20204%2CS5A20214%2CS5A20224%2CS5A20234%2CS5A20244%2CS5A20254&Dim2=1A01106%2C1A0110601%2C1A0110602%2C1A0110607%2C1A0110608%2C1A0110610%2C1A0110611%2C1A0110618%2C1A0110621%2C1A0110633%2C1A0110639%2C1A0110654%2C1A0110655%2C1A0110656%2C1A0110657%2C1A0110658%2C1A0110659%2C1A0110660%2C1A0110661%2C1A0110662%2C1A0110663%2C1A0110664%2C1A0110665%2C1A0110666%2C1A0110667"
+      },
+      "metadata": {
+        "path": "data/raw/ine/housing/0014363/sales_2019_2025/20261005T085815Z.metadata.json",
+        "sha256": "a14423c61bcda2b68d860a8e0d39b7fe9cfa6f50ad08fa0c293c20423e676b93",
+        "size_bytes": 227129,
+        "url": "https://www.ine.pt/ine/json_indicador/pindicaMeta.jsp?varcd=0014363&lang=PT"
+      }
+    },
+    "schema_version": 1,
+    "source_id": "ine_housing_sales_volume"
+  },
+  "analysis_date": "2026-10-05",
+  "archive_scope": "Canonical aggregate CSV committed; original JSON responses retained locally outside Git.",
+  "attribution": "Instituto Nacional de Estatística (INE), indicator 0014363, rolling-year sales counts, methodology 2022, NUTS 2024.",
+  "code_and_configuration": [
+    {
+      "path": "configs/housing_sales_reference_2026-10-05.toml",
+      "sha256": "e011963c81deab2887ee8f2278f69ac274007c9536e252218eebed1734117e14",
+      "size_bytes": 1020
+    },
+    {
+      "path": "scripts/build_housing_sales_reference.py",
+      "sha256": "d23f2f5698929f6aed582934b93b2946dbcaa9f2349fcaafe2ed74b3d30a2be6",
+      "size_bytes": 4912
+    },
+    {
+      "path": "src/lisbon_spatial_dynamics/transformations/housing_sales.py",
+      "sha256": "7c4fbdefce33f594afc2f71f6538a70d4af7efb983cc6504c81a8d7504972d55",
+      "size_bytes": 7964
+    },
+    {
+      "path": "src/lisbon_spatial_dynamics/analysis/cml_benchmarks.py",
+      "sha256": "56dfcdcda23e802152bc854bdce56994bc44f1d40be5aba3defe50b2467e702e",
+      "size_bytes": 7512
+    },
+    {
+      "path": "src/lisbon_spatial_dynamics/sources/ine.py",
+      "sha256": "66a246005339f15ab3bc68282cd01ded89abc6a46583cd10cb47a9850c814404",
+      "size_bytes": 9579
+    }
+  ],
+  "inputs": {
+    "acquisition_config": {
+      "path": "configs/ine_housing_sales.toml",
+      "sha256": "880081e6e6f38309454bbca4d3de8bae1655f168f4b1da93243bbadf67d511d3",
+      "size_bytes": 862
+    },
+    "data": {
+      "path": "data/raw/ine/housing/0014363/sales_2019_2025/20261005T085815Z.data.json",
+      "sha256": "c56a38d2abfdb15000ecf8c56a10a89652df6fa34f7ea53b00364f3a124df6f6",
+      "size_bytes": 21911
+    },
+    "manifest": {
+      "path": "data/raw/ine/housing/0014363/sales_2019_2025/20261005T085815Z.manifest.json",
+      "sha256": "2cb1366cfe45b8bbabcffa8477f6cffae3c1ebe1d6b5e2207cf2acd8fa9eb6e9",
+      "size_bytes": 1208
+    },
+    "metadata": {
+      "path": "data/raw/ine/housing/0014363/sales_2019_2025/20261005T085815Z.metadata.json",
+      "sha256": "a14423c61bcda2b68d860a8e0d39b7fe9cfa6f50ad08fa0c293c20423e676b93",
+      "size_bytes": 227129
+    },
+    "reference": {
+      "path": "results/source-audit/2026-10-01/census_context.csv",
+      "sha256": "5ac702c77ac2a37817cdee1f9d853c488f9beb105174626ead5c8c8ee5c43a32",
+      "size_bytes": 10079
+    }
+  },
+  "licence": "CC-BY-4.0",
+  "licence_source": "https://dados.gov.pt/pt/datasets/vendas-de-alojamentos-familiares-nos-ultimos-12-meses-metodologia-2022-n-o",
+  "output": {
+    "path": "data/reference/ine-housing-sales/2026-10-05/sales_panel.csv",
+    "sha256": "9d7cda089a2a9594d16fc730fed91cdcf1e158d1b18160b9b79f73ed1b9cd909",
+    "size_bytes": 13317
+  },
+  "schema_version": 1,
+  "transformation": "Select configured Q4 periods, Lisbon municipality and its canonical parishes. Require published integer counts and reconcile parish sums with city totals. No imputation; each Q4 count covers the preceding 12 months.",
+  "years": [
+    2019,
+    2020,
+    2021,
+    2022,
+    2023,
+    2024,
+    2025
+  ]
+}

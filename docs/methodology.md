@@ -57,6 +57,8 @@ For that reason:
 
 No change metric is calculated when either the current or comparison value is missing.
 
+The [sales-volume comparison](housing-sales.md) pairs these medians with INE `0014363` at Q4 over seven non-overlapping annual windows. It validates each year's parish-count sum against the separately published city total, uses that total for parish sales shares and preserves the earlier nominal price calculations. City count growth is calculated from city totals; transaction counts are not used to reconstruct a pooled price from parish medians. Total counts do not identify dwelling-category shares or explain price changes.
+
 ## Descriptive analysis first
 
 The first analytical stage should establish:
