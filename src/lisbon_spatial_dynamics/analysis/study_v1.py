@@ -72,7 +72,7 @@ from lisbon_spatial_dynamics.transformations.population import (
     write_census_population_csv,
 )
 
-STUDY_V1_VERSION = "1.0.1"
+STUDY_V1_VERSION = "1.1.0"
 
 
 class StudyV1BuildError(ValueError):

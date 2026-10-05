@@ -4,6 +4,10 @@ All notable repository-level changes are documented here.
 
 ## [Unreleased]
 
+## [1.1.0] - 2026-10-05
+
+Housing evidence and RNAL source-audit release. The source audit showed that the available RNAL feeds cannot supply the historical parish series required for the definitive joint housing/RNAL study run originally planned for this version; that run moves to v1.2.0. See the [roadmap](ROADMAP.md).
+
 ### Added
 
 - Municipal housing-price distribution evidence for 2019–2025: 21 captured INE quartiles, annual absolute/relative interquartile ranges, endpoint comparisons and a reproducible figure. Municipal scope, separate quartile baselines and the distinction between a distribution range and a confidence interval remain explicit.
@@ -56,6 +60,7 @@ All notable repository-level changes are documented here.
 
 ### Changed
 
+- The roadmap re-scopes v1.1.0 to the housing evidence and RNAL source audit. The definitive joint study run becomes v1.2.0, gated on an accepted historical RNAL series and a reviewed importer; the mobility and accessibility extension becomes v1.3.0.
 - Documentation builds use locked dependencies and grant deployment permissions only to the deployment job.
 - Pre-commit hooks use the project's locked linting and typing tools.
 

@@ -66,4 +66,4 @@ The default `configs/housing_distribution_2026-10-05.toml` pins the quartile CSV
 
 Output directories must be new. Calculations use a fresh precision-28 Decimal context; UTF-8/LF CSVs preserve decimals and JSON summaries use numeric floats. Figure bytes may vary across environments. Offline tests use synthetic source contracts and this immutable reference, including zero-spread and failure-cleanup cases.
 
-The accepted historical RNAL series and the definitive joint v1.1 run remain outstanding.
+The accepted historical RNAL series and the definitive joint v1.2 run remain outstanding.

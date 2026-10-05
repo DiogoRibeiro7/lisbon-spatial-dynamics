@@ -1,6 +1,6 @@
 [project]
 name = "lisbon-spatial-dynamics"
-version = "1.0.1"
+version = "1.1.0"
 description = "Reproducible spatial analysis of housing values and local accommodation in Lisbon."
 authors = [{ name = "Diogo Ribeiro" }]
 readme = "README.md"

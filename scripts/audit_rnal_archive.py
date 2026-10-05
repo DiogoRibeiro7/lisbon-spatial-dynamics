@@ -57,7 +57,7 @@ def write_json(path: Path, value: Any) -> None:
 
 def get_bytes(url: str) -> bytes:
     with urlopen(
-        Request(url, headers={"User-Agent": "lisbon-spatial-dynamics/1.0.1"}), timeout=90
+        Request(url, headers={"User-Agent": "lisbon-spatial-dynamics/1.1.0"}), timeout=90
     ) as response:
         return cast(bytes, response.read())
 

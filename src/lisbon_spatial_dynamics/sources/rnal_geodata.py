@@ -73,7 +73,7 @@ def validate_records(records: list[dict[str, Any]]) -> None:
 
 
 def _get(url: str, timeout: float) -> bytes:
-    request = Request(url, headers={"User-Agent": "lisbon-spatial-dynamics/1.0.1"})
+    request = Request(url, headers={"User-Agent": "lisbon-spatial-dynamics/1.1.0"})
     with urlopen(request, timeout=timeout) as response:
         payload: bytes = response.read()
     return payload

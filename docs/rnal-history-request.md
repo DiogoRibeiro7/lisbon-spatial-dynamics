@@ -2,7 +2,7 @@
 
 **Prepared 2026-10-04. Status: drafts only; neither request has been sent and no provider response has been received.**
 
-The next v1.1 evidence step is to request the historical RNAL series from CML and Turismo de Portugal. The current official feeds and the assessed community archive cannot establish a complete 2019–2025 parish series. This package turns the [coverage requirements](rnal-coverage.md#required-extract) into two Portuguese messages, a shared [technical annex](requests/rnal-historical-data.md), and a [CSV of requested dates and parishes](requests/rnal-history-scope.csv).
+The next v1.2 evidence step is to request the historical RNAL series from CML and Turismo de Portugal. The current official feeds and the assessed community archive cannot establish a complete 2019–2025 parish series. This package turns the [coverage requirements](rnal-coverage.md#required-extract) into two Portuguese messages, a shared [technical annex](requests/rnal-historical-data.md), and a [CSV of requested dates and parishes](requests/rnal-history-scope.csv).
 
 The CSV contains **600 requested keys: 25 quarter ends × 24 parishes**, from 2019-12-31 to 2025-12-31. It contains no RNAL observations or placeholder zeros. Parish identifiers and names come from the [committed reference used in the source audit](https://github.com/DiogoRibeiro7/lisbon-spatial-dynamics/blob/33336c0091e3978d7f2fc358ae4555195015f6b5/results/source-audit/2026-10-01/census_context.csv). Its columns are `quarter` (`YYYYQn`), `reference_date` (ISO calendar date), `municipality_code` (`1106`), `freguesia_id` (six-character administrative code), and `freguesia_name` (UTF-8). Rows are ordered by date, then parish code.
 
@@ -84,4 +84,4 @@ Record the actual delivery date, channel and any case reference only after dispa
 
 A returned file is not automatically a study input. The current `build-study-v1` interface consumes registry records with registration/cessation dates; it has no historical-aggregate or multi-event importer. Integrating an accepted return will require a reviewed adapter and provenance checks, including an explicit common-window selection. Stock differences cannot supply separate registration, cessation, cancellation and reinstatement flows. A file with only stock and capacity may resolve the core annual exposure while leaving the full pipeline's flow fields or bed-capacity fields unavailable.
 
-The request package therefore leaves v1.1 open until the evidence, integration and reproducible run satisfy the [roadmap](https://github.com/DiogoRibeiro7/lisbon-spatial-dynamics/blob/main/ROADMAP.md).
+The request package therefore leaves v1.2 open until the evidence, integration and reproducible run satisfy the [roadmap](https://github.com/DiogoRibeiro7/lisbon-spatial-dynamics/blob/main/ROADMAP.md).

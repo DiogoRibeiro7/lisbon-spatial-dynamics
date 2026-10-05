@@ -18,7 +18,7 @@ The test suite runs with local fixtures. It does not need the official datasets,
 
 ## Choose the inputs
 
-To reproduce an existing full pipeline study, use its archived snapshots, reference geography, model configuration, software revision, and dependency lockfile. Version 1.0.1 also commits a small empirical evidence layer under `data/release/v1.0.1/` and `results/release/v1.0.1/`, but those curated tables do not replace the archived raw inputs required for a full pipeline reproduction.
+To reproduce an existing full pipeline study, use its archived snapshots, reference geography, model configuration, software revision, and dependency lockfile. The repository also commits curated evidence: the v1.0.1 layer under `data/release/v1.0.1/` and `results/release/v1.0.1/`, and the dated v1.1.0 bundles under `results/`. Those tables do not replace the archived raw inputs required for a full pipeline reproduction.
 
 To create a new study, acquire fresh snapshots as described below. The source services require network access. Preserve the fetched files and acquisition manifests: future downloads can contain revised records or different coverage.
 

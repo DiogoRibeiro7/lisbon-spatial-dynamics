@@ -80,4 +80,4 @@ The matrix implementation checks the primary Moran statistic against the pinned 
 
 An empty `islands` CSV cell means no isolated parish; multiple codes would be separated by semicolons. `significant_holm` applies the configured 0.05 threshold to adjusted global p-values. The command requires a new output directory and publishes the bundle together; failed runs leave no partial bundle. CSV/JSON use UTF-8 and LF endings. Numeric reproduction allows normal floating-point tolerance; code/path fingerprints and image bytes can vary across environments.
 
-These results remain descriptive. They do not address inflation, transaction composition, alternate observation windows, other spatial weights, causal identification or historical RNAL completeness. The joint v1.1 study still requires an accepted historical RNAL series.
+These results remain descriptive. They do not address inflation, transaction composition, alternate observation windows, other spatial weights, causal identification or historical RNAL completeness. The joint v1.2 study still requires an accepted historical RNAL series.

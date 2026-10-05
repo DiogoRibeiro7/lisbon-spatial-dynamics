@@ -9,7 +9,7 @@
 
 Lisbon Spatial Dynamics is a Python research pipeline for examining how changes in housing values relate to local accommodation pressure at the *freguesia* (civil parish) level. It combines official Portuguese data, builds comparable neighbourhood panels, and produces descriptive statistics, spatial diagnostics, regression tables, maps, and a record of the inputs used.
 
-[Documentation](https://diogoribeiro7.github.io/lisbon-spatial-dynamics/) · [Getting started](docs/getting-started.md) · [Methodology](docs/methodology.md) · [Contributing](CONTRIBUTING.md) · [Changelog](CHANGELOG.md)
+[Documentation](https://diogoribeiro7.github.io/lisbon-spatial-dynamics/) · [Getting started](docs/getting-started.md) · [Methodology](docs/methodology.md) · [Contributing](CONTRIBUTING.md) · [Changelog](CHANGELOG.md) · [Roadmap](ROADMAP.md)
 
 > **Research scope:** results describe associations across neighbourhoods. They do not establish that local accommodation causes housing-price changes. The analysis uses a small sample of 24 parishes and a fixed Census 2021 population denominator.
 
@@ -25,11 +25,11 @@ Lisbon Spatial Dynamics is a Python research pipeline for examining how changes 
 
 ## Project status
 
-[Version 1.0.1](https://github.com/DiogoRibeiro7/lisbon-spatial-dynamics/releases/tag/v1.0.1) adds committed empirical datasets and generated findings as a patch correction to the v1.0.0 software release. The full raw-snapshot pipeline remains available for reproducible study runs; fetching today's sources creates a new run rather than reproducing an earlier archived snapshot.
+[Version 1.1.0](https://github.com/DiogoRibeiro7/lisbon-spatial-dynamics/releases/tag/v1.1.0) adds a primary-source audit, an independently reproducible housing component for 2019–2025, and a documented investigation of the RNAL sources. Version 1.0.1 added the curated empirical release layer. The definitive joint housing/RNAL study run is the [v1.2.0 milestone](ROADMAP.md#v120--definitive-primary-source-joint-study-run) and awaits a historical RNAL series. The full raw-snapshot pipeline remains available for reproducible study runs; fetching today's sources creates a new run rather than reproducing an earlier archived snapshot.
 
 The test suite uses synthetic fixtures and committed aggregate research evidence without downloading source datasets. Replay tests verify the dated artifacts and hashes pinned in their configurations; later observations belong in new bundles rather than replacing those inputs. Live source availability and a study run using official data require separate verification. Mobility, accessibility, infrastructure, and additional longitudinal demographic sources are outside the v1 scope.
 
-The [2026-10-01 primary-source audit](docs/source-audit.md) verifies housing coverage for all 24 parishes over 2019 Q4–2026 Q1 and reads the official Census workbook. The RNAL snapshot has no populated cessation dates and includes unusually early registration dates. Historical RNAL completeness remains unresolved; this input set is not yet designated the definitive v1.1 study.
+The [2026-10-01 primary-source audit](docs/source-audit.md) verifies housing coverage for all 24 parishes over 2019 Q4–2026 Q1 and reads the official Census workbook. The RNAL snapshot has no populated cessation dates and includes unusually early registration dates. Historical RNAL completeness remains unresolved; this input set is not yet designated the definitive v1.2 study.
 
 The [RNAL coverage investigation](docs/rnal-coverage.md) confirms the early dates in a second official feed, finds 172 conflicting parish assignments, and reconstructs only 11,525 registrations at November 2022 against the municipality's published 20,134. Historical extracts and geographic reconciliation are needed before the definitive run.
 
@@ -55,7 +55,7 @@ The [housing spatial follow-up](docs/housing-spatial.md) finds positive global a
 
 The [spatial sensitivity checks](docs/housing-spatial-sensitivity.md) retain positive global association for percentage, log and absolute changes after Holm correction. Queen and rook yield the same graph. Every parish omission leaves the primary statistic positive, although Santa Maria Maior has a material influence on its magnitude.
 
-The [historical municipal benchmarks](docs/cml-historical-benchmarks.md) add November 2019/2022 observations for all 24 parishes. The capacity table reconciles at 111,492 and 116,218 places; weighted-AL values are kept separate from raw registration counts, with displayed arithmetic differences recorded explicitly. These two observations do not constitute the quarterly series required for v1.1.
+The [historical municipal benchmarks](docs/cml-historical-benchmarks.md) add November 2019/2022 observations for all 24 parishes. The capacity table reconciles at 111,492 and 116,218 places; weighted-AL values are kept separate from raw registration counts, with displayed arithmetic differences recorded explicitly. These two observations do not constitute the quarterly series required for v1.2.
 
 The [historical capacity comparison](docs/historical-capacity.md) expresses those endpoints per 1,000 fixed Census 2021 residents and tracks a fixed group of the four largest-capacity parishes at baseline. Their share falls from 64.30% to 61.32%, while combined capacity in the other 20 parishes grows by 5,143 places. These are administrative capacity figures, not occupancy or visitor counts.
 
@@ -63,7 +63,9 @@ The [community RNAL archive assessment](docs/rnal-archive-coverage.md) adds 13 c
 
 The [capture-gap follow-up](docs/rnal-capture-gaps.md) identifies two entirely empty registration-month groups in the October 2025 and February 2026 exports. Matching the same registry numbers on both sides isolates 383 missing records in those groups, supporting targeted source validation without imputing observations or asserting a cause.
 
-The repository includes a small inspectable release layer:
+Each analysis above is a dated bundle under `results/<analysis>/<date>/`. Housing bundles reproduce offline from inputs committed under `data/reference/`; the municipal benchmarks are under `data/benchmarks/`. RNAL audits commit aggregates only, and their record-level inputs stay outside Git.
+
+Version 1.0.1 also added a small curated release layer:
 
 ```text
 data/release/v1.0.1/
@@ -180,7 +182,9 @@ Start with `results/final/findings.md`, then inspect the tables and diagnostics.
 | [`docs/`](docs/) | MkDocs documentation and methodological detail |
 | `data/raw/`, `data/interim/`, `data/processed/` | Local data workspace; generated contents are not committed |
 | [`data/release/v1.0.1/`](data/release/v1.0.1/) | Curated committed empirical evidence with provenance |
-| [`results/release/v1.0.1/`](results/release/v1.0.1/) | Committed empirical summary/results for the patch release |
+| [`data/reference/`](data/reference/), [`data/benchmarks/`](data/benchmarks/) | Committed, attributed aggregate inputs for the dated evidence bundles |
+| [`results/`](results/) | Dated evidence bundles (`<analysis>/<date>/`) and the v1.0.1 release results |
+| [`scripts/`](scripts/) | Entry points that rebuild the references and regenerate the dated bundles |
 | [`.github/workflows/`](.github/workflows/) | Code checks, tests, package build, and documentation deployment |
 
 ## Development
