@@ -316,6 +316,8 @@ This normalization is intended for **cross-freguesia comparability**. Because th
 
 ## Annual population-normalized RNAL pressure
 
+The separate [historical capacity comparison](historical-capacity.md) applies the fixed Census 2021 denominator to CML's November 2019/2022 capacity benchmarks. Those dates retain month precision and do not enter the annual Q4 panel. Its concentration measure uses a different denominator—municipality capacity at each date—and follows the same baseline-selected parish group through both observations.
+
 For across-years comparison, the quarterly pressure panel is reduced to a Q4-anchored annual panel:
 
 ```bash

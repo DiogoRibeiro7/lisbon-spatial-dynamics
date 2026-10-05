@@ -53,6 +53,8 @@ The [spatial sensitivity checks](docs/housing-spatial-sensitivity.md) retain pos
 
 The [historical municipal benchmarks](docs/cml-historical-benchmarks.md) add November 2019/2022 observations for all 24 parishes. The capacity table reconciles at 111,492 and 116,218 places; weighted-AL values are kept separate from raw registration counts, with displayed arithmetic differences recorded explicitly. These two observations do not constitute the quarterly series required for v1.1.
 
+The [historical capacity comparison](docs/historical-capacity.md) expresses those endpoints per 1,000 fixed Census 2021 residents and tracks a fixed group of the four largest-capacity parishes at baseline. Their share falls from 64.30% to 61.32%, while combined capacity in the other 20 parishes grows by 5,143 places. These are administrative capacity figures, not occupancy or visitor counts.
+
 The [community RNAL archive assessment](docs/rnal-archive-coverage.md) adds 13 captures from May 2025 to October 2026. It identifies 339 repeated Lisbon rows and 418 reappearance observations, demonstrating why absence from an export cannot be treated as a dated closure. These qualified historical observations remain outside the definitive study inputs.
 
 The [capture-gap follow-up](docs/rnal-capture-gaps.md) identifies two entirely empty registration-month groups in the October 2025 and February 2026 exports. Matching the same registry numbers on both sides isolates 383 missing records in those groups, supporting targeted source validation without imputing observations or asserting a cause.

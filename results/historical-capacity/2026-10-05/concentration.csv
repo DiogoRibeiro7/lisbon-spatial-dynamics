@@ -1,0 +1,3 @@
+group,parishes,baseline_month,latest_month,baseline_capacity,latest_capacity,capacity_change,baseline_municipality_capacity_share_pct,latest_municipality_capacity_share_pct,capacity_share_change_pp
+baseline_largest_capacity,4,2019-11,2022-11,71685,71268,-417,64.29609299321924443009363901,61.32268667504173191760312516,-2.97340631817751251249051385
+remaining_parishes,20,2019-11,2022-11,39807,44950,5143,35.70390700678075556990636099,38.67731332495826808239687484,2.97340631817751251249051385

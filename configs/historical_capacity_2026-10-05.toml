@@ -1,0 +1,23 @@
+analysis_date = "2026-10-05"
+parishes = 24
+baseline_top_n = 4
+
+[inputs.transcription]
+path = "data/benchmarks/cml-rnal-2019-2022/published_values.csv"
+sha256 = "fde0fc9ec0d138b2057e1e8392008302220b3a1b67521856f92b91d7c96a6f7b"
+size_bytes = 1944
+
+[inputs.benchmark_report]
+path = "results/cml-benchmarks/2026-10-03/audit.json"
+sha256 = "e714925e2ee6c97525cdedc6649e03a241de694d79c8c29451fcacc3f6c04404"
+size_bytes = 7494
+
+[inputs.reference]
+path = "results/source-audit/2026-10-01/census_context.csv"
+sha256 = "5ac702c77ac2a37817cdee1f9d853c488f9beb105174626ead5c8c8ee5c43a32"
+size_bytes = 10079
+
+[inputs.source_audit]
+path = "results/source-audit/2026-10-01/audit.json"
+sha256 = "a0c576c84d7c003473e1205b70c41194be4f1826eada0d9114500826664da99a"
+size_bytes = 18498

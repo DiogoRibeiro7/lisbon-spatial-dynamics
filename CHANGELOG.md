@@ -6,6 +6,7 @@ All notable repository-level changes are documented here.
 
 ### Added
 
+- Historical accommodation-capacity context for November 2019/2022: all 24 parishes normalized to the fixed Census 2021 population, municipality and fixed-baseline concentration comparisons, a figure and provenance-verified offline replay. Month-level dates, capacity units and the distinction from actual occupancy remain explicit.
 - Matched dwelling-category housing comparisons for 2019–2025: a captured 504-row INE reference with original missing-value flags, reconciliation of all 168 Total values, matched endpoint summaries, coverage tables and a reproducible figure. Existing dwellings cover all 24 parish endpoints; New covers 14, with explicit exclusions and composition limits.
 - National CPI context for the 2019–2025 housing comparison: a pinned INE annual index, strict attributed reference extraction, 168 CPI-adjusted observations, endpoint/yearly summaries, a figure and offline provenance-verified replay. Published nominal results remain unchanged; national-price, transaction-composition and affordability limits are explicit.
 - Housing spatial sensitivity evidence: percentage/log/absolute changes under queen and rook contiguity, Holm correction across six declared global comparisons, and all 24 descriptive parish omissions. The published bundle exposes identical effective graphs and Santa Maria Maior's influence, with verified offline replay and a comparison figure.

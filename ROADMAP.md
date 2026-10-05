@@ -63,6 +63,8 @@ The [CPI context](docs/housing-inflation.md) adds a captured national annual ind
 
 **Independent evidence, 2026-10-05:** the [dwelling-category comparison](docs/housing-categories.md) captures 504 Total/New/Existing median observations, retaining 69 unpublished values and their flags. It verifies all 168 Total values against the earlier audit and compares category changes over matched parish endpoints. The Existing median change is 47.64%; New has only 14 complete endpoint pairs. This exposes category coverage and local differences without claiming a decomposition of sales composition or resolving historical RNAL coverage.
 
+The [historical capacity context](docs/historical-capacity.md) makes the audited November 2019/2022 municipal observations comparable across parish population sizes using the fixed Census 2021 denominator. It reports the four largest-capacity parishes' baseline-defined share falling from 64.30% to 61.32% and separates their −417 places from the remaining parishes' +5,143. The source dates retain month precision; this does not supply the missing quarterly RNAL history or a housing association.
+
 The objective is to move from a repository that can run the study to a release that contains a **fully traceable empirical study instance**.
 
 ### Scope
