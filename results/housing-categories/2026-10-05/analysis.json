@@ -1,0 +1,250 @@
+{
+  "analysis_date": "2026-10-05",
+  "attribution": "Instituto Nacional de Estatística (INE), indicator 0012234, dwelling-category sale medians, methodology 2022, NUTS 2024.",
+  "code_and_configuration": [
+    {
+      "path": "configs/housing_categories_2026-10-05.toml",
+      "sha256": "8f895cdcb5cb5dcc9afdf0e98194c7d72d45616a2c70111e29cd338d75b15c49",
+      "size_bytes": 1176
+    },
+    {
+      "path": "scripts/analyse_housing_categories.py",
+      "sha256": "e97522b59df012c767411c58228d8db6a1de3299334bced189b22cf1a2f43b67",
+      "size_bytes": 7319
+    },
+    {
+      "path": "src/lisbon_spatial_dynamics/analysis/housing_categories.py",
+      "sha256": "b977d68998744467a909eaa340168035acda394f500f57b2331e5c4578813b5e",
+      "size_bytes": 9798
+    },
+    {
+      "path": "src/lisbon_spatial_dynamics/transformations/housing_categories.py",
+      "sha256": "f0799efa0d353fbbea22b59e1d5ad096a743aea745129648d17e4a2e2241e58b",
+      "size_bytes": 8581
+    },
+    {
+      "path": "src/lisbon_spatial_dynamics/analysis/housing_history.py",
+      "sha256": "0d99260a71e72fdf0da3a785e4fb9414cbdb956d6c811489b2d2357381a647ba",
+      "size_bytes": 10191
+    },
+    {
+      "path": "src/lisbon_spatial_dynamics/analysis/cml_benchmarks.py",
+      "sha256": "56dfcdcda23e802152bc854bdce56994bc44f1d40be5aba3defe50b2467e702e",
+      "size_bytes": 7512
+    },
+    {
+      "path": "src/lisbon_spatial_dynamics/panels/temporal.py",
+      "sha256": "c917c39be420c9b9e2b1691d6097557f5f047c834dbb4b136fe0947687c8a739",
+      "size_bytes": 8754
+    },
+    {
+      "path": "src/lisbon_spatial_dynamics/panels/housing.py",
+      "sha256": "625389684686b13f1b14137822276b4ccd4f2d35b85d0542aac85b5f30b49c4e",
+      "size_bytes": 8772
+    },
+    {
+      "path": "pyproject.toml",
+      "sha256": "a2cfa37c27ec70978bfd6e5f8503aee9f02ab1840d21b97ccd71e86cb6374016",
+      "size_bytes": 4588
+    },
+    {
+      "path": "poetry.lock",
+      "sha256": "eacfc9e9167df23309405e0f1c22e452715dc018082229b67c6e62f28a521cc7",
+      "size_bytes": 223966
+    }
+  ],
+  "inputs": {
+    "categories": {
+      "path": "data/reference/ine-housing-categories/2026-10-04/category_panel.csv",
+      "sha256": "f006da9c989bf9f05111b4d3aaf518415883f03587d5217b7447ab5451514140",
+      "size_bytes": 43674
+    },
+    "category_provenance": {
+      "path": "data/reference/ine-housing-categories/2026-10-04/provenance.json",
+      "sha256": "348e103db98be0e064342fe7bb5762ac37cff3ac55a0fc0da6c20dc641456772",
+      "size_bytes": 4348
+    },
+    "housing": {
+      "path": "results/source-audit/2026-10-01/housing_quarter_panel.csv",
+      "sha256": "d69cb05743da7a3ae483a490b5ac73d8c670d095c3ede6186fa8d59be70a736a",
+      "size_bytes": 53284
+    },
+    "housing_report": {
+      "path": "results/housing-history/2026-10-04/analysis.json",
+      "sha256": "b448ca688cbe1bab3e12cfe4e7183cb1c7771dd1f00a6ade1a9eb1b23bac6e93",
+      "size_bytes": 6237
+    },
+    "reference": {
+      "path": "results/source-audit/2026-10-01/census_context.csv",
+      "sha256": "5ac702c77ac2a37817cdee1f9d853c488f9beb105174626ead5c8c8ee5c43a32",
+      "size_bytes": 10079
+    },
+    "source_audit": {
+      "path": "results/source-audit/2026-10-01/audit.json",
+      "sha256": "a0c576c84d7c003473e1205b70c41194be4f1826eada0d9114500826664da99a",
+      "size_bytes": 18498
+    }
+  },
+  "interpretation": {
+    "archive": "Offline replay starts from committed aggregates. Original INE JSON responses are retained locally outside Git and linked by the category reference provenance.",
+    "change": "100 * (latest / baseline - 1); each parish and category uses its own baseline.",
+    "coverage": "Retain every requested key and source '-' flag. Unpublished medians remain missing, never zero or interpolated.",
+    "limits": "Category medians cannot identify sales shares or decompose changes in the pooled median. Within-category property mix, quality and location can still change. No constant-quality, inflation-adjusted, RNAL or causal effect is estimated.",
+    "matching": "Compare each category with Total only over parishes with both category endpoints; equal parish weights.",
+    "measure": "Nominal dwelling sale median in EUR/m2 over the preceding 12 months, observed at Q4; INE 0012234.",
+    "paired_gap": "Category percentage change minus Total percentage change in the same parish, in percentage points. The median paired gap is not generally the difference between the two medians.",
+    "precision": "Fresh Decimal precision-28 context; decimal CSV values and numeric float JSON summaries."
+  },
+  "licence": "CC-BY-4.0",
+  "nominal_summary_verified": true,
+  "outputs": [
+    {
+      "path": "results/housing-categories/2026-10-05/annual_coverage.csv",
+      "sha256": "94cd90ea6e59dce814f35dedc41de0a78cd8ce8386fd04e85795288022cd7186",
+      "size_bytes": 605
+    },
+    {
+      "path": "results/housing-categories/2026-10-05/endpoint_changes.csv",
+      "sha256": "103fd05e0396e01ee60c732dae7b0444bc13ab560ba0f4f2ea68f6458b2a4df9",
+      "size_bytes": 9605
+    },
+    {
+      "path": "results/housing-categories/2026-10-05/housing_categories.png",
+      "sha256": "5c2d1c55b406dcf947feefdb251d4a1b1ce442affdfb79cd289bad862e83b546",
+      "size_bytes": 231197
+    },
+    {
+      "path": "results/housing-categories/2026-10-05/matched_comparisons.csv",
+      "sha256": "59fcbc6928afd32fb0bf6c785326d9ca913b65c7a079c9bc514b2726a9b14722",
+      "size_bytes": 737
+    }
+  ],
+  "schema_version": 1,
+  "software": {
+    "matplotlib": "3.11.2",
+    "python": "3.13.5"
+  },
+  "summary": {
+    "baseline_year": 2019,
+    "categories": [
+      {
+        "category_code": "H1",
+        "category_name": "Total",
+        "excluded_parishes": 0,
+        "matched_parishes": 24,
+        "maximum_paired_difference_pp": 0.0,
+        "median_category_change_pct": 47.52323486287442,
+        "median_matched_total_change_pct": 47.52323486287442,
+        "median_paired_difference_pp": 0.0,
+        "minimum_paired_difference_pp": 0.0,
+        "parishes_with_all_years": 24,
+        "published_observations": 168,
+        "unpublished_observations": 0
+      },
+      {
+        "category_code": "H11",
+        "category_name": "Novos",
+        "excluded_parishes": 10,
+        "matched_parishes": 14,
+        "maximum_paired_difference_pp": 73.36650741074291,
+        "median_category_change_pct": 45.02298854803738,
+        "median_matched_total_change_pct": 44.4519699231687,
+        "median_paired_difference_pp": -1.2420032056549628,
+        "minimum_paired_difference_pp": -17.445973959723656,
+        "parishes_with_all_years": 6,
+        "published_observations": 100,
+        "unpublished_observations": 68
+      },
+      {
+        "category_code": "H12",
+        "category_name": "Existentes",
+        "excluded_parishes": 0,
+        "matched_parishes": 24,
+        "maximum_paired_difference_pp": 13.735143952215502,
+        "median_category_change_pct": 47.63756469155451,
+        "median_matched_total_change_pct": 47.52323486287442,
+        "median_paired_difference_pp": -0.763014118316267,
+        "minimum_paired_difference_pp": -15.762363132218171,
+        "parishes_with_all_years": 23,
+        "published_observations": 167,
+        "unpublished_observations": 1
+      }
+    ],
+    "category_rows": 504,
+    "excluded_endpoints": [
+      {
+        "baseline_source_flag": "-",
+        "category_code": "H11",
+        "freguesia_id": "110601",
+        "freguesia_name": "Ajuda",
+        "latest_source_flag": "-"
+      },
+      {
+        "baseline_source_flag": "-",
+        "category_code": "H11",
+        "freguesia_id": "110602",
+        "freguesia_name": "Alcântara",
+        "latest_source_flag": "-"
+      },
+      {
+        "baseline_source_flag": "-",
+        "category_code": "H11",
+        "freguesia_id": "110607",
+        "freguesia_name": "Beato",
+        "latest_source_flag": ""
+      },
+      {
+        "baseline_source_flag": "-",
+        "category_code": "H11",
+        "freguesia_id": "110608",
+        "freguesia_name": "Benfica",
+        "latest_source_flag": "-"
+      },
+      {
+        "baseline_source_flag": "",
+        "category_code": "H11",
+        "freguesia_id": "110611",
+        "freguesia_name": "Carnide",
+        "latest_source_flag": "-"
+      },
+      {
+        "baseline_source_flag": "-",
+        "category_code": "H11",
+        "freguesia_id": "110633",
+        "freguesia_name": "Olivais",
+        "latest_source_flag": ""
+      },
+      {
+        "baseline_source_flag": "-",
+        "category_code": "H11",
+        "freguesia_id": "110654",
+        "freguesia_name": "Alvalade",
+        "latest_source_flag": "-"
+      },
+      {
+        "baseline_source_flag": "-",
+        "category_code": "H11",
+        "freguesia_id": "110655",
+        "freguesia_name": "Areeiro",
+        "latest_source_flag": ""
+      },
+      {
+        "baseline_source_flag": "",
+        "category_code": "H11",
+        "freguesia_id": "110663",
+        "freguesia_name": "Penha de França",
+        "latest_source_flag": "-"
+      },
+      {
+        "baseline_source_flag": "-",
+        "category_code": "H11",
+        "freguesia_id": "110664",
+        "freguesia_name": "Santa Clara",
+        "latest_source_flag": "-"
+      }
+    ],
+    "latest_year": 2025,
+    "parishes": 24,
+    "total_observations_verified": 168
+  }
+}

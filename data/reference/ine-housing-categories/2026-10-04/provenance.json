@@ -1,0 +1,98 @@
+{
+  "acquisition": {
+    "fetched_at": "2026-10-04T22:36:54.315102+00:00",
+    "indicator_code": "0012234",
+    "language": "PT",
+    "resources": {
+      "data": {
+        "path": "data/raw/ine/housing/0012234/categories_2019_2025/20261004T223654Z.data.json",
+        "sha256": "8b08288d69ec0cd318b2a6113fa34ccd9de88bb46c215b043d41d03b3a281e43",
+        "size_bytes": 92919,
+        "url": "https://www.ine.pt/ine/json_indicador/pindica.jsp?op=2&varcd=0012234&lang=PT&Dim1=S5A20194%2CS5A20204%2CS5A20214%2CS5A20224%2CS5A20234%2CS5A20244%2CS5A20254&Dim2=1A0110601%2C1A0110602%2C1A0110607%2C1A0110608%2C1A0110610%2C1A0110611%2C1A0110618%2C1A0110621%2C1A0110633%2C1A0110639%2C1A0110654%2C1A0110655%2C1A0110656%2C1A0110657%2C1A0110658%2C1A0110659%2C1A0110660%2C1A0110661%2C1A0110662%2C1A0110663%2C1A0110664%2C1A0110665%2C1A0110666%2C1A0110667&Dim3=H1%2CH11%2CH12"
+      },
+      "metadata": {
+        "path": "data/raw/ine/housing/0012234/categories_2019_2025/20261004T223654Z.metadata.json",
+        "sha256": "28bd67588f306f646517ffd0f47aacb9fdfde736acaa0418c3c3f5445d2e47e9",
+        "size_bytes": 228193,
+        "url": "https://www.ine.pt/ine/json_indicador/pindicaMeta.jsp?varcd=0012234&lang=PT"
+      }
+    },
+    "schema_version": 1,
+    "source_id": "ine_housing_dwelling_categories"
+  },
+  "analysis_date": "2026-10-04",
+  "archive_scope": "Canonical aggregate CSV committed; original JSON responses retained locally outside Git.",
+  "attribution": "Instituto Nacional de Estatística (INE), indicator 0012234, dwelling-category sale medians, methodology 2022, NUTS 2024.",
+  "code_and_configuration": [
+    {
+      "path": "configs/housing_category_reference_2026-10-04.toml",
+      "sha256": "382db2a2618bb120c00b95d93d54fe9b53197535994f9aeb6346f26915b63191",
+      "size_bytes": 1040
+    },
+    {
+      "path": "scripts/build_housing_category_reference.py",
+      "sha256": "c47149c80fb4b86d5cafb34cf1362450e74aca45ded9bfbbc30394f5fb9a1fd2",
+      "size_bytes": 4900
+    },
+    {
+      "path": "src/lisbon_spatial_dynamics/transformations/housing_categories.py",
+      "sha256": "f0799efa0d353fbbea22b59e1d5ad096a743aea745129648d17e4a2e2241e58b",
+      "size_bytes": 8581
+    },
+    {
+      "path": "src/lisbon_spatial_dynamics/analysis/cml_benchmarks.py",
+      "sha256": "56dfcdcda23e802152bc854bdce56994bc44f1d40be5aba3defe50b2467e702e",
+      "size_bytes": 7512
+    },
+    {
+      "path": "src/lisbon_spatial_dynamics/sources/ine.py",
+      "sha256": "66a246005339f15ab3bc68282cd01ded89abc6a46583cd10cb47a9850c814404",
+      "size_bytes": 9579
+    }
+  ],
+  "inputs": {
+    "acquisition_config": {
+      "path": "configs/ine_housing_categories.toml",
+      "sha256": "24a7ddd73527b49bcfc9f8558f2867d155bb41c237161ccd712c2f0425edfd46",
+      "size_bytes": 881
+    },
+    "data": {
+      "path": "data/raw/ine/housing/0012234/categories_2019_2025/20261004T223654Z.data.json",
+      "sha256": "8b08288d69ec0cd318b2a6113fa34ccd9de88bb46c215b043d41d03b3a281e43",
+      "size_bytes": 92919
+    },
+    "manifest": {
+      "path": "data/raw/ine/housing/0012234/categories_2019_2025/20261004T223654Z.manifest.json",
+      "sha256": "fe5d8fe0a3e65077abc665a7bff5f94144f85b55b068c1d09503615497e0bb38",
+      "size_bytes": 1235
+    },
+    "metadata": {
+      "path": "data/raw/ine/housing/0012234/categories_2019_2025/20261004T223654Z.metadata.json",
+      "sha256": "28bd67588f306f646517ffd0f47aacb9fdfde736acaa0418c3c3f5445d2e47e9",
+      "size_bytes": 228193
+    },
+    "reference": {
+      "path": "results/source-audit/2026-10-01/census_context.csv",
+      "sha256": "5ac702c77ac2a37817cdee1f9d853c488f9beb105174626ead5c8c8ee5c43a32",
+      "size_bytes": 10079
+    }
+  },
+  "licence": "CC-BY-4.0",
+  "licence_source": "https://dados.gov.pt/datasets/valor-mediano-das-vendas-de-alojamentos-familiares-nos-ultimos-12-meses-metodologia-2022-eur-m2",
+  "output": {
+    "path": "data/reference/ine-housing-categories/2026-10-04/category_panel.csv",
+    "sha256": "f006da9c989bf9f05111b4d3aaf518415883f03587d5217b7447ab5451514140",
+    "size_bytes": 43674
+  },
+  "schema_version": 1,
+  "transformation": "Select the configured Q4 periods and canonical parishes with H1/H11/H12. Preserve every published median and explicit missing-value flag; no imputation.",
+  "years": [
+    2019,
+    2020,
+    2021,
+    2022,
+    2023,
+    2024,
+    2025
+  ]
+}

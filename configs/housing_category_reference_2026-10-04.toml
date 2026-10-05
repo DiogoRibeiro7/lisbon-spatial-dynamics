@@ -1,0 +1,28 @@
+analysis_date = "2026-10-04"
+parishes = 24
+years = [2019, 2020, 2021, 2022, 2023, 2024, 2025]
+
+[inputs.data]
+path = "data/raw/ine/housing/0012234/categories_2019_2025/20261004T223654Z.data.json"
+sha256 = "8b08288d69ec0cd318b2a6113fa34ccd9de88bb46c215b043d41d03b3a281e43"
+size_bytes = 92919
+
+[inputs.metadata]
+path = "data/raw/ine/housing/0012234/categories_2019_2025/20261004T223654Z.metadata.json"
+sha256 = "28bd67588f306f646517ffd0f47aacb9fdfde736acaa0418c3c3f5445d2e47e9"
+size_bytes = 228193
+
+[inputs.manifest]
+path = "data/raw/ine/housing/0012234/categories_2019_2025/20261004T223654Z.manifest.json"
+sha256 = "fe5d8fe0a3e65077abc665a7bff5f94144f85b55b068c1d09503615497e0bb38"
+size_bytes = 1235
+
+[inputs.acquisition_config]
+path = "configs/ine_housing_categories.toml"
+sha256 = "24a7ddd73527b49bcfc9f8558f2867d155bb41c237161ccd712c2f0425edfd46"
+size_bytes = 881
+
+[inputs.reference]
+path = "results/source-audit/2026-10-01/census_context.csv"
+sha256 = "5ac702c77ac2a37817cdee1f9d853c488f9beb105174626ead5c8c8ee5c43a32"
+size_bytes = 10079
