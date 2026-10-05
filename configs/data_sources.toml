@@ -58,7 +58,7 @@ temporal_coverage = "current NUTS 2024 series; historical availability verified 
 access = "public INE JSON API"
 licence = "Creative Commons Attribution 4.0 (CC BY 4.0)"
 landing_page = "https://smi.ine.pt/Indicador/Detalhes_TabIndicador/18376?clear=True"
-notes = "Current 2022-methodology series; INE metadata lists quarterly NUTS 2024 geography and dwelling category."
+notes = "Current 2022-methodology series; INE metadata lists quarterly NUTS 2024 geography and dwelling category. The 2026-10-04 category capture requests H1 Total, H11 Novos and H12 Existentes for seven Q4 periods; the attributed canonical reference retains all 504 keys and explicit unpublished-median flags."
 
 [[sources]]
 source_id = "ine_census_geography"

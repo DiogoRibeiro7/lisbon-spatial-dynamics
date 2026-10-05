@@ -61,6 +61,8 @@ The [spatial sensitivity follow-up](docs/housing-spatial-sensitivity.md) checks 
 
 The [CPI context](docs/housing-inflation.md) adds a captured national annual index and a reproducible adjustment of the 168 housing observations. The median endpoint change is 23.59% after adjustment, with two parishes below baseline. This adds price-level context without resolving housing composition, affordability or historical RNAL coverage.
 
+**Independent evidence, 2026-10-05:** the [dwelling-category comparison](docs/housing-categories.md) captures 504 Total/New/Existing median observations, retaining 69 unpublished values and their flags. It verifies all 168 Total values against the earlier audit and compares category changes over matched parish endpoints. The Existing median change is 47.64%; New has only 14 complete endpoint pairs. This exposes category coverage and local differences without claiming a decomposition of sales composition or resolving historical RNAL coverage.
+
 The objective is to move from a repository that can run the study to a release that contains a **fully traceable empirical study instance**.
 
 ### Scope

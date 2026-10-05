@@ -45,6 +45,8 @@ The [Q4 housing comparison](docs/housing-history.md) uses the audited INE series
 
 The [national CPI adjustment](docs/housing-inflation.md) puts that median increase at 23.59%. Twenty-two parishes remain above their 2019 baseline; Misericórdia and Santa Maria Maior fall below it. This adjusts published sale medians for national consumer-price changes and does not measure affordability or fixed-dwelling appreciation.
 
+The [dwelling-category comparison](docs/housing-categories.md) finds a 47.64% median nominal increase for Existing dwellings across all 24 parishes, with substantial local differences from Total. New-dwelling endpoints cover only 14 parishes and are compared with Total over that same sample. All unpublished medians and source flags remain explicit.
+
 The [housing spatial follow-up](docs/housing-spatial.md) finds positive global association under 54 queen-neighbour pairs (Moran's I 0.3421; permutation p 0.0029), with no local result surviving FDR correction. Its map, statistics and attributed CAOP2025 Lisbon subset reproduce entirely from committed inputs.
 
 The [spatial sensitivity checks](docs/housing-spatial-sensitivity.md) retain positive global association for percentage, log and absolute changes after Holm correction. Queen and rook yield the same graph. Every parish omission leaves the primary statistic positive, although Santa Maria Maior has a material influence on its magnitude.

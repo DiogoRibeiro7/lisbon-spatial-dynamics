@@ -39,6 +39,8 @@ This versioned request fixes `Dim1` to 26 quarters (2019 Q4–2026 Q1), `Dim2` t
 
 ### Stable housing contract
 
+The separate [dwelling-category comparison](housing-categories.md) uses the same `0012234` source with explicit `H1`, `H11` and `H12` filters in `configs/ine_housing_categories.toml`. Its 504-row canonical reference preserves published integer medians and the original `-` flags for unpublished values. Category endpoints are compared only over matched parishes, and every Total value is reconciled with the earlier source audit.
+
 Raw INE records are flattened to:
 
 | Column | Meaning |
