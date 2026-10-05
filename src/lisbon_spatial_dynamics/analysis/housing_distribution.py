@@ -85,11 +85,12 @@ def analyse_housing_distribution(
 
 def plot_housing_distribution(tables: Mapping[str, list[dict[str, Any]]], path: Path) -> None:
     """Label the quartile band as a distribution range, not statistical uncertainty."""
-    import matplotlib.pyplot as plt
+    from matplotlib.figure import Figure
 
     rows = tables["annual_distribution.csv"]
     years = [r["year"] for r in rows]
-    fig, axes = plt.subplots(1, 2, figsize=(12, 5.8), layout="constrained")
+    fig = Figure(figsize=(12, 5.8), layout="constrained")
+    axes = fig.subplots(1, 2)
     colors, labels = (
         ("#117864", "#334155", "#b05b23"),
         ("Lower quartile (Q1)", "Median (Q2)", "Upper quartile (Q3)"),
@@ -131,4 +132,3 @@ def plot_housing_distribution(tables: Mapping[str, list[dict[str, Any]]], path: 
         fontsize=9,
     )
     fig.savefig(path, dpi=180)
-    plt.close(fig)

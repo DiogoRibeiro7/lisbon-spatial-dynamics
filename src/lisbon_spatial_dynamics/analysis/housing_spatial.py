@@ -112,9 +112,10 @@ def build_housing_map(
 
 def plot_housing_spatial(data: TrajectoryMapData, local: LocalMoranResult, path: Path) -> None:
     """Plot projected housing changes and FDR classifications using identical boundaries."""
-    import matplotlib.pyplot as plt
+    from matplotlib import colormaps, rc_context
     from matplotlib.cm import ScalarMappable
     from matplotlib.colors import Normalize
+    from matplotlib.figure import Figure
     from matplotlib.patches import Patch
 
     observations = {row.freguesia_id: row for row in local.observations}
@@ -147,88 +148,84 @@ def plot_housing_spatial(data: TrajectoryMapData, local: LocalMoranResult, path:
     ]
     normalizer = Normalize(vmin=min(values), vmax=max(values))
     projector = Transformer.from_crs("EPSG:4326", "EPSG:3763", always_xy=True)
-    with plt.rc_context({"font.family": "DejaVu Sans", "font.size": 9}):
-        figure, axes = plt.subplots(1, 2, figsize=(12, 10))
-        try:
-            cmap = plt.get_cmap("viridis")
-            for index, feature in enumerate(data.features, start=1):
-                polygon = transform(projector.transform, shape(dict(feature.geometry)))
-                if not isinstance(polygon, Polygon | MultiPolygon):
-                    raise ValueError("map geometry must be polygonal")
-                value = feature.housing_change_pct
-                if value is None:
-                    raise ValueError("housing map requires complete change values")
-                point = polygon.representative_point()
-                for axis, color in zip(
-                    axes,
-                    (
-                        cmap(normalizer(value)),
-                        colors.get(observations[feature.freguesia_id].cluster_class, "#f4f4f4"),
-                    ),
-                    strict=True,
-                ):
-                    axis.add_patch(
-                        patch_from_polygon(
-                            polygon, facecolor=color, edgecolor="#777777", linewidth=0.6
-                        )
-                    )
-                    axis.annotate(
-                        str(index),
-                        (point.x, point.y),
-                        ha="center",
-                        va="center",
-                        fontsize=7,
-                        bbox={"facecolor": "white", "edgecolor": "none", "alpha": 0.75, "pad": 0.6},
-                    )
-            for axis in axes:
-                axis.autoscale_view()
-                axis.set_aspect("equal")
-                axis.axis("off")
-            axes[0].set_title("Nominal housing change (%)")
-            axes[1].set_title(f"Local Moran classifications · FDR q ≤ {local.alpha:g}")
-            figure.colorbar(
-                ScalarMappable(norm=normalizer, cmap=cmap),
-                ax=axes[0],
-                shrink=0.65,
-                fraction=0.035,
-                pad=0.02,
-            )
-            present = {row.cluster_class for row in local.observations}
-            axes[1].legend(
-                handles=[
-                    Patch(facecolor=colors[key], label=label)
-                    for key, label in labels.items()
-                    if key in present
-                ],
-                loc="lower right",
-                frameon=False,
-                fontsize=8,
-            )
-            figure.suptitle(
-                f"Lisbon housing patterns · {data.baseline_year} Q4 → {data.latest_year} Q4",
-                fontsize=18,
-                x=0.03,
-                ha="left",
-            )
-            figure.subplots_adjust(left=0.025, right=0.98, top=0.90, bottom=0.28, wspace=0.10)
-            for index, feature in enumerate(data.features):
-                column, row = divmod(index, 6)
-                figure.text(
-                    0.035 + 0.245 * column,
-                    0.21 - 0.023 * row,
-                    f"{index + 1:2d}  {feature.name}",
-                    fontsize=8.5,
+    with rc_context({"font.family": "DejaVu Sans", "font.size": 9}):
+        figure = Figure(figsize=(12, 10))
+        axes = figure.subplots(1, 2)
+        cmap = colormaps["viridis"]
+        for index, feature in enumerate(data.features, start=1):
+            polygon = transform(projector.transform, shape(dict(feature.geometry)))
+            if not isinstance(polygon, Polygon | MultiPolygon):
+                raise ValueError("map geometry must be polygonal")
+            value = feature.housing_change_pct
+            if value is None:
+                raise ValueError("housing map requires complete change values")
+            point = polygon.representative_point()
+            for axis, color in zip(
+                axes,
+                (
+                    cmap(normalizer(value)),
+                    colors.get(observations[feature.freguesia_id].cluster_class, "#f4f4f4"),
+                ),
+                strict=True,
+            ):
+                axis.add_patch(
+                    patch_from_polygon(polygon, facecolor=color, edgecolor="#777777", linewidth=0.6)
                 )
+                axis.annotate(
+                    str(index),
+                    (point.x, point.y),
+                    ha="center",
+                    va="center",
+                    fontsize=7,
+                    bbox={"facecolor": "white", "edgecolor": "none", "alpha": 0.75, "pad": 0.6},
+                )
+        for axis in axes:
+            axis.autoscale_view()
+            axis.set_aspect("equal")
+            axis.axis("off")
+        axes[0].set_title("Nominal housing change (%)")
+        axes[1].set_title(f"Local Moran classifications · FDR q ≤ {local.alpha:g}")
+        figure.colorbar(
+            ScalarMappable(norm=normalizer, cmap=cmap),
+            ax=axes[0],
+            shrink=0.65,
+            fraction=0.035,
+            pad=0.02,
+        )
+        present = {row.cluster_class for row in local.observations}
+        axes[1].legend(
+            handles=[
+                Patch(facecolor=colors[key], label=label)
+                for key, label in labels.items()
+                if key in present
+            ],
+            loc="lower right",
+            frameon=False,
+            fontsize=8,
+        )
+        figure.suptitle(
+            f"Lisbon housing patterns · {data.baseline_year} Q4 → {data.latest_year} Q4",
+            fontsize=18,
+            x=0.03,
+            ha="left",
+        )
+        figure.subplots_adjust(left=0.025, right=0.98, top=0.90, bottom=0.28, wspace=0.10)
+        for index, feature in enumerate(data.features):
+            column, row = divmod(index, 6)
             figure.text(
-                0.035,
-                0.035,
-                "Housing: INE 0012234, rolling 12-month sale medians. "
-                "Boundaries: DGT CAOP2025, CC BY 4.0.\n"
-                f"Queen neighbours · {local.permutations:,} permutations · seed {local.seed} "
-                "· ETRS89 / Portugal TM06. Descriptive association, not RNAL effects.",
-                fontsize=8,
-                color="#444444",
+                0.035 + 0.245 * column,
+                0.21 - 0.023 * row,
+                f"{index + 1:2d}  {feature.name}",
+                fontsize=8.5,
             )
-            figure.savefig(path, dpi=180, facecolor="white", metadata={"Software": "Matplotlib"})
-        finally:
-            plt.close(figure)
+        figure.text(
+            0.035,
+            0.035,
+            "Housing: INE 0012234, rolling 12-month sale medians. "
+            "Boundaries: DGT CAOP2025, CC BY 4.0.\n"
+            f"Queen neighbours · {local.permutations:,} permutations · seed {local.seed} "
+            "· ETRS89 / Portugal TM06. Descriptive association, not RNAL effects.",
+            fontsize=8,
+            color="#444444",
+        )
+        figure.savefig(path, dpi=180, facecolor="white", metadata={"Software": "Matplotlib"})

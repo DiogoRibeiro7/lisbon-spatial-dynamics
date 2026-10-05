@@ -129,7 +129,7 @@ def analyse_housing_sales(
 
 def plot_housing_sales(tables: Mapping[str, list[dict[str, Any]]], path: Path) -> None:
     """Use separate panels for counts and medians over the same parish endpoints."""
-    import matplotlib.pyplot as plt
+    from matplotlib.figure import Figure
 
     selected = sorted(
         tables["endpoint_changes.csv"],
@@ -139,7 +139,8 @@ def plot_housing_sales(tables: Mapping[str, list[dict[str, Any]]], path: Path) -
             r["freguesia_id"],
         ),
     )
-    fig, axes = plt.subplots(1, 2, figsize=(13, 10), sharey=True, layout="constrained")
+    fig = Figure(figsize=(13, 10), layout="constrained")
+    axes = fig.subplots(1, 2, sharey=True)
     for ax, metric, label in zip(
         axes,
         ("sales_change_pct", "sale_median_change_pct"),
@@ -172,4 +173,3 @@ def plot_housing_sales(tables: Mapping[str, list[dict[str, Any]]], path: Path) -
         fontsize=10,
     )
     fig.savefig(path, dpi=180)
-    plt.close(fig)

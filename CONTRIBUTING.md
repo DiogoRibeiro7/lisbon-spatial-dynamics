@@ -26,7 +26,7 @@ poetry run mkdocs build --strict
 poetry build
 ```
 
-Run `poetry run ruff format .` to apply the shared formatting rules. Tests must run offline with small, deterministic fixtures. Network acquisition should be mocked at the request boundary. Use the non-interactive Matplotlib backend (`MPLBACKEND=Agg`) in headless environments.
+Run `poetry run ruff format .` to apply the shared formatting rules. Tests must run offline with small, deterministic fixtures. Network acquisition should be mocked at the request boundary. Figure writers build `matplotlib.figure.Figure` objects directly instead of importing `pyplot`, so PNG output needs no GUI backend; a package test enforces this.
 
 CI checks Linux with Python 3.12/3.13 and Windows with Python 3.13. Formatting and type checks are required; do not disable them to hide a failure. The documentation workflow builds every pull request and deploys the main branch.
 

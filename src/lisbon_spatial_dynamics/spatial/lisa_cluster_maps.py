@@ -140,7 +140,7 @@ def _write_cluster_map(
     label_freguesias: bool,
 ) -> None:
     """Render one categorical Local Moran cluster map."""
-    import matplotlib.pyplot as plt
+    from matplotlib.figure import Figure
     from matplotlib.patches import Patch, Polygon
 
     observation_by_id = {
@@ -159,7 +159,8 @@ def _write_cluster_map(
         "constant": ("#737373", "Constant metric"),
     }
 
-    figure, axis = plt.subplots(figsize=(8, 8))
+    figure = Figure(figsize=(8, 8))
+    axis = figure.subplots()
     used_classes: set[ClusterClass] = set()
 
     for feature in trajectory.features:
@@ -228,10 +229,7 @@ def _write_cluster_map(
 
     figure.tight_layout()
 
-    try:
-        figure.savefig(output_path, dpi=180, bbox_inches="tight")
-    finally:
-        plt.close(figure)
+    figure.savefig(output_path, dpi=180, bbox_inches="tight")
 
 
 def _validate_result_against_trajectory(

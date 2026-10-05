@@ -148,7 +148,8 @@ def analyse_housing_history(
 
 def plot_housing_changes(rows: Sequence[dict[str, Any]], path: Path) -> None:
     """Draw endpoint levels and nominal changes, ordered by unrounded percentage change."""
-    import matplotlib.pyplot as plt
+    from matplotlib import rc_context
+    from matplotlib.figure import Figure
     from matplotlib.ticker import FuncFormatter
 
     ordered = sorted(rows, key=lambda row: (-row["change_pct"], row["freguesia_id"]))
@@ -157,56 +158,50 @@ def plot_housing_changes(rows: Sequence[dict[str, Any]], path: Path) -> None:
     end = [float(row["latest_eur_m2"]) for row in ordered]
     change = [float(row["change_pct"]) for row in ordered]
     first, last = ordered[0]["baseline_year"], ordered[0]["latest_year"]
-    with plt.rc_context({"font.family": "DejaVu Sans", "font.size": 10}):
-        figure, (levels, growth) = plt.subplots(
-            1, 2, figsize=(13, 10), sharey=True, gridspec_kw={"width_ratios": [1.4, 1]}
-        )
-        try:
-            levels.hlines(positions, start, end, color="#bac4cb", linewidth=2)
-            levels.scatter(start, positions, color="#246a91", label=f"{first} Q4", s=35, zorder=3)
-            levels.scatter(end, positions, color="#ce7030", label=f"{last} Q4", s=35, zorder=3)
-            levels.set_yticks(positions, [row["freguesia_name"] for row in ordered])
-            levels.invert_yaxis()
-            levels.set_xlim(left=0)
-            levels.xaxis.set_major_formatter(FuncFormatter(lambda value, _: f"{value:,.0f}"))
-            levels.set_xlabel("Published median sale value (EUR/m²)")
-            levels.set_title("Levels at the two Q4 reference periods", loc="left", fontsize=11)
-            levels.legend(loc="lower right", frameon=False)
-            growth.barh(positions, change, color="#246a91", height=0.6)
-            growth.axvline(0, color="#46545f", linewidth=0.7)
-            growth.margins(x=0.18)
-            for position, value in zip(positions, change, strict=True):
-                growth.annotate(
-                    f"{value:+.1f}%",
-                    (value, position),
-                    xytext=(5 if value >= 0 else -5, 0),
-                    textcoords="offset points",
-                    ha="left" if value >= 0 else "right",
-                    va="center",
-                    fontsize=9,
-                )
-            growth.set_xlabel("Nominal change (%)")
-            growth.set_title(f"{first} Q4 → {last} Q4", loc="left", fontsize=11)
-            for axis in (levels, growth):
-                axis.spines[["top", "right", "left"]].set_visible(False)
-                axis.tick_params(axis="both", length=0)
-                axis.grid(axis="x", color="#e5e9ec", linewidth=0.6)
-                axis.set_axisbelow(True)
-            figure.suptitle(
-                "Lisbon housing values across 24 parishes", x=0.03, ha="left", fontsize=19
-            )
-            figure.text(
-                0.03,
-                0.02,
-                "INE 0012234 · Total dwellings · Q4 reference periods\n"
-                "Each value covers sales in the preceding 12 months. "
-                "Changes are not inflation-adjusted;\n"
-                "transaction composition can change. "
-                "These parish medians do not establish RNAL effects.",
+    with rc_context({"font.family": "DejaVu Sans", "font.size": 10}):
+        figure = Figure(figsize=(13, 10))
+        levels, growth = figure.subplots(1, 2, sharey=True, gridspec_kw={"width_ratios": [1.4, 1]})
+        levels.hlines(positions, start, end, color="#bac4cb", linewidth=2)
+        levels.scatter(start, positions, color="#246a91", label=f"{first} Q4", s=35, zorder=3)
+        levels.scatter(end, positions, color="#ce7030", label=f"{last} Q4", s=35, zorder=3)
+        levels.set_yticks(positions, [row["freguesia_name"] for row in ordered])
+        levels.invert_yaxis()
+        levels.set_xlim(left=0)
+        levels.xaxis.set_major_formatter(FuncFormatter(lambda value, _: f"{value:,.0f}"))
+        levels.set_xlabel("Published median sale value (EUR/m²)")
+        levels.set_title("Levels at the two Q4 reference periods", loc="left", fontsize=11)
+        levels.legend(loc="lower right", frameon=False)
+        growth.barh(positions, change, color="#246a91", height=0.6)
+        growth.axvline(0, color="#46545f", linewidth=0.7)
+        growth.margins(x=0.18)
+        for position, value in zip(positions, change, strict=True):
+            growth.annotate(
+                f"{value:+.1f}%",
+                (value, position),
+                xytext=(5 if value >= 0 else -5, 0),
+                textcoords="offset points",
+                ha="left" if value >= 0 else "right",
+                va="center",
                 fontsize=9,
-                color="#46545f",
             )
-            figure.tight_layout(rect=(0.01, 0.09, 0.99, 0.95), w_pad=3)
-            figure.savefig(path, dpi=180, facecolor="white", metadata={"Software": "Matplotlib"})
-        finally:
-            plt.close(figure)
+        growth.set_xlabel("Nominal change (%)")
+        growth.set_title(f"{first} Q4 → {last} Q4", loc="left", fontsize=11)
+        for axis in (levels, growth):
+            axis.spines[["top", "right", "left"]].set_visible(False)
+            axis.tick_params(axis="both", length=0)
+            axis.grid(axis="x", color="#e5e9ec", linewidth=0.6)
+            axis.set_axisbelow(True)
+        figure.suptitle("Lisbon housing values across 24 parishes", x=0.03, ha="left", fontsize=19)
+        figure.text(
+            0.03,
+            0.02,
+            "INE 0012234 · Total dwellings · Q4 reference periods\n"
+            "Each value covers sales in the preceding 12 months. "
+            "Changes are not inflation-adjusted;\n"
+            "transaction composition can change. "
+            "These parish medians do not establish RNAL effects.",
+            fontsize=9,
+            color="#46545f",
+        )
+        figure.tight_layout(rect=(0.01, 0.09, 0.99, 0.95), w_pad=3)
+        figure.savefig(path, dpi=180, facecolor="white", metadata={"Software": "Matplotlib"})

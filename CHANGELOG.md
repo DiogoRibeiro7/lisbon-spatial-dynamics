@@ -31,6 +31,7 @@ All notable repository-level changes are documented here.
 
 ### Fixed
 
+- Figure writers build Matplotlib `Figure` objects directly instead of using `pyplot`. On desktops with Tk installed, `pyplot` selected an interactive backend and intermittently failed while writing PNGs; CI's `MPLBACKEND=Agg` setting masked this and has been removed. Rendered figures are byte-identical, and a package test rejects new `pyplot` imports.
 - CPI replay enforces the declared three-decimal source precision and resolves relative script paths before recording provenance. Documentation now makes the offline tests' dependence on committed, immutable aggregate evidence explicit.
 - Queen-contiguity validation now rejects identical and contained administrative polygons as intersecting interiors, alongside partial overlaps. The archived Lisbon graph remains unchanged.
 - RNAL archive replay now rejects malformed JSON shapes and field types consistently with `ValueError`. Capacity columns have explicit units and missing/zero semantics in new audit reports and a companion dictionary for the unchanged published CSVs.

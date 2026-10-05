@@ -237,68 +237,67 @@ def plot_housing_sensitivity(
     latest_year: int,
 ) -> None:
     """Show every scenario and omission without treating influence values as intervals."""
-    import matplotlib.pyplot as plt
+    from matplotlib import rc_context
+    from matplotlib.figure import Figure
 
     scenarios = datasets["global_scenarios.csv"]
     omissions = sorted(datasets["leave_one_out.csv"], key=lambda row: row["morans_i"])
-    with plt.rc_context({"font.family": "DejaVu Sans", "font.size": 9}):
-        figure, axes = plt.subplots(1, 2, figsize=(13, 9), gridspec_kw={"width_ratios": [1, 1.5]})
-        try:
-            labels = {
-                "percentage_change": "Percentage",
-                "log_change": "Log ratio",
-                "absolute_change": "EUR/m²",
-            }
-            for i, row in enumerate(scenarios):
-                axes[0].scatter(row["morans_i"], i, color="#256c92", s=45)
-                axes[0].annotate(
-                    f"Holm p = {row['holm_adjusted_p']:.4f}",
-                    (row["morans_i"], i),
-                    xytext=(7, 6),
-                    textcoords="offset points",
-                    fontsize=8,
-                )
-            axes[0].set_yticks(
-                range(len(scenarios)),
-                [f"{r['contiguity'].title()} · {labels[r['metric']]}" for r in scenarios],
-            )
-            axes[0].invert_yaxis()
-            axes[0].set_ylim(len(scenarios) - 0.5, -0.7)
-            axes[0].set_title("Six global comparisons")
-            axes[1].scatter(
-                [r["morans_i"] for r in omissions], range(len(omissions)), color="#256c92", s=24
-            )
-            axes[1].set_yticks(
-                range(len(omissions)), [r["omitted_name"] for r in omissions], fontsize=8
-            )
-            axes[1].invert_yaxis()
-            axes[1].axvline(
-                scenarios[0]["morans_i"], color="#b26228", linestyle="--", label="All 24 parishes"
-            )
-            axes[1].set_title("Queen / percentage change: parish omitted")
-            axes[1].legend(loc="lower right", fontsize=8)
-            for axis in axes:
-                axis.axvline(0, color="#888888", linewidth=0.7)
-                axis.set_xlabel("Global Moran's I")
-                axis.grid(axis="x", alpha=0.2)
-                axis.spines[["top", "right"]].set_visible(False)
-                displayed = [row["morans_i"] for row in scenarios + omissions]
-                low, high = min(0.0, min(displayed)), max(0.0, max(displayed))
-                span = max(high - low, 0.1)
-                axis.set_xlim(low - 0.08 * span, high + 0.35 * span)
-            figure.suptitle(
-                "How sensitive is the housing spatial pattern?", fontsize=17, x=0.035, ha="left"
-            )
-            figure.subplots_adjust(left=0.15, right=0.98, top=0.90, bottom=0.14, wspace=0.95)
-            figure.text(
-                0.035,
-                0.035,
-                f"INE housing, {baseline_year} Q4 → {latest_year} Q4 · "
-                "DGT CAOP2025 boundaries (CC BY 4.0).\n"
-                "Left: all six tests adjusted together. Right: induced, row-normalized graphs; "
-                "descriptive influence, no p-values or confidence intervals.",
+    with rc_context({"font.family": "DejaVu Sans", "font.size": 9}):
+        figure = Figure(figsize=(13, 9))
+        axes = figure.subplots(1, 2, gridspec_kw={"width_ratios": [1, 1.5]})
+        labels = {
+            "percentage_change": "Percentage",
+            "log_change": "Log ratio",
+            "absolute_change": "EUR/m²",
+        }
+        for i, row in enumerate(scenarios):
+            axes[0].scatter(row["morans_i"], i, color="#256c92", s=45)
+            axes[0].annotate(
+                f"Holm p = {row['holm_adjusted_p']:.4f}",
+                (row["morans_i"], i),
+                xytext=(7, 6),
+                textcoords="offset points",
                 fontsize=8,
             )
-            figure.savefig(path, dpi=180, facecolor="white", metadata={"Software": "Matplotlib"})
-        finally:
-            plt.close(figure)
+        axes[0].set_yticks(
+            range(len(scenarios)),
+            [f"{r['contiguity'].title()} · {labels[r['metric']]}" for r in scenarios],
+        )
+        axes[0].invert_yaxis()
+        axes[0].set_ylim(len(scenarios) - 0.5, -0.7)
+        axes[0].set_title("Six global comparisons")
+        axes[1].scatter(
+            [r["morans_i"] for r in omissions], range(len(omissions)), color="#256c92", s=24
+        )
+        axes[1].set_yticks(
+            range(len(omissions)), [r["omitted_name"] for r in omissions], fontsize=8
+        )
+        axes[1].invert_yaxis()
+        axes[1].axvline(
+            scenarios[0]["morans_i"], color="#b26228", linestyle="--", label="All 24 parishes"
+        )
+        axes[1].set_title("Queen / percentage change: parish omitted")
+        axes[1].legend(loc="lower right", fontsize=8)
+        for axis in axes:
+            axis.axvline(0, color="#888888", linewidth=0.7)
+            axis.set_xlabel("Global Moran's I")
+            axis.grid(axis="x", alpha=0.2)
+            axis.spines[["top", "right"]].set_visible(False)
+            displayed = [row["morans_i"] for row in scenarios + omissions]
+            low, high = min(0.0, min(displayed)), max(0.0, max(displayed))
+            span = max(high - low, 0.1)
+            axis.set_xlim(low - 0.08 * span, high + 0.35 * span)
+        figure.suptitle(
+            "How sensitive is the housing spatial pattern?", fontsize=17, x=0.035, ha="left"
+        )
+        figure.subplots_adjust(left=0.15, right=0.98, top=0.90, bottom=0.14, wspace=0.95)
+        figure.text(
+            0.035,
+            0.035,
+            f"INE housing, {baseline_year} Q4 → {latest_year} Q4 · "
+            "DGT CAOP2025 boundaries (CC BY 4.0).\n"
+            "Left: all six tests adjusted together. Right: induced, row-normalized graphs; "
+            "descriptive influence, no p-values or confidence intervals.",
+            fontsize=8,
+        )
+        figure.savefig(path, dpi=180, facecolor="white", metadata={"Software": "Matplotlib"})

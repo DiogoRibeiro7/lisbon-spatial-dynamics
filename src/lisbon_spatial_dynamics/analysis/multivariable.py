@@ -1239,7 +1239,7 @@ def _write_pressure_coefficients_plot(
     path: Path,
 ) -> None:
     """Plot the RNAL-pressure coefficient and robust 95% CI across model specs."""
-    import matplotlib.pyplot as plt
+    from matplotlib.figure import Figure
 
     estimates: list[float] = []
     low_errors: list[float] = []
@@ -1254,7 +1254,8 @@ def _write_pressure_coefficients_plot(
         labels.append(fit.spec.label)
 
     positions = np.arange(len(estimates), dtype=np.float64)
-    figure, axis = plt.subplots(figsize=(8, 5))
+    figure = Figure(figsize=(8, 5))
+    axis = figure.subplots()
     axis.errorbar(
         estimates,
         positions,
@@ -1268,10 +1269,7 @@ def _write_pressure_coefficients_plot(
     axis.set_title("RNAL pressure coefficient across pre-specified models")
     axis.grid(True, axis="x", alpha=0.25)
     figure.tight_layout()
-    try:
-        figure.savefig(path, dpi=180, bbox_inches="tight")
-    finally:
-        plt.close(figure)
+    figure.savefig(path, dpi=180, bbox_inches="tight")
 
 
 def _write_primary_residuals_plot(
@@ -1279,11 +1277,12 @@ def _write_primary_residuals_plot(
     path: Path,
 ) -> None:
     """Write fitted-versus-residual diagnostic plot for the primary model."""
-    import matplotlib.pyplot as plt
+    from matplotlib.figure import Figure
 
     fit = next(item for item in result.fits if item.spec.name == result.primary_model)
 
-    figure, axis = plt.subplots(figsize=(7, 5))
+    figure = Figure(figsize=(7, 5))
+    axis = figure.subplots()
     axis.scatter(
         [row.fitted for row in fit.residuals],
         [row.residual for row in fit.residuals],
@@ -1302,10 +1301,7 @@ def _write_primary_residuals_plot(
     axis.set_title(f"Primary model residuals: {fit.spec.label}")
     axis.grid(True, alpha=0.25)
     figure.tight_layout()
-    try:
-        figure.savefig(path, dpi=180, bbox_inches="tight")
-    finally:
-        plt.close(figure)
+    figure.savefig(path, dpi=180, bbox_inches="tight")
 
 
 def _validate_static_context(

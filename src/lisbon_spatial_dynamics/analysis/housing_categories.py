@@ -171,9 +171,10 @@ def analyse_housing_categories(
 
 def plot_housing_categories(tables: Mapping[str, list[dict[str, Any]]], path: Path) -> None:
     """Display Total and category changes only for matched endpoint observations."""
-    import matplotlib.pyplot as plt
+    from matplotlib.figure import Figure
 
-    fig, axes = plt.subplots(1, 2, figsize=(14, 10), layout="constrained")
+    fig = Figure(figsize=(14, 10), layout="constrained")
+    axes = fig.subplots(1, 2)
     for ax, category, label, color in zip(
         axes, ("H12", "H11"), ("Existing", "New"), ("#117864", "#b05b23"), strict=True
     ):
@@ -242,4 +243,3 @@ def plot_housing_categories(tables: Mapping[str, list[dict[str, Any]]], path: Pa
         fontsize=10,
     )
     fig.savefig(path, dpi=180)
-    plt.close(fig)
