@@ -1,0 +1,88 @@
+{
+  "acquisition": {
+    "fetched_at": "2026-10-05T10:04:08.217852+00:00",
+    "indicator_code": "0013042",
+    "language": "PT",
+    "resources": {
+      "data": {
+        "path": "data/raw/ine/housing/0013042/lisbon_2019_2025/20261005T100408Z.data.json",
+        "sha256": "a75b5d8e6905d5bc6029248ecce09da9aede80d4ac616f4d293d7c9da0ee6140",
+        "size_bytes": 4295,
+        "url": "https://www.ine.pt/ine/json_indicador/pindica.jsp?op=2&varcd=0013042&lang=PT&Dim1=S7A2019%2CS7A2020%2CS7A2021%2CS7A2022%2CS7A2023%2CS7A2024%2CS7A2025&Dim2=1A01106&Dim3=1%2C2%2C3"
+      },
+      "metadata": {
+        "path": "data/raw/ine/housing/0013042/lisbon_2019_2025/20261005T100408Z.metadata.json",
+        "sha256": "3998cb9c0359cb6bfdfa82661a2f073e302a2080f039fef329b194b5725c9238",
+        "size_bytes": 80797,
+        "url": "https://www.ine.pt/ine/json_indicador/pindicaMeta.jsp?varcd=0013042&lang=PT"
+      }
+    },
+    "schema_version": 1,
+    "source_id": "ine_housing_municipality_quartiles"
+  },
+  "analysis_date": "2026-10-05",
+  "archive_scope": "Canonical CSV committed; original JSON responses retained locally outside Git.",
+  "attribution": "Instituto Nacional de Estatística (INE), annual housing quartiles, indicator 0013042, Lisbon municipality, methodology 2022, NUTS 2024.",
+  "code_and_configuration": [
+    {
+      "path": "configs/housing_quartile_reference_2026-10-05.toml",
+      "sha256": "863259295ab1a67058e630ef66255ae018a54d708545d20e410a5ef9f2085f6c",
+      "size_bytes": 835
+    },
+    {
+      "path": "scripts/build_housing_quartile_reference.py",
+      "sha256": "e2398f6a3e2f3885e766786215526560b384f2fe066a236fc5aa7c73ac6bf24b",
+      "size_bytes": 4668
+    },
+    {
+      "path": "src/lisbon_spatial_dynamics/transformations/housing_quartiles.py",
+      "sha256": "66e0ed651fa8f096cfa159e04a5a147937a363902374459b7650361959e5d1d9",
+      "size_bytes": 6833
+    },
+    {
+      "path": "src/lisbon_spatial_dynamics/sources/ine.py",
+      "sha256": "66a246005339f15ab3bc68282cd01ded89abc6a46583cd10cb47a9850c814404",
+      "size_bytes": 9579
+    }
+  ],
+  "inputs": {
+    "acquisition_config": {
+      "path": "configs/ine_housing_quartiles.toml",
+      "sha256": "94f08c9c0a5fc60223f31b0ed13e327e7af47b85f9e91bf0933057f0898553b1",
+      "size_bytes": 536
+    },
+    "data": {
+      "path": "data/raw/ine/housing/0013042/lisbon_2019_2025/20261005T100408Z.data.json",
+      "sha256": "a75b5d8e6905d5bc6029248ecce09da9aede80d4ac616f4d293d7c9da0ee6140",
+      "size_bytes": 4295
+    },
+    "manifest": {
+      "path": "data/raw/ine/housing/0013042/lisbon_2019_2025/20261005T100408Z.manifest.json",
+      "sha256": "15726232ee6057ebecac987d487a9ece8f8b031080b327a9e696200567e9e2d1",
+      "size_bytes": 938
+    },
+    "metadata": {
+      "path": "data/raw/ine/housing/0013042/lisbon_2019_2025/20261005T100408Z.metadata.json",
+      "sha256": "3998cb9c0359cb6bfdfa82661a2f073e302a2080f039fef329b194b5725c9238",
+      "size_bytes": 80797
+    }
+  },
+  "licence": "CC-BY-4.0",
+  "licence_source": "https://dados.gov.pt/pt/datasets/vendas-de-alojamentos-familiares-metodologia-2022-eur-m2",
+  "output": {
+    "path": "data/reference/ine-housing-quartiles/2026-10-05/quartiles.csv",
+    "sha256": "a745df5e0516b2ec6085a4051fac9c3b3ae68a4afbabf48114afe0189925e192",
+    "size_bytes": 1099
+  },
+  "schema_version": 1,
+  "transformation": "Preserve all three published annual quartiles for Lisbon municipality. Require positive integer EUR/m2 values, complete years and Q1 <= Q2 <= Q3. No imputation or allocation to parishes.",
+  "years": [
+    2019,
+    2020,
+    2021,
+    2022,
+    2023,
+    2024,
+    2025
+  ]
+}

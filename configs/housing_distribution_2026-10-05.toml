@@ -1,0 +1,13 @@
+analysis_date = "2026-10-05"
+baseline_year = 2019
+latest_year = 2025
+
+[inputs.quartiles]
+path = "data/reference/ine-housing-quartiles/2026-10-05/quartiles.csv"
+sha256 = "a745df5e0516b2ec6085a4051fac9c3b3ae68a4afbabf48114afe0189925e192"
+size_bytes = 1099
+
+[inputs.quartile_provenance]
+path = "data/reference/ine-housing-quartiles/2026-10-05/provenance.json"
+sha256 = "b9ff0d8d5263d99fdead9363a92bba99c7b83067599235ae9f2fc3a9b5a67e3c"
+size_bytes = 3631

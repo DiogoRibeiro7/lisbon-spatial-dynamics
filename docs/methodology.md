@@ -61,6 +61,8 @@ The [sales-volume comparison](housing-sales.md) pairs these medians with INE `00
 
 ## Descriptive analysis first
 
+The [municipal distribution context](housing-distribution.md) uses published annual Q1/Q2/Q3 from INE `0013042`. Absolute dispersion is `Q3 − Q1` in EUR/m²; relative dispersion is `100 × (Q3 − Q1) / Q2`, expressed as percent of the same year's median. Their changes need not have the same sign. These municipality-level quantiles are not derived from parish medians or allocated to parishes, and their interquartile band is not statistical uncertainty.
+
 The first analytical stage should establish:
 
 - spatial distributions;

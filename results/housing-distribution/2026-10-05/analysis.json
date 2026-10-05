@@ -1,0 +1,133 @@
+{
+  "analysis_date": "2026-10-05",
+  "attribution": "Instituto Nacional de Estatística (INE), annual housing quartiles, indicator 0013042, Lisbon municipality, methodology 2022, NUTS 2024.",
+  "captured_at": "2026-10-05T10:04:08.217852+00:00",
+  "code_and_configuration": [
+    {
+      "path": "configs/housing_distribution_2026-10-05.toml",
+      "sha256": "49ae70c8188e43e7619ff25a273996c29a8077244ca56c2706008d14d4cf9550",
+      "size_bytes": 451
+    },
+    {
+      "path": "scripts/analyse_housing_distribution.py",
+      "sha256": "75a2837618b71445f9b64d4daefaf951edad365f3c49bcfd6ffa994448885c0d",
+      "size_bytes": 6217
+    },
+    {
+      "path": "src/lisbon_spatial_dynamics/analysis/housing_distribution.py",
+      "sha256": "a107877596f8ff1597f977f0eed047ae68c40ec8ac3ee55a6a322ae0c71ef748",
+      "size_bytes": 5469
+    },
+    {
+      "path": "src/lisbon_spatial_dynamics/transformations/housing_quartiles.py",
+      "sha256": "66e0ed651fa8f096cfa159e04a5a147937a363902374459b7650361959e5d1d9",
+      "size_bytes": 6833
+    },
+    {
+      "path": "pyproject.toml",
+      "sha256": "a2cfa37c27ec70978bfd6e5f8503aee9f02ab1840d21b97ccd71e86cb6374016",
+      "size_bytes": 4588
+    },
+    {
+      "path": "poetry.lock",
+      "sha256": "eacfc9e9167df23309405e0f1c22e452715dc018082229b67c6e62f28a521cc7",
+      "size_bytes": 223966
+    }
+  ],
+  "inputs": {
+    "quartile_provenance": {
+      "path": "data/reference/ine-housing-quartiles/2026-10-05/provenance.json",
+      "sha256": "b9ff0d8d5263d99fdead9363a92bba99c7b83067599235ae9f2fc3a9b5a67e3c",
+      "size_bytes": 3631
+    },
+    "quartiles": {
+      "path": "data/reference/ine-housing-quartiles/2026-10-05/quartiles.csv",
+      "sha256": "a745df5e0516b2ec6085a4051fac9c3b3ae68a4afbabf48114afe0189925e192",
+      "size_bytes": 1099
+    }
+  },
+  "interpretation": {
+    "absolute_spread": "Interquartile range (IQR) = Q3 - Q1, in EUR/m2.",
+    "archive": "Replay consumes committed aggregates. Raw source responses remain locally retained outside Git and are linked by the reference provenance.",
+    "changes": "100 * (latest - baseline) / baseline for each quartile and the IQR. A zero baseline IQR gives undefined percentage change; absolute change remains.",
+    "figure": "The shaded Q1-Q3 band is a transaction-distribution range, not a confidence interval. Each indexed line uses its own quartile's baseline as 100.",
+    "limits": "Municipal quantiles cannot be assigned to parishes or reconstructed from parish medians. Municipal median change and median parish change are different statistics. Quantiles do not track the same dwellings over time. No fixed-quality, inflation, affordability, income-inequality, composition or RNAL effect is estimated.",
+    "precision": "Fresh Decimal precision-28 context; decimal CSVs and float JSON.",
+    "quantiles": "Q1, Q2 and Q3 are the 25th, 50th and 75th percentiles; Q2 is the median.",
+    "relative_spread": "100 * (Q3 - Q1) / Q2, expressed as percent of the same year's median. Its endpoint difference is in percentage points.",
+    "scope": "Published annual EUR/m2 quartiles for Lisbon municipality, INE 0013042."
+  },
+  "licence": "CC-BY-4.0",
+  "outputs": [
+    {
+      "path": "results/housing-distribution/2026-10-05/annual_distribution.csv",
+      "sha256": "997d74c3845c7431d3d1b0500357aad96c24e956229c041e320adab3d24e3daa",
+      "size_bytes": 1205
+    },
+    {
+      "path": "results/housing-distribution/2026-10-05/endpoint_changes.csv",
+      "sha256": "eb250b161c1344ad73e239339e30ddb59a5adc5ce611235b8811e41b7ad9480b",
+      "size_bytes": 348
+    },
+    {
+      "path": "results/housing-distribution/2026-10-05/housing_distribution.png",
+      "sha256": "a84214dc802af903b37dc383a42eebf1f70e2c4ba4927c17fdaca679df598e0a",
+      "size_bytes": 211339
+    }
+  ],
+  "schema_version": 1,
+  "software": {
+    "matplotlib": "3.11.2",
+    "python": "3.13.5"
+  },
+  "summary": {
+    "annual_observations": 7,
+    "baseline_iqr_as_pct_of_median": 55.234327449786974,
+    "baseline_year": 2019,
+    "endpoint_changes": [
+      {
+        "baseline_eur_m2": 2491.0,
+        "baseline_year": 2019,
+        "change_eur_m2": 1475.0,
+        "change_pct": 59.21316740264954,
+        "latest_eur_m2": 3966.0,
+        "latest_year": 2025,
+        "metric": "q1_eur_m2"
+      },
+      {
+        "baseline_eur_m2": 3286.0,
+        "baseline_year": 2019,
+        "change_eur_m2": 1589.0,
+        "change_pct": 48.35666463785758,
+        "latest_eur_m2": 4875.0,
+        "latest_year": 2025,
+        "metric": "q2_eur_m2"
+      },
+      {
+        "baseline_eur_m2": 4306.0,
+        "baseline_year": 2019,
+        "change_eur_m2": 1745.0,
+        "change_pct": 40.52484904784022,
+        "latest_eur_m2": 6051.0,
+        "latest_year": 2025,
+        "metric": "q3_eur_m2"
+      },
+      {
+        "baseline_eur_m2": 1815.0,
+        "baseline_year": 2019,
+        "change_eur_m2": 270.0,
+        "change_pct": 14.87603305785124,
+        "latest_eur_m2": 2085.0,
+        "latest_year": 2025,
+        "metric": "iqr_eur_m2"
+      }
+    ],
+    "geography_code": "1A01106",
+    "geography_level": "municipality",
+    "geography_name": "Lisboa",
+    "iqr_as_pct_of_median_change_pp": -12.465096680556206,
+    "latest_iqr_as_pct_of_median": 42.76923076923077,
+    "latest_year": 2025,
+    "source_observations": 21
+  }
+}
