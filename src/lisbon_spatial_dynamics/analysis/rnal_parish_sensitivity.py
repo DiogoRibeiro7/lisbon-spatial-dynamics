@@ -226,57 +226,53 @@ def compare_assignments(
 
 def plot_sensitivity(rows: Sequence[Mapping[str, Any]], output: Path, *, margin_m: float) -> None:
     """Plot aggregate scenario-minus-SOAP changes, ordered by baseline record pressure."""
-    import matplotlib.pyplot as plt
+    from matplotlib.figure import Figure
 
     baseline = sorted(
         (row for row in rows if row["scenario"] == "soap"),
         key=lambda row: (row["record_pressure_rank"], row["freguesia_id"]),
     )
-    fig, axes = plt.subplots(1, 2, figsize=(12, 9), sharey=True)
-    try:
-        for scenario, label, offset, color in (
-            ("gis_all_conflicts", "All GIS conflict labels", -0.14, "#2368a2"),
-            ("gis_beyond_margin", f"GIS support > {margin_m:g} m from boundaries", 0.14, "#b34619"),
-        ):
-            selected = {row["freguesia_id"]: row for row in rows if row["scenario"] == scenario}
-            for axis, field in zip(
-                axes, ("records_delta", "known_users_per_1000_delta"), strict=True
-            ):
-                axis.scatter(
-                    [selected[row["freguesia_id"]][field] for row in baseline],
-                    [position + offset for position in range(len(baseline))],
-                    label=label,
-                    color=color,
-                    s=24,
-                    zorder=3,
-                )
-        axes[0].set_yticks(range(len(baseline)), [row["freguesia_name"] for row in baseline])
-        axes[0].invert_yaxis()
-        for axis, label in zip(
-            axes,
-            (
-                "Change in retained record count",
-                "Change in known user capacity per 1,000 residents",
-            ),
-            strict=True,
-        ):
-            axis.axvline(0, color="#444444", linewidth=0.8)
-            axis.grid(axis="y", alpha=0.15)
-            axis.set_xlabel(label)
-            axis.spines[["top", "right"]].set_visible(False)
-        fig.suptitle("Sensitivity to RNAL parish labels", fontsize=17)
-        handles, labels = axes[0].get_legend_handles_labels()
-        fig.legend(handles, labels, loc="lower center", bbox_to_anchor=(0.6, 0.04), ncol=2)
-        fig.text(
-            0.02,
-            0.015,
-            "Same retained SOAP cohort and captured capacity in each scenario; fixed Census 2021 "
-            "denominators. No historical-stock inference.",
-            fontsize=9,
-        )
-        fig.tight_layout(rect=(0, 0.09, 1, 0.96))
-        fig.savefig(
-            output, dpi=160, facecolor="white", metadata={"Software": "lisbon-spatial-dynamics"}
-        )
-    finally:
-        plt.close(fig)
+    fig = Figure(figsize=(12, 9))
+    axes = fig.subplots(1, 2, sharey=True)
+    for scenario, label, offset, color in (
+        ("gis_all_conflicts", "All GIS conflict labels", -0.14, "#2368a2"),
+        ("gis_beyond_margin", f"GIS support > {margin_m:g} m from boundaries", 0.14, "#b34619"),
+    ):
+        selected = {row["freguesia_id"]: row for row in rows if row["scenario"] == scenario}
+        for axis, field in zip(axes, ("records_delta", "known_users_per_1000_delta"), strict=True):
+            axis.scatter(
+                [selected[row["freguesia_id"]][field] for row in baseline],
+                [position + offset for position in range(len(baseline))],
+                label=label,
+                color=color,
+                s=24,
+                zorder=3,
+            )
+    axes[0].set_yticks(range(len(baseline)), [row["freguesia_name"] for row in baseline])
+    axes[0].invert_yaxis()
+    for axis, label in zip(
+        axes,
+        (
+            "Change in retained record count",
+            "Change in known user capacity per 1,000 residents",
+        ),
+        strict=True,
+    ):
+        axis.axvline(0, color="#444444", linewidth=0.8)
+        axis.grid(axis="y", alpha=0.15)
+        axis.set_xlabel(label)
+        axis.spines[["top", "right"]].set_visible(False)
+    fig.suptitle("Sensitivity to RNAL parish labels", fontsize=17)
+    handles, labels = axes[0].get_legend_handles_labels()
+    fig.legend(handles, labels, loc="lower center", bbox_to_anchor=(0.6, 0.04), ncol=2)
+    fig.text(
+        0.02,
+        0.015,
+        "Same retained SOAP cohort and captured capacity in each scenario; fixed Census 2021 "
+        "denominators. No historical-stock inference.",
+        fontsize=9,
+    )
+    fig.tight_layout(rect=(0, 0.09, 1, 0.96))
+    fig.savefig(
+        output, dpi=160, facecolor="white", metadata={"Software": "lisbon-spatial-dynamics"}
+    )

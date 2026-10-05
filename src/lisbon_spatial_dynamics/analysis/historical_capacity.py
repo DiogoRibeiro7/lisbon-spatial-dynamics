@@ -161,13 +161,14 @@ def analyse_historical_capacity(
 
 def plot_historical_capacity(parishes: list[dict[str, Any]], path: Path) -> None:
     """Show capacity levels and changes using the same fixed denominator convention."""
-    import matplotlib.pyplot as plt
+    from matplotlib.figure import Figure
 
     rows = sorted(
         parishes,
         key=lambda row: (row["baseline_capacity_per_1000_2021_residents"], row["freguesia_id"]),
     )
-    fig, axes = plt.subplots(1, 2, figsize=(14, 10), sharey=True, layout="constrained")
+    fig = Figure(figsize=(14, 10), layout="constrained")
+    axes = fig.subplots(1, 2, sharey=True)
     levels, changes = axes
     for index, row in enumerate(rows):
         levels.plot(
@@ -217,4 +218,3 @@ def plot_historical_capacity(parishes: list[dict[str, Any]], path: Path) -> None
         fontsize=10,
     )
     fig.savefig(path, dpi=180)
-    plt.close(fig)

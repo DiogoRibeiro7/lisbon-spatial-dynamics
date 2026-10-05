@@ -523,9 +523,10 @@ def _write_metric_choropleth(
     label_freguesias: bool,
 ) -> None:
     """Render one normalized bundle metric as a static choropleth."""
-    import matplotlib.pyplot as plt
+    from matplotlib import colormaps
     from matplotlib.cm import ScalarMappable
     from matplotlib.colors import Normalize, TwoSlopeNorm
+    from matplotlib.figure import Figure
     from matplotlib.patches import Polygon
 
     values = [
@@ -550,8 +551,9 @@ def _write_metric_choropleth(
     else:
         norm = Normalize(vmin=minimum, vmax=maximum)
 
-    cmap = plt.get_cmap("coolwarm")
-    figure, axis = plt.subplots(figsize=(8, 8))
+    cmap = colormaps["coolwarm"]
+    figure = Figure(figsize=(8, 8))
+    axis = figure.subplots()
 
     for feature in data.features:
         value = _spatial_value(feature, value_name)
@@ -591,10 +593,7 @@ def _write_metric_choropleth(
     figure.colorbar(mappable, ax=axis, shrink=0.72, label=legend_label)
     figure.tight_layout()
 
-    try:
-        figure.savefig(output_path, dpi=180, bbox_inches="tight")
-    finally:
-        plt.close(figure)
+    figure.savefig(output_path, dpi=180, bbox_inches="tight")
 
 
 def _write_global_morans_json(

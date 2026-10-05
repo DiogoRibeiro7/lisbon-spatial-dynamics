@@ -159,14 +159,15 @@ def write_association_scatter(
     if path.exists():
         raise FileExistsError(path)
 
-    import matplotlib.pyplot as plt
+    from matplotlib.figure import Figure
 
     path.parent.mkdir(parents=True, exist_ok=True)
 
     x = [point.rnal_active_change_pct for point in result.points]
     y = [point.housing_change_pct for point in result.points]
 
-    figure, axis = plt.subplots()
+    figure = Figure()
+    axis = figure.subplots()
     axis.scatter(x, y)
     axis.axhline(0, linewidth=0.8)
     axis.axvline(0, linewidth=0.8)
@@ -187,10 +188,7 @@ def write_association_scatter(
     axis.grid(True, alpha=0.25)
     figure.tight_layout()
 
-    try:
-        figure.savefig(path, dpi=180, bbox_inches="tight")
-    finally:
-        plt.close(figure)
+    figure.savefig(path, dpi=180, bbox_inches="tight")
 
 
 def _pearson(x: Sequence[float], y: Sequence[float]) -> float | None:
