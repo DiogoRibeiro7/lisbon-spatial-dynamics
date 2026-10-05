@@ -4,6 +4,8 @@ The retained December 2022 municipal report supplies **96 parish-level endpoint 
 
 The [transcribed facts](https://github.com/DiogoRibeiro7/lisbon-spatial-dynamics/tree/main/data/benchmarks/cml-rnal-2019-2022) and [generated audit bundle](https://github.com/DiogoRibeiro7/lisbon-spatial-dynamics/tree/main/results/cml-benchmarks/2026-10-03) make these observations inspectable. They supplement the [earlier municipality-level coverage benchmark](rnal-coverage.md).
 
+The [historical capacity comparison](historical-capacity.md) builds on these audited values with population-reference ratios, fixed-group concentration and a parish figure. It reproduces this audit before calculating the additional descriptive outputs.
+
 ## Source and meaning
 
 Both tables are from Câmara Municipal de Lisboa's *Relatório de Caracterização e Monitorização do Alojamento Local*, December 2022, attributing the underlying data to Turismo de Portugal/RNAL. The [official PDF URL](https://www.lisboa.pt/fileadmin/portal/temas/economia/alojamento_local/RelatorioCaracterizacaoMonitorizacaoAlojamentoLocal.pdf) returned 404; the exact PDF was retained from an [Arquivo.pt capture](https://arquivo.pt/noFrame/replay/20260216185851id_/https://www.lisboa.pt/fileadmin/portal/temas/economia/alojamento_local/RelatorioCaracterizacaoMonitorizacaoAlojamentoLocal.pdf). This analysis uses that previously acquired file, not a fresh registry reconstruction.

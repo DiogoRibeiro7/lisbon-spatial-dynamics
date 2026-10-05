@@ -1,0 +1,185 @@
+{
+  "analysis_date": "2026-10-05",
+  "attribution": "Câmara Municipal de Lisboa, December 2022 monitoring report, table 19 (underlying Turismo de Portugal/RNAL data); Instituto Nacional de Estatística, Censos 2021.",
+  "benchmark_summary_verified": true,
+  "census_total_verified": true,
+  "code_and_configuration": [
+    {
+      "path": "configs/historical_capacity_2026-10-05.toml",
+      "sha256": "8e82f86e70b7a24b8a7c335f8cbdb8d4fd87d15a567ad44c521a600ce20aec70",
+      "size_bytes": 765
+    },
+    {
+      "path": "scripts/analyse_historical_capacity.py",
+      "sha256": "1ec69aae32c663577fa0dd795390e9fb2195bd22e39b318a1e0676ca61a8d184",
+      "size_bytes": 7531
+    },
+    {
+      "path": "src/lisbon_spatial_dynamics/analysis/historical_capacity.py",
+      "sha256": "329abedc36b91f217a54a5365486ff440a982171b66363b0ed31c0c6a0cefb05",
+      "size_bytes": 9852
+    },
+    {
+      "path": "src/lisbon_spatial_dynamics/analysis/cml_benchmarks.py",
+      "sha256": "56dfcdcda23e802152bc854bdce56994bc44f1d40be5aba3defe50b2467e702e",
+      "size_bytes": 7512
+    },
+    {
+      "path": "pyproject.toml",
+      "sha256": "a2cfa37c27ec70978bfd6e5f8503aee9f02ab1840d21b97ccd71e86cb6374016",
+      "size_bytes": 4588
+    },
+    {
+      "path": "poetry.lock",
+      "sha256": "eacfc9e9167df23309405e0f1c22e452715dc018082229b67c6e62f28a521cc7",
+      "size_bytes": 223966
+    }
+  ],
+  "inputs": {
+    "benchmark_report": {
+      "path": "results/cml-benchmarks/2026-10-03/audit.json",
+      "sha256": "e714925e2ee6c97525cdedc6649e03a241de694d79c8c29451fcacc3f6c04404",
+      "size_bytes": 7494
+    },
+    "reference": {
+      "path": "results/source-audit/2026-10-01/census_context.csv",
+      "sha256": "5ac702c77ac2a37817cdee1f9d853c488f9beb105174626ead5c8c8ee5c43a32",
+      "size_bytes": 10079
+    },
+    "source_audit": {
+      "path": "results/source-audit/2026-10-01/audit.json",
+      "sha256": "a0c576c84d7c003473e1205b70c41194be4f1826eada0d9114500826664da99a",
+      "size_bytes": 18498
+    },
+    "transcription": {
+      "path": "data/benchmarks/cml-rnal-2019-2022/published_values.csv",
+      "sha256": "fde0fc9ec0d138b2057e1e8392008302220b3a1b67521856f92b91d7c96a6f7b",
+      "size_bytes": 1944
+    }
+  },
+  "interpretation": {
+    "archive": "Replay uses committed aggregate facts and pinned audit reports. It does not reopen the locally retained PDF or Census workbook; transcription requires source-page review. No source-document redistribution licence is asserted.",
+    "change": "(Capacity_2022_11 - Capacity_2019_11) * 1000 / Population_2021.",
+    "cohort": "Select the configured number of largest-capacity parishes at baseline; break ties by parish ID. Hold membership fixed at the later month.",
+    "dates": "November 2019 and November 2022; exact observation days are unspecified. No Q4 relabelling or interpolation.",
+    "denominator": "Capacity * 1000 / resident population in Census 2021, held fixed for both source months.",
+    "limits": "Reported capacity is not occupancy, visitors, overnight stays or verified operation. Ratios can exceed 1000 and are not percentages. No contemporaneous per-capita, housing association, RNAL stock reconstruction or causal estimate.",
+    "measure": "Reported user-capacity places from table 19; not establishments or weighted AL units.",
+    "municipality": "Sum parish capacities and populations before division; do not average parish ratios.",
+    "precision": "Fresh Decimal precision-28 context; decimal CSV values and numeric float JSON summaries.",
+    "shares": "Group capacity / municipality capacity * 100; share change is in percentage points. This denominator differs from the population reference."
+  },
+  "outputs": [
+    {
+      "path": "results/historical-capacity/2026-10-05/concentration.csv",
+      "sha256": "419ad26b1118ac6c50d085d60d8d24e82dea60f12c0999cc071e467b50ed1365",
+      "size_bytes": 493
+    },
+    {
+      "path": "results/historical-capacity/2026-10-05/historical_capacity.png",
+      "sha256": "9ca6ae1ceae1fbf623c613580f397b24fa9ec5544638d5428cdee4cc9109b962",
+      "size_bytes": 178091
+    },
+    {
+      "path": "results/historical-capacity/2026-10-05/municipality_capacity.csv",
+      "sha256": "6ca97e8269503aec0d9b4cfcc9c6429d174bfa08147670cba631e42767171dba",
+      "size_bytes": 484
+    },
+    {
+      "path": "results/historical-capacity/2026-10-05/parish_capacity.csv",
+      "sha256": "c03c9c6afa4b429dd3bf274db15b608b96b4a9666f88c37854fbe28edb473896",
+      "size_bytes": 7086
+    }
+  ],
+  "schema_version": 1,
+  "software": {
+    "matplotlib": "3.11.2",
+    "python": "3.13.5"
+  },
+  "source": {
+    "archive_url": "https://arquivo.pt/noFrame/replay/20260216185851id_/https://www.lisboa.pt/fileadmin/portal/temas/economia/alojamento_local/RelatorioCaracterizacaoMonitorizacaoAlojamentoLocal.pdf",
+    "date_precision": "month; exact observation days are not stated in tables 18 and 19",
+    "original_url": "https://www.lisboa.pt/fileadmin/portal/temas/economia/alojamento_local/RelatorioCaracterizacaoMonitorizacaoAlojamentoLocal.pdf",
+    "provider": "Câmara Municipal de Lisboa",
+    "reference_months": [
+      "2019-11",
+      "2022-11"
+    ],
+    "report_date": "2022-12",
+    "title": "Relatório de Caracterização e Monitorização do Alojamento Local"
+  },
+  "source_document_recorded_by_parent": {
+    "path": "data/raw/cml/rnal_report_2022/20261001T134526Z/report.pdf",
+    "sha256": "1e446b0b71d55a3f0086b539278810f1875d5e4244174786295489b40fea8195",
+    "size_bytes": 6538471
+  },
+  "summary": {
+    "baseline_largest_capacity_cohort": [
+      {
+        "freguesia_id": "110665",
+        "freguesia_name": "Santa Maria Maior"
+      },
+      {
+        "freguesia_id": "110661",
+        "freguesia_name": "Misericórdia"
+      },
+      {
+        "freguesia_id": "110656",
+        "freguesia_name": "Arroios"
+      },
+      {
+        "freguesia_id": "110666",
+        "freguesia_name": "Santo António"
+      }
+    ],
+    "baseline_month": "2019-11",
+    "concentration": [
+      {
+        "baseline_capacity": 71685,
+        "baseline_month": "2019-11",
+        "baseline_municipality_capacity_share_pct": 64.29609299321925,
+        "capacity_change": -417,
+        "capacity_share_change_pp": -2.9734063181775126,
+        "group": "baseline_largest_capacity",
+        "latest_capacity": 71268,
+        "latest_month": "2022-11",
+        "latest_municipality_capacity_share_pct": 61.32268667504173,
+        "parishes": 4
+      },
+      {
+        "baseline_capacity": 39807,
+        "baseline_month": "2019-11",
+        "baseline_municipality_capacity_share_pct": 35.70390700678075,
+        "capacity_change": 5143,
+        "capacity_share_change_pp": 2.9734063181775126,
+        "group": "remaining_parishes",
+        "latest_capacity": 44950,
+        "latest_month": "2022-11",
+        "latest_municipality_capacity_share_pct": 38.67731332495827,
+        "parishes": 20
+      }
+    ],
+    "latest_month": "2022-11",
+    "median_parish_capacity_change_per_1000_2021_residents": 7.329661538904942,
+    "municipality": {
+      "baseline_capacity": 111492,
+      "baseline_capacity_per_1000_2021_residents": 204.27412439812676,
+      "baseline_month": "2019-11",
+      "capacity_change": 4726,
+      "capacity_change_pct": 4.23886915653141,
+      "capacity_change_per_1000_2021_residents": 8.6589128538868,
+      "latest_capacity": 116218,
+      "latest_capacity_per_1000_2021_residents": 212.93303725201358,
+      "latest_month": "2022-11",
+      "municipality_id": "1106",
+      "municipality_name": "Lisboa",
+      "population_reference_year": 2021,
+      "population_resident_2021": 545796
+    },
+    "parishes": 24,
+    "parishes_decreased": 4,
+    "parishes_increased": 20,
+    "parishes_unchanged": 0,
+    "population_reference_year": 2021
+  }
+}
