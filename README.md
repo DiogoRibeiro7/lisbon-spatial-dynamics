@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="assets/project-logo.png" alt="lisbon-spatial-dynamics project logo" width="160" height="160">
+</p>
+
 # Lisbon Spatial Dynamics
 
 **Housing values, local accommodation, and neighbourhood change across Lisbon's 24 parishes.**

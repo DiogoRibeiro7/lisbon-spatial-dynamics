@@ -1,0 +1,7 @@
+Tool: built-in image generation
+
+Use case: logo-brand.
+Asset type: square README project logo for lisbon-spatial-dynamics.
+Project purpose: Reproducible Python analysis of housing-value change and local accommodation pressure across Lisbon’s 24 parishes, using official public data, spatial statistics, and regression models.
+Design direction: An original Portuguese calcada-pavement mosaic: black-and-white street tiles curve over a compact hill, with three coral rooftops and one narrow blue river edge. Hand-set stone texture and bold sweeping paving pattern, white background. Lisbon urban geography distilled into a small tactile city emblem.
+Composition: create one finished square artwork with a strong silhouette, readable at 160 pixels, and comfortable margins. This is the logo itself, not a presentation or product mockup. No text, words, letters, numbers, captions or watermark anywhere in the image. Do not use a generic navy-and-gold metallic badge.
